@@ -1,0 +1,51 @@
+\chapter{Chapter 0} % Chapter title
+
+\label{chapter:0} % For referencing the chapter elsewhere, use \ref{chapter:computational_neuro} 
+
+%----------------------------------------------------------------------------------------
+
+% Define some commands to keep the formatting separated from the content 
+\newcommand{\keyword}[1]{\textbf{#1}}
+\newcommand{\tabhead}[1]{\textbf{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\file}[1]{\texttt{\bfseries#1}}
+\newcommand{\option}[1]{\texttt{\itshape#1}}
+
+%----------------------------------------------------------------------------------------
+
+\section{Section}
+The classic computational neuron, often referred to as a perceptron, is a multistep process that amounts to a single result that can be used in further neurons, or directly read out as an output. In their simplest form, the neuron has $n$ input features that are multiplied with $n$ weights. In addition to those features, there is a weighted bias, where the feature itself has the fixed value $1$. These values are then summarized and evaluated through an activation function $f(x)$. Originally proposed by Rosenblatt F.\cite{rosenblatt_perceptron_1958}, the structure of a neuron with $n = 4$ input features and one bias feature is shown in figure \ref{figure:computation_neuron}\footnote{There are many iterations of this design that range from a different handling of the bias to multiple output designs like LSTMs\cite{lstm}}. A more formal definition is presented in equation \ref{equation:computation_neuron}, where $j=0$ is the bias.
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[shorten >=1pt,node distance=1.5cm,on grid,auto]
+    	\node (0) {$i_0$};
+    	\node (1) [below=of 0] {$i_1$};
+    	\node (2) [below=of 1] {$i_2$};
+    	\node (3) [below=of 2] {$i_3$};
+    	\node (4) [below=of 3] {$i_4$};
+    	\node (5) [right=of 2] {$\Sigma$};
+    	\node (6) [right=of 5] {$f(x)$};
+    	\node (7) [right=of 6] {$y$};
+    	\path[->]
+    	(0) edge [bend left=45] node {$\omega_0$} (5)
+    	(1) edge [bend left=25] node {$\omega_1$} (5)
+    	(2) edge  node {$\omega_2$} (5)
+    	(3) edge [bend right=25] node {$\omega_3$} (5)
+    	(4) edge [bend right=45] node {$\omega_4$} (5)
+    	(5) edge node {} (6)
+    	(6) edge node {} (7);
+    \end{tikzpicture}
+    \caption{Visual representation of one perceptron with 4 features and 1 bias}
+    \label{figure:computation_neuron}
+\end{figure}
+
+\begin{equation}
+    \centering
+    y =\ f\left(\sum_{j = 0}^n i_j\omega_j\right)
+    \label{equation:computation_neuron}
+\end{equation}
+
+\subsection{Subsection}
+
+\newpage
