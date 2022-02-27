@@ -40,5 +40,16 @@ These interfaces seamlessly integrate various ML libraries with Pennylane
 `pip install autograd "tensorflow>=1.13.2" jax jaxlib`
 
 ### PyTorch
-`pip3 install torch torchvision torchaudio`
+`pip install torch torchvision torchaudio`
 
+<hr>
+
+### Installing other tools
+
+#### Matplotlib
+`pip install matplotlib`
+
+#### Pandas
+`pip install pandas`
+
+<hr>
