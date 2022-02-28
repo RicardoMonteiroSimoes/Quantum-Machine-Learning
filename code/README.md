@@ -1,9 +1,16 @@
 - [Setup](#setup)
+  - [TL;DR](#tldr)
   - [Installing/Updating Pennylane](#installingupdating-pennylane)
   - [Installing plugins](#installing-plugins)
   - [Installing interfaces](#installing-interfaces)
   - [Installing other tools](#installing-other-tools)
 # Setup
+
+## TL;DR
+Run the bash script to install needed modules and plugins:
+```bash
+./pennylane_setup.ch
+```
 
 ## Installing/Updating Pennylane
 https://pennylane.ai/install.html
