@@ -1,15 +1,16 @@
-import pennylane as qml
-from qiskit import QuantumCircuit
 from qiskit.circuit import Parameter
+from qiskit import QuantumCircuit
+import pennylane as qml
+from pennylane import QNode, Device
 
 
 # Quantum Circuits
 
 
-def testQuantumCircuit1(deviceName,  # Todo: refactor whole func
-                        wireCount=1,
-                        shotCount=1000  #  Defaults to 1000 if not specified
-                        ):
+def testQuantumCircuit1(deviceName: str,  # Todo: remove/refactor whole func
+                        wireCount: int = 1,
+                        shotCount: int = 1000  #  Defaults to 1000 if not specified
+                        ) -> tuple[QNode, Device]:
     """
     Test first Quantum Circuit
     """
@@ -24,10 +25,10 @@ def testQuantumCircuit1(deviceName,  # Todo: refactor whole func
         qml.CNOT(wires=[0, 1])
         return qml.expval(qml.PauliZ(0) @ qml.PauliX(1)), qml.expval(qml.PauliZ(0))
 
-    return [circuit, q_device]
+    return circuit, q_device
 
 
-def qiskitExampleCircuit():
+def qiskitExampleCircuit() -> tuple[QuantumCircuit, Parameter]:  # Todo: remove/refactor whole func
     """
     Qiskit Quantum Circuit
     """
@@ -38,13 +39,13 @@ def qiskitExampleCircuit():
     qiskitCircuit.rx(theta, [0])
     qiskitCircuit.cx(0, 1)
 
-    return [qiskitCircuit, theta]
+    return qiskitCircuit, theta
 
 
-def testQuantumCircuit_Qiskit_Import(deviceName,  # Todo: refactor whole func
-                                     wireCount=1,
-                                     shotCount=1000  #  Defaults to 1000 if not specified
-                                     ):
+def testQuantumCircuit_Qiskit_Import(deviceName: str,  # Todo: remove/refactor whole func
+                                     wireCount: int = 1,
+                                     shotCount: int = 1000  #  Defaults to 1000 if not specified
+                                     ) -> tuple[QNode, Device]:
     """
     Test imported Qiskit Quantum Circuit
     """
@@ -61,4 +62,4 @@ def testQuantumCircuit_Qiskit_Import(deviceName,  # Todo: refactor whole func
         qml.from_qiskit(qiskitCircuit)({theta: x})
         return qml.expval(qml.PauliZ(0))
 
-    return [quantum_circuit_with_loaded_subcircuit, q_device]
+    return quantum_circuit_with_loaded_subcircuit, q_device

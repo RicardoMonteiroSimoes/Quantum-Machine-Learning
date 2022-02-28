@@ -8,8 +8,8 @@ import numpy as np
 Helpers.mytestfunc()
 
 # plot funcs example
-# plt = PlotHelpers.contourPlot()
-# plt.show()
+plt = PlotHelpers.contourPlot()
+plt.show()
 
 # Circuits examples
 circuit1, device = QC.testQuantumCircuit1('default.qubit', 2)

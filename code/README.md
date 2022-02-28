@@ -19,14 +19,14 @@ https://pennylane.ai/install.html
 This is needed to run the circuits on various quantum hardware solutions.
 More can be found here: https://pennylane.ai/plugins.html
 
-| Pugin name                        | Install                                      |
-| :-------------------------------- | :------------------------------------------- |
-| qiskit                            | `pip install pennylane-qiskit`               |
-| [Amazon Braket](Amazon_Braket.md) | `pip install amazon-braket-pennylane-plugin` |
-| StrawberryFields                  | `pip install pennylane-sf`                   |
-| Google Cirq                       | `pip install pennylane-cirq`                 |
-| Rigetti forest                    | `pip install pennylane-forest`               |
-| Microsoft Q#                      | `pip install pennylane-qsharp`               |
+| Pugin name                                       | Install                                      |
+| :----------------------------------------------- | :------------------------------------------- |
+| qiskit                                           | `pip install pennylane-qiskit`               |
+| [Amazon Braket](markdown_files/Amazon_Braket.md) | `pip install amazon-braket-pennylane-plugin` |
+| StrawberryFields                                 | `pip install pennylane-sf`                   |
+| Google Cirq                                      | `pip install pennylane-cirq`                 |
+| Rigetti forest                                   | `pip install pennylane-forest`               |
+| Microsoft Q#                                     | `pip install pennylane-qsharp`               |
 
 **Install all of the above at once**
 ```bash
