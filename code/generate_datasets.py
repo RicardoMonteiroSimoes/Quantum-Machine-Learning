@@ -18,11 +18,18 @@ def save_to_file(filename, features, labels):
         for f,l in zip(features, labels):
             writer.writerow(np.append([i for i in f], l))
     print('Finished writing csv')
-    create_dataset_plot(filename)
+    if args.plotscater:
+        create_scatter_plot(filename, features, labels)
+    else:
+        create_parallel_plot(filename)
 
-        
+def create_scatter_plot(filename, x, y):
+    plt.scatter(np.array(x)[:,0], np.array(x)[:,1], c=y, alpha=0.5)
+    plt.savefig(filename+'.svg', format="svg", transparent=True)
+    plt.close()
 
-def create_dataset_plot(filename):
+
+def create_parallel_plot(filename):
     print('Creating parallel plot')
     print('Reading csv')
     df = pd.read_csv(filename+'.csv')
@@ -44,8 +51,9 @@ def parse_args(argv):
     parser.add_argument('-nrep', '--nrepeated', help="How many features shall be duplicated", type=int)
     parser.add_argument('-ncpc', '--nclusterperclass', help="How many clusters each class shall have", type=int)
     parser.add_argument('-n', '--name', help="Name the file", default="dataset")
+    parser.add_argument('-ps', '--plotscater', help="Change plot to scatter. Only works with 2 features", action="store_true")
     parser.add_argument('-p', '--plot', help="If you have data already, use this function along with -n to read a <file>.csv. \
-        It has to be formatted so that the first row is the header, and the column with the classes is annoted with 'Class'", default=False)
+        It has to be formatted so that the first row is the header, and the column with the classes is annoted with 'Class'", action="store_true")
     return parser.parse_args(argv)
 
 def blobs(n_features, n_classes, size, random_state):
