@@ -51,6 +51,7 @@ More can be found here: https://pennylane.ai/plugins.html
 | NumPy/Autograd  | `pip install autograd`             |
 | TensorFlow      | `pip install "tensorflow>=1.13.2"` |
 | JAX             | `pip install jax jaxlib`           |
+
 **Install all of the above at once**
 ```bash
 pip install \
