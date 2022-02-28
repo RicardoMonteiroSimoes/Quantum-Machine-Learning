@@ -1,55 +1,84 @@
-## Setup
+- [Setup](#setup)
+  - [TL;DR](#tldr)
+  - [Installing/Updating Pennylane](#installingupdating-pennylane)
+  - [Installing plugins](#installing-plugins)
+  - [Installing interfaces](#installing-interfaces)
+  - [Installing other tools](#installing-other-tools)
+# Setup
 
-### Installing Pennylane
+## TL;DR
+Run the bash script to install needed modules and plugins:
+```bash
+./pennylane_setup.ch
+```
+
+## Installing/Updating Pennylane
 https://pennylane.ai/install.html
+
+*[Anaconda](https://www.anaconda.com/products/individual) is recommended*
 
 `pip install pennylane --upgrade`
 
-<hr> 
+<hr>
 
-### Installing plugins
+## Installing plugins
 
 This is needed to run the circuits on various quantum hardware solutions.
+More can be found here: https://pennylane.ai/plugins.html
 
-#### qiskit
-`pip install pennylane-qiskit`
-#### StrawberryFields
-`pip install pennylane-sf`
-#### Google Cirq
-`pip install pennylane-cirq`
-#### Rigetti forest
-`pip install pennylane-forest`
-#### Microsoft Q#
-`pip install pennylane-qsharp`
-#### All at once
-`pip install pennylane-sf pennylane-qiskit pennylane-cirq pennylane-forest pennylane-qsharp`
+| Pugin name                                       | Install                                      |
+| :----------------------------------------------- | :------------------------------------------- |
+| qiskit                                           | `pip install pennylane-qiskit`               |
+| [Amazon Braket](markdown_files/Amazon_Braket.md) | `pip install amazon-braket-pennylane-plugin` |
+| StrawberryFields                                 | `pip install pennylane-sf`                   |
+| Google Cirq                                      | `pip install pennylane-cirq`                 |
+| Rigetti forest                                   | `pip install pennylane-forest`               |
+| Microsoft Q#                                     | `pip install pennylane-qsharp`               |
+
+**Install all of the above at once**
+```bash
+pip install \
+  pennylane-sf \
+  pennylane-qiskit \
+  amazon-braket-pennylane-plugin \
+  pennylane-cirq \
+  pennylane-forest \
+  pennylane-qsharp
+```
 
 <hr>
 
-### Installing interfaces
+## Installing interfaces
 
 These interfaces seamlessly integrate various ML libraries with Pennylane
+More can be found here: https://pennylane.ai/plugins.html
 
-#### NumPy/Autograd
-`pip install autograd`
-#### TensorFlow
-`pip install "tensorflow>=1.13.2"`
-#### JAX
-`pip install jax jaxlib`
-#### All at once
-`pip install autograd "tensorflow>=1.13.2" jax jaxlib`
+| Interface  name | Install                            |
+| :-------------- | :--------------------------------- |
+| NumPy/Autograd  | `pip install autograd`             |
+| TensorFlow      | `pip install "tensorflow>=1.13.2"` |
+| JAX             | `pip install jax jaxlib`           |
 
-### PyTorch
-`pip install torch torchvision torchaudio`
+**Install all of the above at once**
+```bash
+pip install \
+  autograd \
+  "tensorflow>=1.13.2" \
+  jax \
+  jaxlib
+```
+
+| Interface  name | Install                                    |
+| :-------------- | :----------------------------------------- |
+| PyTorch         | `pip install torch torchvision torchaudio` |
 
 <hr>
 
-### Installing other tools
+## Installing other tools
 
-#### Matplotlib
-`pip install matplotlib`
-
-#### Pandas
-`pip install pandas`
+| Name       | Install                  |
+| :--------- | :----------------------- |
+| Matplotlib | `pip install matplotlib` |
+| Pandas     | `pip install pandas`     |
 
 <hr>
