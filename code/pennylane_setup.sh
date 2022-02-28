@@ -8,10 +8,10 @@ printf 'pip: %s\npip3: %s\n' "$(which pip)" "$(which pip3)"
 
 printf "\n"
 
-printf "Install/Upgrade Pennylane ...\n"
+printf "\nInstall/Upgrade Pennylane ...\n"
 pip install pennylane --upgrade
 
-printf "Install Pennylane Plugins ...\n"
+printf "\nInstall Pennylane Plugins ...\n"
 pip install \
   pennylane-sf \
   pennylane-qiskit \
@@ -20,12 +20,12 @@ pip install \
   pennylane-forest \
   pennylane-qsharp
 
-printf "Install Interfaces ...\n"
+printf "\nInstall Interfaces ...\n"
 pip install autograd "tensorflow>=1.13.2" jax jaxlib
 pip install torch torchvision torchaudio
 
-printf "Install Amazon Braket Python SDK ...\n"
+printf "\nInstall Amazon Braket Python SDK ...\n"
 pip install amazon-braket-sdk
 
-printf "Install/Upgrade boto3 ...\n"
+printf "\nInstall/Upgrade boto3 ...\n"
 pip install boto3 --upgrade
