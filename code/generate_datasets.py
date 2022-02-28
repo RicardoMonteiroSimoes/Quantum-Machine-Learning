@@ -20,6 +20,8 @@ def save_to_file(filename, features, labels):
     print('Finished writing csv')
     if args.plotscater:
         create_scatter_plot(filename, features, labels)
+    elif args.plot3d:
+        create_3d_plot(filename, features, labels)
     else:
         create_parallel_plot(filename)
 
@@ -38,6 +40,12 @@ def create_parallel_plot(filename):
     fig.savefig(filename+'.svg', format="svg", transparent=True)
     print('Parallel plot was saved')
 
+def create_3d_plot(filename, x, y):
+    ax = plt.axes(projection='3d')
+    ax.scatter(np.array(x)[:,0], np.array(x)[:,1], np.array(x)[:,2], c=y, cmap='viridis', linewidth=0.5)
+    plt.savefig(filename+'.svg', format="svg", transparent=True)
+    plt.close()
+
 def parse_args(argv):
     parser = argparse.ArgumentParser(description="Create a random dataset using sklearn, saves as .csv and generates a parallel plot for it. Check scikit doc for more info: https://scikit-learn.org/stable/datasets/sample_generators.html")
     parser.add_argument('-f', '--features', help="Set the dimension of the features", type=int, default=2)
@@ -46,46 +54,32 @@ def parse_args(argv):
     parser.add_argument('-r', '--random', help="Random state", type=int)
     parser.add_argument('-m', '--mode', help="Sets the generator mode. Options are 'moons', 'blobs', 'circles','classification','multilabel','gaussian'.\
         'classification' uses additional parameters -ninf, -nred, -nrep, -ncpc", default='blobs')
+    parser.add_argument('-ns', '--noise', help="Noise for the generators, 0<=x<=1", type=float)
     parser.add_argument('-ninf', '--ninformative', help="How many features shall be informative", type=int)
     parser.add_argument('-nred', '--nredundant', help="How many features shall be redundant", type=int)
     parser.add_argument('-nrep', '--nrepeated', help="How many features shall be duplicated", type=int)
     parser.add_argument('-ncpc', '--nclusterperclass', help="How many clusters each class shall have", type=int)
     parser.add_argument('-n', '--name', help="Name the file", default="dataset")
     parser.add_argument('-ps', '--plotscater', help="Change plot to scatter. Only works with 2 features", action="store_true")
+    parser.add_argument('-3d', '--plot3d', help="Renders the data in a 3d plot. Means we need 3 features!", action="store_true")
     parser.add_argument('-p', '--plot', help="If you have data already, use this function along with -n to read a <file>.csv. \
         It has to be formatted so that the first row is the header, and the column with the classes is annoted with 'Class'", action="store_true")
     return parser.parse_args(argv)
 
 def blobs(n_features, n_classes, size, random_state):
-    if random_state:
-        return make_blobs(n_samples=size, centers=n_classes, n_features=n_features, random_state=random_state)
-    else:
-        return make_blobs(n_samples=size, centers=n_classes, n_features=n_features)
+    return make_blobs(n_samples=size, centers=n_classes, n_features=n_features, random_state=random_state)
 
 def gaussian(n_features, n_classes, size, random_state):
-    if random_state:
-        return make_gaussian_quantiles(n_samples=size, n_features=n_features, n_classes=n_classes, random_state=random_state)
-    else:
-        return make_gaussian_quantiles(n_samples=size, n_features=n_features, n_classes=n_classes)
+    return make_gaussian_quantiles(n_samples=size, n_features=n_features, n_classes=n_classes, random_state=random_state)
 
 def multilabel(n_features, n_classes, size, random_state):
-    if random_state:
-        return make_multilabel_classification(n_samples=size, n_features=n_features, n_classes=n_classes, allow_unlabeled=False, random_state=random_state)
-    else:
-        return make_multilabel_classification(n_samples=size, n_features=n_features, allow_unlabeled=False, n_classes=n_classes)
+    return make_multilabel_classification(n_samples=size, n_features=n_features, n_classes=n_classes, allow_unlabeled=False, random_state=random_state)
 
+def circles(size, noise, random_state):
+    return make_circles(n_samples=size, noise=noise, random_state=random_state)
 
-def circles(size, random_state):
-    if random_state:
-        return make_circles(n_samples=size, random_state=random_state)
-    else:
-        return make_circles(n_samples=size)
-
-def moons(size, random_state):
-    if random_state:
-        return make_moons(n_samples=size, random_state=random_state)
-    else:
-        return make_moons(n_samples=size)
+def moons(size, noise, random_state):
+    return make_moons(n_samples=size, noise=noise, random_state=random_state)
 
 def classification(n_features, n_classes, n_inf, n_red, n_rep, n_cpc, size, random_state):
     if random_state:
@@ -110,9 +104,9 @@ def main(argv):
     elif args.mode == "multilabel":
         x, y = multilabel(args.features, args.classes, args.size, args.random)
     elif args.mode == "circles":
-        x, y = circles(args.size, args.random)
+        x, y = circles(args.size, args.noise, args.random)
     elif args.mode == "moons":
-        x, y = moons(args.size, args.random)
+        x, y = moons(args.size, args.noise, args.random)
     elif args.mode == "classification":
         if not args.ninformative and not args.nredundant and not args.nrepeated and not args.nclusterperclass:
             print("You are using mode 'classification' without the necessary arguments!")
