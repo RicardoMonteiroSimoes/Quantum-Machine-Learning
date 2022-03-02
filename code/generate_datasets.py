@@ -42,7 +42,7 @@ def create_parallel_plot(filename):
 
 def create_3d_plot(filename, x, y):
     ax = plt.axes(projection='3d')
-    ax.scatter(np.array(x)[:,0], np.array(x)[:,1], np.array(x)[:,2], c=y, cmap='viridis', linewidth=0.5)
+    ax.scatter(np.array(x)[:,0], np.array(x)[:,1], np.array(x)[:,2], c=y, cmap='cool', linewidth=0.5)
     plt.savefig(filename+'.svg', format="svg", transparent=True)
     plt.close()
 
