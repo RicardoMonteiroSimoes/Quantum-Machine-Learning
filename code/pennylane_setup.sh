@@ -29,3 +29,6 @@ pip install amazon-braket-sdk
 
 printf "\nInstall/Upgrade boto3 ...\n"
 pip install boto3 --upgrade
+
+printf "\nInstall/Upgrade sklearn ...\n"
+pip install sklearn --upgrade
