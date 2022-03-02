@@ -6,8 +6,28 @@ from pennylane import QNode, Device
 
 # Quantum Circuits
 
+def qml_circuit_01(deviceOptions: dict) -> tuple[QNode, Device]:
+    """
+    Quantum Circuit
+    """
 
-def testQuantumCircuit1(deviceName: str,  # Todo: remove/refactor whole func
+    # create device
+    q_device = qml.device(**deviceOptions)
+
+    # define the circut
+    @qml.qnode(q_device)
+    def circuit(params):
+        qml.RX(params[0], wires=0)
+        qml.RY(params[1], wires=1)
+        qml.CNOT(wires=[0, 1])
+        return qml.expval(qml.PauliZ(1))
+
+    return circuit, q_device
+
+
+# Todo: remove again
+# Example functions ---------------------------
+def testQuantumCircuit1(deviceName: str,
                         wireCount: int = 1,
                         shotCount: int = 1000  #  Defaults to 1000 if not specified
                         ) -> tuple[QNode, Device]:
@@ -28,7 +48,7 @@ def testQuantumCircuit1(deviceName: str,  # Todo: remove/refactor whole func
     return circuit, q_device
 
 
-def qiskitExampleCircuit() -> tuple[QuantumCircuit, Parameter]:  # Todo: remove/refactor whole func
+def qiskitExampleCircuit() -> tuple[QuantumCircuit, Parameter]:
     """
     Qiskit Quantum Circuit
     """
@@ -42,7 +62,7 @@ def qiskitExampleCircuit() -> tuple[QuantumCircuit, Parameter]:  # Todo: remove/
     return qiskitCircuit, theta
 
 
-def testQuantumCircuit_Qiskit_Import(deviceName: str,  # Todo: remove/refactor whole func
+def testQuantumCircuit_Qiskit_Import(deviceName: str,
                                      wireCount: int = 1,
                                      shotCount: int = 1000  #  Defaults to 1000 if not specified
                                      ) -> tuple[QNode, Device]:

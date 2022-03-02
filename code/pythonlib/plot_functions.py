@@ -9,7 +9,7 @@ def contourPlot(figureSize=(6.4, 4.8),  # Todo: refactor whole func
                 pltTitle='Filled Contours Plot',
                 withColorbar=False):
     """
-    Function to create countour plots
+    Function to create contour plots
     """
 
     xlist = np.linspace(-3.0, 3.0, 100)
