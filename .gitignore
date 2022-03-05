@@ -1,4 +1,6 @@
 .dccache
+# Q# created folder
+obj
 
 # Created by https://www.toptal.com/developers/gitignore/api/latex,visualstudiocode,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=latex,visualstudiocode,python
