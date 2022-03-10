@@ -32,3 +32,6 @@ pip install boto3 --upgrade
 
 printf "\nInstall/Upgrade sklearn ...\n"
 pip install sklearn --upgrade
+
+printf "\Installing/Upgrading matplotlip draw library ...\n"
+pip install pylatexenc --upgrade
