@@ -35,3 +35,7 @@ pip install sklearn --upgrade
 
 printf "\Installing/Upgrading matplotlip draw library ...\n"
 pip install pylatexenc --upgrade
+
+printf "\Installing/Upgrading qiskit machine learning library ...\n"
+pip install qiskit-machine-learning --upgrade
+pip install qiskit-optimization --upgrade
