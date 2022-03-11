@@ -20,7 +20,7 @@ A query\cite{codd_relational_1970} is a demand for information to be pulled from
     \label{fig:sql_query_example}
 \end{figure}
 
-The example query in figure \ref{fig:sql_query_example} would be parsed and then used to pull and display data that is save in the database. An exemplary view of such data is shown in table \ref{table:sql_query_result_example}.
+The example query in figure \ref{fig:sql_query_example} would be parsed and then used to pull and display data that is saved in the database. An exemplary view of such data is shown in table \ref{table:sql_query_result_example}.
 
 \begin{table}[!h]
     \centering
@@ -34,6 +34,14 @@ The example query in figure \ref{fig:sql_query_example} would be parsed and then
     \label{table:sql_query_result_example}
 \end{table}
 
-Before execution, the queries themselfs are taken apart and multiple execution plans generated\cite{}. In a large system that handles multiple requests per second, these plans can be used to combine certain sub-queries and save execution time\cite{}.
+Before execution, the queries themselves are taken apart and multiple execution plans generated\cite{microsoft_execution_nodate}. In a large system that handles multiple requests per second, these plans can be used to combine certain sub-queries and save execution time\cite{roy_multi-query_2009}. This by itself has been proven to be an \emph{NP-Hard} problem\cite{}. Nevertheless, finding the fastest combination of all plans can be done classically with an exhaustive algorithm in $O(n^2)$\footnote{Assuming that the amount of queries and plans per query are equal, if not then the runtime is $O(P^Q)$, where $P$ is the amount of plans per query, and $Q$ the total amount of queries}. There exist classical proposals that are faster than $O(n^2)$\cite{}, that whilst not finding the fastest combination, deliver results that still offer acceptable speed up. Hybrid approach combinations that use QAOA (short for Quantum Approximate Optimization Algorithm)\cite{} have shown to be quasi-optimal solution finders with a runtime of $O(I \cdot (PQ)^2)$.\par
+
+\subsection{Query Dissection}
+
+
+
+
+
+
 
 \newpage
