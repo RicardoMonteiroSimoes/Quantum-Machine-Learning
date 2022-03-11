@@ -4,16 +4,20 @@
 
 %----------------------------------------------------------------------------------------
 
-% Define some commands to keep the formatting separated from the content 
-\newcommand{\keyword}[1]{\textbf{#1}}
-\newcommand{\tabhead}[1]{\textbf{#1}}
-\newcommand{\code}[1]{\texttt{#1}}
-\newcommand{\file}[1]{\texttt{\bfseries#1}}
-\newcommand{\option}[1]{\texttt{\itshape#1}}
-
-%----------------------------------------------------------------------------------------
-
-\section{Section}
 \todo{In der Regel ist zumindest ein kurzes The-oriekapitel notwendig. Es nimmt Bezug auf das thematische Oberthema, aber na-türlich nicht auf allgemeine theoretische Grundlagen etwa aus der Naturwissen-schaft.}
+\section{Multiple Query Optimization}
+
+A Query is a demand for information to be pulled from a database. A query can vary in size and structure, as well as in execution time. These are written with \code{SQL}, which is often specialized to the corresponding hardware it runs on. 
+
+    
+\begin{figure}[!h]
+    \centering
+    \begin{minted}{sql}
+        SELECT * FROM USERS u
+        WHERE u.NAME = "Abraham"
+    \end{minted}
+    \caption{This example SQL code would show all data from users with the name "Abraham"}
+    \label{fig:sql_query_example}
+\end{figure}
 
 \newpage
