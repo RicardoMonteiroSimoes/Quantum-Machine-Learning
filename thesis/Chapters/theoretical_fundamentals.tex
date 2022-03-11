@@ -7,7 +7,7 @@
 \todo{In der Regel ist zumindest ein kurzes The-oriekapitel notwendig. Es nimmt Bezug auf das thematische Oberthema, aber na-türlich nicht auf allgemeine theoretische Grundlagen etwa aus der Naturwissen-schaft.}
 \section{Multiple Query Optimization}
 
-A Query\cite{codd_relational_1970} is a demand for information to be pulled from a database. A query can vary in size and structure, as well as in execution time. These are written with \code{SQL}, which is often specialized to the corresponding hardware\cite{shirgoldbird_microsoft_nodate}\cite{} it runs on. 
+A query\cite{codd_relational_1970} is a demand for information to be pulled from a database. A query can vary in size and structure, as well as in execution time. These are written with \code{SQL}, which is often specialized to the corresponding hardware\cite{shirgoldbird_microsoft_nodate}\cite{the_postgresql_global_development_group_postgresql_2022} it runs on. 
 
     
 \begin{figure}[!h]
@@ -20,6 +20,20 @@ A Query\cite{codd_relational_1970} is a demand for information to be pulled from
     \label{fig:sql_query_example}
 \end{figure}
 
+The example query in figure \ref{fig:sql_query_example} would be parsed and then used to pull and display data that is save in the database. An exemplary view of such data is shown in table \ref{table:sql_query_result_example}.
 
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        Name    & Surname & Gender \\ \hline
+        Abraham & Martin  & M      \\ \hline
+        Abraham & Tart    & F      \\ \hline
+    \end{tabular}
+    \caption{Exemplary data returned after executing the SQL query from figure \ref{fig:sql_query_example}}
+    \label{table:sql_query_result_example}
+\end{table}
+
+Before execution, the queries themselfs are taken apart and multiple execution plans generated\cite{}. In a large system that handles multiple requests per second, these plans can be used to combine certain sub-queries and save execution time\cite{}.
 
 \newpage
