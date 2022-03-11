@@ -39,3 +39,6 @@ pip install pylatexenc --upgrade
 printf "\Installing/Upgrading qiskit machine learning library ...\n"
 pip install qiskit-machine-learning --upgrade
 pip install qiskit-optimization --upgrade
+
+printf "\Installing/Upgrading utilities ...\n"
+pip install tqdm --upgrade
