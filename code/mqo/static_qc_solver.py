@@ -161,6 +161,9 @@ def remove_useless_keys(result):
     for key in ["0000","0001","0010","0100","1000","1101","1011","1100","0011","0111","1110","1111"]:
             if key in result:
                 del result[key]
+    for key in ["0101", "1001", "0110", "1010"]:
+        if not key in result:
+            result[key] = 0
 
 def parse_results_copy(results):
     for result in results:
