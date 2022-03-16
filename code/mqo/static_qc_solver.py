@@ -94,12 +94,12 @@ def save_run_info(name, n_queries, n_plans, n_problems, n_shots, circuit, percen
     f.close()
     circuit.draw("mpl", filename=name+"circuit.png")
 
-def save_problem_data_to_csv(name, problems):
+def save_problem_data_to_csv(name, problems, ordered_total_costs):
     with open(name + 'problems.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter=';',)
-        writer.writerow(['q0p0', 'q0p1', 'q1p0', 'q1p1', 's02', 's03', 's12', 's13'])
-        for problem in problems:
-            writer.writerow(np.array([problem[1],list(problem[2].values())]).flatten())
+        writer.writerow(['q0p0', 'q0p1', 'q1p0', 'q1p1', 's02', 's03', 's12', 's13', 'cheapest',' 2nd','3rd', 'most expensive'])
+        for problem, cost in zip(problems, ordered_total_costs):
+            writer.writerow(np.array([problem[1],list(problem[2].values()), cost.flatten()]).flatten())
 
 
 def save_measurements_to_csv(name, measurements):
@@ -121,11 +121,15 @@ def calculate_distance_percentiles(distances):
 
 def score_distance_results(results, solutions):
     x = []
+    total_cost = []
     y = []
+
     for res, sol in zip(results, solutions):
         x.append(list({k: v for k, v in sorted(res.items(), key=lambda item: item[1], reverse=True)}.keys()))
+        total_cost.append(list({k: v for k, v in sorted(sol.items(), key=lambda item: item[1])}.values()))
         y.append(list({k: v for k, v in sorted(sol.items(), key=lambda item: item[1])}.keys()))
-
+    
+    total_cost = np.array(total_cost)
     x = np.array(x)
     y = np.array(y)
     distances = {}
@@ -135,7 +139,7 @@ def score_distance_results(results, solutions):
             distances[distance] = 1
         else:
             distances[distance] += 1
-    return distances
+    return distances, total_cost
 
 
 def score_results(results, solutions):
@@ -245,12 +249,12 @@ def main(argv):
     results_parsed = parse_results(results)
     print('Comparing results to solution and calculating distances')
     accuracy = score_results(results_parsed, solution)
-    distance_to_best = score_distance_results(results_parsed, complete_solution)
+    distance_to_best, ordered_total_costs = score_distance_results(results_parsed, complete_solution)
     percentiles = calculate_distance_percentiles(distance_to_best)
     print('Saving data')
     parse_results_copy(results_copy)
     save_run_info(args.name, 2, 2, args.size, args.shots, circuit, percentiles)
-    save_problem_data_to_csv(args.name, problems)
+    save_problem_data_to_csv(args.name, problems, ordered_total_costs)
     save_measurements_to_csv(args.name, results_copy)
     print('Finished execution.')
     print('---------------------------------------------------')
