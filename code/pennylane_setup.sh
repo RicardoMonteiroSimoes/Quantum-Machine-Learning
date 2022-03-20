@@ -43,6 +43,5 @@ pip install qiskit-optimization --upgrade
 printf "\Installing/Upgrading utilities ...\n"
 pip install tqdm --upgrade
 
-
 printf "\Installing/Upgrading pydot ...\n"
 pip install pydot --upgrade
