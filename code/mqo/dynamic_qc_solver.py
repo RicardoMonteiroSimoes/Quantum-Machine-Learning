@@ -33,36 +33,43 @@ def same_query_cost(circuit):
         circuit.crz(-np.pi/4,i,i+1)
     circuit.barrier()
 
-def savings_encoding(circuit):
-        for i in range(int(circuit.width()/2)):
-            circuit.crz(Parameter('s'+str(i)+str(int(circuit.width()/2))), i, int(circuit.width()/2))
-            circuit.crz(Parameter('s'+str(i)+str(int(1+circuit.width()/2))), i, int(1+circuit.width()/2))
-        circuit.barrier()
+def savings_encoding(problem, circuit):
+    prev_i = 0
+    for i, v in problem[2]:
+        if prev_i != i:
+            circuit.barrier()
+        circuit.crz(Parameter('s'+str(i)+str(v)), i, v)
+        prev_i = i
+    circuit.barrier()
+
 
 def rx_layer(circuit, weight):
     circuit.rx(weight, range(circuit.width()))
     circuit.barrier()
 
-def create_circuit(n_queries, n_plans, scheme, xweight=np.pi/4):
-    circuit = QuantumCircuit(n_queries*n_plans)
-    for module in scheme:
-        if module == "h":
-            uncertainity_principle(circuit)
-        elif module == "c":
-            cost_encoding(circuit)
-        elif module == "s":
-            savings_encoding(circuit)
-        elif module == "x":
-            rx_layer(circuit, xweight)
-    return circuit
+def create_circuits(problems, scheme, xweight=np.pi/4):
+    circuits = []
+    for problem in problems:
+        circuit = QuantumCircuit(np.sum(problem[0]))
+        for module in scheme:
+            if module == "h":
+                uncertainity_principle(circuit)
+            elif module == "c":
+                cost_encoding(circuit)
+            elif module == "s":
+                savings_encoding(problem, circuit)
+            elif module == "x":
+                rx_layer(circuit, xweight)
+        circuits.append(circuit)
+    return circuits
 
 #### Running circuit
-def run_circuit(x, circuit, shots):
+def run_circuits(problems, circuits, shots):
     q_sim = Aer.get_backend("aer_simulator")
     results = []
     results_copy = []
-    for problem in tqdm(x):
-        qc = circuit.bind_parameters(problem.flatten())
+    for problem, circuit in tqdm(zip(problems, circuits)):
+        qc = circuit.copy().bind_parameters(problem.flatten())
         qc.measure_all()
         job = q_sim.run(transpile(qc, q_sim), shots=shots)
         res = job.result()
@@ -169,6 +176,7 @@ def parse_results_copy(results):
     for result in results:
         remove_useless_keys(result)
 
+#TODO change this so it can dynamically do a solution ranking
 def create_solution_set(problems):
     y = []
     y_complete = []
@@ -194,44 +202,53 @@ def scale_problems(problems, scale_min=-np.pi/4, scale_max=np.pi/4):
         scaled_problems.append(scaler.fit_transform(problem.reshape(-1,1)))
     return scaled_problems
 
-def extract_values(dataset):
+def extract_values(problems):
     values = []
-    for row in tqdm(dataset):
+    for row in tqdm(problems):
         values.append(
             np.concatenate((row[1].tolist(),list(row[2].values())))
             )
     return np.array(values)
 
-def create_savings(n_queries, n_plans, savings_min=-20, savings_max=0):
-    savings = {}
-    for j in range(n_plans*n_queries):
-        current_query = math.floor(j / n_plans)
-        first_plan_next_query = (current_query + 1) * n_plans
-        for i in range(first_plan_next_query, n_queries*n_plans):
-            savings[j, i] = random.randint(savings_min, savings_max)
-    return savings
-
 def create_savings(n_queries, n_plans_per_query, savings_min=-20, savings_max=0):
     savings = {}
     for i in range(n_queries-1):
         for j in range(n_plans_per_query[i]):
-            for a in range(i+1, n_queries,1):
+            s = j + np.sum(n_plans_per_query[0:i], dtype=int)
+            for a in range(i+1, n_queries):
                 for b in range(n_plans_per_query[a]):
-                    for x in n_plans_per_query[i+1:]:
-                        for y in range(x):
-                            s = j + np.sum(n_plans_per_query[0:i])
-                            t = y + np.sum(n_plans_per_query[0:a])
-                            savings[int(s), t] = random.randint(savings_min, savings_max=0)
+                    t = b + np.sum(n_plans_per_query[:a], dtype=int)
+                    savings[s, t] = random.randint(savings_min, savings_max)
+                    print(savings)
+
     return savings
 
-def generate_problems(n_queries, plans, size, cost_min=0, cost_max=50):
+def generate_problems(n_queries, plan, size, cost_min=0, cost_max=50):
     problems = []
     for i in tqdm(range(size)):
-        if not plans:
-            plans = np.random.randint(1,4, size=n_queries)
-        problems.append((plans, np.random.randint(cost_min, cost_max, np.sum(plans)), 
-        create_savings(n_queries, plans)))
+        if not plan:
+            plan = np.random.randint(1,4, size=n_queries)
+        problems.append((plan, np.random.randint(cost_min, cost_max, np.sum(plan)), 
+        create_savings(n_queries, plan)))
+    print(problems)
     return problems
+
+def generate_measurement_keys(problems):
+    combinational_keys = []
+    for problem in tqdm(problems):
+        n_qubits = np.sum(problem[0])
+        binary_string = []
+        for i, v in enumerate(problems[0][0]):
+            if i == 0:
+                for j in range(v):
+                    binary_string.append('0'*j + '1' + '0'*(v-j-1))
+            else:
+                copy = []
+                for x in binary_string:
+                    for j in range(v):
+                        copy.append(x + '0'*j + '1' + '0'*(v-j-1))
+                binary_string = copy
+        combinational_keys.append(binary_string)
 
 def parse_args(argv):
     parser = argparse.ArgumentParser(description="Creates a static circuit to solve MQO problems")
@@ -239,7 +256,7 @@ def parse_args(argv):
     #parser.add_argument('-p', '--plans', help="Set how many plans per query", type=int, default=2)
     parser.add_argument('-s', '--size', help="Set how many problems to have", type=int, default=150)
     parser.add_argument('-q', '--queries', help="Set how many queries per problem to have", type=int, default=2)
-    parser.add_argument('-qp', '--queryplans', help="Can define a predetermined query plan that will be same for all problems. If not defined, it is random.", type=list)
+    parser.add_argument('-qp', '--queryplans',  nargs='+', help="Can define a predetermined query plan that will be same for all problems. If not defined, it is random.", type=int)
     parser.add_argument('-sh', '--shots', help="Shots for the simulation to run", type=int, default=1024)
     parser.add_argument('-r', '--random', help="Random state", type=int)
     parser.add_argument('-n', '--name', help="Experiment name for data collection to files", default="dataset")
@@ -254,7 +271,11 @@ def main(argv):
     global args 
     args = parse_args(argv)
     print('Creating {0} problems, with {1} queries each'.format(args.size, args.queries))
+    if not args.queries == len(args.queryplans):
+        raise Exception('Amount of queries has to be equal to length of given query plan!')
     problems = generate_problems(args.queries, args.queryplans, args.size)
+    print('Generating combinational measurement keys')
+    measurement_keys = generate_measurement_keys(problems)
     print('Extracting relevant problem values')
     problems_values = extract_values(problems)
     print('Scaling relevant problem values')
@@ -262,22 +283,22 @@ def main(argv):
     print('Creating solution set, this might take some time')
     solution, complete_solution = create_solution_set(problems_scaled)
     print('Creating parameterized circuit for calculations')
-    circuit = create_circuit(2, 2, args.circuit, args.xweight)
+    circuits = create_circuits(problems, args.circuit, args.xweight)
     if args.printcircuit:
-        print(circuit)
+        print(circuits[0])
     print('Running circuit')
-    results, results_copy = run_circuit(problems_scaled, circuit.copy(), args.shots)
+    results, results_copy = run_circuits(problems_scaled, circuits, args.shots)
     print('Parsing results')
     results_parsed = parse_results(results)
     print('Comparing results to solution and calculating distances')
     accuracy = score_results(results_parsed, solution)
     distance_to_best, ordered_total_costs = score_distance_results(results_parsed, complete_solution)
     percentiles = calculate_distance_percentiles(distance_to_best)
-    print('Saving data')
-    parse_results_copy(results_copy)
-    save_run_info(args.name, 2, 2, args.size, args.shots, circuit, percentiles)
-    save_problem_data_to_csv(args.name, problems, ordered_total_costs)
-    save_measurements_to_csv(args.name, results_copy)
+    #print('Saving data')
+    #parse_results_copy(results_copy)
+    #save_run_info(args.name, 2, 2, args.size, args.shots, circuit, percentiles)
+    #save_problem_data_to_csv(args.name, problems, ordered_total_costs)
+    #save_measurements_to_csv(args.name, results_copy)
     print('Finished execution.')
     print('---------------------------------------------------')
         
