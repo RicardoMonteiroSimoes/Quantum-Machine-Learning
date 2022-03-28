@@ -36,10 +36,7 @@ def same_query_cost(circuit):
 def savings_encoding(problem, circuit):
     prev_i = 0
     for i, v in problem[2]:
-        if prev_i != i:
-            circuit.barrier()
         circuit.crz(Parameter('s'+str(i)+str(v)), i, v)
-        prev_i = i
     circuit.barrier()
 
 
@@ -151,49 +148,64 @@ def score_distance_results(results, solutions):
 
 def score_results(results, solutions):
     x = []
-    for res in results:
-        x.append(max(res, key=res.get))
-    return accuracy_score(x,solutions)
+    y = []
+    for i, result in enumerate(results):
+        x.append(max(result, key=result.get))
+        y.append(solutions[i][0])
+    return accuracy_score(x, y)*100
 
-def parse_results(results):
+def parse_results(results, solution_keys_sorted):
     parsed_results = []
-    for result in tqdm(results):
-        remove_useless_keys(result)
-        for i, key in enumerate(["0101", "1001", "0110", "1010"]):
-            result[i] = result.pop(key, 0)
-        parsed_results.append(result)
+    for i, result in tqdm(enumerate(results)):
+        temp = {}
+        for key in solution_keys_sorted[i]:
+            temp[key] = result.get(key, 0)
+        parsed_results.append(temp)
     return parsed_results
 
-def remove_useless_keys(result):
-    for key in ["0000","0001","0010","0100","1000","1101","1011","1100","0011","0111","1110","1111"]:
-            if key in result:
-                del result[key]
-    for key in ["0101", "1001", "0110", "1010"]:
-        if not key in result:
-            result[key] = 0
-
-def parse_results_copy(results):
-    for result in results:
-        remove_useless_keys(result)
-
-#TODO change this so it can dynamically do a solution ranking
 def create_solution_set(problems):
-    y = []
-    y_complete = []
-    for problem in tqdm(problems):
-        #### calculate totally cheapest option
-        t_cost = []
-        t_cost.append([problem[0]+problem[2]+problem[4], problem[0]+problem[3]+problem[5]])
-        t_cost.append([problem[1]+problem[2]+problem[6], problem[1]+problem[3]+problem[7]])
-        y.append(np.array(t_cost).argmin())
-        #### calculate sorted ranking of cost
-        t_total = {}
-        t_total[0] = problem[0]+problem[2]+problem[4]
-        t_total[1] = problem[0]+problem[3]+problem[5]
-        t_total[2] = problem[1]+problem[2]+problem[6]
-        t_total[3] = problem[1]+problem[3]+problem[7]
-        y_complete.append(t_total)
-    return y, y_complete
+    ranked_solution_keys = [] 
+    classical_solution_ranking = []
+    for problem in problems:
+        savings = collect_savings_for_all_combinations(problem)
+        total_cost = append_costs(savings, problem)
+        savings_sorted = {k: total_cost[k] for k in sorted(total_cost, key=total_cost.get)}
+        classical_solution_ranking.append(savings_sorted)
+        ranked_solution_keys.append(generate_solution_keys(savings_sorted, sum(problem[0])))
+
+    return ranked_solution_keys, classical_solution_ranking
+
+def generate_solution_keys(costs, n_qubits):
+    solution_keys_ranking = []
+    for cost in costs:
+        b = list('0'*n_qubits)
+        for i in cost:
+            b[i] = '1'
+        solution_keys_ranking.append(''.join(b))
+    return solution_keys_ranking
+
+def append_costs(savings, problem):
+    for a in savings:
+        for b in a:
+            savings[a] += problem[1][b]
+    return savings
+
+
+def collect_savings_for_all_combinations(problem):
+    costs = problem[2]
+    while len(costs) > np.prod(problem[0]):
+        new_costs = {}
+        for a in costs:
+            for b in [z for z in costs if z[0] == a[-1]]:
+                c = list(a)
+                c.append(b[-1])
+                c = tuple(c)
+                new_costs[c] = costs[a] + costs[b]
+        if new_costs == costs:
+            break
+        else:
+            costs = new_costs
+    return costs
 
 def scale_problems(problems, scale_min=-np.pi/4, scale_max=np.pi/4):
     scaled_problems = []
@@ -219,8 +231,6 @@ def create_savings(n_queries, n_plans_per_query, savings_min=-20, savings_max=0)
                 for b in range(n_plans_per_query[a]):
                     t = b + np.sum(n_plans_per_query[:a], dtype=int)
                     savings[s, t] = random.randint(savings_min, savings_max)
-                    print(savings)
-
     return savings
 
 def generate_problems(n_queries, plan, size, cost_min=0, cost_max=50):
@@ -230,7 +240,6 @@ def generate_problems(n_queries, plan, size, cost_min=0, cost_max=50):
             plan = np.random.randint(1,4, size=n_queries)
         problems.append((plan, np.random.randint(cost_min, cost_max, np.sum(plan)), 
         create_savings(n_queries, plan)))
-    print(problems)
     return problems
 
 def generate_measurement_keys(problems):
@@ -280,8 +289,8 @@ def main(argv):
     problems_values = extract_values(problems)
     print('Scaling relevant problem values')
     problems_scaled = scale_problems(problems_values)
-    print('Creating solution set, this might take some time')
-    solution, complete_solution = create_solution_set(problems_scaled)
+    print('Creating solution set and keys, this might take some time')
+    ranked_solution_keys, classical_solution_ranking = create_solution_set(problems)
     print('Creating parameterized circuit for calculations')
     circuits = create_circuits(problems, args.circuit, args.xweight)
     if args.printcircuit:
@@ -289,15 +298,16 @@ def main(argv):
     print('Running circuit')
     results, results_copy = run_circuits(problems_scaled, circuits, args.shots)
     print('Parsing results')
-    results_parsed = parse_results(results)
+    results_parsed = parse_results(results, ranked_solution_keys)
     print('Comparing results to solution and calculating distances')
-    accuracy = score_results(results_parsed, solution)
-    distance_to_best, ordered_total_costs = score_distance_results(results_parsed, complete_solution)
-    percentiles = calculate_distance_percentiles(distance_to_best)
+    accuracy = score_results(results_parsed, ranked_solution_keys)
+    print('Achieved accuracy of {}%'.format(accuracy))
+    #distance_to_best, ordered_total_costs = score_distance_results(results_parsed, complete_solution)
+    #percentiles = calculate_distance_percentiles(distance_to_best)
     #print('Saving data')
     #parse_results_copy(results_copy)
     #save_run_info(args.name, 2, 2, args.size, args.shots, circuit, percentiles)
-    #save_problem_data_to_csv(args.name, problems, ordered_total_costs)
+    #save_problem_data_to_csv(args.name, problems, classical_solution_ranking)
     #save_measurements_to_csv(args.name, results_copy)
     print('Finished execution.')
     print('---------------------------------------------------')
