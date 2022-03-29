@@ -124,26 +124,22 @@ def calculate_distance_percentiles(distances):
     
 
 def score_distance_results(results, solutions):
-    x = []
-    total_cost = []
-    y = []
-
-    for res, sol in zip(results, solutions):
-        x.append(list({k: v for k, v in sorted(res.items(), key=lambda item: item[1], reverse=True)}.keys()))
-        total_cost.append(list({k: v for k, v in sorted(sol.items(), key=lambda item: item[1])}.values()))
-        y.append(list({k: v for k, v in sorted(sol.items(), key=lambda item: item[1])}.keys()))
-    
-    total_cost = np.array(total_cost)
-    x = np.array(x)
-    y = np.array(y)
     distances = {}
-    for r,s in zip(x,y):
-        distance = np.where(s == r[0])[0][0]
-        if not distance in distances:
-            distances[distance] = 1
-        else:
+    x = []
+    for res in results:
+        x.append(list({k: v for k, v in sorted(res.items(), key=lambda item: item[1], reverse=True)}.keys()))
+    
+    for r,s in zip(x,solutions):
+        print(r)
+        print(r[0])
+        print(s)
+        distance = np.where(np.array(s) == r[0])[0][0]
+        if distance in distances:
             distances[distance] += 1
-    return distances, total_cost
+        else:
+            distances[distance] = 1
+    print(distances)
+    return distances
 
 
 def score_results(results, solutions):
@@ -302,8 +298,8 @@ def main(argv):
     print('Comparing results to solution and calculating distances')
     accuracy = score_results(results_parsed, ranked_solution_keys)
     print('Achieved accuracy of {}%'.format(accuracy))
-    #distance_to_best, ordered_total_costs = score_distance_results(results_parsed, complete_solution)
-    #percentiles = calculate_distance_percentiles(distance_to_best)
+    distance_to_best = score_distance_results(results_parsed, ranked_solution_keys)
+    percentiles = calculate_distance_percentiles(distance_to_best)
     #print('Saving data')
     #parse_results_copy(results_copy)
     #save_run_info(args.name, 2, 2, args.size, args.shots, circuit, percentiles)
