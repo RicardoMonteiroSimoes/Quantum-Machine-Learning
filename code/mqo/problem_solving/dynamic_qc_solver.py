@@ -121,21 +121,29 @@ def calculate_distance_percentiles(distances):
     
 
 def score_distance_results(results, solutions):
-    distances = {}
     x = []
-    for res in results:
+    total_cost = []
+    y = []
+
+    for res, sol in zip(results, solutions):
         x.append(list({k: v for k, v in sorted(res.items(), key=lambda item: item[1], reverse=True)}.keys()))
+        total_cost.append(list({k: v for k, v in sorted(sol.items(), key=lambda item: item[1])}.values()))
+        y.append(list({k: v for k, v in sorted(sol.items(), key=lambda item: item[1])}.keys()))
     
-    for r,s in zip(x,solutions):
-        print(r)
-        print(r[0])
-        print(s)
-        distance = np.where(np.array(s) == r[0])[0][0]
-        if distance in distances:
+    total_cost = np.array(total_cost)
+    x = np.array(x)
+    y = np.array(y)
+    distances = {}
+    for r,s in zip(x,y):
+        distance = np.where(s == r[0])[0][0]
+        if not distance in distances:
+            distances[distance] = 1
+        else:
             distances[distance] += 1
     print(distances)
+    print(total_cost)
 
-    return distances,
+    return distances, total_cost
 
 
 def score_results(results, solutions):
@@ -231,7 +239,11 @@ def generate_problems(n_queries, plan, size, cost_min=0, cost_max=50):
     for i in tqdm(range(size)):
         problems.append((plan, np.random.randint(cost_min, cost_max, np.sum(plan)), 
         create_savings(n_queries, plan)))
-    return problems
+    return [([2, 2],  np.array([45, 11, 40, 38]),  {(0, 2): -15, (0, 3): -9, (1, 2): -9, (1, 3): -14}),
+ ([2, 2],  np.array([10, 37,  9, 46]),  {(0, 2): -20, (0, 3): -15, (1, 2): -2, (1, 3): -4}),
+ ([2, 2],  np.array([12, 48, 35, 38]),  {(0, 2): -3, (0, 3): -7, (1, 2): -19, (1, 3): -8}),
+ ([2, 2],  np.array([ 4, 42, 28, 33]),  {(0, 2): -11, (0, 3): -10, (1, 2): -1, (1, 3): -14}),
+ ([2, 2],  np.array([43, 23, 23, 18]),  {(0, 2): -3, (0, 3): -2, (1, 2): -16, (1, 3): 0})]
 
 def generate_measurement_keys(problems):
     combinational_keys = []
@@ -282,6 +294,8 @@ def main(argv):
     problems_scaled = scale_problems(problems_values)
     print('Creating solution set and keys, this might take some time')
     ranked_solution_keys, classical_solution_ranking = create_solution_set(problems)
+    print(ranked_solution_keys)
+    print(classical_solution_ranking)
     print('Creating parameterized circuit for calculations')
     circuit = create_circuit(problems[0], args.circuit, args.xweight)
     if args.printcircuit:

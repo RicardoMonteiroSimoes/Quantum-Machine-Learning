@@ -253,6 +253,7 @@ def main(argv):
     results_parsed = parse_results(results)
     print('Comparing results to solution and calculating distances')
     accuracy = score_results(results_parsed, solution)
+    print('Achieved accuracy of {}%'.format(accuracy))
     distance_to_best, ordered_total_costs = score_distance_results(results_parsed, complete_solution)
     percentiles = calculate_distance_percentiles(distance_to_best)
     print('Saving data')
