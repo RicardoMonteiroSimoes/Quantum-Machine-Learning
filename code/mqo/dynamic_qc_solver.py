@@ -44,29 +44,26 @@ def rx_layer(circuit, weight):
     circuit.rx(weight, range(circuit.width()))
     circuit.barrier()
 
-def create_circuits(problems, scheme, xweight=np.pi/4):
-    circuits = []
-    for problem in problems:
-        circuit = QuantumCircuit(np.sum(problem[0]))
-        for module in scheme:
-            if module == "h":
-                uncertainity_principle(circuit)
-            elif module == "c":
-                cost_encoding(circuit)
-            elif module == "s":
-                savings_encoding(problem, circuit)
-            elif module == "x":
-                rx_layer(circuit, xweight)
-        circuits.append(circuit)
-    return circuits
+def create_circuit(problem, scheme, xweight=np.pi/4):
+    circuit = QuantumCircuit(np.sum(problem[0]))
+    for module in scheme:
+        if module == "h":
+            uncertainity_principle(circuit)
+        elif module == "c":
+            cost_encoding(circuit)
+        elif module == "s":
+            savings_encoding(problem, circuit)
+        elif module == "x":
+            rx_layer(circuit, xweight)
+    return circuit
 
 #### Running circuit
-def run_circuits(problems, circuits, shots):
+def run_circuits(problems, circuit, shots):
     q_sim = Aer.get_backend("aer_simulator")
     results = []
     results_copy = []
-    for problem, circuit in tqdm(zip(problems, circuits)):
-        qc = circuit.copy().bind_parameters(problem.flatten())
+    for problem in tqdm(problems):
+        qc = circuit.bind_parameters(problem.flatten())
         qc.measure_all()
         job = q_sim.run(transpile(qc, q_sim), shots=shots)
         res = job.result()
@@ -143,12 +140,16 @@ def score_distance_results(results, solutions):
             distances[distance] = 1
         else:
             distances[distance] += 1
+    print(distances)
+    print(total_cost)
+
     return distances, total_cost
 
 
 def score_results(results, solutions):
     x = []
     y = []
+
     for i, result in enumerate(results):
         x.append(max(result, key=result.get))
         y.append(solutions[i][0])
@@ -192,20 +193,18 @@ def append_costs(savings, problem):
 
 
 def collect_savings_for_all_combinations(problem):
-    costs = problem[2]
-    while len(costs) > np.prod(problem[0]):
-        new_costs = {}
-        for a in costs:
-            for b in [z for z in costs if z[0] == a[-1]]:
+    current_combinations = problem[2]
+    while len(current_combinations) > np.prod(problem[0]):
+        total_savings = {}
+        for a in current_combinations:
+            saves = current_combinations[a]
+            for b in [z for z in problem[2] if z[0] == a[-1]]:
                 c = list(a)
                 c.append(b[-1])
                 c = tuple(c)
-                new_costs[c] = costs[a] + costs[b]
-        if new_costs == costs:
-            break
-        else:
-            costs = new_costs
-    return costs
+                total_savings[c] = saves + sum([problem[2][x, b[-1]] for x in a ])
+        current_combinations = total_savings
+    return current_combinations
 
 def scale_problems(problems, scale_min=-np.pi/4, scale_max=np.pi/4):
     scaled_problems = []
@@ -235,9 +234,9 @@ def create_savings(n_queries, n_plans_per_query, savings_min=-20, savings_max=0)
 
 def generate_problems(n_queries, plan, size, cost_min=0, cost_max=50):
     problems = []
+    if not plan:
+        plan = np.random.randint(1,4, size=n_queries)
     for i in tqdm(range(size)):
-        if not plan:
-            plan = np.random.randint(1,4, size=n_queries)
         problems.append((plan, np.random.randint(cost_min, cost_max, np.sum(plan)), 
         create_savings(n_queries, plan)))
     return problems
@@ -292,16 +291,16 @@ def main(argv):
     print('Creating solution set and keys, this might take some time')
     ranked_solution_keys, classical_solution_ranking = create_solution_set(problems)
     print('Creating parameterized circuit for calculations')
-    circuits = create_circuits(problems, args.circuit, args.xweight)
+    circuit = create_circuit(problems[0], args.circuit, args.xweight)
     if args.printcircuit:
-        print(circuits[0])
+        print(circuit)
     print('Running circuit')
-    results, results_copy = run_circuits(problems_scaled, circuits, args.shots)
+    results, results_copy = run_circuits(problems_scaled, circuit.copy(), args.shots)
     print('Parsing results')
     results_parsed = parse_results(results, ranked_solution_keys)
     print('Comparing results to solution and calculating distances')
     accuracy = score_results(results_parsed, ranked_solution_keys)
-    print('Achieved accuracy of {}%'.format(accuracy))
+    print('Achieved accuracy of {:2}%'.format(accuracy))
     #distance_to_best, ordered_total_costs = score_distance_results(results_parsed, complete_solution)
     #percentiles = calculate_distance_percentiles(distance_to_best)
     #print('Saving data')
