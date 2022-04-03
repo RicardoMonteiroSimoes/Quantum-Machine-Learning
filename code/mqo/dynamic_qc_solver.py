@@ -99,17 +99,28 @@ def save_run_info(name, n_queries, n_plans, n_problems, n_shots, circuit, percen
 def save_problem_data_to_csv(name, problems, ordered_total_costs):
     with open(name + 'problems.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter=';',)
-        writer.writerow(['q0p0', 'q0p1', 'q1p0', 'q1p1', 's02', 's03', 's12', 's13', 'cheapest',' 2nd','3rd', 'most expensive'])
+        queries = []
+        for i, x in enumerate(problems[0][0]):
+            for y in range(x):
+                queries.append('q'+str(i)+'p'+str(y))
+        for x in problems[0][2]:
+            queries.append('s'+ str([a for a in x]))
+        for i in range(len(problems[0][2])):
+            queries.append('cost_ranking ' + str(i))
+        writer.writerow(queries)
         for problem, cost in zip(problems, ordered_total_costs):
-            writer.writerow(np.array([problem[1],list(problem[2].values()), cost.flatten()]).flatten())
+            data = problem[1]
+            data = np.append(data, list(problem[2].values()))
+            data = np.append(data , list(cost.values()))
+            writer.writerow(data.flatten())
 
 
 def save_measurements_to_csv(name, measurements):
     with open(name + 'measurements.csv', 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile, delimiter=';',)
-        writer.writerow(['1010', '1001', '0110', '0101'])
+        writer = csv.writer(csvfile, delimiter=';')
+        writer.writerow(list(measurements[0].keys()))
         for measurement in measurements:
-            writer.writerow([measurement['0101'], measurement['1001'], measurement['0110'], measurement['1010']])
+            writer.writerow([measurement[a] for a in list(measurements[0].keys())])
 
 #### Data based functions
 def calculate_distance_percentiles(distances):
@@ -126,17 +137,15 @@ def score_distance_results(results, solutions):
     x = []
     for res in results:
         x.append(list({k: v for k, v in sorted(res.items(), key=lambda item: item[1], reverse=True)}.keys()))
-    
+
     for r,s in zip(x,solutions):
-        print(r)
-        print(r[0])
-        print(s)
         distance = np.where(np.array(s) == r[0])[0][0]
         if distance in distances:
             distances[distance] += 1
-    print(distances)
+        else:
+            distances[distance] = 1
 
-    return distances,
+    return distances
 
 
 def score_results(results, solutions):
@@ -156,6 +165,16 @@ def parse_results(results, solution_keys_sorted):
             temp[key] = result.get(key, 0)
         parsed_results.append(temp)
     return parsed_results
+
+
+def parse_results_copy(results, keys):
+    cleaned_results = []
+    for result in results:
+        copy = {}
+        for key in keys[0]:
+            copy[key] = result.get(key, 0)
+        cleaned_results.append(copy)
+    return cleaned_results
 
 def create_solution_set(problems):
     ranked_solution_keys = [] 
@@ -294,13 +313,13 @@ def main(argv):
     print('Comparing results to solution and calculating distances')
     accuracy = score_results(results_parsed, ranked_solution_keys)
     print('Achieved accuracy of {:2}%'.format(accuracy))
-    #distance_to_best, ordered_total_costs = score_distance_results(results_parsed, complete_solution)
-    #percentiles = calculate_distance_percentiles(distance_to_best)
-    #print('Saving data')
-    #parse_results_copy(results_copy)
-    #save_run_info(args.name, 2, 2, args.size, args.shots, circuit, percentiles)
-    #save_problem_data_to_csv(args.name, problems, classical_solution_ranking)
-    #save_measurements_to_csv(args.name, results_copy)
+    distance_to_best = score_distance_results(results_parsed, ranked_solution_keys)
+    percentiles = calculate_distance_percentiles(distance_to_best)
+    print('Saving data')
+    results_copy = parse_results_copy(results_copy, ranked_solution_keys)
+    save_run_info(args.name, args.queries, args.queryplans, args.size, args.shots, circuit, percentiles)
+    save_problem_data_to_csv(args.name, problems, classical_solution_ranking)
+    save_measurements_to_csv(args.name, results_copy)
     print('Finished execution.')
     print('---------------------------------------------------')
         
