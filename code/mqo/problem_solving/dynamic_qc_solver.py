@@ -171,6 +171,7 @@ def create_solution_set(problems):
         savings = collect_savings_for_all_combinations(problem)
         total_cost = append_costs(savings, problem)
         savings_sorted = {k: total_cost[k] for k in sorted(total_cost, key=total_cost.get)}
+        print(savings_sorted)
         classical_solution_ranking.append(savings_sorted)
         ranked_solution_keys.append(generate_solution_keys(savings_sorted, sum(problem[0])))
 
@@ -294,8 +295,6 @@ def main(argv):
     problems_scaled = scale_problems(problems_values)
     print('Creating solution set and keys, this might take some time')
     ranked_solution_keys, classical_solution_ranking = create_solution_set(problems)
-    print(ranked_solution_keys)
-    print(classical_solution_ranking)
     print('Creating parameterized circuit for calculations')
     circuit = create_circuit(problems[0], args.circuit, args.xweight)
     if args.printcircuit:

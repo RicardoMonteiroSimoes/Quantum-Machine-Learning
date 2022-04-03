@@ -247,8 +247,6 @@ def main(argv):
     problems_scaled = scale_problems(problems_values)
     print('Creating solution set, this might take some time')
     solution, complete_solution = create_solution_set(problems_scaled)
-    print(solution)
-    print(complete_solution)
     print('Creating parameterized circuit for calculations')
     circuit = create_circuit(2, 2, args.circuit, args.xweight)
     if args.printcircuit:
