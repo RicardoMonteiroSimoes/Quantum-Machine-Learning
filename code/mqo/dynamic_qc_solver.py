@@ -127,7 +127,8 @@ def calculate_distance_percentiles(distances):
     total_count = sum(distances.values())
     percentiles = []
     for i in range(len(distances.keys())):
-        print('{:2.2%} percentile reached a distance of {} to the best solution'.format(distances[i]/total_count, i))
+        if i in distances:
+            print('{:2.2%} percentile reached a distance of {} to the best solution'.format(distances[i]/total_count, i))
         percentiles.append(distances[i]/total_count)
     return percentiles
     
