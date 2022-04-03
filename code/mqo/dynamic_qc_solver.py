@@ -64,6 +64,7 @@ def run_circuits(problems, circuit, shots):
     results_copy = []
     for problem in tqdm(problems):
         qc = circuit.bind_parameters(problem.flatten())
+        qc = qc.reverse_bits()
         qc.measure_all()
         job = q_sim.run(transpile(qc, q_sim), shots=shots)
         res = job.result()

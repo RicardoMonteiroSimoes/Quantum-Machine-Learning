@@ -64,8 +64,10 @@ def run_circuits(problems, circuit, shots):
     results_copy = []
     for problem in tqdm(problems):
         qc = circuit.bind_parameters(problem.flatten())
+        #TAKE CARE TO USE REVERSE_BITS FOR FUCKS SAKE, WHO AT IBM THOUGHT THIS WAS A GOOD IDEA?
+        qc = qc.reverse_bits()
         qc.measure_all()
-        job = q_sim.run(transpile(qc, q_sim), shots=shots)
+        job = q_sim.run(transpile(qc, q_sim), shots=shots, seed_simulator=42)
         res = job.result()
         results.append(res.get_counts(qc))
         results_copy.append(res.get_counts(qc).copy())
@@ -150,10 +152,12 @@ def score_results(results, solutions):
     x = []
     y = []
 
+    print(results)
     for i, result in enumerate(results):
         x.append(max(result, key=result.get))
         y.append(solutions[i][0])
-    return accuracy_score(x, y)*100
+
+    return accuracy_score(x, y)
 
 def parse_results(results, solution_keys_sorted):
     parsed_results = []
@@ -162,6 +166,7 @@ def parse_results(results, solution_keys_sorted):
         for key in solution_keys_sorted[i]:
             temp[key] = result.get(key, 0)
         parsed_results.append(temp)
+        print(temp)
     return parsed_results
 
 def create_solution_set(problems):
@@ -171,7 +176,6 @@ def create_solution_set(problems):
         savings = collect_savings_for_all_combinations(problem)
         total_cost = append_costs(savings, problem)
         savings_sorted = {k: total_cost[k] for k in sorted(total_cost, key=total_cost.get)}
-        print(savings_sorted)
         classical_solution_ranking.append(savings_sorted)
         ranked_solution_keys.append(generate_solution_keys(savings_sorted, sum(problem[0])))
 
@@ -303,9 +307,11 @@ def main(argv):
     results, results_copy = run_circuits(problems_scaled, circuit.copy(), args.shots)
     print('Parsing results')
     results_parsed = parse_results(results, ranked_solution_keys)
+    print('solution keys maybe wrong?')
+    print(results_parsed)
     print('Comparing results to solution and calculating distances')
     accuracy = score_results(results_parsed, ranked_solution_keys)
-    print('Achieved accuracy of {:2}%'.format(accuracy))
+    print('Achieved accuracy of {:2}%'.format(accuracy*100))
     #distance_to_best, ordered_total_costs = score_distance_results(results_parsed, complete_solution)
     #percentiles = calculate_distance_percentiles(distance_to_best)
     #print('Saving data')

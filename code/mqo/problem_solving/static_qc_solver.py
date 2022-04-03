@@ -64,7 +64,7 @@ def run_circuit(x, circuit, shots):
     for problem in tqdm(x):
         qc = circuit.bind_parameters(problem.flatten())
         qc.measure_all()
-        job = q_sim.run(transpile(qc, q_sim), shots=shots)
+        job = q_sim.run(transpile(qc, q_sim), shots=shots, seed_simulator=42)
         res = job.result()
         results.append(res.get_counts(qc))
         results_copy.append(res.get_counts(qc).copy())
@@ -152,9 +152,12 @@ def parse_results(results):
     parsed_results = []
     for result in tqdm(results):
         remove_useless_keys(result)
+        temp = {}
         for i, key in enumerate(["0101", "1001", "0110", "1010"]):
             result[i] = result.pop(key, 0)
+            temp[key] = result[i]
         parsed_results.append(result)
+        print(temp)
     return parsed_results
 
 def remove_useless_keys(result):
@@ -255,6 +258,7 @@ def main(argv):
     results, results_copy = run_circuit(problems_scaled, circuit.copy(), args.shots)
     print('Parsing results')
     results_parsed = parse_results(results)
+    print(results_parsed)
     print('Comparing results to solution and calculating distances')
     accuracy = score_results(results_parsed, solution)
     print('Achieved accuracy of {}%'.format(accuracy*100))
