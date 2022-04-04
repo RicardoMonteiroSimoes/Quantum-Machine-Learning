@@ -1,4 +1,21 @@
 
+
+%Ricardo vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
+@article{fankhauser_multiple_2021,
+	title = {Multiple Query Optimization using a Hybrid Approach of Classical and Quantum Computing},
+	url = {http://arxiv.org/abs/2107.10508},
+	abstract = {Quantum computing promises to solve difficult optimization problems in chemistry, physics and mathematics more efficiently than classical computers, but requires fault-tolerant quantum computers with millions of qubits. To overcome errors introduced by today's quantum computers, hybrid algorithms combining classical and quantum computers are used. In this paper we tackle the multiple query optimization problem ({MQO}) which is an important {NP}-hard problem in the area of data-intensive problems. We propose a novel hybrid classical-quantum algorithm to solve the {MQO} on a gate-based quantum computer. We perform a detailed experimental evaluation of our algorithm and compare its performance against a competing approach that employs a quantum annealer -- another type of quantum computer. Our experimental results demonstrate that our algorithm currently can only handle small problem sizes due to the limited number of qubits available on a gate-based quantum computer compared to a quantum computer based on quantum annealing. However, our algorithm shows a qubit efficiency of close to 99\% which is almost a factor of 2 higher compared to the state of the art implementation. Finally, we analyze how our algorithm scales with larger problem sizes and conclude that our approach shows promising results for near-term quantum computers.},
+	journaltitle = {{arXiv}:2107.10508 [quant-ph]},
+	author = {Fankhauser, Tobias and Solèr, Marc E. and Füchslin, Rudolf M. and Stockinger, Kurt},
+	urldate = {2021-11-26},
+	date = {2021-07-22},
+	eprinttype = {arxiv},
+	eprint = {2107.10508},
+	keywords = {Computer Science - Artificial Intelligence, Computer Science - Databases, Quantum Physics},
+	file = {arXiv Fulltext PDF:C\:\\Users\\ricar\\Zotero\\storage\\FA6ILCPS\\Fankhauser et al. - 2021 - Multiple Query Optimization using a Hybrid Approac.pdf:application/pdf;arXiv.org Snapshot:C\:\\Users\\ricar\\Zotero\\storage\\NCRXEQ2X\\2107.html:text/html},
+}
+
 @article{codd_relational_1970,
 	title = {A relational model of data for large shared data banks},
 	volume = {13},
@@ -62,4 +79,64 @@
 	date = {2009},
 	langid = {english},
 	doi = {10.1007/978-0-387-39940-9_239},
+}
+
+@article{sellis_multiple-query_1990,
+	title = {On the multiple-query optimization problem},
+	volume = {2},
+	doi = {10.1109/69.54724},
+	abstract = {The complexity of the multiple-query optimization problem in database management systems is examined. It is shown that the problem is {NP}-hard. Then the authors examine the performance of a heuristic
+algorithm to solve the multiple-query optimization problem and suggest some heuristics for query ordering which improve the efficiency of the algorithm considerably. Some experimental results on the performance of various heuristics are also presented},
+	pages = {262--266},
+	journaltitle = {Knowledge and Data Engineering, {IEEE} Transactions on},
+	shortjournal = {Knowledge and Data Engineering, {IEEE} Transactions on},
+	author = {Sellis, Timos and Ghosh, Subrata},
+	date = {1990-07-01},
+	file = {Full Text PDF:C\:\\Users\\ricar\\Zotero\\storage\\QSKNDPTP\\Sellis und Ghosh - 1990 - On the multiple-query optimization problem.pdf:application/pdf},
+}
+
+@article{kathuria_efficient_2017,
+	title = {Efficient and Provable Multi-Query Optimization},
+	url = {http://arxiv.org/abs/1512.02568},
+	abstract = {Complex queries for massive data analysis jobs have become increasingly commonplace. Many such queries contain com- mon subexpressions, either within a single query or among multiple queries submitted as a batch. Conventional query optimizers do not exploit these subexpressions and produce sub-optimal plans. The problem of multi-query optimization ({MQO}) is to generate an optimal combined evaluation plan by computing common subexpressions once and reusing them. Exhaustive algorithms for {MQO} explore an O(n{\textasciicircum}n) search space. Thus, this problem has primarily been tackled using various heuristic algorithms, without providing any theoretical guarantees on the quality of their solution. In this paper, instead of the conventional cost minimization problem, we treat the problem as maximizing a linear transformation of the cost function. We propose a greedy algorithm for this transformed formulation of the problem, which under weak, intuitive assumptions, provides an approximation factor guarantee for this formulation. We go on to show that this factor is optimal, unless P = {NP}. Another noteworthy point about our algorithm is that it can be easily incorporated into existing transformation-based optimizers. We finally propose optimizations which can be used to improve the efficiency of our algorithm.},
+	journaltitle = {{arXiv}:1512.02568 [cs]},
+	author = {Kathuria, Tarun and Sudarshan, S.},
+	urldate = {2022-03-11},
+	date = {2017-01-19},
+	eprinttype = {arxiv},
+	eprint = {1512.02568},
+	keywords = {Computer Science - Databases},
+	file = {arXiv Fulltext PDF:C\:\\Users\\ricar\\Zotero\\storage\\7CHVWWX6\\Kathuria und Sudarshan - 2017 - Efficient and Provable Multi-Query Optimization.pdf:application/pdf;arXiv.org Snapshot:C\:\\Users\\ricar\\Zotero\\storage\\V7I2RYR5\\1512.html:text/html},
+}
+
+@article{farhi_quantum_2014,
+	title = {A Quantum Approximate Optimization Algorithm},
+	url = {http://arxiv.org/abs/1411.4028},
+	abstract = {We introduce a quantum algorithm that produces approximate solutions for combinatorial optimization problems. The algorithm depends on a positive integer p and the quality of the approximation improves as p is increased. The quantum circuit that implements the algorithm consists of unitary gates whose locality is at most the locality of the objective function whose optimum is sought. The depth of the circuit grows linearly with p times (at worst) the number of constraints. If p is fixed, that is, independent of the input size, the algorithm makes use of efficient classical preprocessing. If p grows with the input size a different strategy is proposed. We study the algorithm as applied to {MaxCut} on regular graphs and analyze its performance on 2-regular and 3-regular graphs for fixed p. For p = 1, on 3-regular graphs the quantum algorithm always finds a cut that is at least 0.6924 times the size of the optimal cut.},
+	journaltitle = {{arXiv}:1411.4028 [quant-ph]},
+	author = {Farhi, Edward and Goldstone, Jeffrey and Gutmann, Sam},
+	urldate = {2022-03-11},
+	date = {2014-11-14},
+	eprinttype = {arxiv},
+	eprint = {1411.4028},
+	keywords = {Quantum Physics},
+	file = {arXiv Fulltext PDF:C\:\\Users\\ricar\\Zotero\\storage\\6UD7HBR4\\Farhi et al. - 2014 - A Quantum Approximate Optimization Algorithm.pdf:application/pdf;arXiv.org Snapshot:C\:\\Users\\ricar\\Zotero\\storage\\ZQ8ZSPUD\\1411.html:text/html},
+}
+
+@unpublished{uber_technologies_inc_uber_2022,
+	title = {Uber Investor Day 2022},
+	rights = {© 2022 Uber Technologies, Inc.},
+	type = {Presentation},
+	howpublished = {Presentation},
+	author = {Uber Technologies, Inc.},
+	urldate = {2022-03-12},
+	date = {2022-02-10},
+}
+
+@report{matuschak_quantum_2019,
+	location = {San Francisco},
+	title = {Quantum Computing for the Very Curious},
+	url = {https://quantum.country/qcvc},
+	author = {Matuschak, Andy and Nielsen, Michael A.},
+	date = {2019},
 }
