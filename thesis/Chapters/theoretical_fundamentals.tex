@@ -2,7 +2,19 @@
 
 \label{chapter:theoretical_fundamentals} % For referencing the chapter elsewhere, use \ref{chapter:computational_neuro} 
 
-\def \figwidth {215pt}
+\def \blochwidth {0.3}
+\def \histogramwidth {0.5}
+\newcommand{\bloch}{\emph{Bloch}-Sphere}
+\newcommand{\hgate}{$\mathrm{H}$-Gate}
+\newcommand{\xgate}{$\mathrm{X}$-Gate}
+\newcommand{\ygate}{$\mathrm{Y}$-Gate}
+\newcommand{\zgate}{$\mathrm{Z}$-Gate}
+\newcommand{\rygate}{$\mathrm{RY}$-Gate}
+\newcommand{\rzgate}{$\mathrm{RZ}$-Gate}
+\newcommand{\rxgate}{$\mathrm{RX}$-Gate}
+\newcommand{\crygate}{$\mathrm{CRY}$-Gate}
+\newcommand{\crzgate}{$\mathrm{CRZ}$-Gate}
+\newcommand{\crxgate}{$\mathrm{CRX}$-Gate}
 
 %----------------------------------------------------------------------------------------
 
@@ -70,7 +82,7 @@ When measuring a quantum circuit, the qubit states collapse from super positions
 
 \begin{figure}[!h]
     \centering
-    \scalebox{0.75}{
+    \scalebox{\histogramwidth}{
         \includesvg{thesis/Appendices/example_histogram.svg}
     }
     \caption{A histogram generated from the data in table \ref{table:example_counts}, that visually shows the probabilities of 0 and 1. These probabilities can directly be used to visualize the qubits superposition.}
@@ -81,24 +93,174 @@ The \emph{Bloch}-Sphere, as shown in figure \ref{figure:basic_bloch_sphere}, is 
 
 \begin{figure}[!h]
     \centering
-    \scalebox{0.75}{
+    \scalebox{\blochwidth}{
         \includesvg{thesis/Appendices/Bloch_Sphere_axis.svg}
     }
-    \caption{A basic Bloch-Sphere without any visualized state. The axis $x$ and $y$ are annotated accordingly, but the axis $z$ is annotated with \ket{0} and \ket{1} - the states which have a corresponding probability assigned to them.}
+    \caption{A basic Bloch-Sphere without any visualized state. The axis $x$ and $y$ are annotated accordingly, but the axis $z$ is annotated with $\ket{0}$ and $\ket{1}$ - the states which have a corresponding probability assigned to them. The purple point shows the origin $(0,0,0)$}
     \label{figure:basic_bloch_sphere}
 \end{figure}
 
-When measuring a qubit, the state collapses onto the $z$-axis\cite{}, which in turn leads to a measurement of either 0 or 1. Initially, all qubits are set to state $\ket{0}$, which is visualized onto the \emph{Bloch}-Sphere in figure \ref{figure:state_0_bloch_sphere}.
+When measuring a qubit, the state collapses onto the $z$-axis\cite{}, which in turn leads to a measurement of either 0 or 1. Initially, all qubits are set to state $\ket{0}$, which is visualized onto the \emph{Bloch}-Sphere in figure \ref{figure:state_0_bloch_sphere}. A circuit that results in said state is visualized in figure \ref{figure:state_0_circuit}, and its mathematical counterpart in equation \ref{equation:state_0_equation}.
 
 \begin{figure}[!h]
     \centering
-    \scalebox{0.75}{
+    \scalebox{\blochwidth}{
         \includesvg{thesis/Appendices/Bloch_Sphere_state_0.svg}
     }
-    \caption{A basic Bloch-Sphere without any visualized state. The axis $x$ and $y$ are annotated accordingly, but the axis $z$ is annotated with \ket{0} and \ket{1} - the states which have a corresponding probability assigned to them.}
+    \caption{A basic \emph{Bloch}-Sphere with the state $\ket{0}$ visualized onto it.}
     \label{figure:state_0_bloch_sphere}
 \end{figure}
 
+\begin{figure}[!h]
+    \centering
+    \scalebox{1.0}{
+    \Qcircuit @C=1.0em @R=1.0em @!R { \\
+	 	\nghost{{q} :  } & \lstick{{q} :  } \barrier[0em]{0} & \qw & \qw & \qw\\
+	 	\nghost{} & \lstick{} & \ket{\psi_0} &\\
+\\ }}
+    \caption{A basic circuit consisting of a single qubit $q_0$ that is initially set to $\ket{0}$. The state vector at point $\ket{\psi_0}$ is shown in equation \ref{equation:state_0_equation}.}
+    \label{figure:state_0_circuit}
+\end{figure}
+
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \ket{\psi_0} =\ \begin{pmatrix}1 \\ 0\end{pmatrix}\\
+    \end{split}
+    \label{equation:state_0_equation}
+\end{equation}
+
+
+
+To create the state $\ket{1}$, the state of the qubit has to be turned by 180° around the $x$ or the $y$ axis. This can be achieved in multiple ways, but the simplest one is the usage of a $\mathbb{X}$-Gate\cite{}. A circuit with such a gate is visualized in figure \ref{figure:x_circuit}, with a \emph{Bloch}-Sphere visualization done in figure \ref{figure:state_1_bloch_sphere}.
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{\blochwidth}{
+        \includesvg{thesis/Appendices/Bloch_Sphere_state_1.svg}
+    }
+    \caption{A basic \emph{Bloch}-Sphere with the state $\ket{1}$ visualized onto it.}
+    \label{figure:state_1_bloch_sphere}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering\scalebox{1.0}{
+    \Qcircuit @C=1.0em @R=0.2em @!R { \\
+	 	\nghost{{q} :  } & \lstick{{q} :  } \barrier[0em]{0} & \qw & \gate{\mathrm{X}} \barrier[0em]{0} & \qw & \qw & \qw\\
+	 	\nghost{} & \lstick{} & \ket{\psi_0} & & \ket{\psi_1} &\\
+\\ }}
+    \caption{Caption}
+    \label{figure:x_circuit}
+\end{figure}
+
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \ket{\psi_1} =\ \mathrm{X}\ket{\psi_0} =\ \begin{pmatrix} 0 & 1\\ 1 & 0\end{pmatrix}\begin{pmatrix}1 \\ 0\end{pmatrix} =\ \begin{pmatrix}0 \\ 1 \end{pmatrix}\\
+    \end{split}
+    \label{equation:state_1_equation}
+\end{equation}
+
+The state $\ket{\psi_1}$ can be directly calculated with the $\mathrm{X}$-Gate and $\ket{0}$, which results in state $\ket{1}$, as demonstrated in equation \ref{equation:state_1_equation}. Whilst their definitions are not equal, the gates $\mathrm{Y}$\cite{} and $\mathrm{Z}$\cite{} also apply a full 180° rotation around their corresponding axes. \par
+
+The \emph{Hadamard}-Gate, or $\mathrm{H}$-Gate, can be used to quickly create a superposition of a single qubit where the state $\ket{0}$ and $\ket{1}$ have the same probability (so, 0.5) of being measured.
+
+\begin{figure}[!h]
+    \centering\scalebox{1.0}{
+    \Qcircuit @C=1.0em @R=0.2em @!R { \\
+	 	\nghost{{q} :  } & \lstick{{q} :  } \barrier[0em]{0} & \qw & \gate{\mathrm{H}} \barrier[0em]{0} & \qw & \qw & \qw\\
+	 	\nghost{} & \lstick{} & \ket{\psi_0} & & \ket{\psi_1} &\\
+\\ }}
+    \caption{Caption}
+    \label{figure:h_circuit}
+\end{figure}
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \ket{\psi_1} =\ \mathrm{H}\ket{\psi_0} =\ \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}\begin{pmatrix}1 \\ 0\end{pmatrix} =\ \frac{1}{\sqrt{2}}\begin{pmatrix}1 \\ 0 \end{pmatrix} + \frac{1}{\sqrt{2}}\begin{pmatrix}0 \\ 1 \end{pmatrix}\\
+    \end{split}
+    \label{equation:equal_superposition_equation}
+\end{equation}
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{\blochwidth}{
+        \includesvg{thesis/Appendices/Bloch_Sphere_state_0_1_equal.svg}
+    }
+    \caption{A basic \emph{Bloch}-Sphere with the state $\frac{1}{\sqrt{2}}\begin{pmatrix}1 \\ 0 \end{pmatrix} + \frac{1}{\sqrt{2}}\begin{pmatrix}0 \\ 1 \end{pmatrix}$ visualized onto it.}
+    \label{figure:state_0_bloch_sphere}
+\end{figure}
+
+To assess that the visualization, and the described behaviour of qubits is correct, these assumptions can be evaluated the formal way. When calculating the to be expected probability of a certain state, the Hermitian transposition\cite{} is used. Equation \ref{equation:basic_h_measurement} demonstrates the calculation of the probabilities the \hgate\ assigns to the measurements of $0$ and $1$.
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \ket{\psi_1} &=\ \frac{1}{\sqrt{2}}\ket{0} + \frac{1}{\sqrt{2}}\ket{1}\\
+        \bra{0}\ket{\psi_1} &=\ \frac{1}{\sqrt{2}}\begin{pmatrix}1 & 0 \end{pmatrix}\begin{pmatrix}1 \\ 0 \end{pmatrix} + \frac{1}{\sqrt{2}}\begin{pmatrix}1 & 0 \end{pmatrix}\begin{pmatrix}0 \\ 1 \end{pmatrix} \\
+        \bra{0}\ket{\psi_1} &=\ \frac{1}{\sqrt{2}}\\
+        |\bra{0}\ket{\psi_1}|^2 &=\ 0.5\\
+        |\bra{1}\ket{\psi_1}|^2 &=\ \left|\frac{1}{\sqrt{2}}\right|^2 =\ 0.5\\
+    \end{split}
+    \label{equation:basic_h_measurement}
+\end{equation}
+
+As shown, both states $\ket{0}$ and $\ket{1}$ have the same probability of $0.5$. When desiring probabilities that are not equal for both states, there are gates the likes of \rygate\cite{}, \rxgate\cite{} and \rzgate\cite{}. These gates allow the rotation around the corresponding axes by a parameter that can be supplied. To create a circuit that achieves the probabilities from the histogram, \ref{figure:example_histogram}, the usage of these are needed. Equation \ref{equation:rx_gate_definition} shows the definition of the \rxgate.
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \mathrm{RX}(\theta) =\ \begin{pmatrix} \cos{\frac{\theta}{2}}   & -i\sin{\frac{\theta}{2}} \\
+        -i\sin{\frac{\theta}{2}} & \cos{\frac{\theta}{2}}
+    \end{pmatrix}
+    \end{split}
+    \label{equation:rx_gate_definition}
+\end{equation}
+
+The formal definition used in equation \ref{equation:basic_h_measurement} as well as the \rygate\ can be combined to calculate the parameters needed to achieve the probabilities shown in \ref{figure:example_histogram}, as demonstrated in equation \ref{equation:parameter_from_probabilities}. 
+
+\begin{equation}
+    \centering
+    \begin{split}
+        |\bra{1}\ket{\psi_1}|^2 &=\ 0.643 \\
+        \begin{pmatrix}1 & 0\end{pmatrix}\ket{\psi_1} &=\ \sqrt{0.643} \\
+        \ket{\psi_1} &=\ \sqrt{0.643}\begin{pmatrix} 1 \\ 0\end{pmatrix} + \sqrt{0.357}\begin{pmatrix} 0 \\ 1\end{pmatrix}
+        \ket{\psi_1} &=\ \begin{pmatrix}\sqrt{0.643}\\ \sqrt{0.357}\end{pmatrix}\\
+        \mathrm{RX}(\theta)\ket{0} &=\ \begin{pmatrix}\sqrt{0.643}\\ \sqrt{0.357}\end{pmatrix} \\
+        \begin{pmatrix}\cos{\frac{\theta}{2}} \\ -i\sin{\frac{\theta}{2}}\end{pmatrix} &=\ \begin{pmatrix}\sqrt{0.643}\\ \sqrt{0.357}\end{pmatrix}\\
+        \theta_{cos} &=\ 2(\acos{\sqrt{0.643}}) =\ 1.2807\\
+        \theta_{sin} &=\ 2(\asin{\sqrt{0.357}}) =\ 1.2807\\
+        \theta &=\ \theta_{sin} =\ \theta_{cos}\\
+    \end{split}
+    \label{equation:parameter_from_probabilities}
+\end{equation}
+
+With the value for $\theta$ calculated, the circuit from figure \ref{figure:circuit_for_histogram} is designed and evaluated to comparet it to the histogram from \ref{figure:example_histogram} to the one in figure \ref{figure:circuit_histogram}.
+
+\begin{figure}
+    \centering
+    \scalebox{1.0}{
+    \Qcircuit @C=1.0em @R=0.2em @!R { \\
+    	 	\nghost{{q} :  } & \lstick{{q} :  } & \gate{\mathrm{R_Y}\,(\mathrm{1.281})} & \qw & \qw\\
+    \\ }}
+    \caption{Caption}
+    \label{fig:circuit_for_histogram}
+\end{figure}
+
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{\histogramwidth}{
+        \includesvg{thesis/Appendices/example_histogram.svg}
+    }
+    \caption{A histogram generated from the data in table \ref{table:example_counts}, that visually shows the probabilities of 0 and 1. These probabilities can directly be used to visualize the qubits superposition.}
+    \label{figure:circuit_histogram}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newpage
 
