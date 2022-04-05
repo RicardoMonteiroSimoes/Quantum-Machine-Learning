@@ -39,11 +39,11 @@ def savings_encoding(circuit):
             circuit.crz(Parameter('s'+str(i)+str(int(1+circuit.width()/2))), i, int(1+circuit.width()/2))
         circuit.barrier()
 
-def rx_layer(circuit):
-    circuit.rx(np.pi/4, range(circuit.width()))
+def rx_layer(circuit, weight):
+    circuit.rx(weight, range(circuit.width()))
     circuit.barrier()
 
-def create_circuit(n_queries, n_plans, scheme):
+def create_circuit(n_queries, n_plans, scheme, xweight=np.pi/4):
     circuit = QuantumCircuit(n_queries*n_plans)
     for module in scheme:
         if module == "h":
@@ -53,7 +53,7 @@ def create_circuit(n_queries, n_plans, scheme):
         elif module == "s":
             savings_encoding(circuit)
         elif module == "x":
-            rx_layer(circuit)
+            rx_layer(circuit, xweight)
     return circuit
 
 #### Running circuit
@@ -227,6 +227,7 @@ def parse_args(argv):
     parser.add_argument('-n', '--name', help="Experiment name for data collection to files", default="dataset")
     parser.add_argument('-c', '--circuit', help="Design the circuit using chars. h -> uncertainity, c -> cost, s -> savings, b -> blocking savings, x -> rx layer", default="hcsx")
     parser.add_argument('-pc', '--printcircuit', help="Prints the circuit in the console", action="store_true")
+    parser.add_argument('-xw', '--xweight', help="Set the weight of the x layer", type=float, default=np.pi/4)
     return parser.parse_args(argv)
 
 def main(argv):
@@ -243,7 +244,7 @@ def main(argv):
     print('Creating solution set, this might take some time')
     solution, complete_solution = create_solution_set(problems_scaled)
     print('Creating parameterized circuit for calculations')
-    circuit = create_circuit(2, 2, args.circuit)
+    circuit = create_circuit(2, 2, args.circuit, args.xweight)
     if args.printcircuit:
         print(circuit)
     print('Running circuit')
@@ -252,6 +253,7 @@ def main(argv):
     results_parsed = parse_results(results)
     print('Comparing results to solution and calculating distances')
     accuracy = score_results(results_parsed, solution)
+    print('Achieved accuracy of {}%'.format(accuracy))
     distance_to_best, ordered_total_costs = score_distance_results(results_parsed, complete_solution)
     percentiles = calculate_distance_percentiles(distance_to_best)
     print('Saving data')
