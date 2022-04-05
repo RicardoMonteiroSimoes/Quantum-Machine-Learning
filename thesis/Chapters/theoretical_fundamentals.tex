@@ -13,7 +13,7 @@ Classical computing consists of the infamous 1's and 0's and have for years shap
 
 
 
-\begin{figure}
+\begin{figure}[!h]
     \centering
     \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
     
@@ -56,24 +56,29 @@ When measuring a quantum circuit, the qubit states collapse from super positions
 
 \begin{table}[!h]
     \centering
-    \begin{tabular}{c|c}
+    \begin{tabular}{|c|c|}
          Measured value & Amount  \\
+         \hline
          0 & 547 \\
          1 & 987 \\
     \end{tabular}
-    \caption{Caption}
-    \label{table:my_label}
+    \caption{Table containing all measurements done on a qubit in a superposition. The number of occurrences of a measured 1 or 0 is counted and then used to generate a histogram, as shown in figure \ref{figure:example_histogram}}
+    \label{table:example_counts}
 \end{table}
+
+
 
 \begin{figure}[!h]
     \centering
-    \includegraphics{}
-    \caption{Caption}
-    \label{fig:my_label}
+    \scalebox{0.75}{
+        \includesvg{thesis/Appendices/example_histogram.svg}
+    }
+    \caption{A histogram generated from the data in table \ref{table:example_counts}, that visually shows the probabilities of 0 and 1. These probabilities can directly be used to visualize the qubits superposition.}
+    \label{fig:example_histogram}
 \end{figure}
 
 
-
+\newpage
 
 \section{Multiple Query Optimization}
 
