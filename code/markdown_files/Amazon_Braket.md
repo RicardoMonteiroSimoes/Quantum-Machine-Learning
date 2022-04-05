@@ -1,11 +1,13 @@
 - [PennyLane Plugin](#pennylane-plugin)
 - [Amazon Braket](#amazon-braket)
+  - [AWS Console Screenshot (London)](#aws-console-screenshot-london)
 - [Region](#region)
   - [Region availability of Amazon Braket](#region-availability-of-amazon-braket)
 - [Pricing](#pricing)
   - [Hardware](#hardware)
     - [Example ~100 Dollar Rigetti M-1](#example-100-dollar-rigetti-m-1)
   - [Simulators: AWS Free Tier](#simulators-aws-free-tier)
+    - [How to use Calculator page](#how-to-use-calculator-page)
 
 # PennyLane Plugin
 [PennyLane-Braket Plugin](https://amazon-braket-pennylane-plugin-python.readthedocs.io/en/latest/)
@@ -14,13 +16,13 @@
 - [Amazon Braket (General)](https://aws.amazon.com/braket/)
 - [Supported Braket Devices](https://docs.aws.amazon.com/braket/latest/developerguide/braket-devices.html)
 
-Examples:
+Implementation Examples:
 - https://github.com/aws/amazon-braket-examples
   - [Getting Started](https://github.com/aws/amazon-braket-examples/blob/main/examples/pennylane/0_Getting_started.ipynb)
 - Pennylane example on AWS Docs: https://docs.aws.amazon.com/braket/latest/developerguide/hybrid.html
 - How to use the Pennylane `qml` Amazon Braket device: [braket.pennylane_plugin.BraketAwsQubitDevice](https://amazon-braket-pennylane-plugin-python.readthedocs.io/en/latest/code/api/braket.pennylane_plugin.BraketAwsQubitDevice.html)
-
-## AWS Console Screenshot (London)
+-
+## AWS Console Screenshot (London)
 <img src="assets/screencapture-eu-west-2-console-aws-amazon-braket-home-2022-03-05-14_12_03.png" alt="" width="99%" />
 
 # Region
@@ -56,7 +58,15 @@ Quantum Computers
 
 <img src="assets/Braket%20Pricing%20Rigetti%20M-1.png" alt="" />
 
-Use Calculator page: https://calculator.aws/#/createCalculator/Braket
-
 ## Simulators: AWS Free Tier
 Amazon Braket is part of the AWS Free Tier. The AWS Free Tier gives you one free hour of **quantum circuit simulation** time per month during the first twelve months of use. This applies to simulation time on SV1, DM1, TN1, or any combination of those three managed quantum circuit simulators, or use of simulators through the Hybrid Jobs feature. Standard rates for incremental usage apply after the free hour has been used. Use of other Amazon Braket resources such as managed notebooks, hybrid job instances, and quantum computers will incur costs.
+
+### How to use Calculator page
+
+1. Open https://calculator.aws/#/createCalculator/Braket
+2. Check the device availablity under [Region availability of Amazon Braket](#region-availability-of-amazon-braket)
+3. Select region accordingly
+4. Go to "**Quantumcomputer**" e.g. Hardware only section, ignore the other sections
+5. Enter the desired usage quotas and check the calculation
+
+<img src="assets/Braket%20Pricing%20Calc.png" alt="" />
