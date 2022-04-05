@@ -227,12 +227,12 @@ The formal definition used in equation \ref{equation:basic_h_measurement} as wel
     \begin{split}
         |\bra{1}\ket{\psi_1}|^2 &=\ 0.643 \\
         \begin{pmatrix}1 & 0\end{pmatrix}\ket{\psi_1} &=\ \sqrt{0.643} \\
-        \ket{\psi_1} &=\ \sqrt{0.643}\begin{pmatrix} 1 \\ 0\end{pmatrix} + \sqrt{0.357}\begin{pmatrix} 0 \\ 1\end{pmatrix}
+        \ket{\psi_1} &=\ \sqrt{0.357}\begin{pmatrix} 1 \\ 0\end{pmatrix} + \sqrt{0.643}\begin{pmatrix} 0 \\ 1\end{pmatrix}\\
         \ket{\psi_1} &=\ \begin{pmatrix}\sqrt{0.643}\\ \sqrt{0.357}\end{pmatrix}\\
-        \mathrm{RX}(\theta)\ket{0} &=\ \begin{pmatrix}\sqrt{0.643}\\ \sqrt{0.357}\end{pmatrix} \\
-        \begin{pmatrix}\cos{\frac{\theta}{2}} \\ -i\sin{\frac{\theta}{2}}\end{pmatrix} &=\ \begin{pmatrix}\sqrt{0.643}\\ \sqrt{0.357}\end{pmatrix}\\
-        \theta_{cos} &=\ 2(\acos{\sqrt{0.643}}) =\ 1.2807\\
-        \theta_{sin} &=\ 2(\asin{\sqrt{0.357}}) =\ 1.2807\\
+        \mathrm{RY}(\theta)\ket{0} &=\ \begin{pmatrix}\sqrt{0.357}\\ \sqrt{0.643}\end{pmatrix} \\
+        \begin{pmatrix}\cos{\frac{\theta}{2}} \\ -i\sin{\frac{\theta}{2}}\end{pmatrix} &=\ \begin{pmatrix}\sqrt{0.357}\\ \sqrt{0.643}\end{pmatrix}\\
+        \theta_{cos} &=\ 2(\acos{\sqrt{0.357}}) =\ 1.8608\\
+        \theta_{sin} &=\ 2(\asin{\sqrt{0.643}}) =\ 1.8608\\
         \theta &=\ \theta_{sin} =\ \theta_{cos}\\
     \end{split}
     \label{equation:parameter_from_probabilities}
@@ -244,17 +244,17 @@ With the value for $\theta$ calculated, the circuit from figure \ref{figure:circ
     \centering
     \scalebox{1.0}{
     \Qcircuit @C=1.0em @R=0.2em @!R { \\
-    	 	\nghost{{q} :  } & \lstick{{q} :  } & \gate{\mathrm{R_Y}\,(\mathrm{1.281})} & \qw & \qw\\
+    	 	\nghost{{q} :  } & \lstick{{q} :  } & \gate{\mathrm{R_Y}\,(\mathrm{1.8608})} & \qw & \qw\\
     \\ }}
     \caption{Caption}
-    \label{fig:circuit_for_histogram}
+    \label{figure:circuit_for_histogram}
 \end{figure}
 
 
 \begin{figure}[!h]
     \centering
     \scalebox{\histogramwidth}{
-        \includesvg{thesis/Appendices/example_histogram.svg}
+        \includesvg{thesis/Appendices/calculated_circuit_histogram.svg}
     }
     \caption{A histogram generated from the data in table \ref{table:example_counts}, that visually shows the probabilities of 0 and 1. These probabilities can directly be used to visualize the qubits superposition.}
     \label{figure:circuit_histogram}
