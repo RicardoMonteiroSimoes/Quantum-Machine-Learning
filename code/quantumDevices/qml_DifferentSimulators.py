@@ -14,9 +14,9 @@ q_deviceNames = [
     {"name": 'default.mixed', "wires": wires},  # Pennylane built-in (noisy circuits)
     {"name": 'qiskit.aer', "wires": wires},  # Qiskit
     {"name": 'braket.local.qubit', "wires": wires},  # Amazon Braket
-    {"name": 'cirq.simulator', "wires": wires},  # Google Cirq
+    # {"name": 'cirq.simulator', "wires": wires},  # Google Cirq
     # {"name": 'strawberryfields.fock', "wires": wires, "cutoff_dim": 10},  # Strawberry Field's
-    {"name": 'microsoft.QuantumSimulator', "wires": wires},  # Microsoft Q#
+    # {"name": 'microsoft.QuantumSimulator', "wires": wires},  # Microsoft Q#
 ]
 
 for simulatorArgs in q_deviceNames:

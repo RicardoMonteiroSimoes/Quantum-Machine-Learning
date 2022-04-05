@@ -43,6 +43,9 @@ pip install qiskit-optimization --upgrade
 printf "\Installing/Upgrading utilities ...\n"
 pip install tqdm --upgrade
 
-
 printf "\Installing/Upgrading pydot ...\n"
 pip install pydot --upgrade
+
+printf "\Adding additional libraries for notebook tooling ...\n"
+pip install git+https://github.com/qiskit-community/qiskit-textbook.git#subdirectory=qiskit-textbook-src
+pip install numexpr --upgrade

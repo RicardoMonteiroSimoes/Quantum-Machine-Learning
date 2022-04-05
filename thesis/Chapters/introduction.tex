@@ -18,10 +18,15 @@
 Stand der Technik: Bisherige Lösungen des Problems und deren Grenzen
 «Stand der Technik» ist ein Fachbegriff, der den aktuellen Stand des Wissens im Thema meint. Sie beweisen damit, dass Sie das Fachgebiet kennen und das we-sentliche Vorwissen aufgearbeitet haben.}
 
-
+\subsection{Multiple Query Optimization}
+Modern applications always encompass the storage of data in some form of a database. The databases can then be searched for data that conforms to the given filters using a defined query language. With the database compiler, the queries are transformed into plans that resemble trees. Usually, a query can be fulfilled in more than one way, which leads to there being many plans. With the ever rising number of users accessing data concurrently, the situation arises at which some plans can be partially combined to save execution time. This has been an ongoing problem to solve, and there exist many solutions to it. the problem in itself is of quadratic nature; which means that it usually takes $O(n^2)$ to find the combination with most savings. More often than not, it is perfectly acceptable to have a \emph{good} combination to use, as those already offer saved runtime. 
 \section{Goals}
 \todo{Formuliert das Ziel der Arbeit
 Achtung: Ziel und Aufgabe sind nicht zwingend dasselbe! Bitte sauber trennen.
 Verweist auf die offizielle Auf-gabenstellung des/der Dozie-renden im Anhang}
+
+\subsection{Multiple Query Optimization}
+The goal of this paper is to evaluate the viability and efficiency of a quantum-based solution to solve the multiple query optimization problem. Using artificially generated data which mimics real life situations, a circuit is generated which then converges onto the, \emph{supposedly}, optimal solution. For comparison, a different quantum solver is used and not only the results, but also the runtime assessed.
+
 
 \newpage
