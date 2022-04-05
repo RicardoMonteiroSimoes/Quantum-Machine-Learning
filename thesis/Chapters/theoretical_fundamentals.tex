@@ -74,7 +74,29 @@ When measuring a quantum circuit, the qubit states collapse from super positions
         \includesvg{thesis/Appendices/example_histogram.svg}
     }
     \caption{A histogram generated from the data in table \ref{table:example_counts}, that visually shows the probabilities of 0 and 1. These probabilities can directly be used to visualize the qubits superposition.}
-    \label{fig:example_histogram}
+    \label{figure:example_histogram}
+\end{figure}
+
+The \emph{Bloch}-Sphere, as shown in figure \ref{figure:basic_bloch_sphere}, is used to further visualize the complex state a qubit is in a 3-dimensional sphere. Using the complex state vector of a \emph{non-entangled} qubit, any superposition can be visualized to show the qubits state.
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{0.75}{
+        \includesvg{thesis/Appendices/Bloch_Sphere_axis.svg}
+    }
+    \caption{A basic Bloch-Sphere without any visualized state. The axis $x$ and $y$ are annotated accordingly, but the axis $z$ is annotated with \ket{0} and \ket{1} - the states which have a corresponding probability assigned to them.}
+    \label{figure:basic_bloch_sphere}
+\end{figure}
+
+When measuring a qubit, the state collapses onto the $z$-axis\cite{}, which in turn leads to a measurement of either 0 or 1. Initially, all qubits are set to state $\ket{0}$, which is visualized onto the \emph{Bloch}-Sphere in figure \ref{figure:state_0_bloch_sphere}.
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{0.75}{
+        \includesvg{thesis/Appendices/Bloch_Sphere_state_0.svg}
+    }
+    \caption{A basic Bloch-Sphere without any visualized state. The axis $x$ and $y$ are annotated accordingly, but the axis $z$ is annotated with \ket{0} and \ket{1} - the states which have a corresponding probability assigned to them.}
+    \label{figure:state_0_bloch_sphere}
 \end{figure}
 
 
