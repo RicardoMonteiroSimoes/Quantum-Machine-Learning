@@ -9,7 +9,71 @@
 \todo{In der Regel ist zumindest ein kurzes The-oriekapitel notwendig. Es nimmt Bezug auf das thematische Oberthema, aber na-türlich nicht auf allgemeine theoretische Grundlagen etwa aus der Naturwissen-schaft.}
 
 \section{Quantum Computing}
-Quantum computing is the usage of qubits in circuits to execute operations and measure a result. The usage of rotations on single qubits allows the manipulation of probabilities of single states, which collapse onto $0$ or $1$ when measuring. 
+Classical computing consists of the infamous 1's and 0's and have for years shaped our world and progress. Quantum computing is, from afar, similar. We have \emph{qubits}, which are synonymous to \emph{bits}, but are fundamentally different. Whereas a bit can only exist in state 0 or 1, a qubit allows us to use any state, be it 0, 1 or a mix of those. Such a mix is referred to as \emph{superposition}. The catch comes when we want to read the value it represents: one cannot directly know the probabilities of measuring 1 or 0 in a qubit.
+
+
+
+\begin{figure}
+    \centering
+    \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+    
+    \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+    %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+    
+    
+    
+    % Text Node
+    \draw    (117.29, 130) circle [x radius= 13.04, y radius= 13.04]   ;
+    \draw (112.29,122) node [anchor=north west][inner sep=0.75pt]   [align=left] {1};
+    % Text Node
+    \draw    (202, 130) circle [x radius= 13.04, y radius= 13.04]   ;
+    \draw (197,122) node [anchor=north west][inner sep=0.75pt]   [align=left] {1};
+    % Text Node
+    \draw    (202, 173.54) circle [x radius= 13.04, y radius= 13.04]   ;
+    \draw (197,165.54) node [anchor=north west][inner sep=0.75pt]   [align=left] {1};
+    % Text Node
+    \draw (112.29,165.54) node [anchor=north west][inner sep=0.75pt]   [align=left] {0};
+    % Text Node
+    \draw    (117.29, 173.54) circle [x radius= 13.04, y radius= 13.04]   ;
+    \draw (112.29,165.54) node [anchor=north west][inner sep=0.75pt]   [align=left] {1};
+    % Text Node
+    \draw (79.43,122) node [anchor=north west][inner sep=0.75pt]   [align=left] {bit};
+    % Text Node
+    \draw (63.43,165.54) node [anchor=north west][inner sep=0.75pt]   [align=left] {qubit};
+    % Connection
+    \draw    (130.32,173.54) -- (186.96,173.54) ;
+    \draw [shift={(188.96,173.54)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+    % Connection
+    \draw    (130.32,130) -- (186.96,130) ;
+    \draw [shift={(188.96,130)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+    
+    \end{tikzpicture}
+    \caption{A comparison of measuring a single bit and a qubit. When measuring the bit, we get the same value that the bit is set to. When measuring a qubit, there is a certain probability of it being 0 and 1, so we measure one of both but don't know the real, intern state of the qubit.}
+    \label{figure:comparison_bit_qubit_measurement}
+\end{figure}
+
+When measuring a quantum circuit, the qubit states collapse from super positions into the fixed position of 0 or 1. To do additional measurements, the circuit has to be rebuild. Using this data can be collected on the qubit state and a \emph{histogram} constructed, out of which one can calculate the internal probabilities of 1 and 0.
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{c|c}
+         Measured value & Amount  \\
+         0 & 547 \\
+         1 & 987 \\
+    \end{tabular}
+    \caption{Caption}
+    \label{table:my_label}
+\end{table}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics{}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
+
+
+
 
 \section{Multiple Query Optimization}
 
