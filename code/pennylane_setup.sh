@@ -18,14 +18,14 @@ pip install \
   amazon-braket-pennylane-plugin \
   pennylane-cirq \
   pennylane-forest \
-  pennylane-qsharp
+  pennylane-qsharp --upgrade
 
 printf "\nInstall Interfaces ...\n"
 pip install autograd "tensorflow>=1.13.2" jax jaxlib
 pip install torch torchvision torchaudio
 
 printf "\nInstall Amazon Braket Python SDK ...\n"
-pip install amazon-braket-sdk
+pip install amazon-braket-sdk --upgrade
 
 printf "\nInstall/Upgrade boto3 ...\n"
 pip install boto3 --upgrade
@@ -39,9 +39,11 @@ pip install pylatexenc --upgrade
 printf "\Installing/Upgrading qiskit machine learning library ...\n"
 pip install qiskit-machine-learning --upgrade
 pip install qiskit-optimization --upgrade
+pip install qiskit-aer-gpu --upgrade
 
 printf "\Installing/Upgrading utilities ...\n"
 pip install tqdm --upgrade
+pip install GPUtil --upgrade
 
 printf "\Installing/Upgrading pydot ...\n"
 pip install pydot --upgrade
