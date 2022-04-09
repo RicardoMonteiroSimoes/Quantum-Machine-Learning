@@ -55,6 +55,7 @@ def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
         import GPUtil
         if(len(GPUtil.getGPUs()) > 0):
             q_simulator.set_options(device='GPU')
+            print("GPU device option for qiskit simulator has been set")
     except:
         print("Failed to set qiskit simulator device option: GPU")
     quantum_instance = QuantumInstance(q_simulator, shots=1024)
