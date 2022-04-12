@@ -316,11 +316,11 @@ def run_experiment(data_sets, backend, targetfile='', number_runs=1):
     return exp_data
 
 
-def create_markdown_file(prefix='run', markdown='# Title\n') -> str:
+def create_markdown_file(filename_prefix='run', markdown='# Title\n') -> str:
 
     timestamp = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
 
-    filepath = os.getcwd() + '/runs/{}_{}.md'.format(prefix, timestamp)
+    filepath = os.getcwd() + '/runs/{}_{}.md'.format(filename_prefix, timestamp)
 
     f = open(filepath, "w")
     f.write(markdown)
