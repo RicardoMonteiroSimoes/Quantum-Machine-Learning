@@ -304,8 +304,8 @@ if __name__ == '__main__':
     jobs = []
 
     print("Running circuits ...")
-    # Todo: remove filtered datasets | [datasets[i] for i in [1, 14, 27, 40, 53]]
-    for dataset in [datasets[i] for i in [1, 14]]:
+    # Use filtered datasets like: `for dataset in [datasets[i] for i in [1, 14, 27, 40, 53]]:`
+    for dataset in datasets:
         p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset))
         jobs.append(p)
         p.start()
