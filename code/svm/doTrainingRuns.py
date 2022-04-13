@@ -259,17 +259,17 @@ def generate_markdown_from_list(result_list):
         markdown += "## {}\n".format(key)
         markdown += '#### Average\n'
 
-        markdown += "| ø score train | ø score test | ø weights |\n"
-        markdown += "| :-----------: | :----------: | :-------: |\n"
+        markdown += "| circuit | ø score train | ø score test | ø weights |\n"
+        markdown += "| ------: | :-----------: | :----------: | :-------: |\n"
 
-        for circuit in value:
+        for index, circuit in enumerate(value):
             circ1_str = str(circuit[0][0]/n_average[key])
             circ2_str = str(circuit[0][1]/n_average[key])
             circ3_str = '[{}]'.format(','.join([
                 x.strip(' \n\r][') for x in re.split("\s",
                                                      str(circuit[1]/n_average[key])) if re.match(r"^\[?[-+]?[0-9]*\.?[0-9]+\]?,?$", x)
             ]))
-            markdown += "| `{}` | `{}` | `{}` |\n".format(circ1_str, circ2_str, circ3_str)
+            markdown += "| circuit-{:02d} | `{}` | `{}` | `{}` |\n".format(index, circ1_str, circ2_str, circ3_str)
         markdown += '\n\n'
 
         markdown += '#### Per run data\n'
@@ -278,7 +278,7 @@ def generate_markdown_from_list(result_list):
                 md_header_cols = '| dataset name and run |'
                 md_structure_cols = '| :----------: |'
                 for col in range(len(run_value)):
-                    md_header_cols += ' score (train, test) and weights circuit0{} |'.format(col)
+                    md_header_cols += ' circuit-{:02d}: score (train, test) and weights  |'.format(col)
                     md_structure_cols += ' :--------: |'
                 markdown += md_header_cols + "\n"
                 markdown += md_structure_cols + "\n"
@@ -305,7 +305,8 @@ if __name__ == '__main__':
 
     print("Running circuits ...")
     # Use filtered datasets like: `for dataset in [datasets[i] for i in [1, 14, 27, 40, 53]]:`
-    for dataset in datasets:
+    for index, dataset in enumerate(datasets):
+        print("start process {}".format(index))
         p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset))
         jobs.append(p)
         p.start()
