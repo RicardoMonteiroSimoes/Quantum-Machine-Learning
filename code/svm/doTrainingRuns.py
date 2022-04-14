@@ -6,10 +6,10 @@ import pickle
 import numpy as np
 from datetime import datetime
 # qiskit
-from qiskit.algorithms.optimizers import COBYLA
+from qiskit.algorithms.optimizers import COBYLA, ADAM, SLSQP, GradientDescent
 from qiskit import Aer, QuantumCircuit
+from qiskit.providers.aer.backends.aerbackend import AerBackend
 from qiskit.utils import QuantumInstance
-from qiskit.circuit import Parameter
 from qiskit_machine_learning.neural_networks import CircuitQNN
 from qiskit_machine_learning.algorithms.classifiers import NeuralNetworkClassifier
 
@@ -19,7 +19,8 @@ SCRIPT_DIRECTORY = os.path.dirname(abspath)
 os.chdir(SCRIPT_DIRECTORY)
 
 # VARS
-DATASET_FILE = SCRIPT_DIRECTORY + '/../datasets/datasets.data'
+DATASET_FILE = SCRIPT_DIRECTORY + '/../datasets/datasets_10.data'  # 10 per dataset
+# DATASET_FILE = SCRIPT_DIRECTORY + '/../datasets/datasets.data' # 13 per dataset
 NUMBER_DATASETS = 5
 NUMBER_RUNS = 13
 NUMBER_SAMPLES = 100
@@ -36,18 +37,49 @@ N_LAYERS = os.getenv('QC_N_LAYERS', 2)
 quantum_circuits = [
     qc.qml_circuit_qiskit_01,
     qc.qml_circuit_qiskit_02,
-    qc.qml_circuit_qiskit_03
+    qc.qml_circuit_qiskit_03,
+    qc.qml_circuit_qiskit_04,
+    qc.qml_circuit_qiskit_05,
 ]
 
-# generated circuit for plots
-generated_quantum_circuits = []
+"""Other optimizers:
+=> When None defaults to SLSQP
 
-optimizers = [
-    (COBYLA(), 'cobyla'),
-]
+SLSQP - defaults: maxiter=100, disp=False, ftol=1e-06, tol=None, eps=1.4901161193847656e-08, options=None, max_evals_grouped=1, **kwargs
+=> https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.SLSQP.html#qiskit.algorithms.optimizers.SLSQP
+
+COBYLA - defaults: maxiter=1000, disp=False, rhobeg=1.0, tol=None, options=None, **kwargs
+=> https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.COBYLA.html#qiskit.algorithms.optimizers.COBYLA
+
+ADAM - defaults: maxiter=10000, tol=1e-06, lr=0.001, beta_1=0.9, beta_2=0.99, noise_factor=1e-08, eps=1e-10, amsgrad=False, snapshot_dir=None
+=> https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.ADAM.html#qiskit.algorithms.optimizers.ADAM
+
+GradientDescent - defaults:maxiter=100, learning_rate=0.01, tol=1e-07, callback=None, perturbation=None
+=> https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.GradientDescent.html#qiskit.algorithms.optimizers.GradientDescent
+
+...etc. => https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.html
+
+"""
+# change the optimizer here
+optimizer = (COBYLA(), 'COBYLA')
+# optimizer = (ADAM(), 'ADAM')
+# optimizer = (SLSQP(), 'SLSQP')
+# optimizer = (GradientDescent(), 'GradientDescent')
+
+# Qiskit backend
+q_simulator = Aer.get_backend('aer_simulator')
+# use legacy simulator:
+# q_simulator = BasicAer.get_backend('qasm_simulator')
+try:
+    import GPUtil
+    if(len(GPUtil.getGPUs()) > 0):
+        q_simulator.set_options(device='GPU')
+        print("GPU device option for qiskit simulator has been set")
+except:
+    print("Failed to set qiskit simulator device option: GPU")
 
 
-def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
+def get_classifier(circuit: QuantumCircuit, _weights: list, q_simulator: AerBackend, n_features=2):
     output_shape = 2  # binary classification
 
     def parity(x):
@@ -57,16 +89,9 @@ def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
     def callback(weights, obj_func_eval):
         _weights.append(weights)
 
-    q_simulator = Aer.get_backend('aer_simulator')
+    q_simulator_backend = q_simulator
 
-    try:
-        import GPUtil
-        if(len(GPUtil.getGPUs()) > 0):
-            q_simulator.set_options(device='GPU')
-            print("GPU device option for qiskit simulator has been set")
-    except:
-        print("Failed to set qiskit simulator device option: GPU")
-    quantum_instance = QuantumInstance(q_simulator, shots=1024)
+    quantum_instance = QuantumInstance(q_simulator_backend, shots=1024)
 
     circuit_qnn = CircuitQNN(circuit=circuit,
                              input_params=circuit.parameters[-n_features:],
@@ -78,7 +103,7 @@ def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
     # construct classifier
     return NeuralNetworkClassifier(neural_network=circuit_qnn,
                                    callback=callback,
-                                   optimizer=COBYLA())
+                                   optimizer=optimizer[0])
 
 
 def worker_datasets(return_list: dict, dataset):
@@ -104,7 +129,7 @@ def worker_datasets(return_list: dict, dataset):
         quantum_circuit = q_circ(n_wires=N_WIRES, n_layers=N_LAYERS).copy()
 
         # get the generated classifier
-        classifier = get_classifier(quantum_circuit, weights, N_WIRES)
+        classifier = get_classifier(quantum_circuit, weights, q_simulator, N_WIRES)
 
         (sample_train, sample_test, label_train, label_test) = data
         np.subtract(label_train, 1, out=label_train, where=label_train == 2)
@@ -244,7 +269,10 @@ def generate_markdown_from_list(result_list):
             except IndexError:
                 arr = arr.append([np_scores, np_weights])
 
-    markdown = "# QNN data run\n\n"
+    markdown = "# Quantum Neural Network Classifier run\n\n"
+    markdown += "**Settings:**\n"
+    markdown += "Used Optimizer for Neural Network Classifier: `{}`\n".format(optimizer[1])
+    markdown += "Layer count: `{}`\n\n".format(N_LAYERS)
 
     # Circuit plots
     markdown += "## Quantum Circuits\n"
@@ -274,6 +302,7 @@ def generate_markdown_from_list(result_list):
 
         markdown += '#### Per run data\n'
         for index, (run_key, run_value) in enumerate(per_run_dict.items()):
+            # table header
             if (index == 0):
                 md_header_cols = '| dataset name and run |'
                 md_structure_cols = '| :----------: |'
@@ -282,11 +311,12 @@ def generate_markdown_from_list(result_list):
                     md_structure_cols += ' :--------: |'
                 markdown += md_header_cols + "\n"
                 markdown += md_structure_cols + "\n"
+            # table body
             if run_key.startswith(key):
-                run_value1 = arr_to_str(run_value[0])
-                run_value2 = arr_to_str(run_value[1])
-                run_value3 = arr_to_str(run_value[2])
-                markdown += "| `{}` | {} | {} | {} |\n".format(run_key, run_value1, run_value2, run_value3)
+                markdown_row = "| `{}` |".format(run_key)
+                for run_data in run_value:
+                    markdown_row += " {} |".format(arr_to_str(run_data))
+                markdown += markdown_row + "\n"
 
         markdown += '\n\n'
 
@@ -304,12 +334,13 @@ if __name__ == '__main__':
     jobs = []
 
     print("Running circuits ...")
-    # Use filtered datasets like: `for dataset in [datasets[i] for i in [1, 14, 27, 40, 53]]:`
-    for index, dataset in enumerate(datasets):
-        print("start process {}".format(index))
+    # Use filtered datasets like: `for index, dataset in enumerate([datasets[i] for i in [1, 14, 27, 40, 53]]):`
+    # for index, dataset in enumerate(datasets):
+    for index, dataset in enumerate([datasets[i] for i in [1, 2, 14]]):
         p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset))
         jobs.append(p)
         p.start()
+        print("Started process {}".format(index))
 
     for proc in jobs:
         proc.join()

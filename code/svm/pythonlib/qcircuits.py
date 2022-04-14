@@ -195,6 +195,10 @@ def qml_circuit_03(n_wires: int = 1,
 
 
 def qml_circuit_qiskit_01(n_wires=2, n_layers=1):
+    """
+    Quantum Circuit 1 (Qiskit)
+    Figure 6.4 in PA
+    """
     feature_map = QuantumCircuit(n_wires)
     ansatz = QuantumCircuit(n_wires)
 
@@ -215,6 +219,10 @@ def qml_circuit_qiskit_01(n_wires=2, n_layers=1):
 
 
 def qml_circuit_qiskit_02(n_wires=2, n_layers=1):
+    """
+    Quantum Circuit 2 (Qiskit)
+    Figure 6.5 in PA
+    """
     feature_map = QuantumCircuit(n_wires)
     ansatz = QuantumCircuit(n_wires)
 
@@ -236,6 +244,10 @@ def qml_circuit_qiskit_02(n_wires=2, n_layers=1):
 
 
 def qml_circuit_qiskit_03(n_wires=2, n_layers=1):
+    """
+    Quantum Circuit 3 (Qiskit)
+    Figure 6.6 in PA
+    """
     feature_map = QuantumCircuit(n_wires)
     ansatz = QuantumCircuit(n_wires)
 
@@ -247,6 +259,59 @@ def qml_circuit_qiskit_03(n_wires=2, n_layers=1):
         for k in range(n_wires):
             ansatz.ry(Parameter('{}_w_{}'.format(str(j), str(k))), k)
             ansatz.cz(k, (k+1) % n_wires)
+        if j != n_layers-1:
+            ansatz.barrier()
+
+    qc = QuantumCircuit(n_wires)
+    qc.append(feature_map, range(n_wires))
+    qc.append(ansatz, range(n_wires))
+    return qc.decompose().copy()
+
+
+def qml_circuit_qiskit_04(n_wires=2, n_layers=1):
+    """
+    Quantum Circuit 4 (Qiskit)
+    No entanglement
+    """
+    feature_map = QuantumCircuit(n_wires)
+    ansatz = QuantumCircuit(n_wires)
+
+    for i in range(n_wires):
+        feature_map.ry(Parameter('i_{}'.format(str(i))), i)
+    feature_map.barrier()
+
+    for j in range(n_layers):
+        for k in range(n_wires):
+            ansatz.ry(Parameter('{}_w_y{}'.format(str(j), str(k))), k)
+            ansatz.rx(Parameter('{}_w_x{}'.format(str(j), str(k))), k)
+            ansatz.rz(Parameter('{}_w_z{}'.format(str(j), str(k))), k)
+        if j != n_layers-1:
+            ansatz.barrier()
+
+    qc = QuantumCircuit(n_wires)
+    qc.append(feature_map, range(n_wires))
+    qc.append(ansatz, range(n_wires))
+    return qc.decompose().copy()
+
+
+def qml_circuit_qiskit_05(n_wires=2, n_layers=1):
+    """
+    Quantum Circuit 5 (Qiskit)
+    More rotation (Rx, Ry, Rz) with a CNOT (Strongly Entangled as ring)
+    """
+    feature_map = QuantumCircuit(n_wires)
+    ansatz = QuantumCircuit(n_wires)
+
+    for i in range(n_wires):
+        feature_map.ry(Parameter('i_{}'.format(str(i))), i)
+    feature_map.barrier()
+
+    for j in range(n_layers):
+        for k in range(n_wires):
+            ansatz.rx(Parameter('{}_w_x{}'.format(str(j), str(k))), k)
+            ansatz.ry(Parameter('{}_w_y{}'.format(str(j), str(k))), k)
+            ansatz.rz(Parameter('{}_w_z{}'.format(str(j), str(k))), k)
+            ansatz.cx(k, (k+1) % n_wires)
         if j != n_layers-1:
             ansatz.barrier()
 
