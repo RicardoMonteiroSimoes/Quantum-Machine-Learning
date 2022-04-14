@@ -68,20 +68,8 @@ optimizer = (COBYLA(), 'COBYLA')
 # optimizer = (SLSQP(), 'SLSQP')
 # optimizer = (GradientDescent(), 'GradientDescent')
 
-# Qiskit backend
-q_simulator = Aer.get_backend('aer_simulator')
-# use legacy simulator:
-# q_simulator = BasicAer.get_backend('qasm_simulator')
-try:
-    import GPUtil
-    if(len(GPUtil.getGPUs()) > 0):
-        q_simulator.set_options(device='GPU')
-        print("GPU device option for qiskit simulator has been set")
-except:
-    print("Failed to set qiskit simulator device option: GPU")
 
-
-def get_classifier(circuit: QuantumCircuit, _weights: list, q_simulator: AerBackend, n_features=2):
+def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
     output_shape = 2  # binary classification
 
     def parity(x):
@@ -91,9 +79,19 @@ def get_classifier(circuit: QuantumCircuit, _weights: list, q_simulator: AerBack
     def callback(weights, obj_func_eval):
         _weights.append(weights)
 
-    q_simulator_backend = q_simulator
+    # Qiskit backend
+    q_simulator = Aer.get_backend('aer_simulator')
+    # use legacy simulator:
+    # q_simulator = BasicAer.get_backend('qasm_simulator')
+    try:
+        import GPUtil
+        if(len(GPUtil.getGPUs()) > 0):
+            q_simulator.set_options(device='GPU')
+            print("GPU enabled")
+    except:
+        print("Failed to set GPU")
 
-    quantum_instance = QuantumInstance(q_simulator_backend, shots=1024)
+    quantum_instance = QuantumInstance(q_simulator, shots=1024)
 
     circuit_qnn = CircuitQNN(circuit=circuit,
                              input_params=circuit.parameters[-n_features:],
@@ -131,7 +129,7 @@ def worker_datasets(return_list: dict, dataset):
         quantum_circuit = q_circ(n_wires=N_WIRES, n_layers=N_LAYERS).copy()
 
         # get the generated classifier
-        classifier = get_classifier(quantum_circuit, weights, q_simulator, N_WIRES)
+        classifier = get_classifier(quantum_circuit, weights, N_WIRES)
 
         (sample_train, sample_test, label_train, label_test) = data
         np.subtract(label_train, 1, out=label_train, where=label_train == 2)
