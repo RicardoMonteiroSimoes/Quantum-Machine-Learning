@@ -4,15 +4,16 @@ set -o pipefail
 
 printf "Local Python paths\n"
 printf 'python: %s\n' "$(which python)"
+printf 'python3: %s\n' "$(which python3)"
 printf 'pip: %s\npip3: %s\n' "$(which pip)" "$(which pip3)"
 
 printf "\n"
 
 printf "\nInstall/Upgrade Pennylane ...\n"
-pip install pennylane --upgrade
+pip3 install pennylane --upgrade
 
 printf "\nInstall Pennylane Plugins ...\n"
-pip install \
+pip3 install \
   pennylane-sf \
   pennylane-qiskit \
   amazon-braket-pennylane-plugin \
@@ -21,33 +22,34 @@ pip install \
   pennylane-qsharp --upgrade
 
 printf "\nInstall Interfaces ...\n"
-pip install autograd "tensorflow>=1.13.2" jax jaxlib
-pip install torch torchvision torchaudio
+pip3 install autograd "tensorflow>=1.13.2" jax jaxlib
+pip3 install torch torchvision torchaudio
 
 printf "\nInstall Amazon Braket Python SDK ...\n"
-pip install amazon-braket-sdk --upgrade
+pip3 install amazon-braket-sdk --upgrade
 
 printf "\nInstall/Upgrade boto3 ...\n"
-pip install boto3 --upgrade
+pip3 install boto3 --upgrade
 
 printf "\nInstall/Upgrade sklearn ...\n"
-pip install sklearn --upgrade
+pip3 install sklearn --upgrade
 
 printf "\Installing/Upgrading matplotlip draw library ...\n"
-pip install pylatexenc --upgrade
+pip3 install pylatexenc --upgrade
 
 printf "\Installing/Upgrading qiskit machine learning library ...\n"
-pip install qiskit-machine-learning --upgrade
-pip install qiskit-optimization --upgrade
-pip install qiskit-aer-gpu --upgrade
+pip3 install qiskit-machine-learning --upgrade
+pip3 install qiskit-optimization --upgrade
+pip3 install qiskit-aer-gpu --upgrade
 
 printf "\Installing/Upgrading utilities ...\n"
-pip install tqdm --upgrade
-pip install GPUtil --upgrade
+pip3 install tqdm --upgrade
+pip3 install GPUtil --upgrade
 
 printf "\Installing/Upgrading pydot ...\n"
-pip install pydot --upgrade
+pip3 install pydot --upgrade
 
 printf "\Adding additional libraries for notebook tooling ...\n"
-pip install git+https://github.com/qiskit-community/qiskit-textbook.git#subdirectory=qiskit-textbook-src
-pip install numexpr --upgrade
+pip3 install git+https://github.com/qiskit-community/qiskit-textbook.git#subdirectory=qiskit-textbook-src
+pip3 install numexpr --upgrade
+
