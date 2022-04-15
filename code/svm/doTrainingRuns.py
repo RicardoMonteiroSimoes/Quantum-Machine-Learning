@@ -10,7 +10,6 @@ from datetime import datetime
 # qiskit
 from qiskit.algorithms.optimizers import COBYLA, ADAM, SLSQP, GradientDescent
 from qiskit import Aer, QuantumCircuit
-from qiskit.providers.aer.backends.aerbackend import AerBackend
 from qiskit.utils import QuantumInstance
 from qiskit_machine_learning.neural_networks import CircuitQNN
 from qiskit_machine_learning.algorithms.classifiers import NeuralNetworkClassifier
@@ -335,7 +334,7 @@ if __name__ == '__main__':
 
     print("Running circuits ...")
     # Use filtered datasets like: `for index, dataset in enumerate([datasets[i] for i in [1, 14, 27, 40, 53]]):`
-    #for index, dataset in enumerate([datasets[i] for i in [1, 2, 14]]):
+    # for index, dataset in enumerate([datasets[i] for i in [1, 2, 14]]):
     for index, dataset in enumerate(datasets):
         p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset))
         jobs.append(p)

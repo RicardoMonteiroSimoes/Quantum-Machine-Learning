@@ -1,0 +1,52 @@
+# [INFO] conditional installations: https://peps.python.org/pep-0496/
+
+# Install/Upgrade Pennylane
+pennylane
+
+# Install Pennylane Plugins
+pennylane-sf
+pennylane-qiskit
+amazon-braket-pennylane-plugin
+pennylane-cirq
+pennylane-forest
+pennylane-qsharp
+
+# Install Interfaces
+autograd
+tensorflow>=1.13.2
+jax
+jaxlib
+torch
+torchvision
+torchaudio
+
+# Install Amazon Braket Python SDK
+amazon-braket-sdk
+
+# Install/Upgrade boto3
+boto3
+
+# Install/Upgrade sklearn
+sklearn
+
+# Installing matplotlip draw library
+pylatexenc
+
+# Installing qiskit machine learning library
+qiskit
+qiskit-machine-learning
+qiskit-optimization
+qiskit-aer; sys_platform == 'darwin'
+qiskit-aer-gpu; sys_platform != 'darwin'
+
+# Installing utilities
+tqdm
+GPUtil
+
+# Installing pydot
+pydot
+
+# Adding additional libraries for notebook tooling
+git+https://github.com/qiskit-community/qiskit-textbook.git#subdirectory=qiskit-textbook-src
+numexpr
+
