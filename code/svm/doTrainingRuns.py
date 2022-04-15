@@ -334,8 +334,8 @@ if __name__ == '__main__':
 
     print("Running circuits ...")
     # Use filtered datasets like: `for index, dataset in enumerate([datasets[i] for i in [1, 14, 27, 40, 53]]):`
-    # for index, dataset in enumerate([datasets[i] for i in [1, 2, 14]]):
-    for index, dataset in enumerate(datasets):
+    #for index, dataset in enumerate(datasets):
+    for index, dataset in enumerate([datasets[i] for i in [1, 2, 14]]):
         p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset))
         jobs.append(p)
         p.start()
