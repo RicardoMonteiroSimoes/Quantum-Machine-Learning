@@ -117,7 +117,7 @@ def rx_layer(circuit, weights):
 
 def ry_layer(circuit, weights):
     if len(weights) == 1:
-        circuit.rx(weights[0], range(circuit.width()))
+        circuit.ry(weights[0], range(circuit.width()))
     else:
         for i, w in enumerate(weights):
             circuit.ry(w, i)
@@ -125,7 +125,7 @@ def ry_layer(circuit, weights):
 
 def rz_layer(circuit, weights):
     if len(weights) == 1:
-        circuit.rx(weights[0], range(circuit.width()))
+        circuit.rz(weights[0], range(circuit.width()))
     else:
         for i, w in enumerate(weights):
             circuit.rz(w, i)
@@ -229,9 +229,9 @@ def main(argv):
     optimizers = []
     max_iterations = 100
 
-    learning_rates = [0.0005, 0.001, 0.002, 0.01, 0.02]
-    beta_1s = [0.99, 0.9, 0.95, 0.85]
-    beta_2s = [0.99, 0.95, 0.9, 0.85]
+    learning_rates = [0.001, 0.002, 0.01, 0.02]
+    beta_1s = [0.99, 0.9, 0.85]
+    beta_2s = [0.99, 0.9, 0.85]
     noise_factors = [1e-08, 5e-08, 1e-07, 1e-06]
     eps= [1e-10, 1e-9, 2e-10, 5e-10]
     ##AMSGRAD
@@ -252,10 +252,10 @@ def main(argv):
     ###SPSA
     spsa = []
     blockings = [True, False]
-    perturbations = [None, 1, 2, 0.1, 0.001]
-    last_avgs = [1, 2, 5, 10]
-    resamplings = [1, 2, 5, 10]
-    hessian_delays = [0, 1, 2, 5, 10]
+    perturbations = [None, 1, 0.1, 0.001]
+    last_avgs = [1, 2, 5]
+    resamplings = [1, 2, 5]
+    hessian_delays = [0, 1, 2, 5]
     for b in blockings:
         for p in perturbations:
             for la in last_avgs:
@@ -267,7 +267,7 @@ def main(argv):
 
     ###POWELL
     powell = []
-    xtols = [0.0001, 0.0002, 0.001, 0.005, 0.01]
+    xtols = [0.0001, 0.0002, 0.001, 0.005]
     for tol in xtols:
         powell.append(POWELL(maxiter=max_iterations, xtol=tol))
     optimizers.append(powell)
