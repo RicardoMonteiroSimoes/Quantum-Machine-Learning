@@ -6,9 +6,9 @@ pip
 wheel
 
 # cuda nvidia
---extra-index-url https://pypi.ngc.nvidia.com
-nvidia-pyindex; sys_platform != 'darwin'
-nvidia-cuda-runtime-cu11; sys_platform != 'darwin'
+# --extra-index-url https://pypi.ngc.nvidia.com
+# nvidia-pyindex; sys_platform != 'darwin'
+# nvidia-cuda-runtime-cu11; sys_platform != 'darwin'
 
 # Install/Upgrade Pennylane
 pennylane
@@ -46,8 +46,8 @@ pylatexenc
 qiskit
 qiskit-machine-learning
 qiskit-optimization
-qiskit-aer; sys_platform == 'darwin'
-qiskit-aer-gpu; sys_platform != 'darwin'
+# qiskit-aer; sys_platform == 'darwin'
+qiskit-aer-gpu
 
 # Installing utilities
 tqdm
