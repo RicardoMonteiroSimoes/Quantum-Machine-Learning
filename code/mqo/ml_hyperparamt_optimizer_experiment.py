@@ -209,9 +209,9 @@ def fit_and_score(circuit_classifier, features, targets, test_size=1/4):
 ################
 def parse_args(argv):
     parser = argparse.ArgumentParser(description="Runs the MQO Problem using ML optimization with different optimizers")
-    parser.add_argument('-s', '--size', help="Set how many problems to have", type=int, default=300)
+    parser.add_argument('-s', '--size', help="Set how many problems to have", type=int, default=150)
     parser.add_argument('-sh', '--shots', help="Shots for the simulation to run", type=int, default=1024)
-    parser.add_argument('-i', '--iterations', help="How often each optimizer is run", type=int, default=10)
+    parser.add_argument('-i', '--iterations', help="How often each optimizer is run", type=int, default=13)
     parser.add_argument('-mi', '--maxiterations', help="Max iterations per optimizer", type=int, default=50)
     parser.add_argument('-g', '--gpu', help="Uses the gpu for the calculations", action="store_true")
     return parser.parse_args(argv)
@@ -221,27 +221,25 @@ def main(argv):
     args = parse_args(argv)
     print('Optimizer evaluation for MQO solving QCs')
     print('---------------------------------------------------')
-    circuits = ['csx', 'csy', 'csz', 'hcsx', 'hcsy', 'hcsz',  'hcsxh', 'hcsyh', 'hcszh',]
-    weights = [1,2,3,4]
+    circuits = ['csx', 'hcsx', 'hcsxh']
+    weights = [1,4]
     
 
     print('Generating optimizers...')
     optimizers = []
     max_iterations = 100
 
-    learning_rates = [0.001, 0.002, 0.01, 0.02]
-    beta_1s = [0.99, 0.9, 0.85]
-    beta_2s = [0.99, 0.9, 0.85]
-    noise_factors = [1e-08, 5e-08, 1e-07, 1e-06]
-    eps= [1e-10, 1e-9, 2e-10, 5e-10]
+    learning_rates = [0.001, 0.005]
+    beta_1s = [0.99, 0.9]
+    beta_2s = [0.9, 0.85]
+    noise_factors = [1e-08, 5e-08]
     ##AMSGRAD
     adams = []
     for lr in learning_rates:
         for b1 in beta_1s:
             for b2 in beta_2s:
                 for noise in noise_factors:
-                    for e in eps:
-                        adams.append(ADAM(maxiter=max_iterations, lr=lr, beta_1=b1, beta_2=b2, noise_factor=noise, eps=e, amsgrad=True))
+                    adams.append(ADAM(maxiter=max_iterations, lr=lr, beta_1=b1, beta_2=b2, noise_factor=noise, amsgrad=True))
     optimizers.append(adams)
 
     ###BFGS
@@ -252,10 +250,10 @@ def main(argv):
     ###SPSA
     spsa = []
     blockings = [True, False]
-    perturbations = [None, 1, 0.1, 0.001]
-    last_avgs = [1, 2, 5]
-    resamplings = [1, 2, 5]
-    hessian_delays = [0, 1, 2, 5]
+    perturbations = [None, 1, 0.1, 0.01]
+    last_avgs = [1, 2]
+    resamplings = [1, 2]
+    hessian_delays = [0, 1, 2]
     for b in blockings:
         for p in perturbations:
             for la in last_avgs:
@@ -265,14 +263,7 @@ def main(argv):
                             spsa.append(SPSA(maxiter=max_iterations, blocking=b, learning_rate=lr, perturbation=p, last_avg=la, resamplings=rs, hessian_delay=hd))
     optimizers.append(spsa)
 
-    ###POWELL
-    powell = []
-    xtols = [0.0001, 0.0002, 0.001, 0.005]
-    for tol in xtols:
-        powell.append(POWELL(maxiter=max_iterations, xtol=tol))
-    optimizers.append(powell)
-
-    optimizers_names = ['AMSGRAD', 'BFGS', 'SPSA', 'POWELL']
+    optimizers_names = ['AMSGRAD', 'BFGS', 'SPSA']
 
     print('Generated {0} optimizers'.format(sum([len(a) for a in optimizers])))
     print('Creating {0} problems, with {1} queries, of which each has {2} plans'.format(args.size, 2, 2))
