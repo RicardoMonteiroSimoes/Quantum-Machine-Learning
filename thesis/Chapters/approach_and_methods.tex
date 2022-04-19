@@ -2,27 +2,8 @@
 
 \label{chapter:approach_and_methods} % For referencing the chapter elsewhere, use \ref{chapter:computational_neuro} 
 
+\newcommand{\rygate}{$\mathrm{R_Y}$}
 %----------------------------------------------------------------------------------------
-
-\todo{•articipants
-(&/oder
-Materialen)
-Design
-Vorgehensweise
-z.B. Probanden (Rekrutierung, Anzahl, Beschreibung),
-Texte/ Fallstudiendetails, andere Materialen
-z.B. Fallstudie, Experiment, Umfrage, strukturierte/halb
-strukturierte Interviews etc.
-Untersuchte Variablen/Faktoren (abhängige und
-unabhängige)
-Prozedere (z.B. Verlauf der Umfrage/Experiment, Grafik)
-Analyse}
-\section{Quantum Basics}
-Quantum circuit use qubits instead of classical bits\cite{}. Whilst bits are limited to 0 and 1, qubits can have any state in the range $[0,1]$\cite{}. This cannot be directly measured – once a measurement takes place, the value collapses with a certain probability to either 0 or 1. What can be done is measure the same circuit multiple times. This results in a collection of measurements that resembles the probability of the result taking place. These probabilities can be manipulated using quantum gates of varying functionality.
-
-When parameterizing quantum gates, it is important to note that a rotation takes place. These rotations manipulate the probability of measuring a certain state in the qubit. This can be used to change probabilities according to behaviour defined by us.
-
-
 \section{Multiple Query Optimization}
 
 \subsection{Data acquisition}
@@ -44,7 +25,7 @@ The problem itself consists of a combination of costs $c$ and savings $s$. These
     \label{figure:2d_problem_data}
 \end{figure}
 
-To facilitate the visualization of the problem, they will be numbered from $\mathcal{P}_0$ up to $\mathcal{P}_n$. For example \ref{figure:2d_problem_data}, this would mean that query 1 has plans $\mathcal{P}_0$ and $\mathcal{P}_1$, and query 2 $\mathcal{P}_2$ and $\mathcal{P}_3$, which is visualized in figure \ref{figure:4_query_plans}.
+To facilitate the visualization of the problem, the plans omit the $\mathcal{Q}_i$ prefix and are numbered from $\mathcal{P}_0$ up to $\mathcal{P}_n$. For example in \ref{figure:2d_problem_data}, this would mean that query $\mathcal{Q}_0$ has plans $\mathcal{P}_0$ and $\mathcal{P}_1$, and query $\mathcal{Q}_1$ $\mathcal{P}_2$ and $\mathcal{P}_3$, which is visualized in figure \ref{figure:4_query_plans}.
 
 \begin{figure}[!h]
     \centering
@@ -55,108 +36,110 @@ To facilitate the visualization of the problem, they will be numbered from $\mat
 \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
 %uncomment if require: \path (0,517); %set diagram left start at 0, and has height of 517
 
-%Rounded Rect [id:dp8624880715884613] 
-\draw  [dash pattern={on 4.5pt off 4.5pt}] (105.33,91.13) .. controls (105.33,76.7) and (117.03,65) .. (131.47,65) -- (209.87,65) .. controls (224.3,65) and (236,76.7) .. (236,91.13) -- (236,184.47) .. controls (236,198.9) and (224.3,210.6) .. (209.87,210.6) -- (131.47,210.6) .. controls (117.03,210.6) and (105.33,198.9) .. (105.33,184.47) -- cycle ;
-%Shape: Arc [id:dp31494258440043477] 
-\draw  [draw opacity=0] (131.49,131.4) .. controls (131.6,118.34) and (142.63,107.79) .. (156.22,107.79) -- (156.22,131.61) -- cycle ; \draw   (131.49,131.4) .. controls (131.6,118.34) and (142.63,107.79) .. (156.22,107.79) ;  
-%Shape: Arc [id:dp989525013250071] 
-\draw  [draw opacity=0] (186.4,107.61) .. controls (200.06,107.61) and (211.13,118.27) .. (211.13,131.42) .. controls (211.13,133.12) and (210.94,134.78) .. (210.59,136.37) -- (186.4,131.42) -- cycle ; \draw   (186.4,107.61) .. controls (200.06,107.61) and (211.13,118.27) .. (211.13,131.42) .. controls (211.13,133.12) and (210.94,134.78) .. (210.59,136.37) ;  
-%Straight Lines [id:da07762631689290767] 
-\draw    (211.93,172.72) -- (211.92,159.32) ;
-%Rounded Rect [id:dp7394597920421722] 
-\draw  [dash pattern={on 4.5pt off 4.5pt}] (238.83,91.13) .. controls (238.83,76.7) and (250.53,65) .. (264.97,65) -- (343.37,65) .. controls (357.8,65) and (369.5,76.7) .. (369.5,91.13) -- (369.5,184.47) .. controls (369.5,198.9) and (357.8,210.6) .. (343.37,210.6) -- (264.97,210.6) .. controls (250.53,210.6) and (238.83,198.9) .. (238.83,184.47) -- cycle ;
-%Shape: Arc [id:dp9820020599113808] 
-\draw  [draw opacity=0] (264.59,168.74) .. controls (264.7,155.68) and (275.73,145.12) .. (289.32,145.12) -- (289.32,168.94) -- cycle ; \draw   (264.59,168.74) .. controls (264.7,155.68) and (275.73,145.12) .. (289.32,145.12) ;  
-%Shape: Arc [id:dp9133069142246233] 
-\draw  [draw opacity=0] (319.5,145.12) .. controls (333.16,145.12) and (344.23,155.78) .. (344.23,168.94) -- (319.5,168.94) -- cycle ; \draw   (319.5,145.12) .. controls (333.16,145.12) and (344.23,155.78) .. (344.23,168.94) ;  
-%Straight Lines [id:da7184291655448178] 
-\draw    (304.18,135.48) -- (304.33,120.53) ;
+%Rounded Rect [id:dp22693622189021267] 
+\draw  [dash pattern={on 4.5pt off 4.5pt}] (105.33,90.93) .. controls (105.33,76.5) and (117.03,64.8) .. (131.47,64.8) -- (209.87,64.8) .. controls (224.3,64.8) and (236,76.5) .. (236,90.93) -- (236,184.27) .. controls (236,198.7) and (224.3,210.4) .. (209.87,210.4) -- (131.47,210.4) .. controls (117.03,210.4) and (105.33,198.7) .. (105.33,184.27) -- cycle ;
+%Shape: Arc [id:dp9541025627566715] 
+\draw  [draw opacity=0] (131.49,131.2) .. controls (131.6,118.14) and (142.63,107.59) .. (156.22,107.59) -- (156.22,131.41) -- cycle ; \draw   (131.49,131.2) .. controls (131.6,118.14) and (142.63,107.59) .. (156.22,107.59) ;  
+%Shape: Arc [id:dp281513038224523] 
+\draw  [draw opacity=0] (186.4,107.41) .. controls (200.06,107.41) and (211.13,118.07) .. (211.13,131.22) .. controls (211.13,132.92) and (210.94,134.58) .. (210.59,136.17) -- (186.4,131.22) -- cycle ; \draw   (186.4,107.41) .. controls (200.06,107.41) and (211.13,118.07) .. (211.13,131.22) .. controls (211.13,132.92) and (210.94,134.58) .. (210.59,136.17) ;  
+%Straight Lines [id:da9126122398038725] 
+\draw    (211.93,172.52) -- (211.92,159.12) ;
+%Rounded Rect [id:dp19864875982463825] 
+\draw  [dash pattern={on 4.5pt off 4.5pt}] (238.83,90.93) .. controls (238.83,76.5) and (250.53,64.8) .. (264.97,64.8) -- (343.37,64.8) .. controls (357.8,64.8) and (369.5,76.5) .. (369.5,90.93) -- (369.5,184.27) .. controls (369.5,198.7) and (357.8,210.4) .. (343.37,210.4) -- (264.97,210.4) .. controls (250.53,210.4) and (238.83,198.7) .. (238.83,184.27) -- cycle ;
+%Shape: Arc [id:dp623273643179123] 
+\draw  [draw opacity=0] (264.59,168.54) .. controls (264.7,155.48) and (275.73,144.92) .. (289.32,144.92) -- (289.32,168.74) -- cycle ; \draw   (264.59,168.54) .. controls (264.7,155.48) and (275.73,144.92) .. (289.32,144.92) ;  
+%Shape: Arc [id:dp7769680524712608] 
+\draw  [draw opacity=0] (319.5,144.92) .. controls (333.16,144.92) and (344.23,155.58) .. (344.23,168.74) -- (319.5,168.74) -- cycle ; \draw   (319.5,144.92) .. controls (333.16,144.92) and (344.23,155.58) .. (344.23,168.74) ;  
+%Straight Lines [id:da8996795114234546] 
+\draw    (304.18,135.28) -- (304.33,120.33) ;
+%Rounded Rect [id:dp7958670756995907] 
+\draw  [dash pattern={on 4.5pt off 4.5pt}] (372.33,90.93) .. controls (372.33,76.5) and (384.03,64.8) .. (398.47,64.8) -- (476.87,64.8) .. controls (491.3,64.8) and (503,76.5) .. (503,90.93) -- (503,184.67) .. controls (503,199.1) and (491.3,210.8) .. (476.87,210.8) -- (398.47,210.8) .. controls (384.03,210.8) and (372.33,199.1) .. (372.33,184.67) -- cycle ;
+%Shape: Arc [id:dp2653269087913137] 
+\draw  [draw opacity=0] (398.09,174.24) .. controls (398.2,161.18) and (409.23,150.62) .. (422.82,150.62) -- (422.82,174.44) -- cycle ; \draw   (398.09,174.24) .. controls (398.2,161.18) and (409.23,150.62) .. (422.82,150.62) ;  
+%Shape: Arc [id:dp4205447304867884] 
+\draw  [draw opacity=0] (453,150.44) .. controls (453,150.44) and (453,150.44) .. (453,150.44) .. controls (466.66,150.44) and (477.73,161.1) .. (477.73,174.26) -- (453,174.26) -- cycle ; \draw   (453,150.44) .. controls (453,150.44) and (453,150.44) .. (453,150.44) .. controls (466.66,150.44) and (477.73,161.1) .. (477.73,174.26) ;  
+%Straight Lines [id:da9337925646863472] 
+\draw    (437.68,134.98) -- (437.67,121.58) ;
+%Rounded Rect [id:dp8024574861780045] 
+\draw  [dash pattern={on 4.5pt off 4.5pt}] (505.83,90.93) .. controls (505.83,76.5) and (517.53,64.8) .. (531.97,64.8) -- (610.37,64.8) .. controls (624.8,64.8) and (636.5,76.5) .. (636.5,90.93) -- (636.5,185.07) .. controls (636.5,199.5) and (624.8,211.2) .. (610.37,211.2) -- (531.97,211.2) .. controls (517.53,211.2) and (505.83,199.5) .. (505.83,185.07) -- cycle ;
+%Shape: Arc [id:dp2988707343502508] 
+\draw  [draw opacity=0] (532.25,137.94) .. controls (531.82,136.18) and (531.59,134.33) .. (531.59,132.44) .. controls (531.59,119.28) and (542.66,108.62) .. (556.32,108.62) -- (556.32,132.44) -- cycle ; \draw   (532.25,137.94) .. controls (531.82,136.18) and (531.59,134.33) .. (531.59,132.44) .. controls (531.59,119.28) and (542.66,108.62) .. (556.32,108.62) ;  
+%Shape: Arc [id:dp10478086547979326] 
+\draw  [draw opacity=0] (586.5,108.44) .. controls (586.5,108.44) and (586.5,108.44) .. (586.5,108.44) .. controls (600.16,108.44) and (611.23,119.1) .. (611.23,132.26) .. controls (611.23,132.73) and (611.21,133.2) .. (611.19,133.66) -- (586.5,132.26) -- cycle ; \draw   (586.5,108.44) .. controls (586.5,108.44) and (586.5,108.44) .. (586.5,108.44) .. controls (600.16,108.44) and (611.23,119.1) .. (611.23,132.26) .. controls (611.23,132.73) and (611.21,133.2) .. (611.19,133.66) ;  
+%Straight Lines [id:da5382439939318251] 
+\draw    (531.48,173.38) -- (531.47,159.98) ;
 
-%Rounded Rect [id:dp7882251059064969] 
-\draw  [dash pattern={on 4.5pt off 4.5pt}] (105.33,238.93) .. controls (105.33,224.5) and (117.03,212.8) .. (131.47,212.8) -- (209.87,212.8) .. controls (224.3,212.8) and (236,224.5) .. (236,238.93) -- (236,332.67) .. controls (236,347.1) and (224.3,358.8) .. (209.87,358.8) -- (131.47,358.8) .. controls (117.03,358.8) and (105.33,347.1) .. (105.33,332.67) -- cycle ;
-%Shape: Arc [id:dp29183604810464403] 
-\draw  [draw opacity=0] (131.09,322.24) .. controls (131.2,309.18) and (142.23,298.62) .. (155.82,298.62) -- (155.82,322.44) -- cycle ; \draw   (131.09,322.24) .. controls (131.2,309.18) and (142.23,298.62) .. (155.82,298.62) ;  
-%Shape: Arc [id:dp640450492748722] 
-\draw  [draw opacity=0] (186,298.44) .. controls (186,298.44) and (186,298.44) .. (186,298.44) .. controls (199.66,298.44) and (210.73,309.1) .. (210.73,322.26) -- (186,322.26) -- cycle ; \draw   (186,298.44) .. controls (186,298.44) and (186,298.44) .. (186,298.44) .. controls (199.66,298.44) and (210.73,309.1) .. (210.73,322.26) ;  
-%Straight Lines [id:da338755697000251] 
-\draw    (170.68,282.98) -- (170.67,269.58) ;
-%Rounded Rect [id:dp7823365018911086] 
-\draw  [dash pattern={on 4.5pt off 4.5pt}] (238.83,238.93) .. controls (238.83,224.5) and (250.53,212.8) .. (264.97,212.8) -- (343.37,212.8) .. controls (357.8,212.8) and (369.5,224.5) .. (369.5,238.93) -- (369.5,333.07) .. controls (369.5,347.5) and (357.8,359.2) .. (343.37,359.2) -- (264.97,359.2) .. controls (250.53,359.2) and (238.83,347.5) .. (238.83,333.07) -- cycle ;
-%Shape: Arc [id:dp9169159476965278] 
-\draw  [draw opacity=0] (265.25,285.94) .. controls (264.82,284.18) and (264.59,282.33) .. (264.59,280.44) .. controls (264.59,267.28) and (275.66,256.62) .. (289.32,256.62) -- (289.32,280.44) -- cycle ; \draw   (265.25,285.94) .. controls (264.82,284.18) and (264.59,282.33) .. (264.59,280.44) .. controls (264.59,267.28) and (275.66,256.62) .. (289.32,256.62) ;  
-%Shape: Arc [id:dp6601308034777329] 
-\draw  [draw opacity=0] (319.5,256.44) .. controls (319.5,256.44) and (319.5,256.44) .. (319.5,256.44) .. controls (333.16,256.44) and (344.23,267.1) .. (344.23,280.26) .. controls (344.23,280.73) and (344.21,281.2) .. (344.19,281.66) -- (319.5,280.26) -- cycle ; \draw   (319.5,256.44) .. controls (319.5,256.44) and (319.5,256.44) .. (319.5,256.44) .. controls (333.16,256.44) and (344.23,267.1) .. (344.23,280.26) .. controls (344.23,280.73) and (344.21,281.2) .. (344.19,281.66) ;  
-%Straight Lines [id:da8488422162059646] 
-\draw    (264.48,321.38) -- (264.47,307.98) ;
-
+%Rounded Rect [id:dp22736885699089981] 
+\draw  [color={rgb, 255:red, 246; green, 1; blue, 1 }  ,draw opacity=1 ][dash pattern={on 2.53pt off 3.02pt}][line width=2.25]  (239,142.14) .. controls (239,132.63) and (246.71,124.92) .. (256.22,124.92) -- (484.78,124.92) .. controls (494.29,124.92) and (502,132.63) .. (502,142.14) -- (502,193.78) .. controls (502,203.29) and (494.29,211) .. (484.78,211) -- (256.22,211) .. controls (246.71,211) and (239,203.29) .. (239,193.78) -- cycle ;
 
 % Text Node
-\draw (160.17,67.73) node [anchor=north west][inner sep=0.75pt]    {$\mathcal{P}_{0}$};
+\draw (427.17,67.23) node [anchor=north west][inner sep=0.75pt]    {$\mathcal{P}_{2}$};
 % Text Node
-\draw (293.67,67.73) node [anchor=north west][inner sep=0.75pt]    {$\mathcal{P}_{1}$};
+\draw  [fill={rgb, 255:red, 242; green, 221; blue, 192 }  ,fill opacity=1 ]  (437.67, 107.53) circle [x radius= 13.9, y radius= 13.9]   ;
+\draw (437.67,107.53) node    {$\pi $};
 % Text Node
-\draw  [fill={rgb, 255:red, 242; green, 221; blue, 192 }  ,fill opacity=1 ]  (304.17, 108.03) circle [x radius= 13.6, y radius= 13.6]   ;
-\draw (304.17,108.03) node    {$\sigma $};
+\draw (560.67,67.23) node [anchor=north west][inner sep=0.75pt]    {$\mathcal{P}_{3}$};
 % Text Node
-\draw  [fill={rgb, 255:red, 173; green, 234; blue, 195 }  ,fill opacity=1 ]  (304.54, 144.67) circle [x radius= 15, y radius= 15]   ;
-\draw (304.54,144.67) node  [font=\footnotesize]  {$\bowtie $};
+\draw  [fill={rgb, 255:red, 242; green, 221; blue, 192 }  ,fill opacity=1 ]  (531.57, 148.65) circle [x radius= 13.9, y radius= 13.9]   ;
+\draw (531.57,148.65) node    {$\pi $};
 % Text Node
-\draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (264.84, 184.94) circle [x radius= 16.62, y radius= 16.62]   ;
-\draw (264.84,184.94) node   [align=left] {$\displaystyle \rho _{0}$};
+\draw  [fill={rgb, 255:red, 173; green, 234; blue, 195 }  ,fill opacity=1 ]  (437.71, 149.17) circle [x radius= 15, y radius= 15]   ;
+\draw (437.71,149.17) node  [font=\footnotesize]  {$\bowtie $};
 % Text Node
-\draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (343.59, 184.94) circle [x radius= 16.62, y radius= 16.62]   ;
-\draw (343.59,184.94) node   [align=left] {$\displaystyle \rho _{1}$};
+\draw  [fill={rgb, 255:red, 173; green, 234; blue, 195 }  ,fill opacity=1 ]  (571.54, 105.53) circle [x radius= 15, y radius= 15]   ;
+\draw (571.54,105.53) node  [font=\footnotesize]  {$\bowtie $};
 % Text Node
-\draw  [fill={rgb, 255:red, 173; green, 234; blue, 195 }  ,fill opacity=1 ]  (171.11, 106.03) circle [x radius= 15, y radius= 15]   ;
-\draw (171.11,106.03) node  [font=\footnotesize]  {$\bowtie $};
+\draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (398.01, 184.74) circle [x radius= 16.62, y radius= 16.62]   ;
+\draw (398.01,184.74) node   [align=left] {$\displaystyle \rho _{0}$};
 % Text Node
-\draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (131.41, 146.67) circle [x radius= 16.62, y radius= 16.62]   ;
-\draw (131.41,146.67) node   [align=left] {$\displaystyle \rho _{0}$};
+\draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (477.67, 184.74) circle [x radius= 16.62, y radius= 16.62]   ;
+\draw (477.67,184.74) node   [align=left] {$\displaystyle \rho _{1}$};
 % Text Node
-\draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (211.81, 184.94) circle [x radius= 16.62, y radius= 16.62]   ;
-\draw (211.81,184.94) node   [align=left] {$\displaystyle \rho _{1}$};
+\draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (531.44, 184.74) circle [x radius= 16.62, y radius= 16.62]   ;
+\draw (531.44,184.74) node   [align=left] {$\displaystyle \rho _{0}$};
 % Text Node
-\draw  [fill={rgb, 255:red, 242; green, 221; blue, 192 }  ,fill opacity=1 ]  (211.32, 146.67) circle [x radius= 13.6, y radius= 13.6]   ;
-\draw (211.32,146.67) node    {$\sigma $};
+\draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (610.59, 148.65) circle [x radius= 16.62, y radius= 16.62]   ;
+\draw (610.59,148.65) node   [align=left] {$\displaystyle \rho _{1}$};
 % Text Node
-\draw (160.17,215.23) node [anchor=north west][inner sep=0.75pt]    {$\mathcal{P}_{2}$};
+\draw (160.17,67.53) node [anchor=north west][inner sep=0.75pt]    {$\mathcal{P}_{0}$};
 % Text Node
-\draw  [fill={rgb, 255:red, 242; green, 221; blue, 192 }  ,fill opacity=1 ]  (170.67, 255.53) circle [x radius= 13.9, y radius= 13.9]   ;
-\draw (170.67,255.53) node    {$\pi $};
+\draw (293.67,67.53) node [anchor=north west][inner sep=0.75pt]    {$\mathcal{P}_{1}$};
 % Text Node
-\draw (293.67,215.23) node [anchor=north west][inner sep=0.75pt]    {$\mathcal{P}_{3}$};
+\draw  [fill={rgb, 255:red, 242; green, 221; blue, 192 }  ,fill opacity=1 ]  (304.17, 107.83) circle [x radius= 13.6, y radius= 13.6]   ;
+\draw (304.17,107.83) node    {$\sigma $};
 % Text Node
-\draw  [fill={rgb, 255:red, 242; green, 221; blue, 192 }  ,fill opacity=1 ]  (264.57, 296.65) circle [x radius= 13.9, y radius= 13.9]   ;
-\draw (264.57,296.65) node    {$\pi $};
+\draw  [fill={rgb, 255:red, 173; green, 234; blue, 195 }  ,fill opacity=1 ]  (304.54, 144.47) circle [x radius= 15, y radius= 15]   ;
+\draw (304.54,144.47) node  [font=\footnotesize]  {$\bowtie $};
 % Text Node
-\draw  [fill={rgb, 255:red, 173; green, 234; blue, 195 }  ,fill opacity=1 ]  (170.71, 297.17) circle [x radius= 15, y radius= 15]   ;
-\draw (170.71,297.17) node  [font=\footnotesize]  {$\bowtie $};
+\draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (264.84, 184.74) circle [x radius= 16.62, y radius= 16.62]   ;
+\draw (264.84,184.74) node   [align=left] {$\displaystyle \rho _{0}$};
 % Text Node
-\draw  [fill={rgb, 255:red, 173; green, 234; blue, 195 }  ,fill opacity=1 ]  (304.54, 253.53) circle [x radius= 15, y radius= 15]   ;
-\draw (304.54,253.53) node  [font=\footnotesize]  {$\bowtie $};
+\draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (343.59, 184.74) circle [x radius= 16.62, y radius= 16.62]   ;
+\draw (343.59,184.74) node   [align=left] {$\displaystyle \rho _{1}$};
 % Text Node
-\draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (131.01, 337.5) circle [x radius= 16.62, y radius= 16.62]   ;
-\draw (131.01,337.5) node   [align=left] {$\displaystyle \rho _{0}$};
+\draw  [fill={rgb, 255:red, 173; green, 234; blue, 195 }  ,fill opacity=1 ]  (171.11, 105.83) circle [x radius= 15, y radius= 15]   ;
+\draw (171.11,105.83) node  [font=\footnotesize]  {$\bowtie $};
 % Text Node
-\draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (210.67, 336.77) circle [x radius= 16.62, y radius= 16.62]   ;
-\draw (210.67,336.77) node   [align=left] {$\displaystyle \rho _{1}$};
+\draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (131.41, 146.47) circle [x radius= 16.62, y radius= 16.62]   ;
+\draw (131.41,146.47) node   [align=left] {$\displaystyle \rho _{0}$};
 % Text Node
-\draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (264.44, 336.77) circle [x radius= 16.62, y radius= 16.62]   ;
-\draw (264.44,336.77) node   [align=left] {$\displaystyle \rho _{0}$};
+\draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (211.81, 184.74) circle [x radius= 16.62, y radius= 16.62]   ;
+\draw (211.81,184.74) node   [align=left] {$\displaystyle \rho _{1}$};
 % Text Node
-\draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (343.59, 296.65) circle [x radius= 16.62, y radius= 16.62]   ;
-\draw (343.59,296.65) node   [align=left] {$\displaystyle \rho _{1}$};
+\draw  [fill={rgb, 255:red, 242; green, 221; blue, 192 }  ,fill opacity=1 ]  (211.32, 146.47) circle [x radius= 13.6, y radius= 13.6]   ;
+\draw (211.32,146.47) node    {$\sigma $};
 
 
 \end{tikzpicture}
+
 
     \caption{4 different query plans $\mathcal{P}_0$, $\mathcal{P}_1$ for query $\mathcal{Q}_0$ and $\mathcal{P}_2$, $\mathcal{P}_3$ for query $\mathcal{Q}_1$. The plans have different ordered instructions, which can save time during single execution or allow for more parallel savings.}
     \label{figure:4_query_plans}
 \end{figure}
 
-Figure \ref{figure:4_query_plans} shows the different plans that return the same result. They are structure to best resemble the costs and savings defined in figure \ref{figure:2d_problem_data}. The data defines the combination of $\mathcal{P}_1$ and $\mathcal{P}_2$ to offer the greatest savings. In this case, the step that would warrant such savings would be $\rho_0\bowtie\rho_1$, that is present in both plans. In every other case, there are preliminary operations that distort the result so that it is not shareable by the plans. Nevertheless, one can still share the single steps $\rho_0$ and $\rho_1$, which in this case symbolize the loading of tables into memory. \par
+Figure \ref{figure:4_query_plans} shows the different plans that return the same result. They are structure to best resemble the costs and savings defined in figure \ref{figure:2d_problem_data}. The data defines the combination of $\mathcal{P}_1$ and $\mathcal{P}_2$ to offer the greatest savings. In this case, the step that would warrant such savings would be $\rho_0\bowtie\rho_1$, that is present in both plans, and surrounded with a red rectangle. In every other case, there are preliminary operations that distort the result so that it is not shareable by the plans. Nevertheless, one can still share the single steps $\rho_0$ and $\rho_1$, which in this case symbolize the loading of tables into memory. \par
 
-\newpage
+The problem space from figure \ref{figure:2d_problem_data} is used for direct comparison between our solution and the solution of Fankhauer et al.\cite{fankhauser_multiple_2021}. As one cannot assume that real life problems will always be limited to 2 queries with 2 problems each, the problem generator enhanced to allow the generation of any number of queries, each of which with their own number of plans, as shown in figure \ref{figure:nd_problem_data}.
 
 \begin{figure}[!h]
     \centering
@@ -184,13 +167,12 @@ Figure \ref{figure:4_query_plans} shows the different plans that return the same
     \label{figure:nd_problem_data}
 \end{figure}
 
-The problem space from figure \ref{figure:2d_problem_data} is used for direct comparison between our solution and the solution of Fankhauer et al.\cite{fankhauser_multiple_2021}. As one cannot assume that real life problems will always be limited to 2 queries with 2 problems each, the problem generator enhanced to allow the generation of any number of queries, each of which with their own number of plans, as shown in figure \ref{figure:nd_problem_data}.
 
 \newpage
 
 \subsection{Circuit Design}
 
-The design of the circuit is carefully modelled as to allow easier understanding of its behaviour. Initially, for any $n$ plans, the probabilities of each being the cheapest is unknown, which directly means they are all \emph{equally probable}. To create equal probabilities for all plans, an initial layer consisting of a \emph{Hadamard}-Gate is constructed, as illustrated in figure \ref{figure:4_qubit_circuit_with_h_gates}.
+The design of the circuit is carefully modelled as to allow easier understanding of its behaviour. Initially, for any $n$ plans, the probabilities of each being the cheapest is unknown, which directly means they are all \emph{equally probable}. To create equal probabilities for all plans, an initial layer consisting of one \hgate\ per qubit is constructed, as illustrated in figure \ref{figure:4_qubit_circuit_with_h_gates}.
 
 \begin{figure}[!h]
     \centering
@@ -202,7 +184,7 @@ The design of the circuit is carefully modelled as to allow easier understanding
 	 	\nghost{{\mathcal{P}}_{3} :  } & \lstick{{\mathcal{P}}_{3} :  } & \qw & \gate{\mathrm{H}} & \qw & \qw & \qw\\
 	 	\nghost{} & \lstick{} & \ket{\psi_0} &  & \ket{\psi_1}\\
 \\ }}
-    \caption{A 4 qubit circuit (here the qubits are not denoted with $q_i$ but $\mathcal{P}_i$, which represent for each plan in the problem) for the problem defined in figure \ref{figure:2d_problem_data} consisting of only \emph{Hadamard}-Gates to create an equal superposition across all plans}
+    \caption{A 4 qubit circuit (here the qubits are not denoted with $q_i$ but $\mathcal{P}_i$, which represent for each plan in the problem) for the problem defined in figure \ref{figure:2d_problem_data} consisting of only \hgate s to create an equal superposition across all plans}
     \label{figure:4_qubit_circuit_with_h_gates}
 \end{figure}
 
@@ -215,7 +197,10 @@ The design of the circuit is carefully modelled as to allow easier understanding
     \label{equation:2d_problem_state_0_1}
 \end{equation}
 
-Whereas at state $\ket{\psi_0}$ all qubits are equal to state $\ket{0}$, after the \emph{Hadamard}-Gates at state $\ket{\psi_1}$ they all have the state $\frac{1}{\sqrt{2}}\ket{0} + \frac{1}{\sqrt{2}}\ket{1}$, as shown in equation \ref{equation:2d_problem_state_0_1}. To encode the cost $c_i$ of each plan $\mathcal{P}_i$, the desired behaviour is defined. The goal is to \emph{decrease} the probability of a certain plan being selected if it is expensive. To do this, the parametrizable \emph{RY}-Gate is used on each qubit.
+Whereas at state $\ket{\psi_0}$ all qubits are equal to state $\ket{0}$, after the \hgate s at state $\ket{\psi_1}$ they all have the state $\frac{1}{\sqrt{2}}\ket{0} + \frac{1}{\sqrt{2}}\ket{1}$, as shown in equation \ref{equation:2d_problem_state_0_1}. 
+\subsection{Cost Embedding}
+
+The idea behind the design of the cost embedding onto the quantum circuit is relatively simple. The more expensive a single plan $\mathcal{P}_i$ is, the less its probability to be $1$ should be. This is achieved using a \rygate\, which can turn the \emph{Bloch}-Vector towards $\ket{0}$ or $\ket{1}$. In the end, the probability for $\ket{1}$ should \emph{decrease} with a high cost in the problem space, and \emph{increase} with a low cost.
 
 \begin{figure}[!h]
     \centering
@@ -227,7 +212,7 @@ Whereas at state $\ket{\psi_0}$ all qubits are equal to state $\ket{0}$, after t
 	 	\nghost{{q}_{3} :  } & \lstick{{\mathcal{P}}_{3} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_3})} & \qw & \qw & \qw\\
 	 	\nghost{} : & \lstick{{} } & & & \ket{\psi_2}& \\
     \\ }}
-    \caption{The 4 qubit circuit from figure \ref{figure:4_qubit_circuit_with_h_gates} for the problem defined in figure \ref{figure:2d_problem_data} improved with cost encoding \emph{RY}-Gates.}
+    \caption{The 4 qubit circuit from figure \ref{figure:4_qubit_circuit_with_h_gates} for the problem defined in figure \ref{figure:2d_problem_data} improved with cost encoding \rygate.}
     \label{figure:4_qubit_circuit_with_h_ry_gates}
 \end{figure}
 
@@ -241,8 +226,20 @@ Whereas at state $\ket{\psi_0}$ all qubits are equal to state $\ket{0}$, after t
 \end{equation}
 
 
-\subsection{Cost Embedding}
+
 \subsection{Savings Embedding}
 \subsection{Data}
+
+\newpage
+
+\section{Quantum SVM vs. Quantum Neural Network classification}
+
+\subsection{Datasets and data acquisition}
+custom, adhoc, iris, rain, vlds
+
+\subsection{Circuit Design}
+
+\subsection{Limitations and shortcomings}
+\todo{Notes: 5 Qubit limit (Due to Quantum Hardware availability), default hyperparams}
 
 \newpage
