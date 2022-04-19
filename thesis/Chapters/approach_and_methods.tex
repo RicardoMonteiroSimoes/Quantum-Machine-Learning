@@ -2,6 +2,7 @@
 
 \label{chapter:approach_and_methods} % For referencing the chapter elsewhere, use \ref{chapter:computational_neuro} 
 
+\def \blochwidth {0.3}
 \newcommand{\rygate}{$\mathrm{R_Y}$}
 %----------------------------------------------------------------------------------------
 \section{Multiple Query Optimization}
@@ -225,6 +226,16 @@ The idea behind the design of the cost embedding onto the quantum circuit is rel
     \label{equation:2d_problem_state_0_1}
 \end{equation}
 
+To further illustrate what happens, the initial state after the \hgate\ is shown with the \emph{Bloch}-Sphere \ref{}. When now a, by comparison, high cost value is embedded, the probability for a $\ket{0}$ increases, as shown in figure \ref{}. In the opposite case where the cost is, in comparison, lower, the probabillity for $\ket{1}$ increases, as visualized in figure \ref{}.
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{\histogramwidth}{
+        \includesvg{thesis/Appendices/Bloch_Sphere_.svg}
+    }
+    \caption{A histogram generated from the data in table \ref{table:example_counts}, that visually shows the probabilities of 0 and 1. These probabilities can directly be used to understand the qubits superposition.}
+    \label{figure:example_histogram}
+\end{figure}
 
 
 \subsection{Savings Embedding}
