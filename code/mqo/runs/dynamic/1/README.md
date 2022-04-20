@@ -20,25 +20,27 @@ Amount of shots: 10000
 
 ```
 
-63.70% percentile reached a distance of 0 to the best solution
+63.54% percentile reached a distance of 0 to the best solution
 
-19.88% percentile reached a distance of 1 to the best solution
+19.30% percentile reached a distance of 1 to the best solution
 
-8.50% percentile reached a distance of 2 to the best solution
+8.84% percentile reached a distance of 2 to the best solution
 
-3.82% percentile reached a distance of 3 to the best solution
+3.96% percentile reached a distance of 3 to the best solution
 
-2.00% percentile reached a distance of 4 to the best solution
+2.10% percentile reached a distance of 4 to the best solution
 
-0.88% percentile reached a distance of 5 to the best solution
+1.02% percentile reached a distance of 5 to the best solution
 
-0.58% percentile reached a distance of 6 to the best solution
+0.80% percentile reached a distance of 6 to the best solution
 
-0.40% percentile reached a distance of 7 to the best solution
+0.22% percentile reached a distance of 7 to the best solution
 
-0.22% percentile reached a distance of 8 to the best solution
+0.10% percentile reached a distance of 8 to the best solution
 
-0.02% percentile reached a distance of 9 to the best solution
+0.06% percentile reached a distance of 9 to the best solution
+
+0.06% percentile reached a distance of 10 to the best solution
 
 ```
 
