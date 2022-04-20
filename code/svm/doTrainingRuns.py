@@ -88,7 +88,7 @@ def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
             q_simulator.set_options(device='GPU')
             print("GPU enabled")
     except:
-        print("Failed to set GPU")
+        print("No GPU support")
 
     quantum_instance = QuantumInstance(q_simulator, shots=1024)
 
@@ -334,7 +334,7 @@ if __name__ == '__main__':
 
     print("Running circuits ...")
     # Use filtered datasets like: `for index, dataset in enumerate([datasets[i] for i in [1, 14, 27, 40, 53]]):`
-    #for index, dataset in enumerate(datasets):
+    # for index, dataset in enumerate(datasets):
     for index, dataset in enumerate([datasets[i] for i in [1, 2, 14]]):
         p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset))
         jobs.append(p)
@@ -345,7 +345,7 @@ if __name__ == '__main__':
         proc.join()
 
     print("results: ", return_list)
-    # sort by dataset name (fisrt) and dataset id (second)
+    # sort by dataset name (first) and dataset id (second)
     return_list.sort(key=sortDatasetsByNameAndId, reverse=False)
 
     generate_markdown_from_list(return_list)
