@@ -215,6 +215,7 @@ def qml_circuit_qiskit_01(n_wires=2, n_layers=1):
     qc = QuantumCircuit(n_wires)
     qc.append(feature_map, range(n_wires))
     qc.append(ansatz, range(n_wires))
+    qc.measure_all()
     return qc.decompose().copy()
 
 
@@ -240,6 +241,7 @@ def qml_circuit_qiskit_02(n_wires=2, n_layers=1):
     qc = QuantumCircuit(n_wires)
     qc.append(feature_map, range(n_wires))
     qc.append(ansatz, range(n_wires))
+    qc.measure_all()
     return qc.decompose().copy()
 
 
@@ -265,6 +267,7 @@ def qml_circuit_qiskit_03(n_wires=2, n_layers=1):
     qc = QuantumCircuit(n_wires)
     qc.append(feature_map, range(n_wires))
     qc.append(ansatz, range(n_wires))
+    qc.measure_all()
     return qc.decompose().copy()
 
 
@@ -291,6 +294,7 @@ def qml_circuit_qiskit_04(n_wires=2, n_layers=1):
     qc = QuantumCircuit(n_wires)
     qc.append(feature_map, range(n_wires))
     qc.append(ansatz, range(n_wires))
+    qc.measure_all()
     return qc.decompose().copy()
 
 
@@ -318,4 +322,5 @@ def qml_circuit_qiskit_05(n_wires=2, n_layers=1):
     qc = QuantumCircuit(n_wires)
     qc.append(feature_map, range(n_wires))
     qc.append(ansatz, range(n_wires))
+    qc.measure_all()
     return qc.decompose().copy()
