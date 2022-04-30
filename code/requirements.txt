@@ -29,7 +29,7 @@ pennylane-qsharp
 autograd
 tensorflow>=1.13.2
 jax
-jaxlib
+jaxlib; sys_platform == 'darwin' or sys_platform == 'linux'
 torch
 torchvision
 torchaudio
@@ -49,8 +49,8 @@ pylatexenc
 # Installing qiskit machine learning library
 qiskit-machine-learning
 qiskit-optimization
-qiskit-aer-gpu
-# qiskit-aer; sys_platform == 'darwin'
+qiskit-aer-gpu; sys_platform == 'linux'
+qiskit-aer; sys_platform != 'linux'
 
 # Installing utilities
 tqdm
