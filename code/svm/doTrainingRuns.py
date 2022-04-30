@@ -63,7 +63,7 @@ GradientDescent - defaults:maxiter=100, learning_rate=0.01, tol=1e-07, callback=
 """
 # change the optimizer here
 optimizer = (COBYLA(), 'COBYLA')
-# optimizer = (ADAM(), 'ADAM')
+# optimizer = (ADAM(maxiter=1000), 'ADAM')
 # optimizer = (SLSQP(), 'SLSQP')
 # optimizer = (GradientDescent(), 'GradientDescent')
 
@@ -88,7 +88,7 @@ def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
             q_simulator.set_options(device='GPU')
             print("GPU enabled")
     except:
-        print("No GPU support")
+        print("Failed to set GPU support")
 
     quantum_instance = QuantumInstance(q_simulator, shots=1024)
 
@@ -189,8 +189,8 @@ def arr_to_str(arr):
     """
     Array to string helper for score (train, test) and weights array
     """
-    str_1 = '[{}]'.format(','.join([x.strip(' \n\r,][') for x in re.split("\s", str(arr[0])) if re.match(r"^\[?[-+]?[0-9]*\.?[0-9]+\]?,?$", x)]))
-    str_2 = '[{}]'.format(','.join([x.strip(' \n\r,][') for x in re.split("\s", str(arr[1])) if re.match(r"^\[?[-+]?[0-9]*\.?[0-9]+\]?,?$", x)]))
+    str_1 = '[{}]'.format(','.join([x.strip(' \n\r,][') for x in re.split("\s", str(arr[0])) if re.match(r"^\[?[-+]?[0-9]*\.?[0-9e]+\]?,?$", x)]))
+    str_2 = '[{}]'.format(','.join([x.strip(' \n\r,][') for x in re.split("\s", str(arr[1])) if re.match(r"^\[?[-+]?[0-9]*\.?[0-9e]+\]?,?$", x)]))
     return '`{}`, `{}`'.format(str_1, str_2)
 
 
