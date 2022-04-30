@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from typing import Sequence
 import pythonlib.helpers as Helpers
 import os
