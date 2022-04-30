@@ -8,7 +8,7 @@ import pickle
 import numpy as np
 from datetime import datetime
 # qiskit
-from qiskit.algorithms.optimizers import COBYLA, ADAM, SLSQP, GradientDescent
+from qiskit.algorithms.optimizers import COBYLA, ADAM, SPSA, P_BFGS
 from qiskit import Aer, QuantumCircuit
 from qiskit.utils import QuantumInstance
 from qiskit_machine_learning.neural_networks import CircuitQNN
@@ -43,11 +43,11 @@ quantum_circuits = [
     qc.qml_circuit_qiskit_05,
 ]
 
-"""Other optimizers:
-=> When None defaults to SLSQP
+"""
+Optimizers:
 
-SLSQP - defaults: maxiter=100, disp=False, ftol=1e-06, tol=None, eps=1.4901161193847656e-08, options=None, max_evals_grouped=1, **kwargs
-=> https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.SLSQP.html#qiskit.algorithms.optimizers.SLSQP
+SPSA - defaults:maxiter=100, blocking=False, allowed_increase=None, trust_region=False, learning_rate=None, perturbation=None, last_avg=1, resamplings=1, perturbation_dims=None, second_order=False, regularization=None, hessian_delay=0, lse_solver=None, initial_hessian=None, callback=None, termination_checker=None
+=> https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.SPSA.html#qiskit.algorithms.optimizers.SPSA
 
 COBYLA - defaults: maxiter=1000, disp=False, rhobeg=1.0, tol=None, options=None, **kwargs
 => https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.COBYLA.html#qiskit.algorithms.optimizers.COBYLA
@@ -55,17 +55,18 @@ COBYLA - defaults: maxiter=1000, disp=False, rhobeg=1.0, tol=None, options=None,
 ADAM - defaults: maxiter=10000, tol=1e-06, lr=0.001, beta_1=0.9, beta_2=0.99, noise_factor=1e-08, eps=1e-10, amsgrad=False, snapshot_dir=None
 => https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.ADAM.html#qiskit.algorithms.optimizers.ADAM
 
-GradientDescent - defaults:maxiter=100, learning_rate=0.01, tol=1e-07, callback=None, perturbation=None
-=> https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.GradientDescent.html#qiskit.algorithms.optimizers.GradientDescent
+BFGS - defaults:maxfun=1000, ftol=2.220446049250313e-15, factr=None, iprint=- 1, max_processes=None, options=None, max_evals_grouped=1
+=> https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.P_BFGS.html#qiskit.algorithms.optimizers.P_BFGS
 
 ...etc. => https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.html
 
+Read also: https://arxiv.org/pdf/2106.08682.pdf
 """
 # change the optimizer here
-optimizer = (COBYLA(), 'COBYLA')
-# optimizer = (ADAM(maxiter=1000), 'ADAM')
-# optimizer = (SLSQP(), 'SLSQP')
-# optimizer = (GradientDescent(), 'GradientDescent')
+optimizer = (COBYLA(maxiter=1000), 'COBYLA')
+# optimizer = (ADAM(maxiter=1000,amsgrad=True), 'ADAM AMSGRAD')
+# optimizer = (SPSA(maxiter=100), 'SPSA')
+# optimizer = (P_BFGS(), 'BFGS')
 
 
 def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
@@ -82,6 +83,8 @@ def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
     q_simulator = Aer.get_backend('aer_simulator')
     # use legacy simulator:
     # q_simulator = BasicAer.get_backend('qasm_simulator')
+
+    # try GPU support if available (needs `qiskit-aer-gpu` package)
     try:
         import GPUtil
         if(len(GPUtil.getGPUs()) > 0):
@@ -334,8 +337,8 @@ if __name__ == '__main__':
 
     print("Running circuits ...")
     # Use filtered datasets like: `for index, dataset in enumerate([datasets[i] for i in [1, 14, 27, 40, 53]]):`
-    # for index, dataset in enumerate(datasets):
-    for index, dataset in enumerate([datasets[i] for i in [1, 2, 14]]):
+    # for index, dataset in enumerate([datasets[i] for i in [1, 2, 14]]):
+    for index, dataset in enumerate(datasets):
         p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset))
         jobs.append(p)
         p.start()
