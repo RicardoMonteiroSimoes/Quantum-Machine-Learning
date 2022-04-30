@@ -192,8 +192,8 @@ def arr_to_str(arr):
     """
     Array to string helper for score (train, test) and weights array
     """
-    str_1 = '[{}]'.format(','.join([x.strip(' \n\r,][') for x in re.split("\s", str(arr[0])) if re.match(r"^\[?[-+]?[0-9]*\.?[0-9e]+\]?,?$", x)]))
-    str_2 = '[{}]'.format(','.join([x.strip(' \n\r,][') for x in re.split("\s", str(arr[1])) if re.match(r"^\[?[-+]?[0-9]*\.?[0-9e]+\]?,?$", x)]))
+    str_1 = '[{}]'.format(','.join([x.strip(' \n\r,][') for x in re.split("\s", str(arr[0])) if re.match(r"^\[?[-+]?[0-9]*\.?[0-9e+-]+\]?,?$", x)]))
+    str_2 = '[{}]'.format(','.join([x.strip(' \n\r,][') for x in re.split("\s", str(arr[1])) if re.match(r"^\[?[-+]?[0-9]*\.?[0-9e+-]+\]?,?$", x)]))
     return '`{}`, `{}`'.format(str_1, str_2)
 
 
