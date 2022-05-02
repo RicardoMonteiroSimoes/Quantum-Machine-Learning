@@ -3,7 +3,7 @@
 \label{chapter:theoretical_fundamentals} % For referencing the chapter elsewhere, use \ref{chapter:computational_neuro} 
 
 \def \blochwidth {0.3}
-\def \histogramwidth {0.5}
+\def \histogramwidth {0.3}
 \newcommand{\bloch}{\emph{Bloch}-Sphere}
 \newcommand{\hgate}{$\mathrm{H}$-Gate}
 \newcommand{\xgate}{$\mathrm{X}$-Gate}
@@ -19,9 +19,7 @@
 
 %----------------------------------------------------------------------------------------
 \section{Quantum Computing}
-Classical computing consists of the infamous 1's and 0's and have for years shaped the computational world and progress. Quantum computing is, from afar, similar. We have \emph{qubits}, which are synonymous to classical \emph{bits}, but are fundamentally different. Whereas a bit can only exist in state 0 or 1, a qubit allows the usage of any state, be it 0, 1 or a mix of those. Such a mix is referred to as a \emph{superposition}\cite{gudder_superposition_1970}. The catch comes when we want to read the value it represents: one cannot directly know the probabilities of measuring 1 or 0 in a qubit.
-
-
+Classical computing consist of 1's and 0's and have for years shaped the computational world and progress. Quantum computing is, from afar, similar. We have \emph{qubits}, which are synonymous to classical \emph{bits}, but are fundamentally different. Whereas a bit can only exist in state 0 or 1, a qubit allows the usage of any state, be it 0, 1 or a mix of those. Such a mix is referred to as a \emph{superposition}\cite{gudder_superposition_1970}. The catch comes when we want to read the value it represents: one cannot directly know the probabilities of measuring 1 or 0 in a qubit, as demonstrated in figure \ref{figure:comparison_bit_qubit_measurement}.
 
 \begin{figure}[!h]
     \centering
@@ -29,9 +27,6 @@ Classical computing consists of the infamous 1's and 0's and have for years shap
     
     \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
     %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
-    
-    
-    
     % Text Node
     \draw    (117.29, 130) circle [x radius= 13.04, y radius= 13.04]   ;
     \draw (112.29,122) node [anchor=north west][inner sep=0.75pt]   [align=left] {1};
@@ -62,9 +57,10 @@ Classical computing consists of the infamous 1's and 0's and have for years shap
     \label{figure:comparison_bit_qubit_measurement}
 \end{figure}
 
-When measuring a quantum circuit, the qubit states collapse from super positions into the fixed position of 0 or 1. To do additional measurements, the circuit has to be rebuilt. Using the data collected on the qubit state, a \emph{histogram} can be constructed, out of which one can calculate the internal probabilities of 1 and 0.
+When measuring a quantum circuit, the qubit states collapse from super positions into the fixed position of 0 or 1. This means that to redo the measurement, the complete circuit has to be rebuilt. After doing multiple measurements on a qubit and collecting the results as shown in table \ref{table:example_counts}, this data can be used to construct a \emph{histogram}\cite{eckstein_lexikon_1994} akin to the one visualized in figure \ref{figure:example_histogram}, out of which one can retrieve the internal probabilities of 1 and 0.
 
-\begin{table}[!h]
+\begin{figure}[!h]
+    \begin{subtable}{.5\textwidth}
     \centering
     \begin{tabular}{|c|c|}
          Measured value & Amount  \\
@@ -74,52 +70,89 @@ When measuring a quantum circuit, the qubit states collapse from super positions
     \end{tabular}
     \caption{Table containing all measurements done on a qubit in an unknown superposition. The number of occurrences of a measured 1 or 0 is counted and then used to generate the histogram in figure \ref{figure:example_histogram}}
     \label{table:example_counts}
-\end{table}
-
-
-\begin{figure}[!h]
-    \centering
-    \scalebox{\histogramwidth}{
-        \includesvg{thesis/Appendices/example_histogram.svg}
-    }
-    \caption{A histogram generated from the data in table \ref{table:example_counts}, that visually shows the probabilities of 0 and 1. These probabilities can directly be used to understand the qubits superposition.}
-    \label{figure:example_histogram}
+    \end{subtable}
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \scalebox{\histogramwidth}{
+            \includesvg{thesis/Appendices/example_histogram.svg}
+        }
+        \caption{A histogram generated from the data in table \ref{table:example_counts}, that visually shows the probabilities of 0 and 1. These probabilities can directly be used to understand the superposition of a qubit .}
+        \label{figure:example_histogram}
+    \end{subfigure}
+    \caption{Example of collected measurements from an arbitrary, single qubit, quantum circuit, as well as the corresponding histogram.}
+    \label{fig:my_label}
 \end{figure}
+
+With these two definitions, the gates used in the quantum circuits of this thesis can be fully 
 
 \newpage
 
-The \bloch\cite{michael_a_nielsen_quantum_2000}, as shown in figure \ref{figure:basic_bloch_sphere}, is used to further visualize the complex state a qubit is in a 3-dimensional sphere. One requisite for this kind of visualization is the usage of \emph{non-entangled} qubits. As the \emph{Bloch}-Vector inside the \bloch\ corresponds to the expectation value of measuring a value in a single qubit, it is awfully inadequate to show the states of entangled qubits, where each state correlates with the other entangled state. Using the complex state vector of a \emph{non-entangled} qubit, any superposition can be visualized as a \emph{Bloch}-Vector to show the qubits state.
+To further understand how a qubit behaves, the very foundations of quantum physics have to be looked at. Postulated by E. Schrödinger in 1925, the \emph{Schrödinger-Equation}\cite{PhysRev.28.1049} gives us the differential equation for the time evolution of a quantum state and their respective solution, shown in equation \ref{equation:schroedinger_time_evolution}, where $H$ denotes a Hamiltonian.
 
-\begin{figure}[!h]
+\begin{equation}
     \centering
-    \scalebox{\blochwidth}{
-        \includesvg{thesis/Appendices/Bloch_Sphere_axis.svg}
-    }
-    \caption{A basic \bloch\ without any visualized state. The axis $x$ and $y$ are annotated accordingly, but the axis $z$ is annotated with $\ket{0}$ and $\ket{1}$ - the states which are measured and have a corresponding probability assigned to them. The purple point shows the origin.}
-    \label{figure:basic_bloch_sphere}
+    \begin{split}
+        i\hbar\frac{d}{dt}\psi(t) =\ H\psi(t) \\
+        \psi(t) =\ e^{-i\frac{Ht}{\hbar}}\psi(0)
+    \end{split}
+    \label{equation:schroedinger_time_evolution}
+\end{equation}
+
+The expression $U(t) =\ e^-i\frac{Ht}{\hbar}$ itself has the attribute that it is unitary. Through this, the multiplication of $U(t)$ with its conjugate transpose $U(t)^\ast$ results in the identity matrix. This leads to quantum operations being reversible – so-called \emph{bijective functions} - where every output can be reversed to a single input. \par
+A mere two years later, Wolfgang Pauli published "Zur Quantenmechanik des magnetischen Elektrons"\cite{pauli_zur_1927}, in which he introduced the \emph{Pauli matrices}. These matrices represent the \emph{spin} of atoms and elementary particles, and are a core element of quantum computing. The definition of these matrices is shown in equation \ref{equation:pauli_matrices}.
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \sigma_x &=\ \begin{pmatrix}0 & 1 \\ 1 & 0\end{pmatrix}\\
+        \sigma_y &=\ \begin{pmatrix}0 & -i \\ i & 0\end{pmatrix}\\
+        \sigma_z &=\ \begin{pmatrix}1 & 0 \\ 0 & -1\end{pmatrix}\\
+    \end{split}
+    \label{equation:pauli_matrices}
+\end{equation}
+
+\newpage
+
+The \bloch\cite{michael_a_nielsen_quantum_2000}, as shown in figure \ref{figure:basic_bloch_sphere}, is used to help visualize quantum operations on a single, \emph{non-entangled}, qubit. The complex \emph{Bloch}-Vector inside the \bloch\ corresponds to the expectation value of measuring a value in a single qubit. To visualize entangled qubits, the \bloch\ by itself is not enough. There are supposed solutions to this problem\cite{gamel_entangled_2016}, which result in a more complex visualization. To solve this issue, IBM created the \emph{Q}-Sphere, which can not only visualize single qubits, but also entangled ones as well as their global phase.
+
+\begin{figure}
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \scalebox{\blochwidth}{
+            \includesvg{thesis/Appendices/Bloch_Sphere_axis.svg}
+        }
+        \caption{A basic \bloch\ without any visualized state. The axis $x$ and $y$ are annotated accordingly, but the axis $z$ is annotated with $\ket{0}$ and $\ket{1}$ - the states which are measured and have a corresponding probability assigned to them. The purple point shows the origin.}
+        \label{figure:basic_bloch_sphere}
+    \end{subfigure}
+    \caption{Caption}
+    \label{fig:my_label}
 \end{figure}
 
-When measuring a qubit, the state collapses onto the $z$-axis\cite{feynman_feynman_1965}, which in turn leads to a measurement of either 0 or 1. Initially, all qubits are set to state $\ket{0}$, which is visualized onto the \bloch in figure \ref{figure:state_0_bloch_sphere}. A circuit that results in said state is visualized in figure \ref{figure:state_0_circuit}, and its mathematical counterpart in equation \ref{equation:state_0_equation}.
+When measuring a qubit, the state collapses onto the $z$-axis\cite{feynman_feynman_1965}, which in turn leads to a measurement of either 0 or 1. Initially, all qubits are set to state $\ket{0}$, which is visualized onto the \bloch\ in figure \ref{figure:state_0_bloch_sphere}. A circuit that results in said state is visualized in figure \ref{figure:state_0_circuit}, and its mathematical counterpart in equation \ref{equation:state_0_equation}. The states $\ket{\psi_i}$ are used to denote the state of one, or multiple, qubits at the currently marked point of the circuit. These are utilized to mark the states that are calculated throughout this thesis.
 
 \begin{figure}[!h]
+    \begin{subfigure}{.5\textwidth}
     \centering
-    \scalebox{\blochwidth}{
-        \includesvg{thesis/Appendices/Bloch_Sphere_state_0.svg}
-    }
-    \caption{A \bloch with the state $\ket{0}$ visualized onto it, where the state now points in the direction of $\ket{0}$}
-    \label{figure:state_0_bloch_sphere}
+        \scalebox{\blochwidth}{
+            \includesvg{thesis/Appendices/Bloch_Sphere_state_0.svg}
+        }
+        \caption{A \bloch with the state $\ket{0}$ visualized onto it, where the state now points in the direction of $\ket{0}$}
+        \label{figure:state_0_bloch_sphere}
+    \end{subfigure}
+    \begin{subfigure}{.5\textwidth}
+    \centering
+        \scalebox{1.0}{
+        \Qcircuit @C=1.0em @R=1.0em @!R { \\
+    	 	\nghost{{q} :  } & \lstick{{q} :  } \barrier[0em]{0} & \qw & \qw & \qw\\
+    	 	\nghost{} & \lstick{} & \ket{\psi_0} &\\
+    \\ }}
+        \caption{A basic circuit consisting of a single qubit $q$ that is initially set to $\ket{0}$. The state vector at point $\ket{\psi_0}$ is shown in equation \ref{equation:state_0_equation}.}
+        \label{figure:state_0_circuit}
+    \end{subfigure}
+    \caption{The circuit with qubit state $\ket{0}$ at position $\ket{\psi_0}$ and its corresponding \bloch\ visualization.}
+    \label{fig:showcase_qubit_state_0_with_circuit}
 \end{figure}
 
-\begin{figure}[!h]
-    \centering
-    \scalebox{1.0}{
-    \Qcircuit @C=1.0em @R=1.0em @!R { \\
-	 	\nghost{{q} :  } & \lstick{{q} :  } \barrier[0em]{0} & \qw & \qw & \qw\\
-	 	\nghost{} & \lstick{} & \ket{\psi_0} &\\
-\\ }}
-    \caption{A basic circuit consisting of a single qubit $q$ that is initially set to $\ket{0}$. The state vector at point $\ket{\psi_0}$ is shown in equation \ref{equation:state_0_equation}.}
-    \label{figure:state_0_circuit}
-\end{figure}
 
 
 \begin{equation}
@@ -130,8 +163,7 @@ When measuring a qubit, the state collapses onto the $z$-axis\cite{feynman_feynm
     \label{equation:state_0_equation}
 \end{equation}
 
-\par
-
+\newpage
 To create the state $\ket{1}$, the state of the qubit has to be turned by 180° around the $x$ or the $y$ axis. This can be achieved in multiple ways, but one simple way is using a \xgate\cite{qiskit_xgate_nodate}. A circuit with such a gate is visualized in figure \ref{figure:x_circuit}, with a \emph{Bloch}-Sphere visualization done in figure \ref{figure:state_1_bloch_sphere}.
 
 \begin{figure}[!h]
@@ -139,7 +171,7 @@ To create the state $\ket{1}$, the state of the qubit has to be turned by 180° 
     \scalebox{\blochwidth}{
         \includesvg{thesis/Appendices/Bloch_Sphere_state_1.svg}
     }
-    \caption{The \bloch with the state $\ket{1}$ visualized onto it, which was achieved through the usage of the circuit \ref{figure:x_circuit}}
+    \caption{The \bloch with the state $\ket{1}$ visualized onto it, which was achieved through the usage of the circuit in figure \ref{figure:x_circuit}}
     \label{figure:state_1_bloch_sphere}
 \end{figure}
 
@@ -149,10 +181,9 @@ To create the state $\ket{1}$, the state of the qubit has to be turned by 180° 
 	 	\nghost{{q} :  } & \lstick{{q} :  } \barrier[0em]{0} & \qw & \gate{\mathrm{X}} \barrier[0em]{0} & \qw & \qw & \qw\\
 	 	\nghost{} & \lstick{} & \ket{\psi_0} & & \ket{\psi_1} &\\
 \\ }}
-    \caption{A simple circuit with one qubit, that is transformed through the usage of a \rxgate\ to transform the initial state $\ket{0}$ into state $\ket{1}$}
+    \caption{A simple circuit with one qubit, that is transformed through the usage of a \xgate\ to transform the initial state $\ket{0}$, which the qubit $q$ has at position $\ket{\psi_0}$, into the state $\ket{1}$ at position $\ket{\psi_1}$}
     \label{figure:x_circuit}
 \end{figure}
-
 
 \begin{equation}
     \centering
@@ -162,9 +193,8 @@ To create the state $\ket{1}$, the state of the qubit has to be turned by 180° 
     \label{equation:state_1_equation}
 \end{equation}
 
-The state $\ket{\psi_1}$ can be directly calculated with the \xgate and $\ket{0}$, which results in state $\ket{1}$, as demonstrated in equation \ref{equation:state_1_equation}. Whilst their definitions are not equal, the gates \ygate\cite{qiskit_ygate_nodate} and \zgate\cite{qiskit_zgate_nodate} also apply a full 180° rotation around their corresponding axes. \par
-\newpage
-The \emph{Hadamard}-Gate, or \hgate\cite{qiskit_hgate_nodate}, can be used to quickly create a superposition of a single qubit where the state $\ket{0}$ and $\ket{1}$ have the same probability (exactly 0.5) of being measured.
+The state $\ket{\psi_1}$ is directly calculated, as demonstrated in equation \ref{equation:state_1_equation}. The same can be done with the gates \ygate\cite{qiskit_ygate_nodate} and \zgate\cite{qiskit_zgate_nodate} that apply a full 180° rotation around their corresponding axes. \par
+The \emph{Hadamard}-Gate, or \hgate\cite{qiskit_hgate_nodate}, can be used to quickly create a superposition of a single qubit where the state $\ket{0}$ and $\ket{1}$ have the same probability (exactly 0.5) of being measured. Without it, one would have to use a combination of different gates to achieve the result\cite{voorhoede_hadamard_nodate}, for example $\mathrm{XY}^{\frac{1}{2}}$.
 
 \begin{figure}[!h]
     \centering\scalebox{1.0}{
@@ -172,7 +202,8 @@ The \emph{Hadamard}-Gate, or \hgate\cite{qiskit_hgate_nodate}, can be used to qu
 	 	\nghost{{q} :  } & \lstick{{q} :  } \barrier[0em]{0} & \qw & \gate{\mathrm{H}} \barrier[0em]{0} & \qw & \qw & \qw\\
 	 	\nghost{} & \lstick{} & \ket{\psi_0} & & \ket{\psi_1} &\\
 \\ }}
-    \caption{Caption}
+    \caption{A simple circuit with one qubit, that is transformed
+through the usage of a \hgate\ to turn the initial state $\ket{0}$ at position $\ket{\psi_0}$, which into the state $\ket{1}$ at position $\ket{\psi_1}$.}
     \label{figure:h_circuit}
 \end{figure}
 
@@ -190,7 +221,7 @@ The \emph{Hadamard}-Gate, or \hgate\cite{qiskit_hgate_nodate}, can be used to qu
         \includesvg{thesis/Appendices/Bloch_Sphere_state_0_1_equal.svg}
     }
     \caption{A basic \emph{Bloch}-Sphere with the state $\frac{1}{\sqrt{2}}\begin{pmatrix}1 \\ 0 \end{pmatrix} + \frac{1}{\sqrt{2}}\begin{pmatrix}0 \\ 1 \end{pmatrix}$ visualized onto it.}
-    \label{figure:state_0_bloch_sphere}
+    \label{figure:state_h_bloch_sphere}
 \end{figure}
 
 To assess that the visualization, and the described behaviour of qubits is correct, these assumptions can be evaluated the formal way. When calculating the to be expected probability of a certain state, the Hermitian transposition\cite{marshall_c_methods_1964} is used. Equation \ref{equation:basic_h_measurement} demonstrates the calculation of the probabilities the \hgate\ assigns to the measurements of $0$ and $1$.
@@ -292,7 +323,7 @@ The example query in figure \ref{figure:sql_query_example} is parsed, and the re
     \label{table:sql_query_result_example}
 \end{table}
 
-Before any execution takes place, the queries themselves are parsed into multiple execution plans\cite{microsoft_execution_nodate}. These plans usually resemble the same operations, just in a different order – this can result in precious time savings. In a large system that handles multiple requests per second, these plans can be used to combine certain sub-sequences of a plan and therefore save execution time\cite{roy_multi-query_2009}. This by itself has been proven to be an \emph{NP-Hard} problem\cite{sellis_multiple-query_1990}. Nevertheless, finding the fastest combination of all plans can be done classically with an exhaustive algorithm in $O(P^Q)$\footnote{as long as all queries have the same number of plans}, where $P$ is the number of plans and $Q$ the number of queries. The work of Kathurina et al.\cite{kathuria_efficient_2017} offers a greedy algorithm for finding a \emph{good} solution, whilst also proving that finding a better approximation factor for the greedy algorithm is \emph{NP-Hard}. A hybrid approach that combines classical and quantum computing uses QAOA (short for Quantum Approximate Optimization Algorithm)\cite{farhi_quantum_2014} have shown to be quasi-optimal solution finders with a runtime of $O(I \cdot (PQ)^2)$\cite{fankhauser_multiple_2021}. \par
+Before any execution takes place, the queries themselves are parsed into multiple execution plans\cite{microsoft_execution_nodate}. These plans usually resemble the same operations, just in a different order – this can result in precious time savings. In a large system that handles multiple requests per second, these plans can be used to combine certain sub-sequences of a plan and therefore save execution time\cite{roy_multi-query_2009}. This by itself has been proven to be an \emph{NP-Hard} problem\cite{sellis_multiple-query_1990}. Nevertheless, finding the fastest combination of all plans can be done classically with an exhaustive algorithm in $O(P^Q)$\footnote{as long as all queries have the same number of plans}, where $P$ is the number of plans and $Q$ the number of queries. The work of Kathurina et al.\cite{kathuria_provable_mqo} offers a greedy algorithm for finding a \emph{good} solution, whilst also proving that finding a better approximation factor for the greedy algorithm is \emph{NP-Hard}. A hybrid approach that combines classical and quantum computing uses QAOA (short for Quantum Approximate Optimization Algorithm)\cite{farhi_quantum_2014} have shown to be quasi-optimal solution finders with a runtime of $O(I \cdot (PQ)^2)$\cite{fankhauser_multiple_2021}. \par
 
 \subsection{Query Dissection}
 A query can be dissected into a variety of plans that can be executed to get the data in the desired format. Figure \ref{figure:query_with_plans} shows a query, which has two differing plans.
@@ -427,27 +458,13 @@ If we change the problem space from two queries to more, or create an uneven num
 
 \newpage
 
-\section{Quantum SVM vs. Quantum Neural Network classification}
-
-\subsection{Machine Learning (ML) and the classification problem}
-Machine Learning (ML) is generally about extracting knowledge from existing data. The knowledge gained may be used to draw conclusions about incoming unknown data. The term Machine Learning has been popularized by Arthur Samuel and the literature states that he defined it as follows (althought the quote can not be found in exactly this form in the original papers of 1959 \cite{5389202_Samuel} and the second edition in 1967 \cite{5391906_Samuel2}):
-\begin{quote}
-\frenchquotes{Machine Learning is the field of study that gives computers the ability to learn without being explicitly programmed.}
-\end{quote}
-Another definition has been given by Tom M. Mitchell in 1997 \cite{mitchell1997machine} and it is a more formal definition:
-\begin{quote}
-\frenchquotes{A computer program is said to learn from experience $\mathcal{E}$ with respect to some class of tasks $\mathcal{T}$ and a performance measure $\mathcal{P}$ if its performance in tasks $\mathcal{T}$, as measured by $\mathcal{P}$, improves with experience $\mathcal{E}$.}
-\end{quote}
-The three main flavours of ML are \emph{supervised learning}, \emph{unsupervised learning}, and \emph{reinforcement learning}\cite{en9080607}. Several more subcategories of each flavour exist but we will not discuss them here in our thesis. In our case the classification problem is part of the supervised learning flavour.
-
-
-
-The goal of classification is to determine a plausible value for an unknown variable $\mathcal{Y}$ given an observed variable $\mathcal{X}$ \cite{barocas-hardt-narayanan}.
-
-\subsection{Support vector machine (SVM)}
-A support vector machine (SVM) also known as support vector network, initially conceived of by Cortes and Vapnik, divides a set of objects into classes in such a way that the widest possible area around the class boundaries remains free of objects. SVMs can not only perform linear classifications but also non-linear ones using the so-called kernel trick \cite{Cortes2004SupportVectorN,fletcher2009support}.
-
-\subsubsection{Quantum SVM}
-Quantum SVM is considered to be the quantum analogue of the classical SVM algorithm as stated by Jiaying Yang et al. \cite{yangSupportVectorMachines2019}.
+\section{Quantum Neural Network}
 
 \subsection{Quantum Neural Network}
+
+
+\subsection{Quantum Support Vector Machine (SVM)}
+A classical support vector machine (SVM) also known as support vector network, initially conceived of by Cortes and Vapnik, divides a set of objects into classes in such a way that the widest possible area around the class boundaries remains free of objects. SVMs can not only perform linear classifications but also non-linear ones using the so-called kernel trick \cite{Cortes2004SupportVectorN}. A detailed explanation on how classical Support Vector Machines work can be found in the paper “Support vector machines explained” by Tristan Fletcher \cite{fletcher2009support}. 
+
+Quantum SVM is considered to be the quantum analogue of the classical SVM algorithm as stated by Jiaying Yang et al. \cite{yangSupportVectorMachines2019}.
+

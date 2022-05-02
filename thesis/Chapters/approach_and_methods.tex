@@ -3,14 +3,26 @@
 \label{chapter:approach_and_methods} % For referencing the chapter elsewhere, use \ref{chapter:computational_neuro} 
 
 \def \blochwidth {0.3}
-\newcommand{\rygate}{$\mathrm{R_Y}$}
+%\newcommand{\crzgate}{$\mathrm{CR_Z}$}
+\newcommand{\plani}{$\mathcal{P}_i$}
+\newcommand{\planj}{$\mathcal{P}_j$}
+\newcommand{\querya}{$\mathcal{Q}_a$}
+\newcommand{\queryb}{$\mathcal{Q}_b$}
+
+% table cell head
+\renewcommand{\cellalign}{lc}
+\renewcommand{\theadalign}{cc}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\theadfont{\normalsize}
+\renewcommand\cellgape{\Gape[5pt]}
+\renewcommand*{\arraystretch}{1.2}
 %----------------------------------------------------------------------------------------
 \section{Multiple Query Optimization}
 
 \subsection{Data acquisition}
 \label{chapter:mqp_data_acquisition}
 
-The problem itself consists of a combination of costs $c$ and savings $s$. These values are basic integer numbers, which for any cost $c$ is in range [1,$x$] and for any saving $s$ in range [$y$,0]. As shown in chapter \ref{chapter:theoretical_fundamentals}, there can be $n$ queries at any given time, each of which has $n_i$ plans. These allow for multiple combinations, which by themselves define the problem space to traverse. To begin with, the problem generator from Fankhauser et al.\cite{fankhauser_multiple_2021} is used to generate a basic problem space consisting of 2 queries, each with 2 plans, as seen in figure \ref{figure:2d_problem_data}.
+The problem itself consists of a combination of costs $c$ and savings $s$. These values are basic integer numbers, which for any cost $c$ is in range [1,$x$] and for any saving $s$ in range [$y$,0]. As shown in chapter \ref{chapter:theoretical_fundamentals}, there can be $n$ queries at any given time, each of which has $n_i$ plans. These allow for multiple combinations, which by themselves define the problem space $\mathcal{D}$ to traverse. To begin with, the problem generator from Fankhauser et al.\cite{fankhauser_multiple_2021} is used to generate a basic problem space consisting of 2 queries, each with 2 plans, as seen in figure \ref{figure:2d_problem_data}.
 
 \begin{figure}[!h]
     \centering
@@ -22,7 +34,7 @@ The problem itself consists of a combination of costs $c$ and savings $s$. These
            (1, 2): -13,
            (1, 3): -6})
     \end{minted}
-    \caption{This is an automatically generated problem. The first number tells us how many queries there are. In this example, all queries have two plans. The second array containts the cost of running each plan. The third segment is a dictionary where the key symbolizes which plans are combined, and the value of the savings that can be had.}
+    \caption{This is an automatically generated problem space $\mathcal{D}$. The first number tells us how many queries there are. In this example, all queries have two plans. The second array contains the cost of running each plan. The third segment is a dictionary where the key symbolizes which plans are combined, and the value of the savings that can be had.}
     \label{figure:2d_problem_data}
 \end{figure}
 
@@ -164,7 +176,7 @@ The problem space from figure \ref{figure:2d_problem_data} is used for direct co
            (4, 5): -10,
            (4, 6): 0})
     \end{minted}
-    \caption{This is an automatically generated, $n$-dimensional problem. The first array tells us how many plans each query has. This problem has 3 queries, two of which have 2 plans and one with 3 plans. Just like the problem from figure \ref{figure:2d_problem_data}, the second element is an array that contains the cost of each plan, and the third element, which is a dictionary, contains the combinations keys and their respective savings.}
+    \caption{This is an automatically generated, $n$-dimensional problem space $\mathcal{D}$. The first array tells us how many plans each query has. This problem has 3 queries, two of which have 2 plans and one with 3 plans. Just like the problem from figure \ref{figure:2d_problem_data}, the second element is an array that contains the cost of each plan, and the third element, which is a dictionary, contains the combinations keys and their respective savings.}
     \label{figure:nd_problem_data}
 \end{figure}
 
@@ -192,16 +204,20 @@ The design of the circuit is carefully modelled as to allow easier understanding
 \begin{equation}
     \centering
     \begin{split}
-        \mathcal{P}_i =\ \ket{0} &=\ \begin{pmatrix}1 \\ 0\end{pmatrix}\\
-        \mathrm{H}\mathcal{P}_i =\ \mathrm{H}\ket{0} &=\ \frac{1}{\sqrt{2}}\ket{0} + \frac{1}{\sqrt{2}}\ket{1} =\ \begin{pmatrix}\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}\end{pmatrix}\\
+        \mathcal{P}_i =\ \ket{0} &=\ \ket{\psi_0} =\ \begin{pmatrix}1 \\ 0\end{pmatrix}\\
+        \mathrm{H}\mathcal{P}_i =\ \mathrm{H}\ket{0} &=\ \frac{1}{\sqrt{2}}\ket{0} + \frac{1}{\sqrt{2}}\ket{1} =\ \begin{pmatrix}\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}\end{pmatrix} =\ \ket{\psi_1}\\
+        |\bra{1}\ket{\psi_1}_{\mathrm{P}_0}|^2 &=\ \left|\frac{1}{\sqrt{2}}\right|^2 =\ 0.5\\
+        |\bra{0}\ket{\psi_1}_{\mathrm{P}_0}|^2 &=\ \left|\frac{1}{\sqrt{2}}\right|^2 =\ 0.5\\
     \end{split}
     \label{equation:2d_problem_state_0_1}
 \end{equation}
 
-Whereas at state $\ket{\psi_0}$ all qubits are equal to state $\ket{0}$, after the \hgate s at state $\ket{\psi_1}$ they all have the state $\frac{1}{\sqrt{2}}\ket{0} + \frac{1}{\sqrt{2}}\ket{1}$, as shown in equation \ref{equation:2d_problem_state_0_1}. 
+Whereas at state $\ket{\psi_0}$ all qubits are equal to state $\ket{0}$, after the \hgate s at state $\ket{\psi_1}$ they all have the state $\frac{1}{\sqrt{2}}\ket{0} + \frac{1}{\sqrt{2}}\ket{1}$. To assess that the circuit behaves correctly, measurement calculations for $\ket{0}$ and $\ket{1}$ are shown in equation \ref{equation:2d_problem_state_0_1}. 
 \subsection{Cost Embedding}
 
 The idea behind the design of the cost embedding onto the quantum circuit is relatively simple. The more expensive a single plan $\mathcal{P}_i$ is, the less its probability to be $1$ should be. This is achieved using a \rygate\, which can turn the \emph{Bloch}-Vector towards $\ket{0}$ or $\ket{1}$. In the end, the probability for $\ket{1}$ should \emph{decrease} with a high cost in the problem space, and \emph{increase} with a low cost.
+
+\newpage
 
 \begin{figure}[!h]
     \centering
@@ -221,36 +237,233 @@ The idea behind the design of the cost embedding onto the quantum circuit is rel
     \centering
     \begin{split}
         \mathrm{RY}(c_i)\mathrm{H}\mathcal{P}_i &=\ \begin{pmatrix} \cos{\frac{c_i}{2}} & -\sin{\frac{c_i}{2}} \\ \sin{\frac{c_i}{2}} & \cos{\frac{c_i}{2}} \end{pmatrix}\begin{pmatrix}\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}\end{pmatrix}\\
-        \mathrm{RY}(c_i)\mathrm{H}\mathcal{P}_i &=\ \frac{1}{\sqrt{2}}\begin{pmatrix}\cos(\frac{c_i}{2}) - \sin(\frac{c_i}{2}) \\ \sin(\frac{c_i}{2}) + \cos(\frac{c_i}{2})\end{pmatrix}\\
+        \mathrm{RY}(c_i)\mathrm{H}\mathcal{P}_i &=\ \frac{1}{\sqrt{2}}\begin{pmatrix}\cos(\frac{c_i}{2}) - \sin(\frac{c_i}{2}) \\ \sin(\frac{c_i}{2}) + \cos(\frac{c_i}{2})\end{pmatrix} =\ \ket{\psi_2}\\
     \end{split}
     \label{equation:2d_problem_state_0_1}
 \end{equation}
 
-To further illustrate what happens, the initial state after the \hgate\ is shown with the \emph{Bloch}-Sphere \ref{}. When now a, by comparison, high cost value is embedded, the probability for a $\ket{0}$ increases, as shown in figure \ref{}. In the opposite case where the cost is, in comparison, lower, the probabillity for $\ket{1}$ increases, as visualized in figure \ref{}.
+\begin{equation}
+    \centering
+    \begin{split}
+        c_0 &=\ 0.5\\
+        c_1 &=\ -0.5\\
+        |\bra{0}\ket{\psi_2}_{\mathrm{P_0}}|^2 &=\ 0.2603 \\
+        |\bra{1}\ket{\psi_2}_{\mathrm{P_0}}|^2 &=\ 0.7397 \\
+        |\bra{0}\ket{\psi_2}_{\mathrm{P_1}}|^2 &=\ 0.7397 \\
+        |\bra{1}\ket{\psi_2}_{\mathrm{P_1}}|^2 &=\ 0.2603 \\
+    \end{split}
+    \label{equation:2d_problem_state_measurements}
+\end{equation}
+
+To further illustrate what happens, the initial state after the \hgate\ is shown with the \emph{Bloch}-Sphere \ref{figure:bloch_sphere_no_cost}. When now a by comparison, high-cost value is embedded, the probability for a $\ket{0}$ increases, as shown in figure \ref{figure:bloch_sphere_bad_cost}. In the opposite case where the cost is, in comparison, lower, the probability for $\ket{1}$ increases, as visualized in figure \ref{figure:bloch_sphere_good_cost}. The equation \ref{equation:2d_problem_state_measurements} shows that this isn't quite the case with circuit \ref{figure:4_qubit_circuit_with_h_ry_gates}, as the opposite happens. To correct this behaviour, the parameter $c_i$ is appended with the factor $-1$, as shown in circuit \ref{figure:4_qubit_circuit_with_h_neg_ry_gates}
 
 \begin{figure}[!h]
     \centering
     \scalebox{\histogramwidth}{
-        \includesvg{thesis/Appendices/Bloch_Sphere_.svg}
+        \includesvg{thesis/Appendices/Bloch_Sphere_state_equal_superposition.svg}
     }
-    \caption{A histogram generated from the data in table \ref{table:example_counts}, that visually shows the probabilities of 0 and 1. These probabilities can directly be used to understand the qubits superposition.}
-    \label{figure:example_histogram}
+    \caption{The \emph{Bloch}-Sphere that shows the state of a single qubit (representing a plan $\mathcal{P}_i$), where the probabilities of $\ket{0}$ and $\ket{1}$ are equal.}
+    \label{figure:bloch_sphere_no_cost}
 \end{figure}
 
+\begin{figure}[!h]
+    \centering
+    \scalebox{\histogramwidth}{
+        \includesvg{thesis/Appendices/Bloch_Sphere_bad_cost.svg}
+    }
+    \caption{The \emph{Bloch}-Sphere that shows the state of a single qubit (representing a plan $\mathcal{P}_i$), where the greater cost was embedded onto state \ref{figure:bloch_sphere_no_cost} and therefore the probability of a $\ket{0}$ increased.}
+    \label{figure:bloch_sphere_bad_cost}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{\histogramwidth}{
+        \includesvg{thesis/Appendices/Bloch_Sphere_good_cost.svg}
+    }
+    \caption{The \emph{Bloch}-Sphere that shows the state of a single qubit (representing a plan $\mathcal{P}_i$), where the lesser cost was embedded onto state \ref{figure:bloch_sphere_no_cost} and therefore the probability of a $\ket{1}$ increased.}
+    \label{figure:bloch_sphere_good_cost}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{1.0}{
+    \Qcircuit @C=1.0em @R=0.2em @!R { \\
+	 	\nghost{{q}_{0} :  } & \lstick{{\mathcal{P}}_{0} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(-\mathrm{c_0})} \barrier[0em]{3} & \qw & \qw & \qw\\
+	 	\nghost{{q}_{1} :  } & \lstick{{\mathcal{P}}_{1} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(-\mathrm{c_1})} & \qw & \qw & \qw\\
+	 	\nghost{{q}_{2} :  } & \lstick{{\mathcal{P}}_{2} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(-\mathrm{c_2})} & \qw & \qw & \qw\\
+	 	\nghost{{q}_{3} :  } & \lstick{{\mathcal{P}}_{3} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(-\mathrm{c_3})} & \qw & \qw & \qw\\
+	 	\nghost{} : & \lstick{{} } & & & \ket{\psi_2}& \\
+    \\ }}
+    \caption{The 4 qubit circuit from figure \ref{figure:4_qubit_circuit_with_h_ry_gates} with negated parameter $c_i$, so that the probabilities move correctly according to the cost of each plan $\mathrm{P}_i$.}
+    \label{figure:4_qubit_circuit_with_h_neg_ry_gates}
+\end{figure}
+
+\newpage
 
 \subsection{Savings Embedding}
+
+The savings follow roughly the same idea. Instead of a \rygate, the entanglement \crzgate\ is used to embed the savings each combination of plans has. For two plans \plani\ and \planj\ to be entangled, the rule \ref{equation:entanglement_rule} has to be true.
+
+\begin{equation}
+\centering
+    \begin{split}
+        \forall\  \mathcal{P}_i,\ \mathcal{P}_j,\ \mathcal{Q}_a,\ \mathcal{Q}_b &\in\ \mathcal{D}\ \\ 
+        i \neq j \wedge\ a \neq b \wedge\ \left(\mathcal{P}_i\ \in\ \mathcal{Q}_a\ \wedge \mathcal{P}_j\ \notin\ \mathcal{Q}_a\right) &\wedge\ \left(\mathcal{P}_j\ \in\ \mathcal{Q}_b\ \wedge \mathcal{P}_i\ \notin\ \mathcal{Q}_b\right)\\
+    \end{split}
+    \label{equation:entanglement_rule}
+\end{equation}
+
+
+As defined for a problem space $\mathcal{D}$ in figure \ref{figure:2d_problem_data}, the savings themselves are negative. A circuit with all data embeddings is visualized in figure \ref{figure:4_qubit_circuit_with_h_ry_crz_gates}.
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{1.0}{
+\Qcircuit @C=1.0em @R=0.2em @!R { \\
+	 	\nghost{{q}_{0} :  } & \lstick{{\mathcal{P}}_{0}  :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{-c_0})} & \ctrl{2} & \ctrl{3} & \qw & \qw \barrier[0em]{3} & \qw & \qw & \qw\\
+	 	\nghost{{q}_{1} :  } & \lstick{{\mathcal{P}}_{1}  :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{-c_1})} & \qw & \qw & \ctrl{1} & \ctrl{2} & \qw & \qw & \qw\\
+	 	\nghost{{q}_{2} :  } & \lstick{{\mathcal{P}}_{2}  :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{-c_2})} & \gate{\mathrm{R_Z}\,(\mathrm{s_{02}})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s_{12}})} & \qw & \qw & \qw & \qw\\
+	 	\nghost{{q}_{3} :  } & \lstick{{\mathcal{P}}_{3}  :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{-c_3})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s_{03}})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s_{13}})} & \qw & \qw & \qw\\
+	 	\nghost{ } & \lstick{ } & & & & & & & \ket{\psi_3} & &\\
+\\ }}
+    \caption{A 4 qubit circuit with an equal probability layer, the cost embedding layer from \ref{figure:4_qubit_circuit_with_h_ry_gates} as well as a new \crzgate\ layer to embed the combinational savings of single pairs of plans.}
+    \label{figure:4_qubit_circuit_with_h_ry_crz_gates}
+\end{figure}
+
 \subsection{Data}
 
-\newpage
+The goal of this research is to evaluate a circuit, that in the future can be used to greatly speed up query combination on real database systems. This demands strict forethought about the way the data is handled. One problem that exists is that the cost values are, by themselves, not capped. This means that whilst the generated data might have a limited range, one cannot reassure that any real life data will stay within that range. This leads to the choice of normalizing \emph{each problem by itself}, instead of the usual approach in machine learning of normalizing complete datasets. This allows to somewhat bring structure into the problem space $\mathcal{D}$.
 
-\section{Quantum SVM vs. Quantum Neural Network classification}
+\clearpage
 
-\subsection{Datasets and data acquisition}
-custom, adhoc, iris, rain, vlds
+\section{Quantum Neural Network}
+
+\subsection{Datasets and Data Acquisition}
+The binary datasets initially used in our first experiments can be seen in table \ref{table:qnn_binary_datasets}. These datasets have been used to have a direct comparison to the Quantum SVM experiments done by N. Meier and N. Smailov - both of them have been bachelor students at ZHAW School of Engineering at that time - in their project thesis <add ref here>\todo{Add ref here for the project thesis}. \todo{This should be mentioned earlier in the docum. Move this to appr. place}
+
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{rccc}
+		\hline 
+		\thead{\textbf{Dataset}} & \thead{\textbf{\#Features}} & \thead{\textbf{\#Records}} & \thead{\textbf{\#Classes}} \\
+		\hline 
+		Adhoc   & 3         & 100      & 2        \\
+		Custom  & 2         & 100      & 2        \\
+		Iris    & 4         & 100      & 2        \\
+		Rain    & 5         & 100      & 2        \\
+		Vlds    & 5         & 100      & 2        \\
+		\hline
+	\end{tabular}
+	\caption{Characteristics of the five binary datasets used in our first experiments.}
+	\label{table:qnn_binary_datasets}
+\end{table}
+
+The experiments done in the project thesis have been the basis of an additional paper co-authored with Prof. Dr. K. Stockinger and Prof. Dr. R. M. Füchslin which is currently work in progress, faced some critics when submitted for review. 
+One of the criticisms was the number of samples used and that all datasets are binary. Therefore, the experiments were performed again extending the datasets to address these issues. The extended datasets, shown in the table \ref{table:qnn_extended_datasets}, use more samples for those datasets that allow it like \textit{Rain}, \textit{Adhoc}, \textit{Vlds} and \textit{Custom} and additionally all classes like in the case of the \textit{Iris} dataset. To address another criticism, namely the limitation of the number of qubits - see \ref{subsection:limitations_and_shortcomings} - and thus the maximum number of features that can be taken from a dataset, we used principal component analysis (PCA) on the \textit{Rain} dataset.
+
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{rcccc}
+		\hline 
+		\thead{\textbf{Dataset}} & \thead{\textbf{\#Features}} & \thead{\textbf{\#Records}} & \thead{\textbf{\#Classes}} & \thead{\textbf{PCA}}\tablefootnote{Principal component analysis (PCA) has been performed with this dataset} \\
+		\hline 
+		Adhoc   & 3         & 1000      & 2          & -        \\
+		Custom  & 2         & 1000      & 2          & -        \\
+		Iris    & 4         & 150       & 3          & -        \\
+		Rain    & 5         & 1000      & 2          & yes      \\
+		Vlds    & 5         & 1000      & 2          & -        \\
+		\hline
+	\end{tabular}
+	\caption{Characteristics of the five extended datasets used in our second experiments.}
+	\label{table:qnn_extended_datasets}
+\end{table}
+
+All of the above datasets except Iris have been preprocessed. .. balanced, normalized scaled
+mapping of class labels (e.g. yes, no to 1,0) etc. \todo{add preprocessing informations} 
+
+\textbf{Iris dataset}. This well known and widely used dataset is loaded via the \mintinline{python}{load_iris}\footnote{\url{https://scikit-learn/stable/modules/generated/sklearn.datasets.load_iris.html}} function from scikit-learn \cite{scikit-learn,SklearnDatasetsLoad}. It has three classes and a 150 samples in total.
+
+\textbf{Rain dataset}. This dataset contains about 10 years of daily weather observations from many locations across Australia. It is a binary dataset where one has to predict if it rains the next day or not given by the class label attribute \textit{RainTomorrow}. We dropped incomplete data entries and performed a balanced subsampling. In the first experiments \todo{add refs here} the following five features were selected: \textit{MinTemp}, \textit{Humidity9am}, \textit{WindSpeed3pm}, \textit{Pressure9am}, \textit{WindDir9am}. In the second experiment PCA\todo{may also add the component count here} has been performed. 
+
+\textbf{Adhoc dataset}. This dataset was generated using the \mintinline{python}{ad_hoc_data}\footnote{\url{https://qiskit.org/documentation/machine-learning/stubs/qiskit_machine_learning.datasets.ad_hoc_data.html}} Qiskit Machine Learning API function \cite{AdHocData}. It is further described in \cite{havlicekSupervisedLearningQuantum2019}.
+
+\textbf{Vlds dataset}. This random multilabel classification problem dataset was generated using the \mintinline{python}{make_multilabel_classification}\footnote{\url{https://scikit-learn/stable/modules/generated/sklearn.datasets.make_multilabel_classification.html}} function from scikit-learn\cite{scikit-learn} \cite{SklearnDatasetsMake}.
+
+\textbf{Custom dataset}. Generated dataset by a custom algorithm \todo{add picture and function}
+
+\clearpage
+
+\subsection{Hybrid Classical-Quantum Algorithm}
+Hybrid classical-quantum algorithms utilizes both classical and quantum computers. Frankhauser et al. \cite{fankhauser_multiple_2021} states that these types of algorithms are considered promising since they can better handle erroneous, small-scale quantum devices than "pure" quantum algorithms.
+For our supervised training runs to optimize the weights for the Quantum Circuits we use a hybrid classical-quantum algorithm. The algorithm only performs the feature and weight embeddings and the calculation including measurements for classification in a quantum circuit, see figure \ref{fig:schematic_hybrid_classical_quantum}. The actual classification \todo{ref to parity function} and the weight optimizations as well as the loss and accuracy calculations is done with classical methods. 
+
+\todo{refer to figure in text}
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{0.88}{
+        \begin{tikzpicture}[
+          roundnode/.style={circle, draw=black!60, fill=white!5, thick, minimum size=7mm},
+          squarednode/.style={rectangle, draw=black!60, fill=white!5, thick, minimum size=10mm},
+          optimizernode/.style={rectangle, draw=black!60, fill=white!5, thick, minimum size=25mm},
+          quantumcircuit/.style={draw=blue, minimum height=3.5cm, minimum width=10cm, fill=white!5, label=below:{\color{blue}quantum\ circuit}},
+        ]
+            %Nodes
+            \node[roundnode]        (dataset)        {Data};
+            \node[squarednode]      (preprocess)     [right=of dataset] {Preprocessing};
+            \node                   (point1)         [below=of preprocess] {};
+            \node[quantumcircuit]   (quantumcircuit) [below right=of dataset]  {
+                \Qcircuit @C=1em @R=.7em {
+                    \lstick{\ket{0}} & \multigate{3}{feature\ embedding} & \multigate{3}{model\ circuit} & \meter & \cw \\
+                    \lstick{\ket{0}} & \ghost{feature\ embedding} & \ghost{model\ circuit} & \meter & \cw \\
+                    \cdots & \nghost{feature\ embedding} & \nghost{model\ circuit} & \cdots &  \\
+                    \lstick{\ket{0}} & \ghost{feature\ embedding} & \ghost{model\ circuit} & \meter & \cw \gategroup{1}{5}{4}{5}{1.5em}{\}}
+                }
+            };
+            \node[optimizernode]      (optimizer)     [right=of quantumcircuit] {Optimizer};
+            % Lines
+            \draw[->] (dataset.east) -- (preprocess.west);
+            \draw[->] (quantumcircuit.east) -- (optimizer.west);
+            \draw [->] (preprocess.south) -- ++(0,-.6) -- ++(+1.3,0) -| ++(0,-0.6);
+            \draw [->] (optimizer.north) -- ++(0,+1.25) -- ++(-6.15,0) node[auto,midway,above] {weight updates} -| ++(0,-1);
+        \end{tikzpicture}
+    }
+    \caption{Schematic view of the hybrid classical-quantum algorithm. Everything outside the quantum circuit in blue is done with classical methods.}
+    \label{fig:schematic_hybrid_classical_quantum}
+\end{figure}
 
 \subsection{Circuit Design}
+The general scheme for the quantum circuits - shown in figure \ref{figure:general_schematics_quantum_circuits_qnn} - starts with feature embedding, followed by at least one up to n layers. Finally a measurement on all qubits follows. Each quantum circuit is automatically generated using a predefined scripted template. The number of layers and the number of features must be passed to the template which generates the final quantum circuit. The Qubit count is determined by the first given feature set length but the number is limited to five. We set ourselves a upper limit of 5 Qubits for our experiments, please see subsection \ref{subsection:Limitations_and_shortcomings} for more information about this limitation.
 
-\subsection{Limitations and shortcomings}
+\begin{figure}[!h]
+	\centering
+	\scalebox{1.0}{
+		\Qcircuit @C=1em @R=.7em {
+		                     &                                                    &     &                                          &        &        & & \mbox{{\tiny optional n layers}}           &     &        & & \\
+			\lstick{\ket{0}} & \multigate{3}{feature\ embedding} \barrier[0em]{3} & \qw & \multigate{3}{layer\ 1} \barrier[0em]{3} & \qw    & \cdots & & \multigate{3}{layer\ n} \barrier[0em]{3} & \qw & \cdots & & \meter \\
+			\lstick{\ket{0}} & \ghost{feature\ embedding}                         & \qw & \ghost{layer\ 1}                         & \qw    & \cdots & & \ghost{layer\ n}                         & \qw & \cdots & & \meter \\
+			\cdots           & \nghost{feature\ embedding}                        &     & \nghost{layer\ 1}                        &        & \cdots & & \nghost{layer\ n}                        &     & \cdots & & \cdots \\
+			\lstick{\ket{0}} & \ghost{feature\ embedding}                         & \qw & \ghost{layer\ 1}                         & \qw    & \cdots & & \ghost{layer\ n}                         & \qw & \cdots & & \meter \gategroup{2}{8}{5}{9}{.7em}{.} \\
+	    }
+	}
+	\caption{General schematics of the quantum circuits used in the QNN experiments.}
+	\label{figure:general_schematics_quantum_circuits_qnn}
+\end{figure}
+
+Three of the quantum circuits have been designed in our project thesis XYZ \todo{ref here}. Two additional circuits have been added.
+
+The quantum circuits always start with the feature embedding using angle embedding \todo{Why angle embedding?} with a \rygate. 
+
+\subsubsection{Feature \& Weights Embedding}
+
+\subsection{Limitations and Shortcomings}
+\label{subsection:limitations_and_shortcomings}
 \todo{Notes: 5 Qubit limit (Due to Quantum Hardware availability), default hyperparams}
 
-\newpage
+\clearpage
+
+
+
+
+
+
