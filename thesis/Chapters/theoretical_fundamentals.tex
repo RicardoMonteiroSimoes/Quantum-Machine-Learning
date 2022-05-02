@@ -121,8 +121,16 @@ The \bloch\cite{michael_a_nielsen_quantum_2000}, as shown in figure \ref{figure:
         \scalebox{\blochwidth}{
             \includesvg{thesis/Appendices/Bloch_Sphere_axis.svg}
         }
-        \caption{A basic \bloch\ without any visualized state. The axis $x$ and $y$ are annotated accordingly, but the axis $z$ is annotated with $\ket{0}$ and $\ket{1}$ - the states which are measured and have a corresponding probability assigned to them. The purple point shows the origin.}
+        \caption{A basic \bloch\ without any visualized state. The axis $x$ and $y$ are annotated accordingly, but the axis $z$ is annotated with $\ket{0}$ and $\ket{1}$ - the states which are measured and have a corresponding probability assigned to them. The purple arrow shows the \emph{Bloch}-Vector, and currently points to $\ket{0}$, so the state the single qubit is currently in.}
         \label{figure:basic_bloch_sphere}
+    \end{subfigure}
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \scalebox{\blochwidth}{
+            \includesvg{thesis/Appendices/Q_Sphere_State_h_multiqubit.svg}
+        }
+        \caption{A basic Q-Sphere that shows all possible states of a 4 qubit circuit, as well as the probability of each state. The probability is encoded into the width of the dots next to the state labels. As all dots are equal, it is clear that all states have the same probability of being measured.}
+        \label{figure:q_sphere_4qubit_h}
     \end{subfigure}
     \caption{Caption}
     \label{fig:my_label}
