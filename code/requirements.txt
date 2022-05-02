@@ -50,6 +50,7 @@ pylatexenc
 qiskit-machine-learning
 qiskit-optimization
 qiskit-aer-gpu
+seaborn
 # qiskit-aer; sys_platform == 'darwin'
 
 # Installing utilities
