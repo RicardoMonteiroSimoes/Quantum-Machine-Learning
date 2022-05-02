@@ -13,16 +13,17 @@
 %----------------------------------------------------------------------------------------
 
 \section{Status Quo}
-\todo{Nennt bestehende Arbeiten/Li-teratur zum Thema
-→Literaturrecherche
-Stand der Technik: Bisherige Lösungen des Problems und deren Grenzen
-«Stand der Technik» ist ein Fachbegriff, der den aktuellen Stand des Wissens im Thema meint. Sie beweisen damit, dass Sie das Fachgebiet kennen und das we-sentliche Vorwissen aufgearbeitet haben.}
+\todo{→Literaturrecherche
+Stand der Technik: Bisherige Lösungen des Problems und deren Grenzen}
 
 \subsection{Multiple Query Optimization}
-Modern applications always encompass the storage of data in some form of a database. The databases can then be searched for data that conforms to the given filters using a defined query language. With the database compiler, the queries are transformed into plans that resemble trees. Usually, a query can be fulfilled in more than one way, which leads to there being many plans. With the ever rising number of users accessing data concurrently, the situation arises at which some plans can be partially combined to save execution time. This has been an ongoing problem to solve, and there exist many solutions to it. the problem in itself is of quadratic nature; which means that it usually takes $O(n^2)$ to find the combination with most savings. More often than not, it is perfectly acceptable to have a \emph{good} combination to use, as those already offer saved runtime. 
+\todo{Here should be a concrete example of query optimization and afterwards extended by multi-query optimization.}
+Modern applications always encompass the storage of data in tables, which are then stored in some form of database. The database can be searched for data that conforms to the given filters using a defined query language. With the database compiler, these queries are compiled into tree-like plans. Usually, a query can be fulfilled in more than one way, which leads to differing plans for the same query.\par
+One simple example would be the request to get the addresses of all users with the name \code{Josh}. Under the assumption that user and address data is stored separately, their content has to be merged together into a single table, so that one can associate users with their corresponding addresses. This already offers us two possible plans for fulfilling the request. The system can either filter and reduce the table with the user data beforehand, by selecting only the rows where the name is \code{Josh}, or at the end after both tables have been merged. Depending on data size, there can be substantial speed-ups when firstly filtering the rows according to the search parameter, which in return reduces rows that have to be merged.\par 
+With the ever rising number of users accessing data concurrently, the situation arises at which some plans can be partially combined to save execution time (hence the name \emph{Multiple Query Optimization}). Akin to selecting the fastest plan to a query, combining different query plans together that share some intermediate results can also lead to substantial savings when it comes to the total runtime. The problem in itself is of quadratic nature; which means that it usually takes $O(n^2)$ to find the combination with the most savings. Finding the combination with the most time savings has been an ongoing problem to solve, with solutions that can find a \emph{good enough} solution available. 
 
-\subsection{Quantum SVM vs. Quantum Neural Network classification}
-Classification problems
+\subsection{Quantum Neural Network}
+Classification of data is a canonical problem in machine learning and has made great strides towards getting classical computers to classify data \cite{Killoran_2019,ClassificationWithQNN}. 
 
 \section{Goals}
 \todo{Formuliert das Ziel der Arbeit
@@ -30,9 +31,9 @@ Achtung: Ziel und Aufgabe sind nicht zwingend dasselbe! Bitte sauber trennen.
 Verweist auf die offizielle Auf-gabenstellung des/der Dozie-renden im Anhang}
 
 \subsection{Multiple Query Optimization}
-The goal of this paper is to evaluate the viability and efficiency of a quantum-based solution to solve the multiple query optimization problem. Using artificially generated data which mimics real life situations, a circuit is generated which then converges onto the, \emph{supposedly}, optimal solution. For comparison, a different quantum solver is used and not only the results, but also the runtime assessed.
+The goal of this paper is to evaluate the practicality of a quantum-based solution to solve the multiple query optimization problem. Using artificially generated data which mimics real life situations, a circuit is generated which then converges onto the optimal solution. For comparison, a different quantum solver is used and not only the results, but also the runtime assessed.
 
-\subsection{Quantum SVM vs. Quantum Neural Network classification}
+\subsection{Quantum Neural Network}
 The goal of this paper is to compare the Quantum SVM and Quantum Neural Network approach for binary datasets as well as datasets with more than two classes.
 
 \newpage
