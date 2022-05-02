@@ -2,8 +2,9 @@
 
 \label{chapter:theoretical_fundamentals} % For referencing the chapter elsewhere, use \ref{chapter:computational_neuro} 
 
-\def \blochwidth {0.3}
-\def \histogramwidth {0.3}
+\def \blochwidth {0.4}
+\def \qspherewidth {0.5}
+\def \histogramwidth {0.4}
 \newcommand{\bloch}{\emph{Bloch}-Sphere}
 \newcommand{\hgate}{$\mathrm{H}$-Gate}
 \newcommand{\xgate}{$\mathrm{X}$-Gate}
@@ -113,10 +114,11 @@ A mere two years later, Wolfgang Pauli published "Zur Quantenmechanik des magnet
 
 \newpage
 
-The \bloch\cite{michael_a_nielsen_quantum_2000}, as shown in figure \ref{figure:basic_bloch_sphere}, is used to help visualize quantum operations on a single, \emph{non-entangled}, qubit. The complex \emph{Bloch}-Vector inside the \bloch\ corresponds to the expectation value of measuring a value in a single qubit. To visualize entangled qubits, the \bloch\ by itself is not enough. There are supposed solutions to this problem\cite{gamel_entangled_2016}, which result in a more complex visualization. To solve this issue, IBM created the \emph{Q}-Sphere, which can not only visualize single qubits, but also entangled ones as well as their global phase.
+The \bloch\cite{michael_a_nielsen_quantum_2000}, as shown in figure \ref{figure:basic_bloch_sphere}, is used to help visualize quantum operations on a single, \emph{non-entangled}, qubit. The complex \emph{Bloch}-Vector inside the \bloch\ corresponds to the expectation value of measuring a value in a single qubit. To visualize entangled qubits, the \bloch\ by itself is not enough. There are proposed solutions to this problem\cite{gamel_entangled_2016}, which result in a more complex visualization with multiple \bloch s. To solve this issue, IBM created the Q-Sphere\cite{ibm_quantum_visualizations_nodate} as shown in figure \ref{figure:q_sphere_4qubit_h}, which can not only visualize single qubits, but also entangled ones as well as their global phase and probability in form of amplitude.
 
-\begin{figure}
-    \begin{subfigure}{.5\textwidth}
+\begin{figure}[!h]
+    \centering
+    \begin{subfigure}{.4\textwidth}
         \centering
         \scalebox{\blochwidth}{
             \includesvg{thesis/Appendices/Bloch_Sphere_axis.svg}
@@ -126,26 +128,26 @@ The \bloch\cite{michael_a_nielsen_quantum_2000}, as shown in figure \ref{figure:
     \end{subfigure}
     \begin{subfigure}{.5\textwidth}
         \centering
-        \scalebox{\blochwidth}{
+        \scalebox{\qspherewidth}{
             \includesvg{thesis/Appendices/Q_Sphere_State_h_multiqubit.svg}
         }
-        \caption{A basic Q-Sphere that shows all possible states of a 4 qubit circuit, as well as the probability of each state. The probability is encoded into the width of the dots next to the state labels. As all dots are equal, it is clear that all states have the same probability of being measured.}
+        \caption{A basic Q-Sphere that shows all possible states of a 4 qubit circuit, as well as the probability of each state, as well as their phase. The probability is encoded into the width of the dots next to the state labels. As all dots are equal, it is clear that all states have the same probability of being measured.}
         \label{figure:q_sphere_4qubit_h}
     \end{subfigure}
-    \caption{Caption}
-    \label{fig:my_label}
+    \caption{A comparison of the \bloch\ used to visualize single qubits only, and the Q-Sphere that can visualize multiple qubits.}
+    \label{fig:comparison_bloch_sphere_q_sphere}
 \end{figure}
 
-When measuring a qubit, the state collapses onto the $z$-axis\cite{feynman_feynman_1965}, which in turn leads to a measurement of either 0 or 1. Initially, all qubits are set to state $\ket{0}$, which is visualized onto the \bloch\ in figure \ref{figure:state_0_bloch_sphere}. A circuit that results in said state is visualized in figure \ref{figure:state_0_circuit}, and its mathematical counterpart in equation \ref{equation:state_0_equation}. The states $\ket{\psi_i}$ are used to denote the state of one, or multiple, qubits at the currently marked point of the circuit. These are utilized to mark the states that are calculated throughout this thesis.
+When measuring a qubit, the state collapses onto the $z$-axis\cite{feynman_feynman_1965}, which in turn leads to a measurement of either 0 or 1. Initially, all qubits are set to state $\ket{0}$, which is visualized onto the Q-Sphere in figure \ref{figure:state_0_q_sphere}. A circuit that results in said state is visualized in figure \ref{figure:state_0_circuit}, and its mathematical counterpart in equation \ref{equation:state_0_equation}. The states $\ket{\psi_i}$ are used to denote the state of one, or multiple, qubits at the currently marked point of the circuit. These are utilized to mark the states that are calculated throughout this thesis.
 
 \begin{figure}[!h]
     \begin{subfigure}{.5\textwidth}
     \centering
-        \scalebox{\blochwidth}{
-            \includesvg{thesis/Appendices/Bloch_Sphere_state_0.svg}
+        \scalebox{\qspherewidth}{
+            \includesvg{thesis/Appendices/Q_Sphere_State_0.svg}
         }
-        \caption{A \bloch with the state $\ket{0}$ visualized onto it, where the state now points in the direction of $\ket{0}$}
-        \label{figure:state_0_bloch_sphere}
+        \caption{A Q-Sphere with the state $\ket{0}$ visualized onto it.}
+        \label{figure:state_0_q_sphere}
     \end{subfigure}
     \begin{subfigure}{.5\textwidth}
     \centering
@@ -157,7 +159,7 @@ When measuring a qubit, the state collapses onto the $z$-axis\cite{feynman_feynm
         \caption{A basic circuit consisting of a single qubit $q$ that is initially set to $\ket{0}$. The state vector at point $\ket{\psi_0}$ is shown in equation \ref{equation:state_0_equation}.}
         \label{figure:state_0_circuit}
     \end{subfigure}
-    \caption{The circuit with qubit state $\ket{0}$ at position $\ket{\psi_0}$ and its corresponding \bloch\ visualization.}
+    \caption{The circuit with qubit state $\ket{0}$ at position $\ket{\psi_0}$ and its corresponding Q-Sphere visualization.}
     \label{fig:showcase_qubit_state_0_with_circuit}
 \end{figure}
 
