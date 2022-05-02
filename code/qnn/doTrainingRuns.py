@@ -54,8 +54,8 @@ COBYLA - defaults: maxiter=1000, disp=False, rhobeg=1.0, tol=None, options=None,
 ADAM - defaults: maxiter=10000, tol=1e-06, lr=0.001, beta_1=0.9, beta_2=0.99, noise_factor=1e-08, eps=1e-10, amsgrad=False, snapshot_dir=None
 => https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.ADAM.html#qiskit.algorithms.optimizers.ADAM
 
-BFGS - defaults:maxfun=1000, ftol=2.220446049250313e-15, factr=None, iprint=- 1, max_processes=None, options=None, max_evals_grouped=1
-=> https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.P_BFGS.html#qiskit.algorithms.optimizers.P_BFGS
+L_BFGS_B - defaults:maxfun=1000, maxiter=15000, ftol=2.220446049250313e-15, factr=None, iprint=- 1, epsilon=1e-08, eps=1e-08, options=None, max_evals_grouped=1
+=> https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.L_BFGS_B.html#qiskit.algorithms.optimizers.L_BFGS_B
 
 ...etc. => https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.html
 
@@ -65,7 +65,7 @@ Read also: https://arxiv.org/pdf/2106.08682.pdf
 optimizer = (COBYLA(maxiter=1000), 'COBYLA')
 # optimizer = (ADAM(maxiter=1000,amsgrad=True), 'ADAM AMSGRAD')
 # optimizer = (SPSA(maxiter=100), 'SPSA')
-# optimizer = (P_BFGS(), 'BFGS')
+# optimizer = (L_BFGS_B(), 'BFGS')
 
 
 def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
