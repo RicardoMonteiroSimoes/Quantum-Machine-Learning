@@ -221,13 +221,13 @@ def main(argv):
     args = parse_args(argv)
     print('Optimizer evaluation for MQO solving QCs')
     print('---------------------------------------------------')
-    circuits = ['csx', 'hcsx', 'hcsxh']
+    circuits = ['hcsx']
     weights = [1,4]
     
 
     print('Generating optimizers...')
     optimizers = []
-    max_iterations = 100
+    max_iterations = 50
 
     learning_rates = [0.001, 0.005]
     beta_1s = [0.99, 0.9]
@@ -242,28 +242,28 @@ def main(argv):
                     adams.append(ADAM(maxiter=max_iterations, lr=lr, beta_1=b1, beta_2=b2, noise_factor=noise, amsgrad=True))
     optimizers.append(adams)
 
-    ###BFGS
-    bfgs = []
-    bfgs.append(P_BFGS(maxfun =max_iterations))
-    optimizers.append(bfgs)
-
-    ###SPSA
-    spsa = []
-    blockings = [True, False]
-    perturbations = [None, 1, 0.1, 0.01]
-    last_avgs = [1, 2]
-    resamplings = [1, 2]
-    hessian_delays = [0, 1, 2]
-    for b in blockings:
-        for p in perturbations:
-            for la in last_avgs:
-                for rs in resamplings:
-                    for hd in hessian_delays:
-                        for lr in learning_rates:
-                            spsa.append(SPSA(maxiter=max_iterations, blocking=b, learning_rate=lr, perturbation=p, last_avg=la, resamplings=rs, hessian_delay=hd))
-    optimizers.append(spsa)
-
-    optimizers_names = ['AMSGRAD', 'BFGS', 'SPSA']
+    ####BFGS
+    #bfgs = []
+    #bfgs.append(P_BFGS(maxfun =max_iterations))
+    #optimizers.append(bfgs)
+#
+    ####SPSA
+    #spsa = []
+    #blockings = [True, False]
+    #perturbations = [None, 1, 0.1, 0.01]
+    #last_avgs = [1, 2]
+    #resamplings = [1, 2]
+    #hessian_delays = [0, 1, 2]
+    #for b in blockings:
+    #    for p in perturbations:
+    #        for la in last_avgs:
+    #            for rs in resamplings:
+    #                for hd in hessian_delays:
+    #                    for lr in learning_rates:
+    #                        spsa.append(SPSA(maxiter=max_iterations, blocking=b, learning_rate=lr, perturbation=p, last_avg=la, resamplings=rs, hessian_delay=hd))
+    #optimizers.append(spsa)
+    
+    optimizers_names = ['AMSGRAD']#, 'BFGS', 'SPSA']
 
     print('Generated {0} optimizers'.format(sum([len(a) for a in optimizers])))
     print('Creating {0} problems, with {1} queries, of which each has {2} plans'.format(args.size, 2, 2))
@@ -294,15 +294,16 @@ def main(argv):
         print('Evaluating optimizer ' + opt_name)
         optimizer_results = []
         for optimizer in optimizers[i]:
+            print('Doing parameters {0} of {1}'.format(i, sum([len(a) for a in optimizers])))
             circuit_results = []
             for i, c in enumerate(gen_circuits):
-                print('Evaluating circuit ' + str(i))
+                print('Evaluating circuit ' + str(i) + ' of ' + str(len(gen_circuits)))
                 s_trains = []
                 s_tests = []
                 c_ws = []
                 losses = []
                 for n in range(args.iterations):
-                    print('Doing crossfold iteration ' + str(n))
+                    print('Doing crossfold iteration ' + str(n) + ' of ' + str(args.iterations))
                     classifier = get_classifier(c.copy(), optimizer=optimizer, quantum_instance=quantum_instance)
                     score_train, score_test, w, loss = fit_and_score(classifier, problems_prepared, solution)
                     s_trains.append(score_train)
