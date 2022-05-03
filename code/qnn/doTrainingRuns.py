@@ -8,7 +8,7 @@ import pickle
 import numpy as np
 from datetime import datetime
 # qiskit
-from qiskit.algorithms.optimizers import COBYLA, ADAM, SPSA, P_BFGS
+from qiskit.algorithms.optimizers import COBYLA, ADAM, SPSA, L_BFGS_B
 from qiskit import Aer, QuantumCircuit
 from qiskit.utils import QuantumInstance
 from qiskit_machine_learning.neural_networks import CircuitQNN
@@ -65,7 +65,7 @@ Read also: https://arxiv.org/pdf/2106.08682.pdf
 optimizer = (COBYLA(maxiter=1000), 'COBYLA')
 # optimizer = (ADAM(maxiter=1000,amsgrad=True), 'ADAM AMSGRAD')
 # optimizer = (SPSA(maxiter=100), 'SPSA')
-# optimizer = (L_BFGS_B(), 'BFGS')
+# optimizer = (L_BFGS_B(maxiter=1500), 'BFGS')
 
 
 def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
@@ -340,9 +340,8 @@ if __name__ == '__main__':
     jobs = []
 
     print("Running circuits ...")
-    # Use filtered datasets like: `for index, dataset in enumerate([datasets[i] for i in [1, 14, 27, 40, 53]]):`
-    # for index, dataset in enumerate([datasets[i] for i in [1, 2, 14]]):
-    for index, dataset in enumerate(datasets):
+    # for index, dataset in enumerate([datasets[i] for i in range(0, 50, 1)]):
+    for index, dataset in enumerate([datasets[i] for i in range(0, 10, 1)]):
         p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset))
         jobs.append(p)
         p.start()
