@@ -51,10 +51,12 @@ qiskit-machine-learning
 qiskit-optimization
 qiskit-aer-gpu; sys_platform == 'linux'
 qiskit-aer; sys_platform != 'linux'
+# qiskit-aer; sys_platform == 'darwin'
 
 # Installing utilities
 tqdm
 GPUtil
+seaborn
 
 # Installing pydot
 pydot
