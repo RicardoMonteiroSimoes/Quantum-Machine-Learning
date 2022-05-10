@@ -68,8 +68,8 @@ optimizer = (COBYLA(maxiter=1000), 'COBYLA')
 # optimizer = (L_BFGS_B(maxiter=1500), 'BFGS')
 
 
-def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
-    output_shape = 2  # binary classification
+def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2, o_shape=2):
+    output_shape = o_shape  # target count for classification
 
     def parity(x):
         # print("parity x: {}".format(x))
@@ -114,7 +114,9 @@ def worker_datasets(return_list: dict, dataset):
     Saves the results into return_list
     """
     (dataset_id, dataset_name, data) = dataset
-    N_WIRES = len(data[0][0])  # is also feature count
+    N_WIRES = len(data[0][0])  # feature count determines wires
+    # count different values of targets (parity)
+    OUTPUT_SHAPE = len(np.unique(data[1]))
 
     qcirc_results = {}
 
@@ -130,12 +132,9 @@ def worker_datasets(return_list: dict, dataset):
         quantum_circuit = q_circ(n_wires=N_WIRES, n_layers=N_LAYERS).copy()
 
         # get the generated classifier
-        classifier = get_classifier(quantum_circuit, weights, N_WIRES)
+        classifier = get_classifier(quantum_circuit, weights, N_WIRES, OUTPUT_SHAPE)
 
         (sample_train, sample_test, label_train, label_test) = data
-        # ugly hack to fix iris labels. Don't do this at home
-        np.subtract(label_train, 1, out=label_train, where=label_train == 2)
-        np.subtract(label_test, 1, out=label_test, where=label_test == 2)
 
         # fit classifier to data
         classifier.fit(sample_train, label_train)

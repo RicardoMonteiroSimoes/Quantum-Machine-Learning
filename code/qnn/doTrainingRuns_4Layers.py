@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#
+# !/usr/bin/env python3
 
 import multiprocessing
 import pythonlib.qcircuits as qc
@@ -20,7 +21,7 @@ SCRIPT_DIRECTORY = os.path.dirname(abspath)
 os.chdir(SCRIPT_DIRECTORY)
 
 # VARS
-DATASET_FILE = SCRIPT_DIRECTORY + '/../datasets/datasets.data'
+DATASET_FILE = SCRIPT_DIRECTORY + '/../datasets/datasets2.data'
 NUMBER_DATASETS = 5
 NUMBER_RUNS = 10
 NUMBER_SAMPLES = 100
@@ -31,7 +32,7 @@ load_dataset_args = (DATASET_FILE,
                      NUMBER_SAMPLES)
 # Q Cicruit settings
 # N_LAYERS => Defines the number of layers for the quantum circuits
-N_LAYERS = os.getenv('QC_N_LAYERS', 2)
+N_LAYERS = os.getenv('QC_N_LAYERS', 4)
 
 # Q circuits
 quantum_circuits = [
@@ -133,7 +134,6 @@ def worker_datasets(return_list: dict, dataset):
         classifier = get_classifier(quantum_circuit, weights, N_WIRES)
 
         (sample_train, sample_test, label_train, label_test) = data
-        # ugly hack to fix iris labels. Don't do this at home
         np.subtract(label_train, 1, out=label_train, where=label_train == 2)
         np.subtract(label_test, 1, out=label_test, where=label_test == 2)
 
