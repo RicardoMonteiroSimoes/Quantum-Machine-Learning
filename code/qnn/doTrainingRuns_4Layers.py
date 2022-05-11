@@ -21,7 +21,7 @@ SCRIPT_DIRECTORY = os.path.dirname(abspath)
 os.chdir(SCRIPT_DIRECTORY)
 
 # VARS
-DATASET_FILE = SCRIPT_DIRECTORY + '/../datasets/datasets.data'
+DATASET_FILE = SCRIPT_DIRECTORY + '/../datasets/datasets2.data'
 NUMBER_DATASETS = 5
 NUMBER_RUNS = 10
 NUMBER_SAMPLES = 100

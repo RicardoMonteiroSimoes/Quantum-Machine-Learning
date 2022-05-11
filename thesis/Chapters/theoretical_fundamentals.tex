@@ -6,6 +6,7 @@
 \def \qspherewidth {0.5}
 \def \histogramwidth {0.4}
 \newcommand{\bloch}{\emph{Bloch}-Sphere}
+\newcommand{\qsphere}{Q-Sphere}
 \newcommand{\hgate}{$\mathrm{H}$-Gate}
 \newcommand{\xgate}{$\mathrm{X}$-Gate}
 \newcommand{\ygate}{$\mathrm{Y}$-Gate}
@@ -93,7 +94,7 @@ To further understand how a qubit behaves, the very foundations of quantum physi
 \begin{equation}
     \centering
     \begin{split}
-        i\hbar\frac{d}{dt}\psi(t) =\ H\psi(t) \\
+          i\hbar\frac{d}{dt}\psi(t) =\ H\psi(t) \\
         \psi(t) =\ e^{-i\frac{Ht}{\hbar}}\psi(0)
     \end{split}
     \label{equation:schroedinger_time_evolution}
@@ -105,9 +106,9 @@ A mere two years later, Wolfgang Pauli published "Zur Quantenmechanik des magnet
 \begin{equation}
     \centering
     \begin{split}
-        \sigma_x &=\ \begin{pmatrix}0 & 1 \\ 1 & 0\end{pmatrix}\\
-        \sigma_y &=\ \begin{pmatrix}0 & -i \\ i & 0\end{pmatrix}\\
-        \sigma_z &=\ \begin{pmatrix}1 & 0 \\ 0 & -1\end{pmatrix}\\
+        \sigma_x &=\ \begin{pmatrix}0 & 1 \\ 1 & 0\end{pmatrix} =\ \mathrm{X}\\
+        \sigma_y &=\ \begin{pmatrix}0 & -i \\ i & 0\end{pmatrix} =\ \mathrm{Y}\\
+        \sigma_z &=\ \begin{pmatrix}1 & 0 \\ 0 & -1\end{pmatrix} =\ \mathrm{Z}\\
     \end{split}
     \label{equation:pauli_matrices}
 \end{equation}
@@ -126,7 +127,7 @@ The \bloch\cite{michael_a_nielsen_quantum_2000}, as shown in figure \ref{figure:
         \caption{A basic \bloch\ without any visualized state. The axis $x$ and $y$ are annotated accordingly, but the axis $z$ is annotated with $\ket{0}$ and $\ket{1}$ - the states which are measured and have a corresponding probability assigned to them. The purple arrow shows the \emph{Bloch}-Vector, and currently points to $\ket{0}$, so the state the single qubit is currently in.}
         \label{figure:basic_bloch_sphere}
     \end{subfigure}
-    \begin{subfigure}{.5\textwidth}
+    \begin{subfigure}{.4\textwidth}
         \centering
         \scalebox{\qspherewidth}{
             \includesvg{thesis/Appendices/Q_Sphere_State_h_multiqubit.svg}
@@ -174,25 +175,28 @@ When measuring a qubit, the state collapses onto the $z$-axis\cite{feynman_feynm
 \end{equation}
 
 \newpage
-To create the state $\ket{1}$, the state of the qubit has to be turned by 180° around the $x$ or the $y$ axis. This can be achieved in multiple ways, but one simple way is using a \xgate\cite{qiskit_xgate_nodate}. A circuit with such a gate is visualized in figure \ref{figure:x_circuit}, with a \emph{Bloch}-Sphere visualization done in figure \ref{figure:state_1_bloch_sphere}.
+To create the state $\ket{1}$, the circuit from figure \ref{figure:state_0_circuit} is extended with the Pauli \xgate\cite{qiskit_xgate_nodate}. To verify its behaviour, equation \ref{equation:state_1_equation} takes the state $\ket{\psi_0}$ and multiplies it with the \xgate, which then results in the state $\ket{\psi_1}$, as noted on the circuit \ref{figure:x_circuit}, whilst the figure \ref{figure:state_1_q_sphere} visualizes the state on the Q-Sphere.
 
 \begin{figure}[!h]
-    \centering
-    \scalebox{\blochwidth}{
-        \includesvg{thesis/Appendices/Bloch_Sphere_state_1.svg}
-    }
-    \caption{The \bloch with the state $\ket{1}$ visualized onto it, which was achieved through the usage of the circuit in figure \ref{figure:x_circuit}}
-    \label{figure:state_1_bloch_sphere}
-\end{figure}
-
-\begin{figure}[!h]
-    \centering\scalebox{1.0}{
-    \Qcircuit @C=1.0em @R=0.2em @!R { \\
-	 	\nghost{{q} :  } & \lstick{{q} :  } \barrier[0em]{0} & \qw & \gate{\mathrm{X}} \barrier[0em]{0} & \qw & \qw & \qw\\
-	 	\nghost{} & \lstick{} & \ket{\psi_0} & & \ket{\psi_1} &\\
-\\ }}
-    \caption{A simple circuit with one qubit, that is transformed through the usage of a \xgate\ to transform the initial state $\ket{0}$, which the qubit $q$ has at position $\ket{\psi_0}$, into the state $\ket{1}$ at position $\ket{\psi_1}$}
-    \label{figure:x_circuit}
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \scalebox{\blochwidth}{
+            \includesvg{thesis/Appendices/Q_Sphere_State_1.svg}
+        }
+        \caption{The Q-Sphere with the state $\ket{1}$ visualized onto it, which is achieved through the usage of the circuit in figure \ref{figure:x_circuit}}
+        \label{figure:state_1_q_sphere}
+    \end{subfigure}
+    \begin{subfigure}{.5\textwidth}
+        \centering\scalebox{1.0}{
+        \Qcircuit @C=1.0em @R=0.2em @!R { \\
+    	 	\nghost{{q} :  } & \lstick{{q} :  } \barrier[0em]{0} & \qw & \gate{\mathrm{X}} \barrier[0em]{0} & \qw & \qw & \qw\\
+    	 	\nghost{} & \lstick{} & \ket{\psi_0} & & \ket{\psi_1} &\\
+    \\ }}
+        \caption{The circuit from figure \ref{figure:state_0_circuit} extended with a \xgate\ to transform the initial state $\ket{0}$ at position $\ket{\psi_0}$, into the state $\ket{1}$ at position $\ket{\psi_1}$}
+        \label{figure:x_circuit}
+    \end{subfigure}
+    \caption{Caption}
+    \label{fig:my_label}
 \end{figure}
 
 \begin{equation}
@@ -203,19 +207,35 @@ To create the state $\ket{1}$, the state of the qubit has to be turned by 180° 
     \label{equation:state_1_equation}
 \end{equation}
 
-The state $\ket{\psi_1}$ is directly calculated, as demonstrated in equation \ref{equation:state_1_equation}. The same can be done with the gates \ygate\cite{qiskit_ygate_nodate} and \zgate\cite{qiskit_zgate_nodate} that apply a full 180° rotation around their corresponding axes. \par
-The \emph{Hadamard}-Gate, or \hgate\cite{qiskit_hgate_nodate}, can be used to quickly create a superposition of a single qubit where the state $\ket{0}$ and $\ket{1}$ have the same probability (exactly 0.5) of being measured. Without it, one would have to use a combination of different gates to achieve the result\cite{voorhoede_hadamard_nodate}, for example $\mathrm{XY}^{\frac{1}{2}}$.
+As shown in equation \ref{equation:pauli_matrices}, there exist two more Pauli matrices. Like the \xgate\ that corresponds to the Pauli matrix $\sigma_x$, the gates \ygate\cite{qiskit_ygate_nodate} and \zgate\cite{qiskit_zgate_nodate} correspond to the Pauli matrices $\sigma_y$ and $\sigma_z$.
+\newpage
+To achieve an equal probability of the states $\ket{0}$ and $\ket{1}$, the \emph{Hadamard}-Gate, or \hgate\cite{qiskit_hgate_nodate}, can be used to correctly set up the qubit with one gate. Without it, one would have to use a combination of different gates to achieve the result\cite{voorhoede_hadamard_nodate}, for example $\mathrm{XY}^{\frac{1}{2}}$.
+
 
 \begin{figure}[!h]
-    \centering\scalebox{1.0}{
-    \Qcircuit @C=1.0em @R=0.2em @!R { \\
-	 	\nghost{{q} :  } & \lstick{{q} :  } \barrier[0em]{0} & \qw & \gate{\mathrm{H}} \barrier[0em]{0} & \qw & \qw & \qw\\
-	 	\nghost{} & \lstick{} & \ket{\psi_0} & & \ket{\psi_1} &\\
-\\ }}
-    \caption{A simple circuit with one qubit, that is transformed
-through the usage of a \hgate\ to turn the initial state $\ket{0}$ at position $\ket{\psi_0}$, which into the state $\ket{1}$ at position $\ket{\psi_1}$.}
-    \label{figure:h_circuit}
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \scalebox{\blochwidth}{
+            \includesvg{thesis/Appendices/Q_Sphere_State_h.svg}
+        }
+        \caption{A basic \qsphere\ with the state $\frac{1}{\sqrt{2}}\left(\ket{0} + \ket{1}\right)$ visualized onto it. The equal probability of both states is visualized through the blue dots, which have the same size.}
+        \label{figure:state_h_q_sphere}
+    \end{subfigure}
+    \begin{subfigure}{.5\textwidth}
+        \centering\scalebox{1.0}{
+        \Qcircuit @C=1.0em @R=0.2em @!R { \\
+    	 	\nghost{{q} :  } & \lstick{{q} :  } \barrier[0em]{0} & \qw & \gate{\mathrm{H}} \barrier[0em]{0} & \qw & \qw & \qw\\
+    	 	\nghost{} & \lstick{} & \ket{\psi_0} & & \ket{\psi_1} &\\
+    \\ }}
+        \caption{A simple circuit with one qubit, that is transformed
+    through the usage of a \hgate\ to turn the initial state $\ket{0}$ at position $\ket{\psi_0}$ into the state $\ket{1}$ at position $\ket{\psi_1}$. The calculation is shown in equation \ref{equation:equal_superposition_equation}.}
+        \label{figure:h_circuit}
+    \end{subfigure}
+    \caption{A single qubit is set into an equal superposition shown on the \qsphere\ \ref{figure:state_h_q_sphere} generated using the circuit \ref{figure:h_circuit}}
+    \label{figure:_one_qubit_h_state_circuit_qsphere}
 \end{figure}
+
+
 
 \begin{equation}
     \centering
@@ -225,16 +245,9 @@ through the usage of a \hgate\ to turn the initial state $\ket{0}$ at position $
     \label{equation:equal_superposition_equation}
 \end{equation}
 
-\begin{figure}[!h]
-    \centering
-    \scalebox{\blochwidth}{
-        \includesvg{thesis/Appendices/Bloch_Sphere_state_0_1_equal.svg}
-    }
-    \caption{A basic \emph{Bloch}-Sphere with the state $\frac{1}{\sqrt{2}}\begin{pmatrix}1 \\ 0 \end{pmatrix} + \frac{1}{\sqrt{2}}\begin{pmatrix}0 \\ 1 \end{pmatrix}$ visualized onto it.}
-    \label{figure:state_h_bloch_sphere}
-\end{figure}
 
-To assess that the visualization, and the described behaviour of qubits is correct, these assumptions can be evaluated the formal way. When calculating the to be expected probability of a certain state, the Hermitian transposition\cite{marshall_c_methods_1964} is used. Equation \ref{equation:basic_h_measurement} demonstrates the calculation of the probabilities the \hgate\ assigns to the measurements of $0$ and $1$.
+
+To assess that the visualization and the described behaviour of the qubit is correct, these assumptions are evaluated formally. To calculate the probability of measuring state $\ket{x}$, the Hermitian transposition\cite{marshall_c_methods_1964} is used, which results in the expression $p(\ket{x}) =\ |\bra{x}\ket{\psi}|^2$, with $\ket{\psi}$ being an arbitrary state of a quantum circuit. Equation \ref{equation:basic_h_measurement} demonstrates the calculation of the probabilities the \hgate\ assigns to the measurements of $0$ and $1$, using the state $\ket{\psi_1}$ from circuit \ref{figure:h_circuit}\cite{qiskit_representing_nodate}.
 
 \begin{equation}
     \centering
@@ -248,19 +261,39 @@ To assess that the visualization, and the described behaviour of qubits is corre
     \label{equation:basic_h_measurement}
 \end{equation}
 
-As shown, both states $\ket{0}$ and $\ket{1}$ have the same probability of $0.5$. When desiring probabilities that are not equal for both states, there are gates the likes of \rygate\cite{qiskit_rygate_nodate}, \rxgate\cite{qiskit_rxgate_nodate} and \rzgate\cite{qiskit_rzgate_nodate}. These gates allow the rotation around the corresponding axes by a given parameter. To create a circuit that achieves the probabilities from the histogram, \ref{figure:example_histogram}, these gates are needed. Equation \ref{equation:rx_gate_definition} shows the definition of the \rygate.
+As shown, both states $\ket{0}$ and $\ket{1}$ have the same probability of $0.5$. When desiring probabilities that are not equal for both states, the Pauli gates can be extended to support arbitrary parameters, which result in the gates \rygate\cite{qiskit_rygate_nodate}, \rxgate\cite{qiskit_rxgate_nodate} and \rzgate\cite{qiskit_rzgate_nodate}. These allow a parameter to be supplied, and therefore, change the probabilities. To create a circuit that achieves the probabilities from the initially shown histogram \ref{figure:example_histogram}, the \rygate\ can be used. To understand how these gates came to be, the equation \ref{equation:ry_gate_proof} shows how the findings in equations \ref{equation:schroedinger_time_evolution} and \ref{equation:pauli_matrices} are used to create the \rygate. The same can be done for the \rxgate\ and \rzgate. Note that the resulting power series is the same as for $\cos$ and $\sin$ from equation \ref{equation:power_series_sin_cos}\cite{lars_complex_1978}.
 
 \begin{equation}
     \centering
     \begin{split}
-        \mathrm{RY}(\theta) =\ \begin{pmatrix} \cos{\frac{\theta}{2}}   & -\sin{\frac{\theta}{2}} \\
-        -\sin{\frac{\theta}{2}} & \cos{\frac{\theta}{2}}
+        \mathrm{RY}(\theta) &=\ e^{-i\frac{\theta}{2}\mathrm{Y}} =\ e^{\frac{-i\theta}{2}\begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}} \\
+        \mathrm{Y}' &=\ -i\frac{\theta}{2}\mathrm{Y} =\ \begin{pmatrix}
+                                                         0 & \frac{-\theta}{2}\\
+                                                         \frac{\theta}{2} & 0\\
+                                                    \end{pmatrix} \\
+        e^{\mathrm{Y}'} &=\ I^{2\times2} + \mathrm{Y}' + \frac{\mathrm{Y}'^2}{2!} + \frac{\mathrm{Y}'^3}{3!} + \frac{\mathrm{Y}'^4}{4!} + \cdot\cdot\cdot \\
+        \mathrm{RY}(\theta) &=\ \begin{pmatrix}
+         1 - \frac{\theta^2}{8} + \frac{\theta^4}{384} + \cdot\cdot\cdot & - \frac{\theta}{2} + \frac{\theta^3}{48} - \frac{\theta^5}{3840} + \cdot\cdot\cdot\\
+         \frac{\theta}{2} - \frac{\theta^3}{48} + \frac{\theta^5}{3840} + \cdot\cdot\cdot & 1 - \frac{\theta^2}{8} + \frac{\theta^4}{384} + \cdot\cdot\cdot \\
+         \end{pmatrix}\\ &=\ \begin{pmatrix}
+        \cos{\frac{\theta}{2}} & -\sin{\frac{\theta}{2}} \\
+        \sin{\frac{\theta}{2}} & \cos{\frac{\theta}{2}}
     \end{pmatrix}
     \end{split}
-    \label{equation:rx_gate_definition}
+    \label{equation:ry_gate_proof}
 \end{equation}
 
-The formal definition used in equation \ref{equation:basic_h_measurement} as well as the \rygate\ can be combined to calculate the parameters needed to achieve the probabilities shown in \ref{figure:example_histogram}, as demonstrated in equation \ref{equation:parameter_from_probabilities}. 
+
+
+\begin{equation}
+    \begin{split}
+        \cos(x) &=\ 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdot\cdot\cdot \\
+        \sin(x) &= x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdot\cdot\cdot
+    \end{split}
+    \label{equation:power_series_sin_cos}
+\end{equation}
+
+The formal definition used in equation \ref{equation:basic_h_measurement} can be reversed and used with the \rygate\ to calculate the parameters needed to achieve the probabilities shown in \ref{figure:example_histogram}, as shown in equation \ref{equation:parameter_from_probabilities}. 
 
 \begin{equation}
     \centering
@@ -278,26 +311,45 @@ The formal definition used in equation \ref{equation:basic_h_measurement} as wel
     \label{equation:parameter_from_probabilities}
 \end{equation}
 
-With the value for $\theta$ calculated, the circuit from figure \ref{figure:circuit_for_histogram} is designed and evaluated to compare it to the histogram from \ref{figure:example_histogram} to the one in figure \ref{figure:circuit_histogram}.
+With the value of $\theta$ calculated, the circuit \ref{figure:circuit_for_histogram} is designed and evaluated to compare it to the histogram from \ref{figure:example_histogram}, as shown in figure \ref{figure:circuit_histogram}. The language used is \code{Python} with IBM's library \code{qiskit}\cite{qiskit_qiskit_nodate}, that allows the creation of quantum circuits, as well as running and measuring them in either a simulator or real quantum hardware.
+
 
 \begin{figure}[!h]
     \centering
-    \scalebox{1.0}{
-    \Qcircuit @C=1.0em @R=0.2em @!R { \\
-    	 	\nghost{{q} :  } & \lstick{{q} :  } & \gate{\mathrm{R_Y}\,(\mathrm{1.8608})} & \qw & \qw\\
-    \\ }}
-    \caption{A circuit designed with a parameterized \rygate, that allows the usage of the calculated value $1.8608$ to generate the histogram \ref{figure:circuit_histogram}, which equals the example histogram from \ref{figure:example_histogram}}
-    \label{figure:circuit_for_histogram}
+    \begin{minted}{python}
+    circuit = QuantumCircuit(1)
+    circuit.ry(1.8608, 0)
+    circuit.measure_all()
+    backend = Aer.get_backend('qasm_simulator')
+    job = backend.run(transpile(circuit, backend), shots=1024)
+    result = job.result()
+    counts=result.get_counts(circuit)
+    plot_histogram(counts)
+    \end{minted}
+    \caption{\code{Python} code using \code{qiskit} to create the circuit represented in figure \ref{figure:circuit_for_histogram}, that is executed and results in the histogram \ref{figure:circuit_histogram}}
+    \label{figure:code_circuit_histogram_for_example_data}
 \end{figure}
 
-
 \begin{figure}[!h]
-    \centering
-    \scalebox{\histogramwidth}{
-        \includesvg{thesis/Appendices/calculated_circuit_histogram.svg}
-    }
-    \caption{A histogram generated from the data in table \ref{table:example_counts}, that visually shows the probabilities of 0 and 1. These probabilities can directly be used to visualize the qubits superposition.}
-    \label{figure:circuit_histogram}
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \scalebox{\histogramwidth}{
+            \includesvg{thesis/Appendices/calculated_circuit_histogram.svg}
+        }
+        \caption{A histogram generated from the data in table \ref{table:example_counts}, that visually shows the probabilities of 0 and 1 of the qubit on the circuit \ref{figure:circuit_for_histogram}.}
+        \label{figure:circuit_histogram}
+    \end{subfigure}
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \scalebox{1.0}{
+        \Qcircuit @C=1.0em @R=0.2em @!R { \\
+        	 	\nghost{{q} :  } & \lstick{{q} :  } & \gate{\mathrm{R_Y}\,(\mathrm{1.8608})} & \qw & \qw\\
+        \\ }}
+        \caption{A circuit designed with a parameterized \rygate using the code from figure \ref{figure:code_circuit_histogram_for_example_data}. The parameter is the one calculated in equation \ref{equation:parameter_from_probabilities} and generates the histogram \ref{figure:circuit_histogram}, which results in the same data as in the example histogram \ref{figure:example_histogram}.}
+        \label{figure:circuit_for_histogram}
+    \end{subfigure}
+    \caption{A quantum circuit with a parameterized \rygate\ that is used to generate the histogram that resembles the one used as example in figure \ref{figure:example_histogram}}
+    \label{figure:figure_circuit_histogram_rebuilt_from_example}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -305,6 +357,7 @@ With the value for $\theta$ calculated, the circuit from figure \ref{figure:circ
 \newpage
 
 \section{Multiple Query Optimization}
+\label{chapter:fundamental_multiple_query_optimization}
 
 A query\cite{codd_relational_1970} is a demand for information to be pulled from a database. Such a query can vary in size and structure, as well as in execution time. These are often written in the query language \code{SQL}, which is often adapted to the corresponding software\cite{shirgoldbird_microsoft_nodate}\cite{the_postgresql_global_development_group_postgresql_2022} it executes on. 
 
@@ -313,54 +366,118 @@ A query\cite{codd_relational_1970} is a demand for information to be pulled from
     \centering
     \begin{minted}{sql}
         SELECT * FROM USERS u
-        WHERE u.NAME = "Abraham"
+        JOIN ADDRESSES
+        ON ADDRESSES.UID = USERS.UID
+        WHERE USERS.NAME = "Abraham"
     \end{minted}
-    \caption{This example SQL code would tell the database we want all data from table \emph{USER}, where the name equals \emph{Abraham}}
+    \caption{This example SQL code would tell the database we want to merge the content of the tables \code{USERS} and \code{ADDRESSES} together. The resulting table has rows for each user and their respective address. The data is also filtered, so that only the entries where the \code{NAME} is "Abraham" are inside the merged table.}
     \label{figure:sql_query_example}
 \end{figure}
 
-The example query in figure \ref{figure:sql_query_example} is parsed, and the resulting query plan used to retrieve and display data that is saved in the database. Table \ref{table:sql_query_result_example} resembles the result of such a query.
+The example query in figure \ref{figure:sql_query_example} is parsed and results one, or more, execution plans\cite{microsoft_execution_nodate}. These plans are also referred to as query plans. The fastest plan then is selected and executed, which retrieves the desired data and displays it, as visualized in table \ref{table:sql_query_result_example}.
 
 \begin{table}[!h]
     \centering
-    \begin{tabular}{|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|c|}
         \hline
-        Name    & Surname & Gender \\ \hline
-        Abraham & Martin  & M      \\ \hline
-        Abraham & Tart    & F      \\ \hline
+        Name    & Surname  & Address & Number & Zipcode & City\\ \hline
+        Abraham & Martin   & Neweg & 17b & 3249 & Nothingham \\ \hline
+        Abraham & Tart     & York & 95 & 12078 & Krypton    \\ \hline
     \end{tabular}
     \caption{Exemplary data returned after executing the SQL query from figure \ref{figure:sql_query_example}, where the first row resembles the name of the attributes in the column}
     \label{table:sql_query_result_example}
 \end{table}
 
-Before any execution takes place, the queries themselves are parsed into multiple execution plans\cite{microsoft_execution_nodate}. These plans usually resemble the same operations, just in a different order – this can result in precious time savings. In a large system that handles multiple requests per second, these plans can be used to combine certain sub-sequences of a plan and therefore save execution time\cite{roy_multi-query_2009}. This by itself has been proven to be an \emph{NP-Hard} problem\cite{sellis_multiple-query_1990}. Nevertheless, finding the fastest combination of all plans can be done classically with an exhaustive algorithm in $O(P^Q)$\footnote{as long as all queries have the same number of plans}, where $P$ is the number of plans and $Q$ the number of queries. The work of Kathurina et al.\cite{kathuria_provable_mqo} offers a greedy algorithm for finding a \emph{good} solution, whilst also proving that finding a better approximation factor for the greedy algorithm is \emph{NP-Hard}. A hybrid approach that combines classical and quantum computing uses QAOA (short for Quantum Approximate Optimization Algorithm)\cite{farhi_quantum_2014} have shown to be quasi-optimal solution finders with a runtime of $O(I \cdot (PQ)^2)$\cite{fankhauser_multiple_2021}. \par
-
-\subsection{Query Dissection}
-A query can be dissected into a variety of plans that can be executed to get the data in the desired format. Figure \ref{figure:query_with_plans} shows a query, which has two differing plans.
+To further understand the difference the execution brings, the assumption is made that table $A$ (for addresses) and $U$ (for users) both consist of 10'000 rows each. Executing plan 1 would lead to the operation $M$ having to search and combine all 20'000 rows together, and then from the resulting 10'000 rows, select only those that fulfil the defined criteria. In plan 2, the table $U$ is filtered beforehand, which results in smaller number of rows, and hence, fewer rows to merge for the operation $M$. Whilst this might not lead to a particular speed up in this case, as soon as queries get more complex, and for example join more than two tables, the time savings start to add up.\par
+The query in figure \ref{figure:sql_query_example} already allows for \emph{at least} two different query plans during execution. These are shown in figure \ref{figure:example_query_plans}. The nodes $U$ and $A$ stand for the operation of loading the tables \code{USERS} and \code{ADDRESSES} from the storage. The node $M$ stands for the merging of the tables, and the node $S$ for selecting the rows that fulfil the defined filter of \code{USER.NAME = "Abraham"}.
 
 \begin{figure}[!h]
     \centering
     \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+    
     \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-        %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
-        %Rounded Rect [id:dp08144411333317714] 
-        \draw  [fill={rgb, 255:red, 144; green, 218; blue, 217 }  ,fill opacity=1 ] (80.2,130.56) .. controls (80.2,122.3) and (86.9,115.6) .. (95.16,115.6) -- (174.84,115.6) .. controls (183.1,115.6) and (189.8,122.3) .. (189.8,130.56) -- (189.8,175.44) .. controls (189.8,183.7) and (183.1,190.4) .. (174.84,190.4) -- (95.16,190.4) .. controls (86.9,190.4) and (80.2,183.7) .. (80.2,175.44) -- cycle ;
-        %Rounded Rect [id:dp5870651506756062] 
-        \draw  [fill={rgb, 255:red, 242; green, 221; blue, 192 }  ,fill opacity=1 ] (90.8,148.96) .. controls (90.8,144.67) and (94.27,141.2) .. (98.56,141.2) -- (122.44,141.2) .. controls (126.73,141.2) and (130.2,144.67) .. (130.2,148.96) -- (130.2,172.24) .. controls (130.2,176.53) and (126.73,180) .. (122.44,180) -- (98.56,180) .. controls (94.27,180) and (90.8,176.53) .. (90.8,172.24) -- cycle ;
-        %Rounded Rect [id:dp7624346816043626] 
-        \draw  [fill={rgb, 255:red, 243; green, 190; blue, 188 }  ,fill opacity=1 ] (140.4,148.56) .. controls (140.4,144.27) and (143.87,140.8) .. (148.16,140.8) -- (172.84,140.8) .. controls (177.13,140.8) and (180.6,144.27) .. (180.6,148.56) -- (180.6,171.84) .. controls (180.6,176.13) and (177.13,179.6) .. (172.84,179.6) -- (148.16,179.6) .. controls (143.87,179.6) and (140.4,176.13) .. (140.4,171.84) -- cycle ;
-        % Text Node
-        \draw (151.4,152.2) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\displaystyle \mathcal{P}_{1}$};
-        % Text Node
-        \draw (100,151.8) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\displaystyle \mathcal{P}_{0}$};
-        % Text Node
-        \draw (122.8,119.8) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\displaystyle \mathcal{Q}_{0}$};
+    %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+    
+    %Rounded Rect [id:dp9327630093874044] 
+    \draw  [dash pattern={on 4.5pt off 4.5pt}] (89,74.1) .. controls (89,59.96) and (100.46,48.5) .. (114.6,48.5) -- (191.4,48.5) .. controls (205.54,48.5) and (217,59.96) .. (217,74.1) -- (217,166.9) .. controls (217,181.04) and (205.54,192.5) .. (191.4,192.5) -- (114.6,192.5) .. controls (100.46,192.5) and (89,181.04) .. (89,166.9) -- cycle ;
+    %Shape: Arc [id:dp8672386781469543] 
+    \draw  [draw opacity=0] (118.09,155.74) .. controls (118.2,142.68) and (129.23,132.12) .. (142.82,132.12) -- (142.82,155.94) -- cycle ; \draw   (118.09,155.74) .. controls (118.2,142.68) and (129.23,132.12) .. (142.82,132.12) ;  
+    %Shape: Arc [id:dp7960733152026014] 
+    \draw  [draw opacity=0] (167,130.94) .. controls (180.66,130.94) and (191.73,141.6) .. (191.73,154.76) -- (167,154.76) -- cycle ; \draw   (167,130.94) .. controls (180.66,130.94) and (191.73,141.6) .. (191.73,154.76) ;  
+    %Straight Lines [id:da6364636081987307] 
+    \draw    (155.68,120.48) -- (155.67,107.08) ;
+    
+    
+    %Rounded Rect [id:dp3039201957845239] 
+    \draw  [dash pattern={on 4.5pt off 4.5pt}] (227,74.1) .. controls (227,59.96) and (238.46,48.5) .. (252.6,48.5) -- (329.4,48.5) .. controls (343.54,48.5) and (355,59.96) .. (355,74.1) -- (355,166.9) .. controls (355,181.04) and (343.54,192.5) .. (329.4,192.5) -- (252.6,192.5) .. controls (238.46,192.5) and (227,181.04) .. (227,166.9) -- cycle ;
+    %Shape: Arc [id:dp6442642109452921] 
+    \draw  [draw opacity=0] (256.09,114.74) .. controls (256.2,101.68) and (267.23,91.12) .. (280.82,91.12) -- (280.82,114.94) -- cycle ; \draw   (256.09,114.74) .. controls (256.2,101.68) and (267.23,91.12) .. (280.82,91.12) ;  
+    %Shape: Arc [id:dp9997590238443537] 
+    \draw  [draw opacity=0] (305,89.94) .. controls (305,89.94) and (305,89.94) .. (305,89.94) .. controls (318.66,89.94) and (329.73,100.6) .. (329.73,113.76) -- (305,113.76) -- cycle ; \draw   (305,89.94) .. controls (305,89.94) and (305,89.94) .. (305,89.94) .. controls (318.66,89.94) and (329.73,100.6) .. (329.73,113.76) ;  
+    
+    %Straight Lines [id:da7145621913901639] 
+    \draw    (256.68,156.48) -- (256.67,143.08) ;
+
+    % Text Node
+    \draw  [fill={rgb, 255:red, 242; green, 221; blue, 192 }  ,fill opacity=1 ]  (155.67, 93.03) circle [x radius= 14.42, y radius= 14.42]   ;
+    \draw (155.67,93.03) node    {$\text{S}$};
+    % Text Node
+    \draw  [fill={rgb, 255:red, 173; green, 234; blue, 195 }  ,fill opacity=1 ]  (155.67, 130.36) circle [x radius= 12.81, y radius= 12.81]   ;
+    \draw (155.67,130.36) node  [font=\footnotesize]  {$\text{M}$};
+    % Text Node
+    \draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (118.01, 169) circle [x radius= 15.31, y radius= 15.31]   ;
+    \draw (118.01,169) node   [align=left] {$\displaystyle U$};
+    % Text Node
+    \draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (191.67, 169) circle [x radius= 15.31, y radius= 15.31]   ;
+    \draw (191.67,169) node   [align=left] {$\displaystyle A$};
+    % Text Node
+    \draw (134.17,52.73) node [anchor=north west][inner sep=0.75pt]    {$\text{Plan 1}$};
+    % Text Node
+    \draw  [fill={rgb, 255:red, 242; green, 221; blue, 192 }  ,fill opacity=1 ]  (256.67, 129.03) circle [x radius= 14.42, y radius= 14.42]   ;
+    \draw (256.67,129.03) node    {$\text{S}$};
+    % Text Node
+    \draw  [fill={rgb, 255:red, 173; green, 234; blue, 195 }  ,fill opacity=1 ]  (293.67, 89.36) circle [x radius= 12.81, y radius= 12.81]   ;
+    \draw (293.67,89.36) node  [font=\footnotesize]  {$\text{M}$};
+    % Text Node
+    \draw (272.17,52.73) node [anchor=north west][inner sep=0.75pt]    {$\text{Plan 2}$};
+    % Text Node
+    \draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (256.01, 169) circle [x radius= 15.31, y radius= 15.31]   ;
+    \draw (256.01,169) node   [align=left] {$\displaystyle U$};
+    % Text Node
+    \draw  [fill={rgb, 255:red, 160; green, 156; blue, 243 }  ,fill opacity=1 ]  (329.67, 129) circle [x radius= 15.31, y radius= 15.31]   ;
+    \draw (329.67,129) node   [align=left] {$\displaystyle A$};
+    
+    
     \end{tikzpicture}
-    \caption{A query that can be executed through two different plans, which end up delivering the same result but might offer potential time savings.}
-    \label{figure:query_with_plans}
+    \caption{Two example query plans for the sql query from figure \ref{figure:sql_query_example}.}
+    \label{figure:example_query_plans}
 \end{figure}
 
-The plans themselves consist of many different instructions, which can be as simple as loading a table from storage into memory or searching a certain table for a given value. If one were to add another query that is to be executed parallel to the one in figure \ref{figure:query_with_plans}, overlapping instructions could be combined so that they're executed exactly once, and then reused for both plans, as shown in figure \ref{figure:plan_tree}. Each instruction in any plan consist of single operations applied to tables of the database that are based on relational algebra\cite{codd_relational_1970}\footnote{But not limited to them, as modern databases also include hashing and indexing in the plans. None the less, these operations can also be combined to save previous runtime}. It is easy to imagine that, depending on the environment at hand, single operations will happen plenty of times in parallel. Putting into perspective the number of users that modern applications\cite{uber_technologies_inc_uber_2022} can have, finding shortcuts in plans does not only reduce execution time but saves money and improves customer experience.
+\newpage
+
+
+In a large system that handles multiple requests per second, plans from different queries can have operations that are shared across. Combining these sub-sequences together can save additional execution time\cite{roy_multi-query_2009}. Finding the best combination of multiple queries and their plans has been proven to be an \emph{NP-Hard} problem\cite{sellis_multiple-query_1990}. This can be done classically with an exhaustive algorithm in $O(P^Q)$\footnote{as long as all queries have the same number of plans}, where $P$ is the number of plans and $Q$ the number of queries, as shown in figure \ref{figure:pseudocode_bruteforce_search}. The work of Kathurina et al.\cite{kathuria_provable_mqo} offers a greedy algorithm for finding a \emph{good} solution, whilst also proving that finding a better approximation factor for the greedy algorithm is \emph{NP-Hard}. A hybrid approach that combines classical and quantum computing uses QAOA (short for Quantum Approximate Optimization Algorithm)\cite{farhi_quantum_2014} have shown to be quasi-optimal solution finders with a runtime of $O(I \cdot (PQ)^2)$\cite{fankhauser_multiple_2021}. \par
+
+
+\begin{figure}[!h]
+    \centering
+    \begin{minted}{python}
+        for plan_a in plans:
+            for plan_b in plans:
+                if plan_a.query != plan_b.query:
+                    if savings(plan_a, plan_b) > current_savings:
+                        current_savings = savings(plan_a, plan_b)
+                        cheapest_combination = <plan_a, plan_b>
+    \end{minted}
+    \caption{Pseudocode of an exhaustive algorithm that tries every possible combination and finds the cheapest one.}
+    \label{figure:pseudocode_bruteforce_search}
+\end{figure}
+
+ For example, if a second query that also filters the table $U$ for \code{USERS.NAME = "Abraham"} is supposed to run at roughly the same time, they could share a portion of the task. As shown in figure \ref{figure:example_query_plans}, the plans consist of multiple different instructions. Each instruction in any plan consist of single operations applied to tables of the database that are based on relational algebra\cite{codd_relational_1970}\footnote{But not limited to them, as modern databases also include hashing and indexing in the plans. Nonetheless, these operations can also be combined to save previous runtime}. 
+ 
+ \newpage
+ 
+ Figure \ref{figure:plan_tree} shows how the plans $\mathcal{Q}_0\mathcal{P}_0$ and $\mathcal{Q}_1\mathcal{P}_0$, from the differing queries $\mathcal{Q}_0$ and $\mathcal{Q}_1$, contain parts that can be reused, as shown in figure \ref{figure:plan_tree}. It is easy to imagine that, depending on the environment at hand, single operations will happen plenty of times in parallel. Putting into perspective the number of users that modern applications\cite{uber_technologies_inc_uber_2022} can have, finding shortcuts in plans does not only reduce execution time but saves money and improves customer experience.
 
 \begin{figure}[!h]
     \centering
@@ -424,8 +541,6 @@ The plans themselves consist of many different instructions, which can be as sim
     \caption{Two differing plans $\mathcal{Q}_0\mathcal{P}_0$ and $\mathcal{Q}_1\mathcal{P}_1$, which serve different goals but contain the same operation $\rho_1$, marked in the red dotted box}
     \label{figure:plan_tree}
 \end{figure}
-
-Figure \ref{figure:plan_tree} shows two different queries that contain the same sub-operation $\rho_1$. The operation can be used by both queries, which means we do not have to execute it twice. This example would be one of the most common forms of saving execution time: \emph{Loading the data once and then re-using it during evaluation}.
 
 Plans, costs, and savings can be mathematically expressed. Let there be given function $\mathcal{C}$ which returns the cost for a given operation or collection of operations, as defined in equation \ref{equation:formal_cost_function}. Let there also be a given function $\mathcal{S}$, which calculates the savings two collections of operations can achieve, as shown in equation \ref{equation:formal_savings_function}.
 
