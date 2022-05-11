@@ -20,10 +20,10 @@ SCRIPT_DIRECTORY = os.path.dirname(abspath)
 os.chdir(SCRIPT_DIRECTORY)
 
 # VARS
-DATASET_FILE = SCRIPT_DIRECTORY + '/../datasets/datasets.data'
+DATASET_FILE = SCRIPT_DIRECTORY + '/../datasets/datasets2.data'
 NUMBER_DATASETS = 5
 NUMBER_RUNS = 10
-NUMBER_SAMPLES = 100
+NUMBER_SAMPLES = 1000
 
 load_dataset_args = (DATASET_FILE,
                      NUMBER_DATASETS,
@@ -41,6 +41,8 @@ quantum_circuits = [
     qc.qml_circuit_qiskit_04,
     qc.qml_circuit_qiskit_05,
 ]
+
+DO_TEST_SUBSET = True
 
 """
 Optimizers:
@@ -75,6 +77,7 @@ def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2, o_shap
         # print("parity x: {}".format(x))
         return '{:b}'.format(x).count('1') % output_shape
 
+    # get the weights using the callback function
     def callback(weights, obj_func_eval):
         _weights.append(weights)
 
@@ -137,9 +140,25 @@ def worker_datasets(return_list: dict, dataset):
         (sample_train, sample_test, label_train, label_test) = data
 
         # fit classifier to data
-        classifier.fit(sample_train, label_train)
-        score_train = classifier.score(sample_train, label_train)
-        score_test = classifier.score(sample_test, label_test)
+        if DO_TEST_SUBSET:
+            # create a subset for testing the script
+            if dataset_name == 'iris':
+                subset_fraction = 0.1  # 10%
+            else:
+                subset_fraction = 0.01  # 1%
+            sub_sample_train = sample_train[:int(len(sample_train)*subset_fraction)]
+            sub_label_train = label_train[:int(len(label_train)*subset_fraction)]
+            sub_sample_test = sample_test[:int(len(sample_test)*subset_fraction)]
+            sub_label_test = label_test[:int(len(label_test)*subset_fraction)]
+
+            classifier.fit(sub_sample_train, sub_label_train)
+            score_train = classifier.score(sub_sample_train, sub_label_train)
+            score_test = classifier.score(sub_sample_test, sub_label_test)
+        else:
+            # all data
+            classifier.fit(sample_train, label_train)
+            score_train = classifier.score(sample_train, label_train)
+            score_test = classifier.score(sample_test, label_test)
 
         qcirc_results[circuit_name].append([score_train, score_test, np.array(weights[-1])])
 
@@ -165,7 +184,10 @@ def load_verify_datasets(args):
     data_sets = load_data(DATASET_FILE)
     # check if number of samples[train + test] is equal to number of samples as expected
     for d in data_sets:
-        assert d[2][1].shape[0]+d[2][2].shape[0] == NUMBER_SAMPLES, "data corruption detected"
+        if d[1] == 'iris':
+            assert d[2][1].shape[0]+d[2][2].shape[0] == 150, f"data corruption detected for dataset: {d[1]}"
+        else:
+            assert d[2][1].shape[0]+d[2][2].shape[0] == NUMBER_SAMPLES, f"data corruption detected for dataset: {d[1]}"
     # check if number of dataset being generated is as expected
     assert len(data_sets) == NUMBER_DATASETS*NUMBER_RUNS
 
@@ -341,11 +363,13 @@ if __name__ == '__main__':
 
     print("Running circuits ...")
     # for index, dataset in enumerate([datasets[i] for i in range(0, 50, 1)]):
-    for index, dataset in enumerate([datasets[i] for i in range(0, 10, 1)]):
+    for index, dataset in enumerate([datasets[i] for i in range(0, 50, 1)]):
+        # (dataset_id, dataset_name, data) = dataset
+        # print(f"{dataset_id} {dataset_name}")
         p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset))
         jobs.append(p)
         p.start()
-        print("Started process {}".format(index))
+        print(f"Started process {index}")
 
     for proc in jobs:
         proc.join()
