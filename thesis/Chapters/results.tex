@@ -4,7 +4,58 @@
 
 %----------------------------------------------------------------------------------------
 
-\section{Multiple Query Optimization
+\section{Multiple Query Optimization}
 \subsection{Evaluation On Simulator}
 \subsection{Evaluation On Real Hardware}
+
 \newpage
+
+\section{Quantum Neural Network}
+
+\subsection{Training On Simulator}
+
+\subsubsection{Adhoc}
+
+Optimizers - Average 10 runs
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{rccc}
+		\hline 
+		\thead{\textbf{VQC}} & \thead{\textbf{COBYLA}} & \thead{\textbf{SPSA}} & \thead{\textbf{ADAM}}  & \thead{\textbf{BFGS}} \\
+		\hline 
+		q_circuit_01    & 0.515   & 0.49   & 0.4799999999999999 & 0.495  \\
+		q_circuit_02    & 0.5     & 0.51   & 0.49 & 0.52   \\
+		q_circuit_03    & 0.505   & 0.515  & 0.52 & 0.505  \\
+		q_circuit_04    & 0.525   & 0.56   & 0.46 & 0.48   \\
+		q_circuit_05    & 0.55    & 0.53   & 0.54 & 0.52   \\
+	\end{tabular}
+	\caption{Comparison of QNN ... on a quantum simulator as well as on a real quantum computer. The table shows the accuracy of the best approach for each of the three algorithm types..}
+	\label{table:comparison_binary_datasets_accuracy}
+\end{table}
+
+Best of bread
+
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{rccc}
+		\hline 
+		\thead{Dataset} & \thead{QNN (Quantum Simulator)} & \thead{QNN (Quantum Computer)} \\
+		\hline 
+		Adhoc   & tbd         & tbd             \\
+		Custom  & tbd         & tbd             \\
+		Iris    & tbd         & tbd             \\
+		Rain    & tbd         & tbd             \\
+		Vlds    & tbd         & tbd             \\
+		\hline
+		\textbf{Average}    & \textbf{tbd}         & \textbf{tbd}             \\
+		\hline
+	\end{tabular}
+	\caption{Comparison of QNN ... on a quantum simulator as well as on a real quantum computer. The table shows the accuracy of the best approach for each of the three algorithm types..}
+	\label{table:comparison_binary_datasets_accuracy}
+\end{table}
+
+
+
+\subsection{Evaluation On Real Hardware}
+
+\clearpage
