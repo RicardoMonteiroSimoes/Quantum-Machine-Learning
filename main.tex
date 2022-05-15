@@ -68,7 +68,7 @@ natbib=true]{biblatex}
 \usepackage{todonotes}
 \setlength{\marginparwidth}{2.5cm} % uncomment this if the todonotes are out of margins (cut off page)
 
-\usepackage{listings}
+% \usepackage{listings}
 \usepackage{physics}
 \usepackage{minted}
 \usepackage[braket, qm]{qcircuit}
@@ -82,26 +82,26 @@ natbib=true]{biblatex}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.921, 0.929, 0.937} %0.95,0.95,0.92
 
-\lstdefinestyle{mystyle}{
-backgroundcolor=\color{backcolour},   
-commentstyle=\color{codegreen},
-keywordstyle=\color{magenta},
-numberstyle=\tiny\color{codegray},
-stringstyle=\color{codepurple},
-basicstyle=\ttfamily\footnotesize,
-breakatwhitespace=false,         
-breaklines=true,                 
-captionpos=b,                    
-keepspaces=true,                 
-numbers=left,                    
-numbersep=5pt,                  
-showspaces=false,                
-showstringspaces=false,
-showtabs=false,                  
-tabsize=2
-}
+% \lstdefinestyle{mystyle}{
+% backgroundcolor=\color{backcolour},   
+% commentstyle=\color{codegreen},
+% keywordstyle=\color{magenta},
+% numberstyle=\tiny\color{codegray},
+% stringstyle=\color{codepurple},
+% basicstyle=\ttfamily\footnotesize,
+% breakatwhitespace=false,         
+% breaklines=true,                 
+% captionpos=b,                    
+% keepspaces=true,                 
+% numbers=left,                    
+% numbersep=5pt,                  
+% showspaces=false,                
+% showstringspaces=false,
+% showtabs=false,                  
+% tabsize=2
+% }
 
-\lstset{style=mystyle}
+% \lstset{style=mystyle}
 
 \usepackage{makecell} % formatting tables
 \usepackage{tablefootnote} % for table footnotes
@@ -324,12 +324,14 @@ bottom=1.5cm, % Bottom margin
 % Chapter 6
 
 \chapter{Directory} % Main chapter title
-
 \label{chapter:directory}
 
 \listoffigures % Prints the list of figures
 
 \listoftables % Prints the list of tables
+
+\renewcommand\listoflistingscaption{List of source codes}
+\listoflistings % Prints the list of code listings
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
