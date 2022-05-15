@@ -253,7 +253,8 @@
 %	COLOURS
 %----------------------------------------------------------------------------------------
 
-\usepackage{xcolor} % Required for specifying custom colours
+%added parameters to highlight tables
+\usepackage[table,xcdraw]{xcolor} % Required for specifying custom colours
 
 \colorlet{mdtRed}{red!50!black}
 
