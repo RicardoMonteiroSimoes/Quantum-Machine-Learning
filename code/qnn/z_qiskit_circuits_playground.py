@@ -18,6 +18,7 @@ features = [1.2345] * N_WIRES
 # wires and devices
 wires = range(N_WIRES)
 
+# -------------------------
 # QC1
 
 
@@ -64,7 +65,7 @@ def qml_circuit_qiskit_01(n_wires=2, n_layers=1):
 
 # print(circuit_with_data.draw(vertical_compression='high', fold=-1, scale=0.5))
 # END: input features weights binding
-
+# -------------------------
 # QC2
 def qml_circuit_qiskit_02(n_wires=2, n_layers=1):
     feature_map = QuantumCircuit(n_wires)
@@ -97,10 +98,8 @@ def qml_circuit_qiskit_02(n_wires=2, n_layers=1):
 # print(circuit.draw(output='latex_source', vertical_compression='high', fold=-1, scale=0.5))
 
 # circuit.draw('mpl', filename=os.getcwd() + '/code/svm/assets/circuit_02_qiskit.png')
-
+# -------------------------
 # QC 3
-
-
 def qml_circuit_qiskit_03(n_wires=2, n_layers=1):
     feature_map = QuantumCircuit(n_wires)
     ansatz = QuantumCircuit(n_wires)
@@ -131,7 +130,7 @@ def qml_circuit_qiskit_03(n_wires=2, n_layers=1):
 # print(circuit.draw(output='latex_source', vertical_compression='high', fold=-1, scale=0.5))
 
 # circuit.draw('mpl', filename=os.getcwd() + '/code/svm/assets/circuit_03_qiskit.png')
-
+# -------------------------
 # QC 4
 # No entanglement
 def qml_circuit_qiskit_04(n_wires=2, n_layers=1):
@@ -163,14 +162,15 @@ def qml_circuit_qiskit_04(n_wires=2, n_layers=1):
     return qc.decompose().copy()
 
 
-circuit = qml_circuit_qiskit_04(N_WIRES, N_LAYERS)
-print("\nQC4")
-print(circuit.draw(vertical_compression='high', fold=-1, scale=0.5))
-print(circuit.draw(output='latex_source', vertical_compression='high', fold=-1, scale=0.5))
+# circuit = qml_circuit_qiskit_04(N_WIRES, N_LAYERS)
+# print("\nQC4")
+# print(circuit.draw(vertical_compression='high', fold=-1, scale=0.5))
+# print(circuit.draw(output='latex_source', vertical_compression='high', fold=-1, scale=0.5))
 
 # circuit.draw('mpl', filename=os.getcwd() + '/code/svm/assets/circuit_04_qiskit.png')
 
-
+# -------------------------
+# QC5
 def qml_circuit_qiskit_05(n_wires=2, n_layers=1):
     """
     QC 5
@@ -206,3 +206,51 @@ def qml_circuit_qiskit_05(n_wires=2, n_layers=1):
 # print(circuit.draw(output='latex_source', vertical_compression='high', fold=-1, scale=0.5))
 
 # circuit.draw('mpl', filename=os.getcwd() + '/code/svm/assets/circuit_05_qiskit.png')
+
+# -------------------------
+# Q:Power
+
+
+def qml_circuit_qiskit_power(n_wires=2, n_layers=1):
+    """
+    Quantum Circuit Power (Qiskit)
+    Design taken from https://arxiv.org/pdf/2011.00027.pdf
+    """
+    feature_map = QuantumCircuit(n_wires)
+    ansatz = QuantumCircuit(n_wires)
+
+    for i in range(n_wires):
+        feature_map.h(i)
+        feature_map.rz(Parameter('i_{}'.format(str(i))), i)
+
+    for i in range(n_wires):
+        if i != n_wires-1:  # not circular
+            feature_map.cx(i, (i+1) % n_wires)
+            feature_map.rz(Parameter('i_{{2{}}}'.format(str(i))), i+1)
+            feature_map.cx(i, (i+1) % n_wires)
+    feature_map.barrier()
+
+    for j in range(n_layers):
+        for k in range(n_wires):
+            ansatz.ry(Parameter('{}w_{}'.format(str(j), str(k))), k)
+        for k in range(n_wires):
+            if k != n_wires-1:  # not circular
+                ansatz.cx(k, (k+1) % n_wires)
+        for k in range(n_wires):
+            ansatz.ry(Parameter('{}w2_{}'.format(str(j), str(k))), k)
+        if j != n_layers-1:
+            ansatz.barrier()
+
+    qc = QuantumCircuit(n_wires)
+    qc.append(feature_map, range(n_wires))
+    qc.append(ansatz, range(n_wires))
+    qc.measure_all()
+    return qc.decompose().copy()
+
+
+circuit = qml_circuit_qiskit_power(N_WIRES, 1)
+print("\nQCPower")
+print(circuit.draw(vertical_compression='high', fold=-1, scale=0.5))
+#print(circuit.draw(output='latex_source', vertical_compression='high', fold=-1, scale=0.5))
+
+#circuit.draw('mpl', filename=os.getcwd() + '/code/svm/assets/circuit_power_qiskit.png')

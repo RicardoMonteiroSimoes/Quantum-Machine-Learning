@@ -324,3 +324,40 @@ def qml_circuit_qiskit_05(n_wires=2, n_layers=1):
     qc.append(ansatz, range(n_wires))
     qc.measure_all()
     return qc.decompose().copy()
+
+
+def qml_circuit_qiskit_power(n_wires=2, n_layers=1):
+    """
+    Quantum Circuit Power (Qiskit)
+    Design taken from https://arxiv.org/pdf/2011.00027.pdf
+    """
+    feature_map = QuantumCircuit(n_wires)
+    ansatz = QuantumCircuit(n_wires)
+
+    for i in range(n_wires):
+        feature_map.h(i)
+        feature_map.rz(Parameter('i_{}'.format(str(i))), i)
+
+    for i in range(n_wires):
+        if i != n_wires-1:  # not circular
+            feature_map.cx(i, (i+1) % n_wires)
+            feature_map.rz(Parameter('i_{{2{}}}'.format(str(i))), i+1)
+            feature_map.cx(i, (i+1) % n_wires)
+    feature_map.barrier()
+
+    for j in range(n_layers):
+        for k in range(n_wires):
+            ansatz.ry(Parameter('{}w_{}'.format(str(j), str(k))), k)
+        for k in range(n_wires):
+            if k != n_wires-1:  # not circular
+                ansatz.cx(k, (k+1) % n_wires)
+        for k in range(n_wires):
+            ansatz.ry(Parameter('{}w2_{}'.format(str(j), str(k))), k)
+        if j != n_layers-1:
+            ansatz.barrier()
+
+    qc = QuantumCircuit(n_wires)
+    qc.append(feature_map, range(n_wires))
+    qc.append(ansatz, range(n_wires))
+    qc.measure_all()
+    return qc.decompose().copy()

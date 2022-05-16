@@ -6,6 +6,7 @@
 
 \section{Multiple Query Optimization}
 \subsection{Evaluation On Simulator}
+
 \subsection{Evaluation On Real Hardware}
 
 \newpage
@@ -16,24 +17,125 @@
 
 \subsubsection{Adhoc}
 
-Optimizers - Average 10 runs
 \begin{table}[!h]
 	\centering
-	\begin{tabular}{rccc}
+	\begin{tabular}{r|cccc}
 		\hline 
 		\thead{\textbf{VQC}} & \thead{\textbf{COBYLA}} & \thead{\textbf{SPSA}} & \thead{\textbf{ADAM}}  & \thead{\textbf{BFGS}} \\
 		\hline 
-		q_circuit_01    & 0.515   & 0.49   & 0.4799999999999999 & 0.495  \\
-		q_circuit_02    & 0.5     & 0.51   & 0.49 & 0.52   \\
-		q_circuit_03    & 0.505   & 0.515  & 0.52 & 0.505  \\
-		q_circuit_04    & 0.525   & 0.56   & 0.46 & 0.48   \\
-		q_circuit_05    & 0.55    & 0.53   & 0.54 & 0.52   \\
+		q\_circuit\_01    & 0.515   & 0.49   & tbd (calculate) & 0.495  \\
+		q\_circuit\_02    & 0.5     & 0.51   & tbd (calculate) & 0.52   \\
+		q\_circuit\_03    & 0.505   & 0.515  & tbd (calculate) & 0.505  \\
+		q\_circuit\_04    & 0.525   & \textbf{0.56}   & tbd (calculate) & 0.48   \\
+		q\_circuit\_05    & 0.55    & 0.53   & tbd (calculate) & 0.52   \\
 	\end{tabular}
-	\caption{Comparison of QNN ... on a quantum simulator as well as on a real quantum computer. The table shows the accuracy of the best approach for each of the three algorithm types..}
-	\label{table:comparison_binary_datasets_accuracy}
+	\caption{Adhoc dataset - 4 Optimizers - Average of 10 runs - layer count 2 - binary datasets.}
+	\label{table:comparison_adhoc_dataset_optimizer_accuracy}
 \end{table}
 
-Best of bread
+\subsubsection{Custom}
+
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{r|cccc}
+		\hline 
+		\thead{\textbf{VQC}} & \thead{\textbf{COBYLA}} & \thead{\textbf{SPSA}} & \thead{\textbf{ADAM}}  & \thead{\textbf{BFGS}} \\
+		\hline 
+		q\_circuit\_01    & 0.415   & 0.42    & 0.435    & 0.415  \\
+		q\_circuit\_02    & 0.435   & 0.42    & 0.41     & 0.425  \\
+		q\_circuit\_03    & \textbf{0.495}   & 0.49    & 0.415    & 0.470  \\
+		q\_circuit\_04    & 0.46    & 0.465   & 0.465    & 0.475  \\
+		q\_circuit\_05    & 0.455   & 0.445   & 0.45     & 0.44   \\
+	\end{tabular}
+	\caption{Custom dataset - 4 Optimizers - Average of 10 runs - layer count 2 - binary datasets.}
+	\label{table:comparison_custom_dataset_optimizer_accuracy}
+\end{table}
+
+\subsubsection{Iris}
+
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{r|cccc}
+		\hline 
+		\thead{\textbf{VQC}} & \thead{\textbf{COBYLA}} & \thead{\textbf{SPSA}} & \thead{\textbf{ADAM}}  & \thead{\textbf{BFGS}} \\
+		\hline 
+		q\_circuit\_01    & 1.0     & 1.0    & 1.0    & 1.0    \\
+		q\_circuit\_02    & 1.0     & 1.0    & 1.0    & 1.0    \\
+		q\_circuit\_03    & 1.0     & 1.0    & 1.0    & 1.0    \\
+		q\_circuit\_04    & 0.795   & 0.665  & 0.825  & 0.755  \\
+		q\_circuit\_05    & 1.0     & 1.0    & 1.0    & 1.0    \\
+	\end{tabular}
+	\caption{Iris dataset - 4 Optimizers - Average of 10 runs - layer count 2 - binary datasets.}
+	\label{table:comparison_iris_dataset_optimizer_accuracy}
+\end{table}
+
+\subsubsection{Rain}
+
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{r|cccc}
+		\hline 
+		\thead{\textbf{VQC}} & \thead{\textbf{COBYLA}} & \thead{\textbf{SPSA}} & \thead{\textbf{ADAM}}  & \thead{\textbf{BFGS}} \\
+		\hline 
+		q\_circuit\_01    & 0.54    & 0.62    & tbd ()  & 0.605 \\
+		q\_circuit\_02    & 0.57    & \textbf{0.63}    & tbd ()  & 0.6   \\
+		q\_circuit\_03    & 0.605   & 0.57    & tbd ()  & 0.62  \\
+		q\_circuit\_04    & 0.52    & 0.56    & tbd ()  & 0.49  \\
+		q\_circuit\_05    & 0.605   & 0.595   & tbd ()  & \textbf{0.63}  \\
+	\end{tabular}
+	\caption{Rain dataset - 4 Optimizers - Average of 10 runs - layer count 2 - binary datasets.}
+	\label{table:comparison_rain_dataset_optimizer_accuracy}
+\end{table}
+
+\subsubsection{Vlds}
+
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{r|cccc}
+		\hline 
+		\thead{\textbf{VQC}} & \thead{\textbf{COBYLA}} & \thead{\textbf{SPSA}} & \thead{\textbf{ADAM}}  & \thead{\textbf{BFGS}} \\
+		\hline 
+		q\_circuit\_01    & 0.635   & 0.62.  & tbd ()  & 0.64   \\
+		q\_circuit\_02    & \textbf{0.675}   & 0.64   & tbd ()  & 0.605  \\
+		q\_circuit\_03    & 0.615   & 0.595  & tbd ()  & 0.6    \\
+		q\_circuit\_04    & 0.555   & 0.575  & tbd ()  & 0.565  \\
+		q\_circuit\_05    & 0.605   & 0.58   & tbd ()  & 0.615  \\
+	\end{tabular}
+	\caption{Vlds dataset - 4 Optimizers - Average of 10 runs - layer count 2 - binary datasets.}
+	\label{table:comparison_vlds_dataset_optimizer_accuracy}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection{Best of bread}
 
 \begin{table}[!h]
 	\centering
@@ -50,7 +152,7 @@ Best of bread
 		\textbf{Average}    & \textbf{tbd}         & \textbf{tbd}             \\
 		\hline
 	\end{tabular}
-	\caption{Comparison of QNN ... on a quantum simulator as well as on a real quantum computer. The table shows the accuracy of the best approach for each of the three algorithm types..}
+	\caption{Comparison of QNN ... on a quantum simulator as well as on a real quantum computer. The table shows the accuracy of the best approach for each of the each of the circuits and optimizer types.}
 	\label{table:comparison_binary_datasets_accuracy}
 \end{table}
 

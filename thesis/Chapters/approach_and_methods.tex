@@ -498,7 +498,7 @@ Hyperparameter optimization is used to examine a different combination of parame
 
 \newpage
 
-Using the problem space of 2 queries with 2 plans each, 150 records are generated. Each optimizer variant is run for a total of 13 times, each for 50 optimizing iterations, and the optimizer itself has any combination of the possible parameters defined in table \ref{table:hyperparameter_options}. These parameters amount to a total of 16 different optimizer setups.
+Using the problem space of 2 queries with 2 plans each, 150 records are generated. Each optimizer variant is run for a total of 13 times, each for 50 optimizing iterations, and the optimizer itself has any combination of the possible parameters defined in table \ref{table:hyperparameter_options}. These parameters amount to a total of 16 different optimizer setups. Due to time constraints and hardware availability, this is done purely on the simulator.
 
 \begin{table}[!h]
     \centering
@@ -532,47 +532,58 @@ Using the parity function as well as the machine learning components shown in ch
     \centering
     \begin{tabular}{lcccc|cc|}
 \cline{6-7}
-                                    &                                &                                &                                        &         & \multicolumn{2}{c|}{Mean Accuracy}     \\ \hline
-\multicolumn{1}{|l|}{Learning Rate} & \multicolumn{1}{c|}{$\beta_1$} & \multicolumn{1}{c|}{$\beta_2$} & \multicolumn{1}{c|}{Noise factor}      & Circuit & \multicolumn{1}{c|}{Testing} & Training \\ \hline
-\multicolumn{1}{|l|}{0.005}         & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{0.85}      & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{0.39}    & 0.33    \\ \hline
-\multicolumn{1}{|l|}{0.005}         & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{0.85}      & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$} & 1       & \multicolumn{1}{c|}{0.38}    & 0.35    \\ \hline
-\multicolumn{1}{|l|}{0.001}         & \multicolumn{1}{c|}{0.99}      & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{0.37}    & 0.31    \\ \hline
-\multicolumn{1}{|l|}{0.001}         & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{0.85}      & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{0.37}    & 0.33    \\ \hline
-\multicolumn{1}{|l|}{0.005}         & \multicolumn{1}{c|}{0.99}      & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{0.37}    & 0.34    \\ \hline
-\multicolumn{1}{|l|}{0.005}         & \multicolumn{1}{c|}{0.99}      & \multicolumn{1}{c|}{0.85}      & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$} & 1       & \multicolumn{1}{c|}{0.36}    & 0.34    \\ \hline
-\multicolumn{1}{|l|}{0.005}         & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$} & 1       & \multicolumn{1}{c|}{0.36}    & 0.35    \\ \hline
-\multicolumn{1}{|l|}{0.005}         & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{0.85}      & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{0.36}    & 0.34    \\ \hline
-\multicolumn{1}{|l|}{0.001}         & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{0.85}      & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{0.36}    & 0.35    \\ \hline
-\multicolumn{1}{|l|}{0.005}         & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{0.35}    & 0.34    \\ \hline
-\multicolumn{1}{|l|}{0.005}         & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{0.85}      & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$} & 1       & \multicolumn{1}{c|}{0.35}    & 0.34    \\ \hline
-\multicolumn{1}{|l|}{0.005}         & \multicolumn{1}{c|}{0.99}      & \multicolumn{1}{c|}{0.85}      & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{0.35}    & 0.33    \\ \hline
-\multicolumn{1}{|l|}{0.001}         & \multicolumn{1}{c|}{0.99}      & \multicolumn{1}{c|}{0.85}      & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{0.35}    & 0.34    \\ \hline
-\multicolumn{1}{|l|}{0.005}         & \multicolumn{1}{c|}{0.99}      & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$} & 1       & \multicolumn{1}{c|}{0.35}    & 0.33    \\ \hline
-\multicolumn{1}{|l|}{0.005}         & \multicolumn{1}{c|}{0.99}      & \multicolumn{1}{c|}{0.85}      & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$} & 1       & \multicolumn{1}{c|}{0.35}    & 0.35    \\ \hline
-\multicolumn{1}{|l|}{0.005}         & \multicolumn{1}{c|}{0.99}      & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$} & 1       & \multicolumn{1}{c|}{0.34}    & 0.35    \\ \hline
-\multicolumn{1}{|l|}{0.005}         & \multicolumn{1}{c|}{0.99}      & \multicolumn{1}{c|}{0.85}      & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{0.34}    & 0.34    \\ \hline
-\multicolumn{1}{|l|}{0.001}         & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$} & 1       & \multicolumn{1}{c|}{0.34}    & 0.32    \\ \hline
-\multicolumn{1}{|l|}{0.001}         & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$} & 1       & \multicolumn{1}{c|}{0.34}    & 0.33    \\ \hline
-\multicolumn{1}{|l|}{0.005}         & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{0.34}    & 0.36    \\ \hline
-\multicolumn{1}{|l|}{0.001}         & \multicolumn{1}{c|}{0.99}      & \multicolumn{1}{c|}{0.85}      & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$} & 1       & \multicolumn{1}{c|}{0.33}    & 0.32    \\ \hline
-\multicolumn{1}{|l|}{0.005}         & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$} & 1       & \multicolumn{1}{c|}{0.32}    & 0.34    \\ \hline
-\multicolumn{1}{|l|}{0.001}         & \multicolumn{1}{c|}{0.99}      & \multicolumn{1}{c|}{0.85}      & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{0.32}    & 0.35    \\ \hline
-\multicolumn{1}{|l|}{0.001}         & \multicolumn{1}{c|}{0.99}      & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$} & 1       & \multicolumn{1}{c|}{0.32}    & 0.34    \\ \hline
-\multicolumn{1}{|l|}{0.001}         & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{0.85}      & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$} & 1       & \multicolumn{1}{c|}{0.32}    & 0.33    \\ \hline
-\multicolumn{1}{|l|}{0.005}         & \multicolumn{1}{c|}{0.99}      & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{0.32}    & 0.33    \\ \hline
-\multicolumn{1}{|l|}{0.001}         & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{0.85}      & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$} & 1       & \multicolumn{1}{c|}{0.32}    & 0.35    \\ \hline
-\multicolumn{1}{|l|}{0.001}         & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{0.32}    & 0.32    \\ \hline
-\multicolumn{1}{|l|}{0.001}         & \multicolumn{1}{c|}{0.99}      & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{0.31}    & 0.35    \\ \hline
-\multicolumn{1}{|l|}{0.001}         & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{0.3}     & 0.32    \\ \hline
-\multicolumn{1}{|l|}{0.001}         & \multicolumn{1}{c|}{0.99}      & \multicolumn{1}{c|}{0.9}       & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$} & 1       & \multicolumn{1}{c|}{0.3}     & 0.35    \\ \hline
-\multicolumn{1}{|l|}{0.001}         & \multicolumn{1}{c|}{0.99}      & \multicolumn{1}{c|}{0.85}      & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$} & 1       & \multicolumn{1}{c|}{0.3}     & 0.34    \\ \hline
+                                                    &                                                  &                                                   &                                                                &         & \multicolumn{2}{c|}{Mean Accuracy}                          \\ \hline
+\multicolumn{1}{|l|}{Learning Rate}                 & \multicolumn{1}{c|}{$\beta_1$}                   & \multicolumn{1}{c|}{$\beta_2$}                    & \multicolumn{1}{c|}{Noise factor}                              & Circuit & \multicolumn{1}{c|}{Testing}                      & Testing \\ \hline
+\rowcolor[HTML]{FFFE65} 
+\multicolumn{1}{|l|}{\cellcolor[HTML]{FFFE65}0.005} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}0.9} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}0.85} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}$5\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}0.39} & 0.33    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.38}                         & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.37}                         & 0.31    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.37}                         & 0.33    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.37}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.36}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.36}                         & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.36}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.36}                         & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.35}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.35}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.35}                         & 0.33    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.35}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.35}                         & 0.33    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.35}                         & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.34}                         & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.34}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.34}                         & 0.32    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.34}                         & 0.33    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.34}                         & 0.36    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.33}                         & 0.32    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.32}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.32}                         & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.32}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.32}                         & 0.33    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.32}                         & 0.33    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.32}                         & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.32}                         & 0.32    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.31}                         & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.3}                          & 0.32    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.3}                          & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.3}                          & 0.34    \\ \hline
 \end{tabular}
     \caption{Results of the hyperparameter optimization using the circuits \ref{circuit:full_trainable_mqp_circuit} and \ref{circuit:full_trainable_mqp_circuit_1_w} as well as the parameters from table \ref{table:hyperparameter_options}.}
     \label{table:hyperparameter_results}
 \end{table}
 
-Through the results from table \ref{table:hyperparameter_results}, the parameters that achieved the best result are taken and ran separately again. This time, the problem space has a size of $\left|\mathcal{D}_{2\times2}\right| =\ 300$ and the optimization is capped at 150 iterations. The whole optimization process is run a total of 13 times and the data collected. Figure \ref{figure:amsgrad_boxplots} showcases the resulting data as a boxplot. The optimized weight $\theta = 0.2352$ from the best run is taken and used as a static value in further experiments.
+\newpage
 
+Through the results from table \ref{table:hyperparameter_results}, the parameters from the marked row that achieved the best result are taken and ran separately again. This time, the problem space has a size of $\left|\mathcal{D}_{2\times2}\right| =\ 300$ and the optimization is capped at 150 iterations. The whole optimization process is run a total of 13 times and the data collected. Figure \ref{figure:amsgrad_boxplots} showcases the resulting data as a box plot. As the runs from \ref{table:hyperparameter_results}, these are also done on the simulator. The optimized weight $\theta = 0.2352$ from the best run is taken and used as a static value in further experiments.
+
+\begin{figure}[!ht]
+    \centering
+    \scalebox{0.9}{
+        \includesvg{thesis/Appendices/final_amsgrad_training_boxplot.svg}
+    }
+    \caption{The results of 13 runs of optimization done on the circuit \ref{circuit:full_trainable_mqp_circuit_1_w}. These are achieved using the \code{AMSGRAD} optimizer that runs for 150 iterations on a problem space of size $\left|\mathcal{D}_{2\times2}\right| =\ 300$.}
+    \label{figure:amsgrad_boxplots}
+\end{figure}
 
 \clearpage
 

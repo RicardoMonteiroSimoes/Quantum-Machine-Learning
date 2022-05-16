@@ -76,6 +76,8 @@ def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
         return '{:b}'.format(x).count('1') % output_shape
 
     def callback(weights, obj_func_eval):
+        print(f"obj_func_eval: {obj_func_eval}")
+        print(f"current weights: {weights}")
         _weights.append(weights)
 
     # Qiskit backend
@@ -100,6 +102,8 @@ def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
                              interpret=parity,
                              output_shape=output_shape,
                              quantum_instance=quantum_instance)
+
+    # print(circuit_qnn.circuit.draw(vertical_compression='high', fold=-1, scale=0.5))
 
     # construct classifier
     return NeuralNetworkClassifier(neural_network=circuit_qnn,
@@ -336,23 +340,58 @@ if __name__ == '__main__':
     print("Running script in folder \"{}\"".format(SCRIPT_DIRECTORY))
     datasets = load_verify_datasets(load_dataset_args)
 
-    manager = multiprocessing.Manager()
-    return_list = manager.list()
-    jobs = []
-
     print("Running circuits ...")
     # for index, dataset in enumerate([datasets[i] for i in range(0, 50, 1)]):
-    for index, dataset in enumerate([datasets[i] for i in range(0, 10, 1)]):
-        p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset))
-        jobs.append(p)
-        p.start()
-        print("Started process {}".format(index))
+    for index, dataset in enumerate([datasets[i] for i in range(0, 1, 1)]):
 
-    for proc in jobs:
-        proc.join()
+        (dataset_id, dataset_name, data) = dataset
+        N_WIRES = len(data[0][0])  # is also feature count
 
-    print("results: ", return_list)
-    # sort by dataset name (first) and dataset id (second)
-    return_list.sort(key=sortDatasetsByNameAndId, reverse=False)
+        qcirc_results = {}
 
-    generate_markdown_from_list(return_list)
+        print(f"{dataset_id} {dataset_name}")
+
+        # Loop over circuits
+        for q_circ in quantum_circuits:
+            circuit_name = q_circ.__name__
+            print(f"{circuit_name}")
+            weights = []
+
+            if(circuit_name not in qcirc_results):
+                qcirc_results[circuit_name] = []
+
+            # get the generated quantum circuit
+            quantum_circuit: QuantumCircuit = q_circ(n_wires=N_WIRES, n_layers=N_LAYERS).copy()
+
+            # get the generated classifier
+            classifier = get_classifier(quantum_circuit, weights, N_WIRES)
+
+            (sample_train, sample_test, label_train, label_test) = data
+            # ugly hack to fix iris labels. Don't do this at home
+            np.subtract(label_train, 1, out=label_train, where=label_train == 2)
+            np.subtract(label_test, 1, out=label_test, where=label_test == 2)
+
+            # fit classifier to data
+            classifier.fit(sample_train, label_train)
+            score_train = classifier.score(sample_train, label_train)
+            score_test = classifier.score(sample_test, label_test)
+
+            qcirc_results[circuit_name].append([score_train, score_test, np.array(weights[-1])])
+
+            break
+
+        print(f"qcirc_results: {qcirc_results}")
+
+    #     p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset))
+    #     jobs.append(p)
+    #     p.start()
+    #     print("Started process {}".format(index))
+
+    # for proc in jobs:
+    #     proc.join()
+
+    # print("results: ", return_list)
+    # # sort by dataset name (first) and dataset id (second)
+    # return_list.sort(key=sortDatasetsByNameAndId, reverse=False)
+
+    # generate_markdown_from_list(return_list)

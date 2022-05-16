@@ -200,25 +200,4 @@ fig, ax = qml.draw_mpl(circuit_04, expansion_strategy='device')(features, init_w
 plt.savefig(os.getcwd() + '/code/svm/assets/circuit_04.png')
 
 
-# -------------------------
 
-
-# ==================================================
-# ==================================================
-# LOAD PICKLE DATASET
-# data_sets = Helpers.load_data(DATASET_FILE)
-# # verify dataset
-# Helpers.verify_datasets_integrity(data_sets, number_datasets=NUMBER_DATASETS,
-#                                   number_samples=NUMBER_SAMPLES, number_runs=NUMBER_RUNS)
-
-#
-# for dataset in data_sets:
-
-#     if dataset[1] == 'iris':
-#         print("name: ", dataset[1])
-#         print("datatset id: ", dataset[0])
-#         (sample_train, sample_test, label_train, label_test) = dataset[2]
-#         print("sample_train: ", sample_train[0],
-#               "\nsample_test: ", sample_test[0],
-#               "\nlabel_train: ", label_train[0],
-#               "\nlabel_test: ", label_test[0])
