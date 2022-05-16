@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import multiprocessing
+import math
 import pythonlib.qcircuits as qc
 import os
 import re
@@ -35,11 +36,7 @@ N_LAYERS = os.getenv('QC_N_LAYERS', 2)
 
 # Q circuits
 quantum_circuits = [
-    qc.qml_circuit_qiskit_01,
-    qc.qml_circuit_qiskit_02,
-    qc.qml_circuit_qiskit_03,
-    qc.qml_circuit_qiskit_04,
-    qc.qml_circuit_qiskit_05,
+    qc.qml_circuit_qiskit_power
 ]
 
 """
@@ -94,9 +91,12 @@ def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
 
     quantum_instance = QuantumInstance(q_simulator, shots=1024)
 
+    # special input features count
+    n_input_params = n_features + (n_features - 1)
+
     circuit_qnn = CircuitQNN(circuit=circuit,
-                             input_params=circuit.parameters[-n_features:],
-                             weight_params=circuit.parameters[:-n_features],
+                             input_params=circuit.parameters[-n_input_params:],
+                             weight_params=circuit.parameters[:-n_input_params],
                              interpret=parity,
                              output_shape=output_shape,
                              quantum_instance=quantum_instance)
@@ -105,6 +105,19 @@ def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
     return NeuralNetworkClassifier(neural_network=circuit_qnn,
                                    callback=callback,
                                    optimizer=optimizer[0])
+
+
+def update_input_features(features_arr):
+    n_feature_count = len(features_arr[0])
+    updated_features_arr = []
+    # loop over all feature sets
+    for feature_set in features_arr:
+        updated_feature_set = [*feature_set]
+        for i in range(n_feature_count-1):
+            feature_value = (math.pi - feature_set[i])*(math.pi - feature_set[i+1])
+            updated_feature_set.append(feature_value)
+        updated_features_arr.append(updated_feature_set)
+    return np.array(updated_features_arr)
 
 
 def worker_datasets(return_list: dict, dataset):
@@ -133,6 +146,10 @@ def worker_datasets(return_list: dict, dataset):
         classifier = get_classifier(quantum_circuit, weights, N_WIRES)
 
         (sample_train, sample_test, label_train, label_test) = data
+        # update train data features
+        sample_train = update_input_features(sample_train)
+        sample_test = update_input_features(sample_test)
+
         # ugly hack to fix iris labels. Don't do this at home
         np.subtract(label_train, 1, out=label_train, where=label_train == 2)
         np.subtract(label_test, 1, out=label_test, where=label_test == 2)
@@ -327,7 +344,7 @@ def generate_markdown_from_list(result_list):
 
         markdown += '\n\n'
 
-    filepath = save_markdown_to_file('training_run', markdown, timestamp)
+    filepath = save_markdown_to_file('power_training_run', markdown, timestamp)
     print('Run has been saved to file: {}'.format(filepath))
 
 
@@ -342,7 +359,7 @@ if __name__ == '__main__':
 
     print("Running circuits ...")
     # for index, dataset in enumerate([datasets[i] for i in range(0, 50, 1)]):
-    for index, dataset in enumerate([datasets[i] for i in range(0, 10, 1)]):
+    for index, dataset in enumerate([datasets[i] for i in range(0, 50, 1)]):
         p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset))
         jobs.append(p)
         p.start()

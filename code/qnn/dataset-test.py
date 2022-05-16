@@ -9,7 +9,8 @@ SCRIPT_DIRECTORY = os.path.dirname(abspath)
 os.chdir(SCRIPT_DIRECTORY)
 
 # VARS
-DATASET_FILE = SCRIPT_DIRECTORY + '/../datasets/datasets2.data'
+DATASET_FILE = SCRIPT_DIRECTORY + '/../datasets/datasets.data'
+# DATASET_FILE = SCRIPT_DIRECTORY + '/../datasets/datasets2.data'
 NUMBER_RUNS = 10
 
 
@@ -22,7 +23,7 @@ def load_data(filename):
 data = load_data(DATASET_FILE)
 # print(data)
 for index, d in enumerate(data):
-    if index % NUMBER_RUNS == 0:
+    #if index % NUMBER_RUNS == 0:
         (dataset_id, dataset_name, data) = d
 
         (sample_train, sample_test, label_train, label_test) = data
