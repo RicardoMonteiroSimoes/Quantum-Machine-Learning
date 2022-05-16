@@ -15,109 +15,58 @@
 
 \subsection{Training On Simulator}
 
-\subsubsection{Adhoc}
 
 \begin{table}[!h]
 	\centering
-	\begin{tabular}{r|cccc}
+	        
+	\begin{tabular}{p{0.12\textwidth}p{0.15\textwidth}|p{0.13\textwidth}p{0.13\textwidth}p{0.13\textwidth}p{0.13\textwidth}}
 		\hline 
-		\thead{\textbf{VQC}} & \thead{\textbf{COBYLA}} & \thead{\textbf{SPSA}} & \thead{\textbf{ADAM}}  & \thead{\textbf{BFGS}} \\
+		\textbf{Dataset}        & \textbf{VQC} & \textbf{COBYLA} & \textbf{SPSA}  & \textbf{AMSGR.} & \textbf{BFGS} \\
 		\hline 
-		q\_circuit\_01    & 0.515   & 0.49   & tbd (calculate) & 0.495  \\
-		q\_circuit\_02    & 0.5     & 0.51   & tbd (calculate) & 0.52   \\
-		q\_circuit\_03    & 0.505   & 0.515  & tbd (calculate) & 0.505  \\
-		q\_circuit\_04    & 0.525   & \textbf{0.56}   & tbd (calculate) & 0.48   \\
-		q\_circuit\_05    & 0.55    & 0.53   & tbd (calculate) & 0.52   \\
+		\multirow{6}{*}{\textbf{Adhoc}}  & q\_circuit\_01 & 0.515  & 0.490 & 0.535    & 0.495 \\
+		                        & q\_circuit\_02 & 0.500  & 0.510 & 0.520    & 0.520 \\
+		                        & q\_circuit\_03 & 0.505  & 0.515 & 0.525    & 0.505 \\
+		                        & q\_circuit\_04 & 0.525  & 0.560 & 0.485    & 0.480 \\
+		                        & q\_circuit\_05 & 0.550  & 0.530 & \underline{0.565}    & 0.520 \\
+		\cline{2-6} 
+		                        & \textbf{Average}      & 0.519  & 0.521 & \textbf{0.526}    & 0.504 \\
+		\hline 
+		\multirow{6}{*}{\textbf{Custom}} & q\_circuit\_01 & 0.415  & 0.420 & 0.435    & 0.415 \\
+		                        & q\_circuit\_02 & 0.435  & 0.420 & 0.410    & 0.425 \\
+		                        & q\_circuit\_03 & \underline{0.495}  & 0.490 & 0.415    & 0.470 \\
+		                        & q\_circuit\_04 & 0.460  & 0.465 & 0.465    & 0.475 \\
+		                        & q\_circuit\_05 & 0.455  & 0.445 & 0.450    & 0.440 \\
+		\cline{2-6} 
+		                        & \textbf{Average}      & \textbf{0.452}  & 0.448 & 0.435    & 0.445 \\
+		\hline 
+		\multirow{6}{*}{\textbf{Iris}}   & q\_circuit\_01 & 1.00   & 1.00  & 1.00     & 1.00  \\
+		                        & q\_circuit\_02 & 1.00   & 1.00  & 1.00     & 1.00  \\
+		                        & q\_circuit\_03 & 1.00   & 1.00  & 1.00     & 1.00  \\
+		                        & q\_circuit\_04 & 0.795  & 0.665 & 0.825    & 0.755 \\
+		                        & q\_circuit\_05 & 1.00   & 1.00  & 1.00     & 1.00  \\
+		\cline{2-6} 
+		                        & \textbf{Average}      & 0.959  & 0.933 & \textbf{0.965}    & 0.951 \\
+		\hline 
+		\multirow{6}{*}{\textbf{Rain}}   & q\_circuit\_01 & 0.540  & 0.620 & 0.635    & 0.605 \\
+		                        & q\_circuit\_02 & 0.570  & 0.630 & 0.635    & 0.600 \\
+		                        & q\_circuit\_03 & 0.605  & 0.570 & 0.62     & 0.620 \\
+		                        & q\_circuit\_04 & 0.520  & 0.560 & 0.535    & 0.490 \\
+		                        & q\_circuit\_05 & 0.605  & 0.595 & \underline{0.660}    & 0.630 \\
+		\cline{2-6} 
+		                        & \textbf{Average}      & 0.568  & 0.595 & \textbf{0.617}    & 0.589 \\
+		\hline 
+		\multirow{6}{*}{\textbf{Vlds}}   & q\_circuit\_01 & 0.635  & 0.620 & 0.660    & 0.640 \\
+		                        & q\_circuit\_02 & 0.675  & 0.640 & 0.64     & 0.605 \\
+		                        & q\_circuit\_03 & 0.615  & 0.595 & 0.595    & 0.600 \\
+		                        & q\_circuit\_04 & 0.555  & 0.575 & 0.605    & 0.565 \\
+		                        & q\_circuit\_05 & 0.605  & 0.580 & \underline{0.695}    & 0.615 \\
+		\cline{2-6} 
+		                        & \textbf{Average}      & 0.617  & 0.602 & \textbf{0.639}    & 0.605 \\
+		\hline
 	\end{tabular}
-	\caption{Adhoc dataset - 4 Optimizers - Average of 10 runs - layer count 2 - binary datasets.}
-	\label{table:comparison_adhoc_dataset_optimizer_accuracy}
+	\caption{Comparison of accuracy for the optimizers COBYLA, SPSA, AMSGRAD (Adam) and BFGS over and average of 10 runs using two VQC layers for the quantum simulator training runs and binary datasets.}
+	\label{table:accuracy_comparison_all_dataset_and_optimizers_training_runs}
 \end{table}
-
-\subsubsection{Custom}
-
-\begin{table}[!h]
-	\centering
-	\begin{tabular}{r|cccc}
-		\hline 
-		\thead{\textbf{VQC}} & \thead{\textbf{COBYLA}} & \thead{\textbf{SPSA}} & \thead{\textbf{ADAM}}  & \thead{\textbf{BFGS}} \\
-		\hline 
-		q\_circuit\_01    & 0.415   & 0.42    & 0.435    & 0.415  \\
-		q\_circuit\_02    & 0.435   & 0.42    & 0.41     & 0.425  \\
-		q\_circuit\_03    & \textbf{0.495}   & 0.49    & 0.415    & 0.470  \\
-		q\_circuit\_04    & 0.46    & 0.465   & 0.465    & 0.475  \\
-		q\_circuit\_05    & 0.455   & 0.445   & 0.45     & 0.44   \\
-	\end{tabular}
-	\caption{Custom dataset - 4 Optimizers - Average of 10 runs - layer count 2 - binary datasets.}
-	\label{table:comparison_custom_dataset_optimizer_accuracy}
-\end{table}
-
-\subsubsection{Iris}
-
-\begin{table}[!h]
-	\centering
-	\begin{tabular}{r|cccc}
-		\hline 
-		\thead{\textbf{VQC}} & \thead{\textbf{COBYLA}} & \thead{\textbf{SPSA}} & \thead{\textbf{ADAM}}  & \thead{\textbf{BFGS}} \\
-		\hline 
-		q\_circuit\_01    & 1.0     & 1.0    & 1.0    & 1.0    \\
-		q\_circuit\_02    & 1.0     & 1.0    & 1.0    & 1.0    \\
-		q\_circuit\_03    & 1.0     & 1.0    & 1.0    & 1.0    \\
-		q\_circuit\_04    & 0.795   & 0.665  & 0.825  & 0.755  \\
-		q\_circuit\_05    & 1.0     & 1.0    & 1.0    & 1.0    \\
-	\end{tabular}
-	\caption{Iris dataset - 4 Optimizers - Average of 10 runs - layer count 2 - binary datasets.}
-	\label{table:comparison_iris_dataset_optimizer_accuracy}
-\end{table}
-
-\subsubsection{Rain}
-
-\begin{table}[!h]
-	\centering
-	\begin{tabular}{r|cccc}
-		\hline 
-		\thead{\textbf{VQC}} & \thead{\textbf{COBYLA}} & \thead{\textbf{SPSA}} & \thead{\textbf{ADAM}}  & \thead{\textbf{BFGS}} \\
-		\hline 
-		q\_circuit\_01    & 0.54    & 0.62    & tbd ()  & 0.605 \\
-		q\_circuit\_02    & 0.57    & \textbf{0.63}    & tbd ()  & 0.6   \\
-		q\_circuit\_03    & 0.605   & 0.57    & tbd ()  & 0.62  \\
-		q\_circuit\_04    & 0.52    & 0.56    & tbd ()  & 0.49  \\
-		q\_circuit\_05    & 0.605   & 0.595   & tbd ()  & \textbf{0.63}  \\
-	\end{tabular}
-	\caption{Rain dataset - 4 Optimizers - Average of 10 runs - layer count 2 - binary datasets.}
-	\label{table:comparison_rain_dataset_optimizer_accuracy}
-\end{table}
-
-\subsubsection{Vlds}
-
-\begin{table}[!h]
-	\centering
-	\begin{tabular}{r|cccc}
-		\hline 
-		\thead{\textbf{VQC}} & \thead{\textbf{COBYLA}} & \thead{\textbf{SPSA}} & \thead{\textbf{ADAM}}  & \thead{\textbf{BFGS}} \\
-		\hline 
-		q\_circuit\_01    & 0.635   & 0.62.  & tbd ()  & 0.64   \\
-		q\_circuit\_02    & \textbf{0.675}   & 0.64   & tbd ()  & 0.605  \\
-		q\_circuit\_03    & 0.615   & 0.595  & tbd ()  & 0.6    \\
-		q\_circuit\_04    & 0.555   & 0.575  & tbd ()  & 0.565  \\
-		q\_circuit\_05    & 0.605   & 0.58   & tbd ()  & 0.615  \\
-	\end{tabular}
-	\caption{Vlds dataset - 4 Optimizers - Average of 10 runs - layer count 2 - binary datasets.}
-	\label{table:comparison_vlds_dataset_optimizer_accuracy}
-\end{table}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -136,6 +85,12 @@
 
 
 \subsubsection{Best of bread}
+
+
+\subsection{Evaluation On Real Hardware}
+
+
+\subsection{Comparison}
 
 \begin{table}[!h]
 	\centering
@@ -158,6 +113,5 @@
 
 
 
-\subsection{Evaluation On Real Hardware}
 
 \clearpage
