@@ -470,6 +470,33 @@ To enable an optimizer to train the circuit defined in chapter \ref{chapter:circ
     \label{circuit:full_trainable_mqp_circuit}
 \end{figure}
 
+\subsubsection{Manual Validation}
+To assess that the circuit from figure \ref{circuit:full_trainable_mqp_circuit} is able to correctly handle the generated problem as well as deliver usable results, a static variant is created where the \rxgate\ has a static value. As perviously shown, $\frac{\pi}{4}$ appears to be a good value for normalization, so this is also used in the static variant as the variable for the \rxgate\ layer, as shown in figure \ref{circuit:static_mqo_circuit}.
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{0.8}{
+\Qcircuit @C=1.0em @R=0.2em @!R { \\
+	 	\nghost{{q}_{0} :  } & \lstick{{q}_{0} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_0})} & \ctrl{2} & \ctrl{3} & \qw & \qw & \gate{\mathrm{R_X}\,(\frac{\pi}{4})} & \qw & \qw \\
+	 	\nghost{{q}_{1} :  } & \lstick{{q}_{1} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_1})} & \qw & \qw & \ctrl{1} & \ctrl{2} & \gate{\mathrm{R_X}\,(\frac{\pi}{4})} & \qw & \qw\\
+	 	\nghost{{q}_{2} :  } & \lstick{{q}_{2} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_2})} & \gate{\mathrm{R_Z}\,(\mathrm{s_02})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s_12})} & \qw & \gate{\mathrm{R_X}\,(\frac{\pi}{4})} & \qw & \qw\\
+	 	\nghost{{q}_{3} :  } & \lstick{{q}_{3} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_3})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s_03})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s_13})} & \gate{\mathrm{R_X}\,(\frac{\pi}{4})} & \qw & \qw\\
+\\ }}
+    \caption{A static variant of the circuit \ref{circuit:full_trainable_mqp_circuit} where the \rxgate\ layer was fitted with the static value $\frac{\pi}{4}$, to allow for manual execution, evaluation and as assessment for the viability of the circuit.}
+    \label{circuit:static_mqo_circuit}
+\end{figure}
+
+The circuit \ref{circuit:static_mqo_circuit} is run with a randomly generated problem space $\left|\matchal{D}_{2\times2}\right| =\ 5000$. This size was chosen to allow any specific edge cases to appear and be handled. In addition, each measurement is taken with 1024 shots, a standard value used in the library \code{qiskit}. The experiment runs 13 times and the results are summarized in figure \ref{figure:boxplot_static_circuit_accuracies}.
+
+\begin{figure}
+    \centering
+    \scalebox{0.9}{
+        \includesvg{thesis/Appendices/final_amsgrad_training_boxplot.svg}
+    }
+    \caption{Boxplot of achieved accuracies after 13 runs of the generated problem space $\left|\mathcal{D}_{2\times2}\right| =\ 5000$ with 1024 shots each, using the circuit \ref{circuit:static_mqo_circuit}.}
+    \label{figure:boxplot_static_circuit_accuracies}
+\end{figure}
+
 The work of Pellow-Jarman et al.\cite{pellow-jarman_comparison_2021} evaluated different optimization algorithms. According to their results, the \code{AMSGRAD} optimizer was chosen. The python library \code{qiskit} offers easy access to the classical optimizer, as shown in listing \ref{code:amsgrad_example_qiskit}.
 
 \begin{listing}[!h]
@@ -574,7 +601,9 @@ Using the parity function as well as the machine learning components shown in ch
 
 \newpage
 
-Through the results from table \ref{table:hyperparameter_results}, the parameters from the marked row that achieved the best result are taken and ran separately again. This time, the problem space has a size of $\left|\mathcal{D}_{2\times2}\right| =\ 300$ and the optimization is capped at 150 iterations. The whole optimization process is run a total of 13 times and the data collected. Figure \ref{figure:amsgrad_boxplots} showcases the resulting data as a box plot. As the runs from \ref{table:hyperparameter_results}, these are also done on the simulator. The optimized weight $\theta = 0.2352$ from the best run is taken and used as a static value in further experiments.
+Through the results from table \ref{table:hyperparameter_results}, the parameters from the marked row that achieved the best result are taken and ran separately again. This time, the problem space has a size of $\left|\mathcal{D}_{2\times2}\right| =\ 300$ and the optimization is capped at 150 iterations. The whole optimization process is run a total of 13 times and the data collected. Figure \ref{figure:amsgrad_boxplots} showcases the resulting data as a box plot. As the runs from \ref{table:hyperparameter_results}, these are also done on the simulator. The optimized weight $\theta = 0.2352$ from the best run is taken and used as a static value in further experiments.\par
+
+To assess the viability of the final circuits, 
 
 \begin{figure}[!ht]
     \centering
@@ -639,10 +668,8 @@ One of the criticisms was the number of samples used and that all datasets are b
 
 \textbf{Custom dataset}. Generated dataset by a custom algorithm \todo{add picture and function}
 
-\subsubsection{Prepocessing}
-All of the above datasets have been normalized and scaled using scikit-learns  \code{StandardScaler}\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html}} and \code{MinMaxScaler}\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html}} between $[-1, 1]$. 
-
-mapping of class labels (e.g. yes, no to 1,0) etc. \todo{add preprocessing informations} 
+\subsubsection{Preprocessing}
+All of the above datasets have been normalized and scaled - using scikit-learns  \code{StandardScaler}\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html}} and \code{MinMaxScaler}\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html}} - between $[-1, 1]$. Another crutial preprocessing step is to map the targets to integer values starting from 0. For example 0 for the first class and 1 for the second class, etc. Like so the parity functions\ref{listing:parity_function} predicted labels - the return value is an integer value - can be directly compared to the mapped true labels.
 
 \clearpage
 
