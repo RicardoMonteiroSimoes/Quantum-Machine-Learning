@@ -42,7 +42,7 @@ quantum_circuits = [
     qc.qml_circuit_qiskit_05,
 ]
 
-DO_TEST_SUBSET = True
+DO_TEST_SUBSET = False
 
 """
 Optimizers:
@@ -297,7 +297,7 @@ def generate_markdown_from_list(result_list):
             except IndexError:
                 arr = arr.append([np_scores, np_weights])
 
-    markdown = "# Quantum Neural Network Classifier run\n\n"
+    markdown = "# Extended QNN Classifier run\n\n"
     markdown += "**Settings:**\n"
     markdown += "Used Optimizer for Neural Network Classifier: `{}`\n".format(optimizer[1])
     markdown += "Layer count: `{}`\n\n".format(N_LAYERS)
@@ -348,7 +348,7 @@ def generate_markdown_from_list(result_list):
 
         markdown += '\n\n'
 
-    filepath = save_markdown_to_file('training_run', markdown, timestamp)
+    filepath = save_markdown_to_file('extended_training_run', markdown, timestamp)
     print('Run has been saved to file: {}'.format(filepath))
 
 
