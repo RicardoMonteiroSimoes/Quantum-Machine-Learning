@@ -23,7 +23,7 @@ One simple example would be the request to get the addresses of all users with t
 With the ever rising number of users accessing data concurrently, the situation arises at which some plans can be partially combined to save execution time (hence the name \emph{Multiple Query Optimization}). Akin to selecting the fastest plan to a query, combining different query plans together that share some intermediate results can also lead to substantial savings when it comes to the total runtime. The problem in itself is of quadratic nature; which means that it usually takes $O(n^2)$ to find the combination with the most savings. Finding the combination with the most time savings has been an ongoing problem to solve, with solutions that can find a \emph{good enough} solution available. 
 
 \subsection{Quantum Neural Network}
-Classification of data is a canonical problem in machine learning and has made great strides towards getting classical computers to classify data \cite{Killoran_2019,ClassificationWithQNN}. 
+Classification of data is a canonical problem in machine learning and has made great strides towards getting classical computers to classify data \cite{Killoran_2019,ClassificationWithQNN}. In recent years, access to quantum computers has become steadily easier and quantum computation is currently undergoing a transformation from purely academic to industrially used technology\cite{schuldCircuitcentricQuantumClassifiers2020}.
 
 \section{Goals}
 \todo{Formuliert das Ziel der Arbeit
@@ -34,6 +34,6 @@ Verweist auf die offizielle Auf-gabenstellung des/der Dozie-renden im Anhang}
 The goal of this paper is to evaluate the practicality of a quantum-based solution to solve the multiple query optimization problem. Using artificially generated data which mimics real life situations, a circuit is generated which then converges onto the optimal solution. For comparison, a different quantum solver is used and not only the results, but also the runtime assessed.
 
 \subsection{Quantum Neural Network}
-The goal of this paper is to compare the Quantum SVM and Quantum Neural Network approach for binary datasets as well as datasets with more than two classes.
+Another goal of this paper is to evaluate different variational quantum circuits which closely resemble Quantum Neural Networks for classification and further compare the results with the Quantum SVM approach done by NAME OF project thesis \todo{ref here}. We pre-trained the weights by a hybrid classical-quantum algorithm approach on quantum simulators using five different binary datasets of two different sizes and additionally the iris dataset with all datapoints and all of its three classes. Finally all quantum circuits are evaluated and analysed on freely available real Quantum hardware from IBM using the datasets and the pre-trained weights.
 
-\newpage
+\clearpage

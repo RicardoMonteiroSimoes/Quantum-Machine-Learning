@@ -20,12 +20,12 @@
 \section{Multiple Query Optimization}
 
 \subsection{Data acquisition}
-\label{chapter:mqp_data_acquisition}
+\label{chapter:mqo_data_acquisition}
 
 The problem, as defined in chapter \ref{chapter:fundamental_multiple_query_optimization}, consists of a combination of costs $c$ per plan $\mathcal{P}_i$ and savings $s$ per combination $
 \left(\mathcal{P}_i,\mathcal{P}_j\right)_{i \neq j}$. These values are basic integer numbers, which for any cost $c$ is in range [1,$x$] and for any saving $s$ in range [$y$,0]. As shown in chapter \ref{chapter:theoretical_fundamentals}, there can be $n$ queries at any given time, each of which has $n_i$ plans. These allow for multiple combinations, which by themselves define the problem space $\mathcal{D}$ to traverse. To begin with, the problem generator from Fankhauser et al.\cite{fankhauser_multiple_2021} is used to generate a basic problem space $\mathcal{D}_2\times2$ consisting of 2 queries, each with 2 plans, as seen in figure \ref{figure:2d_problem_data}.
 
-\begin{figure}[!h]
+\begin{listing}[!ht]
     \centering
     \begin{minted}{python}
         (2,
@@ -37,7 +37,7 @@ The problem, as defined in chapter \ref{chapter:fundamental_multiple_query_optim
     \end{minted}
     \caption{This is an automatically generated problem space $\mathcal{D}_2\times2$. The first number tells us how many queries there are. In this example, all queries have two plans. The second array contains the cost of running each plan. The third segment is a dictionary where the key symbolizes which plans are combined, and the value of the savings that can be had.}
     \label{figure:2d_problem_data}
-\end{figure}
+\end{listing}
 
 To facilitate the visualization of the problem, the plans omit the $\mathcal{Q}_i$ prefix and are numbered from $\mathcal{P}_0$ up to $\mathcal{P}_n$. For example in \ref{figure:2d_problem_data}, this would mean that query $\mathcal{Q}_0$ has plans $\mathcal{P}_0$ and $\mathcal{P}_1$, and query $\mathcal{Q}_1$ plans $\mathcal{P}_2$ and $\mathcal{P}_3$, which is visualized in figure \ref{figure:4_query_plans}.
 
@@ -157,7 +157,7 @@ The plans from figure \ref{figure:4_query_plans} are built to best resemble the 
 
 The problem space from figure \ref{figure:2d_problem_data} is used for direct comparison between our solution and the solution of Fankhauer et al.\cite{fankhauser_multiple_2021}. As one cannot assume that real life problems will always be limited to 2 queries with 2 problems each, the problem generator is enhanced to allow for any number of queries, each of which with their own number of plans, as shown in figure \ref{figure:nd_problem_data}.
 
-\begin{figure}[!h]
+\begin{listing}[!ht]
     \centering
     \begin{minted}{python}
         ([2, 3, 2],
@@ -181,13 +181,14 @@ The problem space from figure \ref{figure:2d_problem_data} is used for direct co
     \end{minted}
     \caption{This is an automatically generated, $n$-dimensional problem space $\mathcal{D}$. The first array tells us how many plans each query has. This problem has 3 queries, two of which have 2 plans and one with 3 plans. Just like the problem from figure \ref{figure:2d_problem_data}, the second element is an array that contains the cost of each plan, and the third element, which is a dictionary, contains the combinations keys and their respective savings.}
     \label{figure:nd_problem_data}
-\end{figure}
+\end{listing}
 
 \newpage
 
 \subsection{Circuit Design}
+\label{chapter:circuit_design}
 
-The design of the circuit is carefully modelled as to allow easier understanding of its behaviour. Initially, for any $n$ plans, the probabilities of each being the cheapest is unknown, which directly means they are all \emph{equally probable}. To create equal probabilities for all plans, an initial layer consisting of one \hgate\ per qubit is constructed, as illustrated in figure \ref{figure:4_qubit_circuit_with_h_gates}.
+The design of the circuit is carefully modelled as to allow easier understanding of its behaviour. As a baseline for the choice of gates, the work of Sim et al.\cite{sim_expressibility_2019} states that using differing Pauli-Gates increases the traversable state space, which therefore allows the circuit to deliver better results. This is used to decide on which gates to use. Initially, for any $n$ plans, the probabilities of each being the cheapest is unknown, which directly means they are all \emph{equally probable}. To create equal probabilities for all plans, an initial layer consisting of one \hgate\ per qubit is constructed, as illustrated in figure \ref{figure:4_qubit_circuit_with_h_gates}.
 
 \begin{figure}[!h]
     \centering
@@ -215,7 +216,9 @@ The design of the circuit is carefully modelled as to allow easier understanding
 \end{equation}
 
 Whereas at position $\ket{\psi_0}$ all qubits have the state $\ket{0}$, after applying the \hgate s, all the qubits have the state $\frac{1}{\sqrt{2}}\ket{0} + \frac{1}{\sqrt{2}}\ket{1}$ at position $\ket{\psi_1}$. To assess that the circuit behaves correctly, measurement calculations for $\ket{0}$ and $\ket{1}$ are shown in equation \ref{equation:2d_problem_state_0_1}. 
+
 \subsection{Cost Embedding}
+\label{chapter:cost_embedding}
 
 The idea behind the design of the cost embedding onto the quantum circuit is relatively simple. The more expensive a single plan $\mathcal{P}_i$ is, the less its probability to be $1$ should be. To do this, a \rygate\ gate is used per qubit, which can change the probabilities towards $\ket{0}$ or $\ket{1}$. In the end, the probability for $\ket{1}$ should \emph{decrease} with a high cost in the problem space, and \emph{increase} with a low cost.
 
@@ -287,26 +290,26 @@ As equation \ref{equation:2d_problem_state_measurements} shows, the opposite hap
 \begin{figure}[!h]
     \centering
     \scalebox{\histogramwidth}{
-        \includesvg{thesis/Appendices/Bloch_Sphere_bad_cost.svg}
+        \includesvg{thesis/Appendices/Q_Sphere_State_ry_-0_5.svg}
     }
     \caption{A Q-Sphere that shows the state of a single qubit (representing a plan $\mathcal{P}_i$), where the cost $0.5$ was embedded onto state \ref{figure:q_sphere_no_cost} and therefore the probability of a $\ket{0}$ increased.}
-    \label{figure:bloch_sphere_bad_cost}
+    \label{figure:q_sphere_bad_cost}
 \end{figure}
 
 \begin{figure}[!h]
     \centering
     \scalebox{\histogramwidth}{
-        \includesvg{thesis/Appendices/Bloch_Sphere_good_cost.svg}
+        \includesvg{thesis/Appendices/Q_Sphere_State_ry_0_5.svg}
     }
     \caption{A Q-Sphere that shows the state of a single qubit (representing a plan $\mathcal{P}_i$), where the cost $-0.5$ was embedded onto state \ref{figure:q_sphere_no_cost} and therefore the probability of a $\ket{1}$ increased.}
-    \label{figure:bloch_sphere_good_cost}
+    \label{figure:q_sphere_good_cost}
 \end{figure}
 
 \newpage
 
 \subsection{Savings Embedding}
 
-The savings follow roughly the same idea. Instead of a \rygate, the entanglement \crzgate\ is used to embed the savings each combination of plans has. For two plans \plani\ and \planj\ to be entangled, the rule \ref{equation:entanglement_rule} has to be true.
+The savings follow roughly the same idea. As the savings consist of 2 plans being used together, instead of a \rygate\ the \crzgate\ is used, which entangles two qubits and adds another dimensionality to the problem space the circuit can traverse. For two plans \plani\ and \planj\ to be entangled, the rule \ref{equation:entanglement_rule} has to be true. If it is, the pair-wise savings are applied.
 
 \begin{equation}
 \centering
@@ -336,7 +339,280 @@ As defined for a problem space $\mathcal{D}$ in figure \ref{figure:2d_problem_da
 
 \subsection{Data}
 
-The goal of this research is to evaluate a circuit, that in the future can be used to greatly speed up query combination on real database systems. This demands strict forethought about the way the data is handled. One problem that exists is that the cost values are, by themselves, not capped. This means that whilst the generated data might have a limited range, one cannot reassure that any real life data will stay within that range. This leads to the choice of normalizing \emph{each problem by itself}, instead of the usual approach in machine learning of normalizing complete datasets. This allows to somewhat bring structure into the problem space $\mathcal{D}$.
+The goal of this research is to evaluate a circuit, that in the future can be used to greatly speed up query combination on real database systems. This demands strict forethought about the way the data is handled. One problem that exists is that the cost values are, by themselves, not capped. This means that whilst the generated data might have a limited range, one cannot reassure that any real life data will stay within that range. This leads to the choice of normalizing \emph{each problem by itself}, instead of the usual approach in machine learning of normalizing complete datasets. This allows to somewhat bring structure into the problem space $\mathcal{D}$. Equations \ref{equation:normalization_range_1} to \ref{equation:normalization_range_forth_pi} use the \rygate\ with different parameters to show the result the value has on the probabilities of $\ket{0}$ and $\ket{1}$.
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \mathrm{RY}(1)\mathrm{H}\ket{0} &=\ \frac{1}{\sqrt{2}}\begin{pmatrix}\cos(\frac{1}{2}) \\ \sin(\frac{1}{2})\end{pmatrix}\\
+        \ket{0} &\to 0.079 \\
+        \ket{1} &\to 0.921 \\
+        \mathrm{RY}(-1)\mathrm{H}\ket{0} &=\ \frac{1}{\sqrt{2}}\begin{pmatrix}\cos(\frac{-1}{2}) \\ \sin(\frac{-1}{2})\end{pmatrix}\\
+        \ket{0} &\to 0.918 \\
+        \ket{1} &\to 0.082 \\
+    \end{split}
+    \label{equation:normalization_range_1}
+\end{equation}
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \mathrm{RY}(2)\mathrm{H}\ket{0} &=\ \frac{1}{\sqrt{2}}\begin{pmatrix}\cos(\frac{2}{2}) \\ \sin(\frac{2}{2})\end{pmatrix}\\
+        \ket{0} &\to 0.047 \\
+        \ket{1} &\to 0.953 \\
+        \mathrm{RY}(-2)\mathrm{H}\ket{0} &=\ \frac{1}{\sqrt{2}}\begin{pmatrix}\cos(\frac{-2}{2}) \\ \sin(\frac{-2}{2})\end{pmatrix}\\
+        \ket{0} &\to 0.948 \\
+        \ket{1} &\to 0.052 \\
+    \end{split}
+    \label{equation:normalization_range_2}
+\end{equation}
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \mathrm{RY}(\pi)\mathrm{H}\ket{0} &=\ \frac{1}{\sqrt{2}}\begin{pmatrix}\cos(\frac{\pi}{2}) \\ \sin(\frac{\pi}{2})\end{pmatrix}\\
+        \ket{0} &\to 0.495 \\
+        \ket{1} &\to 0.505 \\
+        \mathrm{RY}(-\pi)\mathrm{H}\ket{0} &=\ \frac{1}{\sqrt{2}}\begin{pmatrix}\cos(\frac{-\pi}{2}) \\ \sin(\frac{-\pi}{2})\end{pmatrix}\\
+        \ket{0} &\to 0 \\
+        \ket{1} &\to 1 \\
+    \end{split}
+    \label{equation:normalization_range_pi}
+\end{equation}
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \mathrm{RY}(\frac{\pi}{2})\mathrm{H}\ket{0} &=\ \frac{1}{\sqrt{2}}\begin{pmatrix}\cos(\frac{\pi}{4}) \\ \sin(\frac{\pi}{4})\end{pmatrix}\\
+        \ket{0} &\to 0.146 \\
+        \ket{1} &\to 0.854 \\
+        \mathrm{RY}(-\frac{\pi}{2})\mathrm{H}\ket{0} &=\ \frac{1}{\sqrt{2}}\begin{pmatrix}\cos(\frac{-\pi}{4}) \\ \sin(\frac{-\pi}{4})\end{pmatrix}\\
+        \ket{0} &\to 1 \\
+        \ket{1} &\to 0 \\
+    \end{split}
+    \label{equation:normalization_range_half_pi}
+\end{equation}
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \mathrm{RY}(\frac{\pi}{4})\mathrm{H}\ket{0} &=\ \frac{1}{\sqrt{2}}\begin{pmatrix}\cos(\frac{\pi}{8}) \\ \sin(\frac{\pi}{8})\end{pmatrix}\\
+        \ket{0} &\to 0.142 \\
+        \ket{1} &\to 0.858 \\
+        \mathrm{RY}(-\frac{\pi}{4})\mathrm{H}\ket{0} &=\ \frac{1}{\sqrt{2}}\begin{pmatrix}\cos(\frac{-\pi}{8}) \\ \sin(\frac{-\pi}{8})\end{pmatrix}\\
+        \ket{0} &\to 0.862 \\
+        \ket{1} &\to 0.138 \\
+    \end{split}
+    \label{equation:normalization_range_forth_pi}
+\end{equation}
+
+As defined in chapter \ref{chapter:circuit_design}, the qubits are each in an equal superposition. Chapter \ref{chapter:cost_embedding} also defines that the probability has to be able to increase for either $\ket{0}$ or $\ket{1}$. Equations \ref{equation:normalization_range_1} and \ref{equation:normalization_range_2} show an overflow when manipulating probabilities. They imply that there is a tipping point between $2$ and $1$, when coming from an equal superposition, where the probabilities start decreasing again. As the rotational gates like \rygate\ use $\cos$ and $\sin$, equation \ref{equation:normalization_range_pi} uses $\pi$ to analyse the behaviour. The results dictate that the manipulation with $\pi$ brings the probabilities to what they are when only applying $\mathrm{H}\ket{0}$. The exact value to bring the probability of one state being exactly one ends up being $\frac{\pi}{2}$, as equation \ref{equation:normalization_range_half_pi} shows. Depending on problem space $\mathcal{D}$, the number of parameters being embedded into a qubit can be higher or lower. As going over the supposed \emph{tipping point} of probabilities would mean a loss of information, a lower range is needed. Equation \ref{equation:normalization_range_half_pi} shows this in action, which delivers acceptable state probabilities.\par
+The code from \ref{code:normalization_code} handles normalizing all problem data generated from the function described in chapter \ref{chapter:mqo_data_acquisition}. It is important to note that the normalization is done \emph{per problem}, and not for the whole dataset. This means that the highest cost per problem will always be $\frac{\pi}{4}$.
+
+\begin{listing}[!ht]
+    \centering
+    \begin{minted}{python}
+        import numpy as np
+        from sklearn.preprocessing import MinMaxScaler
+        
+        scaler = MinMaxScaler((-np.pi/4, np.pi/4))
+        scaled_problems = []
+        for problem in problems:
+            scaled_problems.append(scaler.fit_transform(problem.reshape(-1,1)))
+    \end{minted}
+    \caption{Pseudocode to normalize all values of a problem space $\mathcal{D}$ to the range $\left[-\frac{\pi}{4},\frac{\pi}{4}\right]$}
+    \label{code:normalization_code}
+\end{listing}
+
+After scaling the data, it is applied directly onto the corresponding gates of a circuit. For the problem space $\mathcal{D}$ illustrated in figure \ref{figure:2d_problem_data} and shown in normalized form in listing \ref{listing:2d_problem_data_normalized}, the circuit \ref{circuit:example_mqo_solver_circuit_for_2d_problem_data} would try to solve it.
+
+\begin{listing}[!ht]
+    \centering
+    \begin{minted}{python}
+        [ 0.15707963, 0.78539816, 0.20943951, -0.15707963,
+         -0.60213859, -0.54977871, -0.78539816, -0.60213859]
+    \end{minted}
+    \caption{The problem data from figure \ref{figure:2d_problem_data} in normalized form after being passed through the normalizer from figure \ref{code:normalization_code}. The first row resembles the costs of plans $\mathcal{P}_0$ to $\mathcal{P}_3$, and the second row resembles the possible savings for combinations $\mathcal{P}_0\mathcal{P}_2$, $\mathcal{P}_0\mathcal{P}_3$, $\mathcal{P}_1\mathcal{P}_2$ and $\mathcal{P}_1\mathcal{P}_3$.}
+    \label{listing:2d_problem_data_normalized}
+\end{listing}
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{0.8}{
+\Qcircuit @C=1.0em @R=0.2em @!R { \\
+	 	\nghost{{q}_{0} :  } & \lstick{{q}_{0} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\frac{-\pi}{20})} & \ctrl{2} & \ctrl{3} & \qw & \qw & \qw & \qw\\
+	 	\nghost{{q}_{1} :  } & \lstick{{q}_{1} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\frac{-\pi}{4})} & \qw & \qw & \ctrl{1} & \ctrl{2} & \qw & \qw\\
+	 	\nghost{{q}_{2} :  } & \lstick{{q}_{2} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\frac{-\pi}{15})} & \gate{\mathrm{R_Z}\,(\mathrm{-0.6021})} & \qw & \gate{\mathrm{R_Z}\,(\frac{-\pi}{4})} & \qw & \qw & \qw\\
+	 	\nghost{{q}_{3} :  } & \lstick{{q}_{3} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\frac{\pi}{20})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{-0.5498})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{-0.6021})} & \qw & \qw\\
+\\ }}
+    \caption{The circuit with all normalized parameters from listing \ref{listing:2d_problem_data_normalized} embedded onto it.}
+    \label{circuit:example_mqo_solver_circuit_for_2d_problem_data}
+\end{figure}
+
+To allow for direct comparison of alternative solutions, a general dataset $\mathcal{D}_{2\times2}$ is generated, and divided into a \emph{training} subset $\mathcal{D}_{train} \subset \mathcal{D}_{2\times2}$ and a \emph{training} subset $\mathcal{D}_{test} \subset \mathcal{D}_{2\times2}$, where the spread is 0.75 for training, and 0.25 for testing. The total size being $\left|\mathcal{D}_{2\times2}\right| =\ 300$.
+
+
+\subsection{Machine Learning}
+\label{chapter:mqo_machine_learning}
+
+To enable an optimizer to train the circuit defined in chapter \ref{chapter:circuit_design}, parameters have to be created which can be set as to best solve the given task. As stated in chapter \ref{chapter:circuit_design}, a mixture of different gates allows the traversal of a wider space, which helps in finding suitable solutions. As the circuit already uses \rygate s and \crzgate s, which cover the Pauli matrices $\mathrm{Y}$ and $\mathrm{Z}$, the gates that will be parameterized with trainable weight are \rxgate s. Each qubit receives its own, non entangled \rxgate with its trainable parameter $\theta_i$, as shown in figure \ref{circuit:full_trainable_mqp_circuit}.
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{0.8}{
+\Qcircuit @C=1.0em @R=0.2em @!R { \\
+	 	\nghost{{q}_{0} :  } & \lstick{{q}_{0} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_0})} & \ctrl{2} & \ctrl{3}  & \qw & \qw & \gate{\mathrm{R_X}\,(\theta_0)} & \qw & \qw\\
+	 	\nghost{{q}_{1} :  } & \lstick{{q}_{1} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_1})} & \qw & \qw & \ctrl{1} & \ctrl{2} & \gate{\mathrm{R_X}\,(\theta_1)} & \qw & \qw\\
+	 	\nghost{{q}_{2} :  } & \lstick{{q}_{2} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_2})} & \gate{\mathrm{R_Z}\,(\mathrm{s_{02}})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s_{12}})} & \qw & \gate{\mathrm{R_X}\,(\theta_2)} & \qw & \qw\\
+	 	\nghost{{q}_{3} :  } & \lstick{{q}_{3} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_3})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s_{03}})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s_{13}})} & \gate{\mathrm{R_X}\,(\theta_3)} & \qw & \qw\\
+\\ }}
+    \caption{The full MQO solver circuit for a problem space $\mathcal{D}_{2\times2}$ with one full layer of \rxgate s with trainable weights $\theta_i$ as parameters.}
+    \label{circuit:full_trainable_mqp_circuit}
+\end{figure}
+
+\subsubsection{Manual Validation}
+To assess that the circuit from figure \ref{circuit:full_trainable_mqp_circuit} is able to correctly handle the generated problem as well as deliver usable results, a static variant is created where the \rxgate\ has a static value. As perviously shown, $\frac{\pi}{4}$ appears to be a good value for normalization, so this is also used in the static variant as the variable for the \rxgate\ layer, as shown in figure \ref{circuit:static_mqo_circuit}.
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{0.8}{
+\Qcircuit @C=1.0em @R=0.2em @!R { \\
+	 	\nghost{{q}_{0} :  } & \lstick{{q}_{0} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_0})} & \ctrl{2} & \ctrl{3} & \qw & \qw & \gate{\mathrm{R_X}\,(\frac{\pi}{4})} & \qw & \qw \\
+	 	\nghost{{q}_{1} :  } & \lstick{{q}_{1} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_1})} & \qw & \qw & \ctrl{1} & \ctrl{2} & \gate{\mathrm{R_X}\,(\frac{\pi}{4})} & \qw & \qw\\
+	 	\nghost{{q}_{2} :  } & \lstick{{q}_{2} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_2})} & \gate{\mathrm{R_Z}\,(\mathrm{s_02})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s_12})} & \qw & \gate{\mathrm{R_X}\,(\frac{\pi}{4})} & \qw & \qw\\
+	 	\nghost{{q}_{3} :  } & \lstick{{q}_{3} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_3})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s_03})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s_13})} & \gate{\mathrm{R_X}\,(\frac{\pi}{4})} & \qw & \qw\\
+\\ }}
+    \caption{A static variant of the circuit \ref{circuit:full_trainable_mqp_circuit} where the \rxgate\ layer was fitted with the static value $\frac{\pi}{4}$, to allow for manual execution, evaluation and as assessment for the viability of the circuit.}
+    \label{circuit:static_mqo_circuit}
+\end{figure}
+
+The circuit \ref{circuit:static_mqo_circuit} is run with a randomly generated problem space $\left|\matchal{D}_{2\times2}\right| =\ 5000$. This size was chosen to allow any specific edge cases to appear and be handled. In addition, each measurement is taken with 1024 shots, a standard value used in the library \code{qiskit}. The experiment runs 13 times and the results are summarized in figure \ref{figure:boxplot_static_circuit_accuracies}.
+
+\begin{figure}
+    \centering
+    \scalebox{0.9}{
+        \includesvg{thesis/Appendices/final_amsgrad_training_boxplot.svg}
+    }
+    \caption{Boxplot of achieved accuracies after 13 runs of the generated problem space $\left|\mathcal{D}_{2\times2}\right| =\ 5000$ with 1024 shots each, using the circuit \ref{circuit:static_mqo_circuit}.}
+    \label{figure:boxplot_static_circuit_accuracies}
+\end{figure}
+
+The work of Pellow-Jarman et al.\cite{pellow-jarman_comparison_2021} evaluated different optimization algorithms. According to their results, the \code{AMSGRAD} optimizer was chosen. The python library \code{qiskit} offers easy access to the classical optimizer, as shown in listing \ref{code:amsgrad_example_qiskit}.
+
+\begin{listing}[!h]
+    \centering
+    \begin{minted}{python}
+        optimizer = ADAM(amsgrad=True)
+    \end{minted}
+    \caption{Creating an instance of the \code{AMSGRAD} optimizer using the Python library \code{qiskit}.}
+    \label{code:amsgrad_example_qiskit}
+\end{listing}
+
+Hyperparameter optimization is used to examine a different combination of parameters such as \emph{learning rate}, \emph{noise factor} etc. as well as examine the behaviour of the circuit when using 4, which is shown in figure \ref{circuit:full_trainable_mqp_circuit} and 1, which is shown in figure \ref{circuit:full_trainable_mqp_circuit_1_w}, optimizable weight parameter. In the situation where there is only one parameter $\theta$ to optimize, all \rxgate s receive the same parameter as input.
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{0.8}{
+\Qcircuit @C=1.0em @R=0.2em @!R { \\
+	 	\nghost{{q}_{0} :  } & \lstick{{q}_{0} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_0})} & \ctrl{2} & \ctrl{3}  & \qw & \qw & \gate{\mathrm{R_X}\,(\theta)} & \qw & \qw\\
+	 	\nghost{{q}_{1} :  } & \lstick{{q}_{1} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_1})} & \qw & \qw & \ctrl{1} & \ctrl{2} & \gate{\mathrm{R_X}\,(\theta)} & \qw & \qw\\
+	 	\nghost{{q}_{2} :  } & \lstick{{q}_{2} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_2})} & \gate{\mathrm{R_Z}\,(\mathrm{s_{02}})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s_{12}})} & \qw & \gate{\mathrm{R_X}\,(\theta)} & \qw & \qw\\
+	 	\nghost{{q}_{3} :  } & \lstick{{q}_{3} :  } & \gate{\mathrm{H}} & \gate{\mathrm{R_Y}\,(\mathrm{c_3})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s_{03}})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s_{13}})} & \gate{\mathrm{R_X}\,(\theta)} & \qw & \qw\\
+\\ }}
+    \caption{The full MQO solver circuit for a problem space $\mathcal{D}_{2\times2}$ with one full layer of \rxgate s with one trainable weight $\theta$ as parameter.}
+    \label{circuit:full_trainable_mqp_circuit_1_w}
+\end{figure}
+
+\newpage
+
+Using the problem space of 2 queries with 2 plans each, 150 records are generated. Each optimizer variant is run for a total of 13 times, each for 50 optimizing iterations, and the optimizer itself has any combination of the possible parameters defined in table \ref{table:hyperparameter_options}. These parameters amount to a total of 16 different optimizer setups. Due to time constraints and hardware availability, this is done purely on the simulator.
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{|l|c|c|}
+    \hline
+    Parameter     & $x_0$             & $x_1$             \\ \hline
+    learning rate & 0.001             & 0.005             \\ \hline
+    $\beta_1$     & 0.99              & 0.9               \\ \hline
+    $\beta_2$     & 0.9               & 0.85              \\ \hline
+    noise factor  & $1\mathrm{e}{-8}$ & $5\mathrm{e}{-8}$ \\ \hline
+    \end{tabular}
+    \caption{Table containing all possible parameters for the hyperparameter optimization of the \code{AMSGRAD} optimizer.}
+    \label{table:hyperparameter_options}
+\end{table}
+
+Current offerings for training and optimizing weights of a quantum circuit work by retrieving the result with the highest probability. As with the machine learning approach, a filtering of the retrieved results is not possible, the value is transformed into an integer, of which then the modulo $n$ is taken, where $n$ is the number of possible solutions. This is referred to as the parity function, and the code for this is shown in listing \ref{code:example_parity_function}
+
+\begin{listing}[!h]
+    \centering
+    \begin{minted}{python}
+        def parity(x):
+            return x % 4
+    \end{minted}
+    \caption{A parity function that takes the most likely result from the quantum circuit, formatted as an integer, and gives back the corresponding label.}
+    \label{code:example_parity_function}
+\end{listing}
+
+Using the parity function as well as the machine learning components shown in chapter \todo{reference chapter where qnn code is shown}, the hyperparameter optimization is run. The results are ordered for the best testing accuracy and viewable in table \ref{table:hyperparameter_results}. For a problem space $\mathcal{D}_{2\times2}$ of size $\left|\mathcal{D}_{2\times2}\right| =\ 150$, each hyperparameter run is done a total of 13 times, whilst the optimization is capped at 50 iterations.
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{lcccc|cc|}
+\cline{6-7}
+                                                    &                                                  &                                                   &                                                                &         & \multicolumn{2}{c|}{Mean Accuracy}                          \\ \hline
+\multicolumn{1}{|l|}{Learning Rate}                 & \multicolumn{1}{c|}{$\beta_1$}                   & \multicolumn{1}{c|}{$\beta_2$}                    & \multicolumn{1}{c|}{Noise factor}                              & Circuit & \multicolumn{1}{c|}{Testing}                      & Testing \\ \hline
+\rowcolor[HTML]{FFFE65} 
+\multicolumn{1}{|l|}{\cellcolor[HTML]{FFFE65}0.005} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}0.9} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}0.85} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}$5\mathrm{e}{-8}$} & 0       & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}0.39} & 0.33    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.38}                         & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.37}                         & 0.31    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.37}                         & 0.33    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.37}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.36}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.36}                         & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.36}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.36}                         & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.35}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.35}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.35}                         & 0.33    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.35}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.35}                         & 0.33    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.35}                         & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.34}                         & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.34}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.34}                         & 0.32    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.34}                         & 0.33    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.34}                         & 0.36    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.33}                         & 0.32    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.32}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.32}                         & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.32}                         & 0.34    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.32}                         & 0.33    \\ \hline
+\multicolumn{1}{|l|}{0.005}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.32}                         & 0.33    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.32}                         & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$5\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.32}                         & 0.32    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.31}                         & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.9}                         & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 0       & \multicolumn{1}{c|}{0.3}                          & 0.32    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.9}                          & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.3}                          & 0.35    \\ \hline
+\multicolumn{1}{|l|}{0.001}                         & \multicolumn{1}{c|}{0.99}                        & \multicolumn{1}{c|}{0.85}                         & \multicolumn{1}{c|}{$1\mathrm{e}{-8}$}                         & 1       & \multicolumn{1}{c|}{0.3}                          & 0.34    \\ \hline
+\end{tabular}
+    \caption{Results of the hyperparameter optimization using the circuits \ref{circuit:full_trainable_mqp_circuit} and \ref{circuit:full_trainable_mqp_circuit_1_w} as well as the parameters from table \ref{table:hyperparameter_options}.}
+    \label{table:hyperparameter_results}
+\end{table}
+
+\newpage
+
+Through the results from table \ref{table:hyperparameter_results}, the parameters from the marked row that achieved the best result are taken and ran separately again. This time, the problem space has a size of $\left|\mathcal{D}_{2\times2}\right| =\ 300$ and the optimization is capped at 150 iterations. The whole optimization process is run a total of 13 times and the data collected. Figure \ref{figure:amsgrad_boxplots} showcases the resulting data as a box plot. As the runs from \ref{table:hyperparameter_results}, these are also done on the simulator. The optimized weight $\theta = 0.2352$ from the best run is taken and used as a static value in further experiments.\par
+
+To assess the viability of the final circuits, 
+
+\begin{figure}[!ht]
+    \centering
+    \scalebox{0.9}{
+        \includesvg{thesis/Appendices/final_amsgrad_training_boxplot.svg}
+    }
+    \caption{The results of 13 runs of optimization done on the circuit \ref{circuit:full_trainable_mqp_circuit_1_w}. These are achieved using the \code{AMSGRAD} optimizer that runs for 150 iterations on a problem space of size $\left|\mathcal{D}_{2\times2}\right| =\ 300$.}
+    \label{figure:amsgrad_boxplots}
+\end{figure}
 
 \clearpage
 
@@ -363,7 +639,7 @@ The binary datasets initially used in our first experiments can be seen in table
 \end{table}
 
 The experiments done in the project thesis have been the basis of an additional paper co-authored with Prof. Dr. K. Stockinger and Prof. Dr. R. M. Füchslin which is currently work in progress, faced some critics when submitted for review. 
-One of the criticisms was the number of samples used and that all datasets are binary. Therefore, the experiments were performed again extending the datasets to address these issues. The extended datasets, shown in the table \ref{table:qnn_extended_datasets}, use more samples for those datasets that allow it like \textit{Rain}, \textit{Adhoc}, \textit{Vlds} and \textit{Custom} and additionally all classes like in the case of the \textit{Iris} dataset. To address another criticism, namely the limitation of the number of qubits - see \ref{subsection:limitations_and_shortcomings} - and thus the maximum number of features that can be taken from a dataset, we used principal component analysis (PCA) on the \textit{Rain} dataset.
+One of the criticisms was the number of samples used and that all datasets are binary. Therefore, the experiments were performed again extending the datasets to address these issues. The extended datasets, shown in the table \ref{table:qnn_extended_datasets}, use more samples for those datasets that allow it like \textit{Rain}, \textit{Adhoc}, \textit{Vlds} and \textit{Custom} and additionally all classes like in the case of the \textit{Iris} dataset. To address another criticism, namely the limitation of the number of qubits—see \ref{subsection:limitations_and_shortcomings} - and thus the maximum number of features that can be taken from a dataset, we used principal component analysis (PCA) on the \textit{Rain} dataset.
 
 \begin{table}[!h]
 	\centering
@@ -392,16 +668,14 @@ One of the criticisms was the number of samples used and that all datasets are b
 
 \textbf{Custom dataset}. Generated dataset by a custom algorithm \todo{add picture and function}
 
-\subsubsection{Prepocessing}
-All of the above datasets have been normalized and scaled using scikit-learns  \code{StandardScaler}\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html}} and \code{MinMaxScaler}\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html}} between $[-1, 1]$. 
-
-mapping of class labels (e.g. yes, no to 1,0) etc. \todo{add preprocessing informations} 
+\subsubsection{Preprocessing}
+All of the above datasets have been normalized and scaled - using scikit-learns  \code{StandardScaler}\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html}} and \code{MinMaxScaler}\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html}} - between $[-1, 1]$. Another crutial preprocessing step is to map the targets to integer values starting from 0. For example 0 for the first class and 1 for the second class, etc. Like so the parity functions\ref{listing:parity_function} predicted labels - the return value is an integer value - can be directly compared to the mapped true labels.
 
 \clearpage
 
 \subsection{Hybrid Classical-Quantum Algorithm}
 Hybrid classical-quantum algorithms utilizes both classical and quantum computers. Frankhauser et al. \cite{fankhauser_multiple_2021} states that these types of algorithms are considered promising since they can better handle erroneous, small-scale quantum devices than "pure" quantum algorithms.
-For our supervised training runs to optimize the weights for the Quantum Circuits we use a hybrid classical-quantum algorithm. The algorithm only performs the feature and weight embeddings and the calculation including measurements for classification in a quantum circuit, see figure \ref{fig:schematic_hybrid_classical_quantum}. The actual classification \todo{ref to parity function} and the weight optimizations as well as the loss and accuracy calculations is done with classical methods. 
+For our supervised training runs to optimize the weights for the Quantum Circuits we use a hybrid classical-quantum algorithm. The algorithm only performs the feature and weight embeddings and the calculation including measurements for classification in a quantum circuit, see figure \ref{fig:schematic_hybrid_classical_quantum}. The actual classification and the weight optimizations as well as the loss and accuracy calculations is done with classical methods. 
 
 \begin{figure}[!h]
     \centering
@@ -436,9 +710,54 @@ For our supervised training runs to optimize the weights for the Quantum Circuit
     \label{fig:schematic_hybrid_classical_quantum}
 \end{figure}
 
-\todo{refer to figure in text}
-A brief explanation to figure \ref{fig:schematic_hybrid_classical_quantum}. The data loading and preprocessing is only done once in the beginning. After the data loading and preprocessing has finished, for each training iteration a \textit{quantum circuit} will be constructed bound with the next input feature set and initial weights. The circuit is then executed and the measured counts evaluated by the \code{parity}\todo{ref to parity} function to estimate the \textit{label}. The estimated \textit{label} is the then compared with its true \textit{label}. These informations and the weights are given to the optimizer which calculates an new optimized set of weights. Finally a new iteration begins.
+\todo{refer to figure in text, may also use pseudo code here}
+A brief explanation to figure \ref{fig:schematic_hybrid_classical_quantum}. The data loading and preprocessing is only done once in the beginning. After the data loading and preprocessing has finished, for each training iteration a \textit{quantum circuit} will be constructed bound with the next input feature set and initial weights. The circuit is then executed and the measured counts evaluated by the \code{parity} function - shown in code listing \ref{listing:parity_function} - to predict the \textit{label}. The predicted \textit{label} is the then compared with its true \textit{label}. These informations and the weights are given to the optimizer which calculates an new optimized set of weights. Finally a new iteration begins.
 
+
+\todo{explain parity func}
+\begin{listing}[!ht]
+    \begin{minted}{python}
+    def parity(x: int):
+        return '{:b}'.format(x).count('1') % NUMBER_OF_LABELS
+    \end{minted}
+    \caption{The \code{parity} function to determine the label of a quantum circuit measurement in Python code.}
+    \label{listing:parity_function}
+\end{listing}
+
+
+\todo{explain parity func}
+\begin{listing}[!ht]
+    \begin{minted}[breaklines]{python}
+    # `measurement_result_as_counts` contains: 
+    # {'00': 359, '01': 120, '10': 538, '11': 7}
+    
+    # get key with maximum counts
+    max_key: str = max(measurement_result_as_counts, key=measurement_result_as_counts.get)
+    # `max_key` contains now: '10'
+    
+    # integer representation of `max_key`
+    integer_value_of_max_key: int = int(max_key,2)
+    # `integer_value_of_max_key` contains now: 2
+    
+    # calculate the parity label
+    # parity expects an integer as argument
+    predicted_label: int = parity(integer_value_of_max_key)
+    # `predicted_label` contains 1
+    \end{minted}
+    \caption{Python code dummy example demonstration of the label prediction process from a quantum circuit measurement - variable \code{measurement\_result\_as\_counts} - using the \code{parity} function from code listing \ref{listing:parity_function}.}
+    \label{listing:parity_function_demonstration_example}
+\end{listing}
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{1}{
+        \includegraphics[width=0.66\linewidth]{thesis/Figures/qnn/qiskit_simulator_run_parity_histogram.png} 
+    }
+    \caption{Corresponding histogram of the dual qubit quantum circuit measurement represented by the variable seen in code listing \ref{listing:parity_function_demonstration_example} containing a python dictionary object with the value: \code{\{'00': 359, '01': 120, '10': 538, '11': 7\}}.}
+    \label{figure:parity_function_example_histogram}
+\end{figure}
+
+\clearpage
 
 \subsection{Circuit Design}
 The general scheme for the quantum circuits - shown in figure \ref{figure:general_schematics_quantum_circuits_qnn} - starts with \textit{feature embedding}, followed by at least one up to $n$ layers. Finally a measurement on all qubits follows. Each quantum circuit is automatically generated using a predefined scripted template. The number of layers and input features must be passed to the template which generates the final quantum circuit. The Qubit count is determined by the first given feature set length but the number is limited to five. We set ourselves a upper limit of 5 Qubits for our experiments, please see subsection \ref{subsection:limitations_and_shortcomings} for more information about this limitation.
@@ -467,8 +786,8 @@ All QNN circuits start with the feature embedding using angle embedding \todo{Wh
 The QNN quantum circuits used in our experiments are presented in this section and the following should be noted:
 
 \begin{itemize}
-  \item \textbf{Input features}: The input features are labeled $\mathbf{i}_i$, where $i = 1,2,...,n$ is a continuous index for the number of features used in the circuit.
-  \item \textbf{Weights}: The weights are labeled with either $y\mathbf{w}_i$ and $y\mathbf{cw}_i$ or $y\mathbf{w}_{ai}$ where $i = 1,2,...,n$ is a sequential index, $a = x,y,z$ is the label for the gates rotation axis used, and $y = 0,1,2,...,n$ is the layer index as prefix. $\mathbf{w}$ and $\mathbf{cw}$ stands for \textit{weight} or \textit{controlled weight} respectively.
+  \item \textbf{Input features}: The input features are labeled $\mathbf{i}_i$, where $i = 0,1,2,...,n$ is a continuous index for the number of features used in the circuit.
+  \item \textbf{Weights}: The weights are labeled with either $y\mathbf{w}_i$ and $y\mathbf{cw}_i$ or $y\mathbf{w}_{ai}$ where $i = 0,1,2,...,n$ is a sequential index, $a = x,y,z$ is the label for the gates rotation axis used, and $y = 0,1,2,...,n$ is the layer index as prefix. $\mathbf{w}$ and $\mathbf{cw}$ stands for \textit{weight} or \textit{controlled weight} respectively.
   \item \textbf{Barriers}: The dashed vertical line is a so called barrier and is only for better display and has no influence on the functionality of the circuit. The first section up to the dashed vertical line shows the \textit{feature emdedding} with input features, then the layers with their weights begin, starting with \textit{layer 0} up to the second dashed vertical line, followed by \textit{layer 1} up to the third dashed line, ... etc.
   \item \textbf{Measurements}: For illustrative purposes, all final measurements for the qubits have been omitted.
   \item \textbf{Qubit count and number of layers}: The qubit count or the number of layers may vary depending on the input feature count or the number of layer setting.
@@ -476,10 +795,11 @@ The QNN quantum circuits used in our experiments are presented in this section a
 
 Three of the quantum circuits have been designed in our project thesis XYZ \todo{ref here}. Two additional circuits have been added.
 
-\subsubsection{Circuit \textit{q\_circuit\_01}}
+\todo{explain circuits basic idea}
+
+\subsubsection{\textit{q\_circuit\_01}}
 \label{subsubsection:qnn_quantum_circuit_01}
-The circuit in figure \ref{figure:qnn_quantum_circuit_01} is built with \rygate\ and \crygate\ gates only and is depicted with 2 layers.
-\todo{explain circuit idea}
+The circuit in figure \ref{figure:qnn_quantum_circuit_01} is built using circular entanglement with \rygate s followed by parameterized entangled \crygate s and is depicted with 2 layers. 
 
 \begin{figure}[!h]
 	\centering
@@ -490,14 +810,13 @@ The circuit in figure \ref{figure:qnn_quantum_circuit_01} is built with \rygate\
     	 	\nghost{ {q}_{2} :  } & \lstick{ {q}_{2} :  } & \gate{\mathrm{R_Y}\,(\mathrm{i_2})} & \qw & \qw & \qw & \qw & \gate{\mathrm{R_Y}\,(\mathrm{0cw_1})} & \gate{\mathrm{R_Y}\,(\mathrm{0w_2})} & \ctrl{-2} & \qw & \qw & \qw & \qw & \gate{\mathrm{R_Y}\,(\mathrm{1cw_1})} & \gate{\mathrm{R_Y}\,(\mathrm{1w_2})} & \ctrl{-2} & \qw & \qw & \qw\\ 
     	}
     }
-	\caption{QNN circuit with 3 qubits and 2 layers used in our experiments. Referred to as \textit{q\_circuit\_01}.}
+	\caption{QNN circuit variant with 3 qubits and 2 layers used in our experiments. Referred to as \textit{q\_circuit\_01}.}
 	\label{figure:qnn_quantum_circuit_01}
 \end{figure}
 
-\subsubsection{Circuit \textit{q\_circuit\_02}}
+\subsubsection{\textit{q\_circuit\_02}}
 \label{subsubsection:qnn_quantum_circuit_02}
-The circuit in figure \ref{figure:qnn_quantum_circuit_02} is built with \rygate\ and \crygate\ gates only and is depicted with 2 layers.
-\todo{explain circuit idea}
+The circuit in figure \ref{figure:qnn_quantum_circuit_02} is built using \rygate s followed by circular entangled parameterized \crygate s and is depicted with 2 layers.
 
 \begin{figure}[!h]
 	\centering
@@ -513,10 +832,9 @@ The circuit in figure \ref{figure:qnn_quantum_circuit_02} is built with \rygate\
 \end{figure}
 
 
-\subsubsection{Circuit \textit{q\_circuit\_03}}
+\subsubsection{\textit{q\_circuit\_03}}
 \label{subsubsection:qnn_quantum_circuit_03}
-The circuit in figure \ref{figure:qnn_quantum_circuit_03} is built with ??.
-\todo{explain circuit idea}
+The circuit in figure \ref{figure:qnn_quantum_circuit_03} is built using circular entanglement with \rygate s followed by entangled \czgate s and is depicted with 2 layers.
 
 \begin{figure}[!h]
 	\centering
@@ -531,10 +849,9 @@ The circuit in figure \ref{figure:qnn_quantum_circuit_03} is built with ??.
 	\label{figure:qnn_quantum_circuit_03}
 \end{figure}
 
-\subsubsection{Circuit \textit{q\_circuit\_04}}
+\subsubsection{\textit{q\_circuit\_04}}
 \label{subsubsection:qnn_quantum_circuit_04}
-The circuit in figure \ref{figure:qnn_quantum_circuit_04} is built with ??.
-\todo{explain circuit idea}
+The circuit in figure \ref{figure:qnn_quantum_circuit_04} is built using \rxgate s followed by \rygate s and final \rzgate s. This circuit is without entanglement.
 
 \begin{figure}[!h]
 	\centering
@@ -549,10 +866,9 @@ The circuit in figure \ref{figure:qnn_quantum_circuit_04} is built with ??.
 	\label{figure:qnn_quantum_circuit_04}
 \end{figure}
 
-\subsubsection{Circuit \textit{q\_circuit\_05}}
+\subsubsection{\textit{q\_circuit\_05}}
 \label{subsubsection:qnn_quantum_circuit_05}
-The circuit in figure \ref{figure:qnn_quantum_circuit_05} is built with ??.
-\todo{explain circuit idea}
+The circuit in figure \ref{figure:qnn_quantum_circuit_05} is built using circular entanglement with \rxgate s followed by \rygate s and final \rzgate s entangled by \cxgate s and is depicted with only 1 layer.
 
 \begin{figure}[!h]
 	\centering
@@ -570,10 +886,10 @@ The circuit in figure \ref{figure:qnn_quantum_circuit_05} is built with ??.
 
 \subsection{Limitations and Shortcomings}
 \label{subsection:limitations_and_shortcomings}
-.
+
 \textbf{Maximum of five Qubits:} The conscious decision to encode an input feature on \textbf{one} qubit with \textif{angle embedding} and due to lack of access to and availability of free quantum hardware that has more than 5 qubits, we decided to limit the input features to a maximum of 5.
 
-\textbf{The time factor and hyperparams optimization:} Our experiments, mainly the training of the weights, with standard hyperparameters of the optimizers used - except the maximum iterations setting - have already taken a lot of time. This and the uncertainty of the duration of the quantum hardware runs with Qiskit - with the trained weights - on the freely available real devices from IBM, we decided not to perform a grid search of the hyperparameters.
+\textbf{Experiments duration and hyperparams optimization:} Our experiments, mainly the training of the weights on simulators, with standard hyperparameters for the optimizers used - except the maximum iterations setting - have already consumed a lot of time even with our relatively small datasets. This and the uncertainty of the duration of the quantum hardware runs with Qiskit using the trained weights on the freely available real devices from IBM, we decided to not perform a grid search of the hyperparameters.
 
 
 \clearpage

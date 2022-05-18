@@ -29,9 +29,6 @@ load_dataset_args = (DATASET_FILE,
                      NUMBER_DATASETS,
                      NUMBER_RUNS,
                      NUMBER_SAMPLES)
-# Q Cicruit settings
-# N_LAYERS => Defines the number of layers for the quantum circuits
-N_LAYERS = os.getenv('QC_N_LAYERS', 2)
 
 # Q circuits
 quantum_circuits = [
@@ -68,7 +65,7 @@ optimizer = (COBYLA(maxiter=1000), 'COBYLA')
 # optimizer = (L_BFGS_B(maxiter=1500), 'BFGS')
 
 
-def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
+def get_classifier(circuit: QuantumCircuit, _weights: list, _obj_func_eval: list, n_features=2):
     output_shape = 2  # binary classification
 
     def parity(x):
@@ -76,6 +73,7 @@ def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
         return '{:b}'.format(x).count('1') % output_shape
 
     def callback(weights, obj_func_eval):
+        _obj_func_eval.append(obj_func_eval)
         _weights.append(weights)
 
     # Qiskit backend
@@ -107,7 +105,7 @@ def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
                                    optimizer=optimizer[0])
 
 
-def worker_datasets(return_list: dict, dataset):
+def worker_datasets(return_list: dict, dataset, n_layers=2):
     """
     Thread worker function (multipocessing):
     Gets the classifiers for all the quantum circuits and trains them with the given dataset and optimizer.
@@ -122,15 +120,16 @@ def worker_datasets(return_list: dict, dataset):
     for q_circ in quantum_circuits:
         circuit_name = q_circ.__name__
         weights = []
+        obj_func_eval = []
 
         if(circuit_name not in qcirc_results):
             qcirc_results[circuit_name] = []
 
         # get the generated quantum circuit
-        quantum_circuit: QuantumCircuit = q_circ(n_wires=N_WIRES, n_layers=N_LAYERS).copy()
+        quantum_circuit: QuantumCircuit = q_circ(n_wires=N_WIRES, n_layers=n_layers).copy()
 
         # get the generated classifier
-        classifier = get_classifier(quantum_circuit, weights, N_WIRES)
+        classifier = get_classifier(quantum_circuit, weights, obj_func_eval, N_WIRES)
 
         (sample_train, sample_test, label_train, label_test) = data
         # ugly hack to fix iris labels. Don't do this at home
@@ -142,7 +141,7 @@ def worker_datasets(return_list: dict, dataset):
         score_train = classifier.score(sample_train, label_train)
         score_test = classifier.score(sample_test, label_test)
 
-        qcirc_results[circuit_name].append([score_train, score_test, np.array(weights[-1])])
+        qcirc_results[circuit_name].append([score_train, score_test, np.array(weights[-1]), obj_func_eval])
 
     return_list.append([(dataset_name, dataset_id, N_WIRES), qcirc_results])
 
@@ -193,43 +192,24 @@ def sortDatasetsByNameAndId(item):
     return item[0]
 
 
-def arr_to_str(arr):
+def arr_to_str(arr, show_weights=True):
     """
     Array to string helper for score (train, test) and weights array
     """
     str_1 = '[{}]'.format(','.join([x.strip(' \n\r,][') for x in re.split("\s", str(arr[0])) if re.match(r"^\[?[-+]?[0-9]*\.?[0-9e+-]+\]?,?$", x)]))
-    str_2 = '[{}]'.format(','.join([x.strip(' \n\r,][') for x in re.split("\s", str(arr[1])) if re.match(r"^\[?[-+]?[0-9]*\.?[0-9e+-]+\]?,?$", x)]))
-    return '`{}`, `{}`'.format(str_1, str_2)
+    if show_weights:
+        str_2 = '[{}]'.format(','.join([x.strip(' \n\r,][') for x in re.split("\s", str(arr[1])) if re.match(r"^\[?[-+]?[0-9]*\.?[0-9e+-]+\]?,?$", x)]))
+        return '`{}`, `{}`'.format(str_1, str_2)
+    return '`{}`'.format(str_1)
 
 
-def plot_and_save_circuits(dataset_name, n_wires, timestamp=datetime.now().strftime("%d-%m-%Y_%H-%M-%S")):
-    """
-    Plot and save the quantum circuits from the circuits array
-    """
-    circuit_plots = []
-    # Loop over circuits
-    for circuit_builder in quantum_circuits:
-        circuit_name = circuit_builder.__name__
-        circuit = circuit_builder(n_wires=n_wires, n_layers=N_LAYERS)
-        circuit_plots.append(
-            ('assets/{}-{}-({},{})-{}.png'.format(dataset_name, circuit_name,
-                                                  n_wires, N_LAYERS,
-                                                  timestamp),
-             circuit_name, dataset_name))
-        circuit.draw('mpl', filename=SCRIPT_DIRECTORY + "/runs/" + circuit_plots[-1][0])
-
-    return circuit_plots
-
-
-def generate_markdown_from_list(result_list):
+def generate_markdown_from_list(result_list, n_layers):
     """
     Generate markdown file from result_list array. Save the markdown info file
     """
     if(len(result_list) <= 0):
         print("empty result")
         return
-
-    timestamp = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
 
     average_dict = {}
     per_run_dict = {}
@@ -240,7 +220,6 @@ def generate_markdown_from_list(result_list):
         'rain': 0,
         'vlds': 0,
     }
-    circ_plots = []
 
     print('\nPrepare data\n')
     # loop over dataset results
@@ -253,9 +232,6 @@ def generate_markdown_from_list(result_list):
         # create entry for dataset if it does not exist
         if(dataset_name not in average_dict):
             average_dict[dataset_name] = []
-            # create circuit plots
-            for plot_item in plot_and_save_circuits(dataset_name, n_wires, timestamp):
-                circ_plots.append(plot_item)
         if(dataset_name_id not in per_run_dict):
             per_run_dict[dataset_name_id] = []
 
@@ -279,16 +255,7 @@ def generate_markdown_from_list(result_list):
     markdown = "# Quantum Neural Network Classifier run\n\n"
     markdown += "**Settings:**\n"
     markdown += "Used Optimizer for Neural Network Classifier: `{}`\n".format(optimizer[1])
-    markdown += "Layer count: `{}`\n\n".format(N_LAYERS)
-
-    # Circuit plots
-    markdown += "## Quantum Circuits\n"
-    markdown += "Quantum Circuits plots for each dataset\n"
-    markdown += "| dataset | circuit | plot |\n"
-    markdown += "| :-----: | :-----: | :--: |\n"
-    for (relative_filepath, circuit_name, dataset_name) in circ_plots:
-        markdown += "| {} | {} | <img src=\"{}\" alt=\"{}\" /> |\n".format(dataset_name, circuit_name, relative_filepath, circuit_name)
-    markdown += '\n\n'
+    markdown += "Layer count: `{}`\n\n".format(n_layers)
 
     for (key, value) in average_dict.items():
         markdown += "## {}\n".format(key)
@@ -314,7 +281,7 @@ def generate_markdown_from_list(result_list):
                 md_header_cols = '| dataset name and run |'
                 md_structure_cols = '| :----------: |'
                 for col in range(len(run_value)):
-                    md_header_cols += ' circuit-{:02d}: score (train, test) and weights  |'.format(col)
+                    md_header_cols += ' circuit-{:02d}: score (train, test)  |'.format(col)
                     md_structure_cols += ' :--------: |'
                 markdown += md_header_cols + "\n"
                 markdown += md_structure_cols + "\n"
@@ -322,13 +289,12 @@ def generate_markdown_from_list(result_list):
             if run_key.startswith(key):
                 markdown_row = "| `{}` |".format(run_key)
                 for run_data in run_value:
-                    markdown_row += " {} |".format(arr_to_str(run_data))
+                    markdown_row += " {} |".format(arr_to_str(run_data, show_weights=False))
                 markdown += markdown_row + "\n"
 
         markdown += '\n\n'
 
-    filepath = save_markdown_to_file('training_run', markdown, timestamp)
-    print('Run has been saved to file: {}'.format(filepath))
+    return markdown
 
 
 # MAIN
@@ -339,20 +305,29 @@ if __name__ == '__main__':
     manager = multiprocessing.Manager()
     return_list = manager.list()
     jobs = []
+    markdown = ""
+
+    # Do the following layers
+    N_LAYERS_ARR = [1, 2, 4, 8]
 
     print("Running circuits ...")
-    # for index, dataset in enumerate([datasets[i] for i in range(0, 50, 1)]):
-    for index, dataset in enumerate([datasets[i] for i in range(0, 10, 1)]):
-        p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset))
-        jobs.append(p)
-        p.start()
-        print("Started process {}".format(index))
+    for n_layers in N_LAYERS_ARR:
+        # for index, dataset in enumerate([datasets[i] for i in range(0, 50, 1)]):
+        for index, dataset in enumerate([datasets[i] for i in range(0, 50, 1)]):
+            p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset, n_layers))
+            jobs.append(p)
+            p.start()
+            print("Started process {}".format(index))
 
-    for proc in jobs:
-        proc.join()
+        for proc in jobs:
+            proc.join()
 
-    print("results: ", return_list)
-    # sort by dataset name (first) and dataset id (second)
-    return_list.sort(key=sortDatasetsByNameAndId, reverse=False)
+        # print("results: ", return_list)
+        # sort by dataset name (first) and dataset id (second)
+        return_list.sort(key=sortDatasetsByNameAndId, reverse=False)
 
-    generate_markdown_from_list(return_list)
+        markdown += generate_markdown_from_list(return_list, n_layers)
+
+    timestamp = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
+    filepath = save_markdown_to_file('layer_counts_training_run', markdown, timestamp)
+    print('Run has been saved to file: {}'.format(filepath))

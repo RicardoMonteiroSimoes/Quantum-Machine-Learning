@@ -8,15 +8,23 @@
 \newcommand{\bloch}{\emph{Bloch}-Sphere}
 \newcommand{\qsphere}{Q-Sphere}
 \newcommand{\hgate}{$\mathrm{H}$-Gate}
+
 \newcommand{\xgate}{$\mathrm{X}$-Gate}
 \newcommand{\ygate}{$\mathrm{Y}$-Gate}
 \newcommand{\zgate}{$\mathrm{Z}$-Gate}
+
 \newcommand{\rygate}{$\mathrm{RY}$-Gate}
-\newcommand{\rzgate}{$\mathrm{RZ}$-Gate}
 \newcommand{\rxgate}{$\mathrm{RX}$-Gate}
+\newcommand{\rzgate}{$\mathrm{RZ}$-Gate}
+
 \newcommand{\crygate}{$\mathrm{CRY}$-Gate}
-\newcommand{\crzgate}{$\mathrm{CRZ}$-Gate}
 \newcommand{\crxgate}{$\mathrm{CRX}$-Gate}
+\newcommand{\crzgate}{$\mathrm{CRZ}$-Gate}
+
+\newcommand{\cxgate}{$\mathrm{CX}$-Gate}
+\newcommand{\cygate}{$\mathrm{CY}$-Gate}
+\newcommand{\czgate}{$\mathrm{CZ}$-Gate}
+
 \newcommand{\frenchquotes}[1]{«~#1~»}
 
 %----------------------------------------------------------------------------------------
@@ -314,7 +322,7 @@ The formal definition used in equation \ref{equation:basic_h_measurement} can be
 With the value of $\theta$ calculated, the circuit \ref{figure:circuit_for_histogram} is designed and evaluated to compare it to the histogram from \ref{figure:example_histogram}, as shown in figure \ref{figure:circuit_histogram}. The language used is \code{Python} with IBM's library \code{qiskit}\cite{qiskit_qiskit_nodate}, that allows the creation of quantum circuits, as well as running and measuring them in either a simulator or real quantum hardware.
 
 
-\begin{figure}[!h]
+\begin{listing}[!ht]
     \centering
     \begin{minted}{python}
     circuit = QuantumCircuit(1)
@@ -328,7 +336,7 @@ With the value of $\theta$ calculated, the circuit \ref{figure:circuit_for_histo
     \end{minted}
     \caption{\code{Python} code using \code{qiskit} to create the circuit represented in figure \ref{figure:circuit_for_histogram}, that is executed and results in the histogram \ref{figure:circuit_histogram}}
     \label{figure:code_circuit_histogram_for_example_data}
-\end{figure}
+\end{listing}
 
 \begin{figure}[!h]
     \begin{subfigure}{.5\textwidth}
@@ -362,7 +370,7 @@ With the value of $\theta$ calculated, the circuit \ref{figure:circuit_for_histo
 A query\cite{codd_relational_1970} is a demand for information to be pulled from a database. Such a query can vary in size and structure, as well as in execution time. These are often written in the query language \code{SQL}, which is often adapted to the corresponding software\cite{shirgoldbird_microsoft_nodate}\cite{the_postgresql_global_development_group_postgresql_2022} it executes on. 
 
     
-\begin{figure}[!h]
+\begin{listing}[!ht]
     \centering
     \begin{minted}{sql}
         SELECT * FROM USERS u
@@ -372,7 +380,7 @@ A query\cite{codd_relational_1970} is a demand for information to be pulled from
     \end{minted}
     \caption{This example SQL code would tell the database we want to merge the content of the tables \code{USERS} and \code{ADDRESSES} together. The resulting table has rows for each user and their respective address. The data is also filtered, so that only the entries where the \code{NAME} is "Abraham" are inside the merged table.}
     \label{figure:sql_query_example}
-\end{figure}
+\end{listing}
 
 The example query in figure \ref{figure:sql_query_example} is parsed and results one, or more, execution plans\cite{microsoft_execution_nodate}. These plans are also referred to as query plans. The fastest plan then is selected and executed, which retrieves the desired data and displays it, as visualized in table \ref{table:sql_query_result_example}.
 
@@ -459,7 +467,7 @@ The query in figure \ref{figure:sql_query_example} already allows for \emph{at l
 In a large system that handles multiple requests per second, plans from different queries can have operations that are shared across. Combining these sub-sequences together can save additional execution time\cite{roy_multi-query_2009}. Finding the best combination of multiple queries and their plans has been proven to be an \emph{NP-Hard} problem\cite{sellis_multiple-query_1990}. This can be done classically with an exhaustive algorithm in $O(P^Q)$\footnote{as long as all queries have the same number of plans}, where $P$ is the number of plans and $Q$ the number of queries, as shown in figure \ref{figure:pseudocode_bruteforce_search}. The work of Kathurina et al.\cite{kathuria_provable_mqo} offers a greedy algorithm for finding a \emph{good} solution, whilst also proving that finding a better approximation factor for the greedy algorithm is \emph{NP-Hard}. A hybrid approach that combines classical and quantum computing uses QAOA (short for Quantum Approximate Optimization Algorithm)\cite{farhi_quantum_2014} have shown to be quasi-optimal solution finders with a runtime of $O(I \cdot (PQ)^2)$\cite{fankhauser_multiple_2021}. \par
 
 
-\begin{figure}[!h]
+\begin{listing}[!ht]
     \centering
     \begin{minted}{python}
         for plan_a in plans:
@@ -471,7 +479,7 @@ In a large system that handles multiple requests per second, plans from differen
     \end{minted}
     \caption{Pseudocode of an exhaustive algorithm that tries every possible combination and finds the cheapest one.}
     \label{figure:pseudocode_bruteforce_search}
-\end{figure}
+\end{listing}
 
  For example, if a second query that also filters the table $U$ for \code{USERS.NAME = "Abraham"} is supposed to run at roughly the same time, they could share a portion of the task. As shown in figure \ref{figure:example_query_plans}, the plans consist of multiple different instructions. Each instruction in any plan consist of single operations applied to tables of the database that are based on relational algebra\cite{codd_relational_1970}\footnote{But not limited to them, as modern databases also include hashing and indexing in the plans. Nonetheless, these operations can also be combined to save previous runtime}. 
  
@@ -585,7 +593,88 @@ If we change the problem space from two queries to more, or create an uneven num
 
 \section{Quantum Neural Network}
 
-\subsection{Quantum Neural Network}
+The \textit{classic computational neuron} originally proposed by Rosenblatt F.\cite{rosenblatt_perceptron_1958} as seen in figure \ref{figure:classic_computational_neuron} builds the bases for most neural network used today. The underlying principle is simple, all inputs $x_n$ are multiplied by a weight $w_n$ and the sum is calculated. The calculated sum is passed to an activation function $f(x)$, which is activated if a predefined threshold value is exceeded. The activation function $f(x)$, also called transfer function, can be selected from a plethora of valid choices\cite{szandala_review_2021}
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+\begin{figure}[h!]
+    \centering
+
+    \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+    %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+    
+    %Shape: Circle [id:dp6859812572471455] 
+    \draw   (192.5,140) .. controls (192.5,109.62) and (217.12,85) .. (247.5,85) .. controls (277.88,85) and (302.5,109.62) .. (302.5,140) .. controls (302.5,170.38) and (277.88,195) .. (247.5,195) .. controls (217.12,195) and (192.5,170.38) .. (192.5,140) -- cycle ;
+    %Shape: Circle [id:dp24070647763127284] 
+    \draw   (96,71.5) .. controls (96,64.6) and (101.6,59) .. (108.5,59) .. controls (115.4,59) and (121,64.6) .. (121,71.5) .. controls (121,78.4) and (115.4,84) .. (108.5,84) .. controls (101.6,84) and (96,78.4) .. (96,71.5) -- cycle ;
+    %Shape: Circle [id:dp9363816782656273] 
+    \draw   (96,117.5) .. controls (96,110.6) and (101.6,105) .. (108.5,105) .. controls (115.4,105) and (121,110.6) .. (121,117.5) .. controls (121,124.4) and (115.4,130) .. (108.5,130) .. controls (101.6,130) and (96,124.4) .. (96,117.5) -- cycle ;
+    %Shape: Circle [id:dp4720861626805333] 
+    \draw   (96,207.5) .. controls (96,200.6) and (101.6,195) .. (108.5,195) .. controls (115.4,195) and (121,200.6) .. (121,207.5) .. controls (121,214.4) and (115.4,220) .. (108.5,220) .. controls (101.6,220) and (96,214.4) .. (96,207.5) -- cycle ;
+    %Rounded Rect [id:dp5631408345855224] 
+    \draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.5 ][dash pattern={on 4.5pt off 4.5pt}] (80,56) .. controls (80,49.37) and (85.37,44) .. (92,44) -- (128,44) .. controls (134.63,44) and (140,49.37) .. (140,56) -- (140,227) .. controls (140,233.63) and (134.63,239) .. (128,239) -- (92,239) .. controls (85.37,239) and (80,233.63) .. (80,227) -- cycle ;
+    %Curve Lines [id:da4059065253769214] 
+    \draw    (121,71.5) .. controls (159.22,69.05) and (182.07,82.45) .. (208.38,98.98) ;
+    \draw [shift={(210,100)}, rotate = 212.2] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+    %Curve Lines [id:da5094425475664381] 
+    \draw    (121,207.5) .. controls (153.51,207.01) and (182.13,202.15) .. (208.78,180.98) ;
+    \draw [shift={(210,180)}, rotate = 140.83] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+    %Curve Lines [id:da5523039314594727] 
+    \draw    (121,117.5) .. controls (147.6,116.02) and (160.61,117.94) .. (193.48,122.78) ;
+    \draw [shift={(195,123)}, rotate = 188.37] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+    %Straight Lines [id:da007343534667061169] 
+    \draw    (302.5,140) -- (352,140) ;
+    \draw [shift={(354,140)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+    %Shape: Circle [id:dp683884067109112] 
+    \draw   (354,140) .. controls (354,126.19) and (365.19,115) .. (379,115) .. controls (392.81,115) and (404,126.19) .. (404,140) .. controls (404,153.81) and (392.81,165) .. (379,165) .. controls (365.19,165) and (354,153.81) .. (354,140) -- cycle ;
+    %Straight Lines [id:da9286309330170883] 
+    \draw    (404,140) -- (453.5,140) ;
+    \draw [shift={(455.5,140)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+    
+    % Text Node
+    \draw (100,163) node [anchor=north west][inner sep=0.75pt]   [align=left] {{\large ...}};
+    % Text Node
+    \draw (100,67.4) node [anchor=north west][inner sep=0.75pt]    {$x_{1}$};
+    % Text Node
+    \draw (99.5,112.9) node [anchor=north west][inner sep=0.75pt]    {$x_{2}$};
+    % Text Node
+    \draw (99.5,202.9) node [anchor=north west][inner sep=0.75pt]    {$x_{n}$};
+    % Text Node
+    \draw (94,251) node [anchor=north west][inner sep=0.75pt]   [align=left] {Input};
+    % Text Node
+    \draw (167,61.4) node [anchor=north west][inner sep=0.75pt]    {$w_{1}$};
+    % Text Node
+    \draw (149,123.4) node [anchor=north west][inner sep=0.75pt]    {$w_{2}$};
+    % Text Node
+    \draw (166,206.4) node [anchor=north west][inner sep=0.75pt]    {$w_{n}$};
+    % Text Node
+    \draw (204,131.4) node [anchor=north west][inner sep=0.75pt]    {$f\left(\sum _{i=1}^{n} x_{i} w_{i} \ \right)$};
+    % Text Node
+    \draw (447,172) node [anchor=north west][inner sep=0.75pt]   [align=left] {Output};
+    % Text Node
+    \draw (364,131.4) node [anchor=north west][inner sep=0.75pt]    {$f( x)$};
+    % Text Node
+    \draw (465,136.4) node [anchor=north west][inner sep=0.75pt]    {$y$};
+    % Text Node
+    \draw (351,67) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=0.5 ] [align=left] {\begin{minipage}[lt]{38.1pt}\setlength\topsep{0pt}
+    \begin{center}
+    {\footnotesize Activation}\\{\footnotesize Function}
+    \end{center}
+    
+    \end{minipage}};
+    
+    \end{tikzpicture}
+
+    \caption{Visual representation of the classic computational neuron, often referred to as a perceptron.}
+    \label{figure:classic_computational_neuron}
+\end{figure}
+
+\begin{equation}
+    \centering
+    y =\ f\left(\sum_{i = 1}^n x_i\omega_i\right)
+    \label{equation:classical_neuron_computation}
+\end{equation}
+
+The quantum analogue of a classical neuron is called a quantum neuron also referred to as \textit{quron} as proposed by Maria Schuld et al. in their paper called "The quest for a Quantum Neural Network"\cite{schuldQuestQuantumNeural2014a}. ...
 
 
 \subsection{Quantum Support Vector Machine (SVM)}
