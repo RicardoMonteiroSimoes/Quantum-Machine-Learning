@@ -43,6 +43,12 @@ def rx_layer(circuit, weight):
     circuit.rx(weight, range(circuit.width()))
     circuit.barrier()
 
+def blocking_layer(circuit, weight=np.pi/4):
+    circuit.crz(weight, 0, 1)
+    circuit.crz(weight, 2, 3)
+    circuit.mcrz(weight, (0, 1, 2), 3)
+    circuit.barrier()
+
 def create_circuit(n_queries, n_plans, scheme, xweight=np.pi/4):
     circuit = QuantumCircuit(n_queries*n_plans)
     for module in scheme:
@@ -54,6 +60,8 @@ def create_circuit(n_queries, n_plans, scheme, xweight=np.pi/4):
             savings_encoding(circuit)
         elif module == "x":
             rx_layer(circuit, xweight)
+        elif module == "b":
+            blocking_layer(circuit)
     return circuit
 
 #### Running circuit
@@ -101,6 +109,10 @@ def save_problem_data_to_csv(name, problems, ordered_total_costs):
         for problem, cost in zip(problems, ordered_total_costs):
             writer.writerow(np.array([problem[1],list(problem[2].values()), cost.flatten()]).flatten())
 
+def save_accuracy_to_csv(name, accuracy):
+    with open(name + 'accuracy.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile, delimiter=';',)
+        writer.writerow([accuracy])
 
 def save_measurements_to_csv(name, measurements):
     with open(name + 'measurements.csv', 'w', newline='') as csvfile:
@@ -259,8 +271,9 @@ def main(argv):
     print('Saving data')
     parse_results_copy(results_copy)
     save_run_info(args.name, 2, 2, args.size, args.shots, circuit, percentiles)
-    save_problem_data_to_csv(args.name, problems, ordered_total_costs)
-    save_measurements_to_csv(args.name, results_copy)
+    #save_problem_data_to_csv(args.name, problems, ordered_total_costs)
+    #save_measurements_to_csv(args.name, results_copy)
+    save_accuracy_to_csv(args.name, accuracy)
     print('Finished execution.')
     print('---------------------------------------------------')
         

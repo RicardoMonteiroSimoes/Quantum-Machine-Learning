@@ -2,13 +2,20 @@
 
 clear
 
-if ! [ -d runs ]; then
-    mkdir runs
+if ! [ -d runs/functionality_analysis ]; then
+    mkdir runs/functionality_analysis/
 fi
 
-circuit=( hcs hcsx hcsh )
-for i in "${circuit[@]}"
-do
-    echo doing circuit "$i"
-	python static_qc_solver.py -s 5000 -sh 10000 -c "$i" -n runs/"$i"/ -pc
-done
+python static_qc_solver.py -s 1024 -sh 10000 -c hcsx -n "runs/functionality_analysis/iteration_1_"
+python static_qc_solver.py -s 1024 -sh 10000 -c hcsx -n "runs/functionality_analysis/iteration_2_"
+python static_qc_solver.py -s 1024 -sh 10000 -c hcsx -n "runs/functionality_analysis/iteration_3_"
+python static_qc_solver.py -s 1024 -sh 10000 -c hcsx -n "runs/functionality_analysis/iteration_4_"
+python static_qc_solver.py -s 1024 -sh 10000 -c hcsx -n "runs/functionality_analysis/iteration_5_"
+python static_qc_solver.py -s 1024 -sh 10000 -c hcsx -n "runs/functionality_analysis/iteration_6_"
+python static_qc_solver.py -s 1024 -sh 10000 -c hcsx -n "runs/functionality_analysis/iteration_7_"
+python static_qc_solver.py -s 1024 -sh 10000 -c hcsx -n "runs/functionality_analysis/iteration_8_"
+python static_qc_solver.py -s 1024 -sh 10000 -c hcsx -n "runs/functionality_analysis/iteration_9_"
+python static_qc_solver.py -s 1024 -sh 10000 -c hcsx -n "runs/functionality_analysis/iteration_10_"
+python static_qc_solver.py -s 1024 -sh 10000 -c hcsx -n "runs/functionality_analysis/iteration_11_"
+python static_qc_solver.py -s 1024 -sh 10000 -c hcsx -n "runs/functionality_analysis/iteration_12_"
+python static_qc_solver.py -s 1024 -sh 10000 -c hcsx -n "runs/functionality_analysis/iteration_13_"
