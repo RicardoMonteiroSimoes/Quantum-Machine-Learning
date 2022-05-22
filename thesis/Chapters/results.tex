@@ -5,16 +5,25 @@
 %----------------------------------------------------------------------------------------
 
 \section{Multiple Query Optimization}
-\subsection{Evaluation On Simulator}
 
-\subsection{Evaluation On Real Hardware}
+Due to the rather impressive results, the static circuit from chapter \ref{chapter:mqo_machine_learning} achieves, all runs are done using the circuit trained with \code{AMSGRAD} as well as the static circuit. For this, a new dataset $\left|\mathcal{D}_{2\times2}\right| =\ 300$ is generated and shared across runs. The runs are executed on the simulator as well as real hardware. The real device used for this is a Falcon r4L processor, \code{ibmq_bogota v1.6.37} to be specific. Only $25\%$ of the dataset is used for evaluation, so exactly 75 records. These run for 13 iterations each, and evaluated. The evaluation consists of multiple types. The first is pure accuracy – how often did the system evaluate to the best solution. The second one is the distance — how close was the system to the best solution. \par
+The circuit optimized with \code{AMSGRAD} runs multiple times with different final evaluation steps. On one hand, the parity function described in chapter \ref{chapter:mqo_machine_learning} is used, on the other hand the filtered evaluator from the static circuit is used.
+
+
+\begin{figure}
+    \centering
+    \scalebox{0.9}{
+        \includesvg{thesis/Appendices/.svg}
+    }
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
 
 \newpage
 
 \section{Quantum Neural Network}
 
-\subsection{Training On Simulator}
-
+\subsection{Evaluation On Simulator}
 
 \begin{table}[!h]
 	\centering
@@ -23,74 +32,113 @@
 		\hline 
 		\textbf{Dataset}        & \textbf{VQC} & \textbf{COBYLA} & \textbf{SPSA}  & \textbf{AMSGR.} & \textbf{BFGS} \\
 		\hline 
-		\multirow{6}{*}{\textbf{Adhoc}}  & q\_circuit\_01 & 0.515  & 0.490 & 0.535    & 0.495 \\
-		                        & q\_circuit\_02 & 0.500  & 0.510 & 0.520    & 0.520 \\
-		                        & q\_circuit\_03 & 0.505  & 0.515 & 0.525    & 0.505 \\
-		                        & q\_circuit\_04 & 0.525  & 0.560 & 0.485    & 0.480 \\
-		                        & q\_circuit\_05 & 0.550  & 0.530 & \underline{0.565}    & 0.520 \\
+		\multirow{6}{*}{\textbf{Adhoc}}  & q\_circuit\_01 & 0.600  & 0.665 & 0.660   & 0.720 \\
+		                        & q\_circuit\_02 & 0.700  & 0.795 & 0.650   & \underline{0.800} \\
+		                        & q\_circuit\_03 & 0.700  & 0.705 & 0.660   & 0.650 \\
+		                        & q\_circuit\_04 & 0.705 & 0.650 & 0.645   & 0.650 \\
+		                        & q\_circuit\_05 & 0.565 & 0.690 & 0.65   & 0.715 \\
 		\cline{2-6} 
-		                        & \textbf{Average}      & 0.519  & 0.521 & \textbf{0.526}    & 0.504 \\
+		                        & \textbf{Average} & 0.654  & 0.701 & 0.653  & \textbf{0.707} \\
 		\hline 
-		\multirow{6}{*}{\textbf{Custom}} & q\_circuit\_01 & 0.415  & 0.420 & 0.435    & 0.415 \\
-		                        & q\_circuit\_02 & 0.435  & 0.420 & 0.410    & 0.425 \\
-		                        & q\_circuit\_03 & \underline{0.495}  & 0.490 & 0.415    & 0.470 \\
-		                        & q\_circuit\_04 & 0.460  & 0.465 & 0.465    & 0.475 \\
-		                        & q\_circuit\_05 & 0.455  & 0.445 & 0.450    & 0.440 \\
+		\multirow{6}{*}{\textbf{Custom}} & q\_circuit\_01 & 0.515  & 0.550 & 0.700   & 0.630 \\
+		                        & q\_circuit\_02 & 0.690  & 0.550 & 0.500   & 0.605 \\
+		                        & q\_circuit\_03 & 0.700  & 0.645 & 0.500   & 0.700 \\
+		                        & q\_circuit\_04 & 0.590  & 0.535 & 0.550  & 0.520 \\
+		                        & q\_circuit\_05 & 0.505  & 0.65 & 0.615   & \underline{0.740} \\
 		\cline{2-6} 
-		                        & \textbf{Average}      & \textbf{0.452}  & 0.448 & 0.435    & 0.445 \\
+		                        & \textbf{Average}      & 0.600 & 0.586 & 0.573   & \textbf{0.639} \\
 		\hline 
-		\multirow{6}{*}{\textbf{Iris}}   & q\_circuit\_01 & 1.00   & 1.00  & 1.00     & 1.00  \\
-		                        & q\_circuit\_02 & 1.00   & 1.00  & 1.00     & 1.00  \\
-		                        & q\_circuit\_03 & 1.00   & 1.00  & 1.00     & 1.00  \\
-		                        & q\_circuit\_04 & 0.795  & 0.665 & 0.825    & 0.755 \\
-		                        & q\_circuit\_05 & 1.00   & 1.00  & 1.00     & 1.00  \\
+		\multirow{6}{*}{\textbf{Iris}}   & q\_circuit\_01 & 1.00  & 1.00 & 1.00   & 1.00 \\
+		                        & q\_circuit\_02 & 1.00  & 1.00 & 1.00   & 1.00 \\
+		                        & q\_circuit\_03 & 1.00  & 1.00 & 1.00   & 1.00 \\
+		                        & q\_circuit\_04 & 1.00  & 0.885 & 0.950   & 1.00 \\
+		                        & q\_circuit\_05 & 1.00  & 1.00 & 1.00   & 1.00 \\
 		\cline{2-6} 
-		                        & \textbf{Average}      & 0.959  & 0.933 & \textbf{0.965}    & 0.951 \\
+		                        & \textbf{Average}      & \textbf{1.00}  & 0.977 & 0.990   & \textbf{1.00} \\
 		\hline 
-		\multirow{6}{*}{\textbf{Rain}}   & q\_circuit\_01 & 0.540  & 0.620 & 0.635    & 0.605 \\
-		                        & q\_circuit\_02 & 0.570  & 0.630 & 0.635    & 0.600 \\
-		                        & q\_circuit\_03 & 0.605  & 0.570 & 0.62     & 0.620 \\
-		                        & q\_circuit\_04 & 0.520  & 0.560 & 0.535    & 0.490 \\
-		                        & q\_circuit\_05 & 0.605  & 0.595 & \underline{0.660}    & 0.630 \\
+		\multirow{6}{*}{\textbf{Rain}}   & q\_circuit\_01 & 0.745  & 0.665 & 0.650   & 0.730 \\
+		                        & q\_circuit\_02 & 0.625  & 0.665 & 0.785   & 0.695 \\
+		                        & q\_circuit\_03 & 0.580 & 0.800 & 0.800  & 0.720 \\
+		                        & q\_circuit\_04 & 0.395  & 0.545 & \underline{0.825}   & 0.570 \\
+		                        & q\_circuit\_05 & 0.620 & 0.620 & 0.615   & 0.685 \\
 		\cline{2-6} 
-		                        & \textbf{Average}      & 0.568  & 0.595 & \textbf{0.617}    & 0.589 \\
+		                        & \textbf{Average}      & 0.593  & 0.659 & \textbf{0.735}   & 0.680 \\
 		\hline 
-		\multirow{6}{*}{\textbf{Vlds}}   & q\_circuit\_01 & 0.635  & 0.620 & 0.660    & 0.640 \\
-		                        & q\_circuit\_02 & 0.675  & 0.640 & 0.64     & 0.605 \\
-		                        & q\_circuit\_03 & 0.615  & 0.595 & 0.595    & 0.600 \\
-		                        & q\_circuit\_04 & 0.555  & 0.575 & 0.605    & 0.565 \\
-		                        & q\_circuit\_05 & 0.605  & 0.580 & \underline{0.695}    & 0.615 \\
+		\multirow{6}{*}{\textbf{Vlds}}   & q\_circuit\_01 & 0.845  & 0.820 & 0.800   & 0.800 \\
+		                        & q\_circuit\_02 & 0.770  & 0.730 & 0.780   & 0.650 \\
+		                        & q\_circuit\_03 & 0.795  & 0.760 & 0.750   & 0.790 \\
+		                        & q\_circuit\_04 & 0.805  & 0.525 & 0.750   & \underline{0.925} \\
+		                        & q\_circuit\_05 & 0.795  & 0.600 & 0.900   & 0.690 \\
 		\cline{2-6} 
-		                        & \textbf{Average}      & 0.617  & 0.602 & \textbf{0.639}    & 0.605 \\
+		                        & \textbf{Average}      & \textbf{0.802}  & 0.687 & 0.796   & 0.771 \\
 		\hline
 	\end{tabular}
 	\caption{Comparison of accuracy for the optimizers COBYLA, SPSA, AMSGRAD (Adam) and BFGS over and average of 10 runs using two VQC layers for the quantum simulator training runs and binary datasets.}
-	\label{table:accuracy_comparison_all_dataset_and_optimizers_training_runs}
+	\label{table:accuracy_comparison_binary_dataset_and_optimizers_training_runs}
 \end{table}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\subsubsection{Best of bread}
 
 
 \subsection{Evaluation On Real Hardware}
 
+\begin{table}[!h]
+	\centering
+	        
+	\begin{tabular}{p{0.12\textwidth}p{0.15\textwidth}|p{0.13\textwidth}p{0.13\textwidth}p{0.13\textwidth}p{0.13\textwidth}}
+		\hline 
+		\textbf{Dataset}        & \textbf{VQC} & \textbf{COBYLA} & \textbf{SPSA}  & \textbf{AMSGR.} & \textbf{BFGS} \\
+		\hline 
+		\multirow{6}{*}{\textbf{Adhoc}}  & q\_circuit\_01  & 0.610  & 0.645 & 0.650    & 0.715 \\
+		                        & q\_circuit\_02 & \underline{0.745}  & \underline{0.745} & 0.665    & 0.715 \\
+		                        & q\_circuit\_03 & 0.675  & 0.695 & 0.665    & 0.715 \\
+		                        & q\_circuit\_04 & 0.650  & 0.650 & 0.655    & 0.65 \\
+		                        & q\_circuit\_05 & 0.605  & 0.680 & 0.635    & 0.715 \\
+		\cline{2-6} 
+		                        & \textbf{Average} & 0.657  & 0.683 & 0.654    & \textbf{0.702} \\
+		\hline 
+		\multirow{6}{*}{\textbf{Custom}} & q\_circuit\_01  & 0.555  & 0.600 & 0.660    & 0.625 \\
+		                        & q\_circuit\_02  & 0.655  & 0.575 & 0.500    & 0.620 \\
+		                        & q\_circuit\_03  & 0.7  & 0.610 & 0.500    & 0.640 \\
+		                        & q\_circuit\_04  & 0.57  & 0.515 & 0.550    & 0.500 \\
+		                        & q\_circuit\_05  & 0.45  & 0.625 & 0.620    & \underline{0.750} \\
+		\cline{2-6} 
+		                        & \textbf{Average} & 0.586  & 0.585 & 0.566    & \textbf{0.627} \\
+		\hline 
+		\multirow{6}{*}{\textbf{Iris}}   & q\_circuit\_01 & 1.00  & 1.00 & 1.00    & 1.00 \\
+		                        & q\_circuit\_02 & 1.00  & 0.865 & 1.00    & 1.00 \\
+		                        & q\_circuit\_03 & 1.00  & 1.00 & 1.00    & 1.00 \\
+		                        & q\_circuit\_04 & 1.00  & 0.885 & 0.955    & 0.805 \\
+		                        & q\_circuit\_05 & 0.880  & 0.985 & 1.00    & 1.00 \\
+		\cline{2-6} 
+		                        & \textbf{Average} & 0.976  & 0.947 & \textbf{0.991}    & 0.961 \\
+		\hline 
+		\multirow{6}{*}{\textbf{Rain}}   & q\_circuit\_01 & 0.495  & 0.600 & 0.71 0  & 0.665 \\
+		                        & q\_circuit\_02 & 0.710  & 0.635 & 0.715    & 0.665 \\
+		                        & q\_circuit\_03 & 0.595  & \underline{0.790} & 0.745    & 0.550 \\
+		                        & q\_circuit\_04 & 0.440  & 0.495 & 0.775    & 0.555 \\
+		                        & q\_circuit\_05 & 0.650  & 0.470 & 0.640   & 0.620 \\
+		\cline{2-6} 
+		                        & \textbf{Average} & 0.578  & 0.598 & \textbf{0.717}    & 0.611 \\
+		\hline 
+		\multirow{6}{*}{\textbf{Vlds}}   & q\_circuit\_01 & 0.855  & 0.770 & 0.615    & 0.710 \\
+		                        & q\_circuit\_02 & 0.705  & 0.885 & 0.740    & 0.635 \\
+		                        & q\_circuit\_03 & 0.725  & 0.765 & 0.705    & 0.870 \\
+		                        & q\_circuit\_04 & 0.81  & 0.485 & 0.750    & \underline{0.950} \\
+		                        & q\_circuit\_05 & 0.755  & 0.615 & 0.745    & 0.735 \\
+		\cline{2-6} 
+		                        & \textbf{Average} & 0.770  & 0.704 & 0.711    & \textbf{0.780} \\
+		\hline
+	\end{tabular}
+	\caption{Comparison of accuracy for the optimizers COBYLA, SPSA, AMSGRAD (Adam) and BFGS over and average of 10 runs using two VQC layers - bound to the weights of the highest scoring trainings run - for the quantum computer evaluation runs and binary datasets.}
+	\label{table:accuracy_comparison_binary_dataset_and_optimizers_evaluation_runs}
+\end{table}
 
 \subsection{Comparison}
+
+0.745
+0.75
+1
+0.79
+0.95
 
 \begin{table}[!h]
 	\centering
@@ -98,20 +146,18 @@
 		\hline 
 		\thead{Dataset} & \thead{QNN (Quantum Simulator)} & \thead{QNN (Quantum Computer)} \\
 		\hline 
-		Adhoc   & tbd         & tbd             \\
-		Custom  & tbd         & tbd             \\
-		Iris    & tbd         & tbd             \\
-		Rain    & tbd         & tbd             \\
-		Vlds    & tbd         & tbd             \\
+		Adhoc   & 0.800    & 0.745 \\
+		Custom  & 0.74     & 0.750 \\
+		Iris    & 1.00     & 1.00  \\
+		Rain    & 0.825    & 0.790 \\
+		Vlds    & 0.925    & 0.950 \\
 		\hline
-		\textbf{Average}    & \textbf{tbd}         & \textbf{tbd}             \\
+		\textbf{Average}  & \textbf{0.858} & \textbf{0.847}  \\
 		\hline
 	\end{tabular}
-	\caption{Comparison of QNN ... on a quantum simulator as well as on a real quantum computer. The table shows the accuracy of the best approach for each of the each of the circuits and optimizer types.}
+	\caption{Comparison of QNN ... on a quantum simulator as well as on a real quantum computer. The table shows the accuracy of the best approach for each of the circuits and optimizer types.}
 	\label{table:comparison_binary_datasets_accuracy}
 \end{table}
-
-
 
 
 \clearpage
