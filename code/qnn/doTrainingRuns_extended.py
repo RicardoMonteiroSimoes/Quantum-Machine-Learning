@@ -362,17 +362,11 @@ if __name__ == '__main__':
     jobs = []
 
     print("Running circuits ...")
-    # for index, dataset in enumerate([datasets[i] for i in range(0, 50, 1)]):
-    for index, dataset in enumerate([datasets[i] for i in range(0, 50, 1)]):
-        # (dataset_id, dataset_name, data) = dataset
-        # print(f"{dataset_id} {dataset_name}")
-        p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset))
-        jobs.append(p)
-        p.start()
-        print(f"Started process {index}")
 
-    for proc in jobs:
-        proc.join()
+    pool = multiprocessing.Pool()
+    pool.starmap(worker_datasets, [(return_list, datasets[i]) for i in range(0, 50, 1)])
+    pool.close()
+    pool.join()
 
     print("results: ", return_list)
     # sort by dataset name (first) and dataset id (second)
