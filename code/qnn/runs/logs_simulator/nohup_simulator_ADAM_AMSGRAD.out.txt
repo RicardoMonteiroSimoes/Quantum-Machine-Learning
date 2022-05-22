@@ -3,47 +3,47 @@ Loading datasets ...
 Verify datasets ...
 done
 
-Backend system: ibmq_manila
+Backend system: ibmq_qasm_simulator
 adhoc[29]-qml_circuit_qiskit_01
 adhoc qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_01 ACCURACY_SCORE: 0.75
 adhoc qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
 adhoc qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_01 ACCURACY_SCORE: 0.7
 adhoc qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
 adhoc qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
-adhoc qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
-adhoc qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
-adhoc qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_01 ACCURACY_SCORE: 0.6
 adhoc qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
 adhoc qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
 
 adhoc[29]-qml_circuit_qiskit_02
-adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
-adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.75
-adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
-adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
-adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
-adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.7
-adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
-adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.7
-adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
 adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.6
+adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.7
+adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
 
 adhoc[21]-qml_circuit_qiskit_03
-adhoc qml_circuit_qiskit_03 ACCURACY_SCORE: 0.75
 adhoc qml_circuit_qiskit_03 ACCURACY_SCORE: 0.65
-adhoc qml_circuit_qiskit_03 ACCURACY_SCORE: 0.75
-adhoc qml_circuit_qiskit_03 ACCURACY_SCORE: 0.75
-adhoc qml_circuit_qiskit_03 ACCURACY_SCORE: 0.5
 adhoc qml_circuit_qiskit_03 ACCURACY_SCORE: 0.7
 adhoc qml_circuit_qiskit_03 ACCURACY_SCORE: 0.7
 adhoc qml_circuit_qiskit_03 ACCURACY_SCORE: 0.65
-adhoc qml_circuit_qiskit_03 ACCURACY_SCORE: 0.6
-adhoc qml_circuit_qiskit_03 ACCURACY_SCORE: 0.6
+adhoc qml_circuit_qiskit_03 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_03 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_03 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_03 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_03 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_03 ACCURACY_SCORE: 0.65
 
 adhoc[29]-qml_circuit_qiskit_04
 adhoc qml_circuit_qiskit_04 ACCURACY_SCORE: 0.65
-adhoc qml_circuit_qiskit_04 ACCURACY_SCORE: 0.7
 adhoc qml_circuit_qiskit_04 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_04 ACCURACY_SCORE: 0.6
 adhoc qml_circuit_qiskit_04 ACCURACY_SCORE: 0.65
 adhoc qml_circuit_qiskit_04 ACCURACY_SCORE: 0.65
 adhoc qml_circuit_qiskit_04 ACCURACY_SCORE: 0.65
@@ -54,26 +54,26 @@ adhoc qml_circuit_qiskit_04 ACCURACY_SCORE: 0.65
 
 adhoc[21]-qml_circuit_qiskit_05
 adhoc qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
-adhoc qml_circuit_qiskit_05 ACCURACY_SCORE: 0.6
 adhoc qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
 adhoc qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
 adhoc qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
-adhoc qml_circuit_qiskit_05 ACCURACY_SCORE: 0.55
 adhoc qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
-adhoc qml_circuit_qiskit_05 ACCURACY_SCORE: 0.6
 adhoc qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
-adhoc qml_circuit_qiskit_05 ACCURACY_SCORE: 0.7
+adhoc qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
+adhoc qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
 
 custom[0]-qml_circuit_qiskit_01
-custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
-custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
-custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
 custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.7
 custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.7
-custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
-custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
-custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.6
-custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
+custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.7
+custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.7
+custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.7
+custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.7
+custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.7
+custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.7
+custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.7
 custom qml_circuit_qiskit_01 ACCURACY_SCORE: 0.7
 
 custom[0]-qml_circuit_qiskit_02
@@ -113,12 +113,12 @@ custom qml_circuit_qiskit_04 ACCURACY_SCORE: 0.55
 custom qml_circuit_qiskit_04 ACCURACY_SCORE: 0.55
 
 custom[6]-qml_circuit_qiskit_05
-custom qml_circuit_qiskit_05 ACCURACY_SCORE: 0.6
-custom qml_circuit_qiskit_05 ACCURACY_SCORE: 0.6
-custom qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
 custom qml_circuit_qiskit_05 ACCURACY_SCORE: 0.55
 custom qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
 custom qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
+custom qml_circuit_qiskit_05 ACCURACY_SCORE: 0.6
+custom qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
+custom qml_circuit_qiskit_05 ACCURACY_SCORE: 0.55
 custom qml_circuit_qiskit_05 ACCURACY_SCORE: 0.6
 custom qml_circuit_qiskit_05 ACCURACY_SCORE: 0.6
 custom qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
@@ -168,7 +168,7 @@ iris qml_circuit_qiskit_04 ACCURACY_SCORE: 0.95
 iris qml_circuit_qiskit_04 ACCURACY_SCORE: 0.95
 iris qml_circuit_qiskit_04 ACCURACY_SCORE: 0.95
 iris qml_circuit_qiskit_04 ACCURACY_SCORE: 0.95
-iris qml_circuit_qiskit_04 ACCURACY_SCORE: 1.0
+iris qml_circuit_qiskit_04 ACCURACY_SCORE: 0.95
 iris qml_circuit_qiskit_04 ACCURACY_SCORE: 0.95
 iris qml_circuit_qiskit_04 ACCURACY_SCORE: 0.95
 
@@ -185,100 +185,100 @@ iris qml_circuit_qiskit_05 ACCURACY_SCORE: 1.0
 iris qml_circuit_qiskit_05 ACCURACY_SCORE: 1.0
 
 rain[37]-qml_circuit_qiskit_01
-rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.75
-rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.6
-rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.75
-rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.85
-rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.75
 rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
 rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
 rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
-rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.7
-rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.75
+rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
+rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
+rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
+rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
+rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
+rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
+rain qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
 
 rain[38]-qml_circuit_qiskit_02
-rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.7
-rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
-rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
+rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.8
+rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.8
 rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.75
 rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.75
+rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.8
 rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.75
-rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.75
-rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.75
-rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
-rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.75
+rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.8
+rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.8
+rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.8
+rain qml_circuit_qiskit_02 ACCURACY_SCORE: 0.8
 
 rain[32]-qml_circuit_qiskit_03
-rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.7
-rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.7
-rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.7
-rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.65
-rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.85
-rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.7
-rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.75
-rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.75
-rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.85
+rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.8
+rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.8
+rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.8
+rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.8
+rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.8
+rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.8
+rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.8
+rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.8
+rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.8
 rain qml_circuit_qiskit_03 ACCURACY_SCORE: 0.8
 
 rain[38]-qml_circuit_qiskit_04
 rain qml_circuit_qiskit_04 ACCURACY_SCORE: 0.9
+rain qml_circuit_qiskit_04 ACCURACY_SCORE: 0.7
 rain qml_circuit_qiskit_04 ACCURACY_SCORE: 0.9
-rain qml_circuit_qiskit_04 ACCURACY_SCORE: 0.75
-rain qml_circuit_qiskit_04 ACCURACY_SCORE: 0.7
 rain qml_circuit_qiskit_04 ACCURACY_SCORE: 0.8
 rain qml_circuit_qiskit_04 ACCURACY_SCORE: 0.8
+rain qml_circuit_qiskit_04 ACCURACY_SCORE: 0.85
 rain qml_circuit_qiskit_04 ACCURACY_SCORE: 0.8
-rain qml_circuit_qiskit_04 ACCURACY_SCORE: 0.75
-rain qml_circuit_qiskit_04 ACCURACY_SCORE: 0.65
-rain qml_circuit_qiskit_04 ACCURACY_SCORE: 0.7
+rain qml_circuit_qiskit_04 ACCURACY_SCORE: 0.85
+rain qml_circuit_qiskit_04 ACCURACY_SCORE: 0.85
+rain qml_circuit_qiskit_04 ACCURACY_SCORE: 0.8
 
 rain[38]-qml_circuit_qiskit_05
+rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.6
+rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.6
+rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
 rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
 rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.6
-rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.5
-rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.7
-rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.55
-rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.6
-rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.7
-rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.75
-rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.7
 rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
+rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.6
+rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.6
+rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.6
+rain qml_circuit_qiskit_05 ACCURACY_SCORE: 0.6
 
 vlds[40]-qml_circuit_qiskit_01
-vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.6
-vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.55
-vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.55
-vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.65
-vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.55
-vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.75
-vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.6
-vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.6
-vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.75
-vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.55
+vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.8
+vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.8
+vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.8
+vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.8
+vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.8
+vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.8
+vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.8
+vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.8
+vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.8
+vlds qml_circuit_qiskit_01 ACCURACY_SCORE: 0.8
 
 vlds[40]-qml_circuit_qiskit_02
-vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.9
-vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.7
-vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.55
 vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.75
-vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
-vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.65
-vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.85
-vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.85
 vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.75
+vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.8
+vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.8
+vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.8
+vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.75
+vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.8
+vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.8
+vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.8
 vlds qml_circuit_qiskit_02 ACCURACY_SCORE: 0.75
 
 vlds[40]-qml_circuit_qiskit_03
-vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.7
-vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.7
 vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.75
-vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.7
-vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.7
-vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.7
-vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.7
-vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.7
-vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.7
-vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.7
+vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.75
+vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.75
+vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.75
+vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.75
+vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.75
+vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.75
+vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.75
+vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.75
+vlds qml_circuit_qiskit_03 ACCURACY_SCORE: 0.75
 
 vlds[40]-qml_circuit_qiskit_04
 vlds qml_circuit_qiskit_04 ACCURACY_SCORE: 0.75
@@ -293,19 +293,18 @@ vlds qml_circuit_qiskit_04 ACCURACY_SCORE: 0.75
 vlds qml_circuit_qiskit_04 ACCURACY_SCORE: 0.75
 
 vlds[45]-qml_circuit_qiskit_05
-vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.75
 vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.9
-vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.8
-vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.75
-vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.7
-vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.6
-vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.7
-vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.8
-vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.65
-vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.8
+vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.9
+vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.9
+vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.9
+vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.9
+vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.9
+vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.9
+vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.9
+vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.9
+vlds qml_circuit_qiskit_05 ACCURACY_SCORE: 0.9
 
 
 Optimizer: {'ADAM AMSGRAD': {'settings': 'maxiter=1000, tol=1e-06, lr=0.001, beta_1=0.9, beta_2=0.99, noise_factor=1e-08, eps=1e-10, amsgrad=True, snapshot_dir=None'}}
 
-scores: {'adhoc[29]-qml_circuit_qiskit_01': 0.6500000000000001, 'adhoc[29]-qml_circuit_qiskit_02': 0.665, 'adhoc[21]-qml_circuit_qiskit_03': 0.6649999999999998, 'adhoc[29]-qml_circuit_qiskit_04': 0.655, 'adhoc[21]-qml_circuit_qiskit_05': 0.635, 'custom[0]-qml_circuit_qiskit_01': 0.66, 'custom[0]-qml_circuit_qiskit_02': 0.5, 'custom[0]-qml_circuit_qiskit_03': 0.5, 'custom[2]-qml_circuit_qiskit_04': 0.55, 'custom[6]-qml_circuit_qiskit_05': 0.6200000000000001, 'iris[10]-qml_circuit_qiskit_01': 1.0, 'iris[12]-qml_circuit_qiskit_02': 1.0, 'iris[14]-qml_circuit_qiskit_03': 1.0, 'iris[14]-qml_circuit_qiskit_04': 0.9549999999999998, 'iris[19]-qml_circuit_qiskit_05': 1.0, 'rain[37]-qml_circuit_qiskit_01': 0.7100000000000001, 'rain[38]-qml_circuit_qiskit_02': 0.7150000000000001, 'rain[32]-qml_circuit_qiskit_03': 0.7449999999999999, 'rain[38]-qml_circuit_qiskit_04': 0.7750000000000001, 'rain[38]-qml_circuit_qiskit_05': 0.64, 'vlds[40]-qml_circuit_qiskit_01': 0.615, 'vlds[40]-qml_circuit_qiskit_02': 0.74, 'vlds[40]-qml_circuit_qiskit_03': 0.705, 'vlds[40]-qml_circuit_qiskit_04': 0.75, 'vlds[45]-qml_circuit_qiskit_05': 0.745}
-.
+scores: {'adhoc[29]-qml_circuit_qiskit_01': 0.6600000000000001, 'adhoc[29]-qml_circuit_qiskit_02': 0.6500000000000001, 'adhoc[21]-qml_circuit_qiskit_03': 0.6600000000000001, 'adhoc[29]-qml_circuit_qiskit_04': 0.6450000000000001, 'adhoc[21]-qml_circuit_qiskit_05': 0.6500000000000001, 'custom[0]-qml_circuit_qiskit_01': 0.7, 'custom[0]-qml_circuit_qiskit_02': 0.5, 'custom[0]-qml_circuit_qiskit_03': 0.5, 'custom[2]-qml_circuit_qiskit_04': 0.55, 'custom[6]-qml_circuit_qiskit_05': 0.6150000000000001, 'iris[10]-qml_circuit_qiskit_01': 1.0, 'iris[12]-qml_circuit_qiskit_02': 1.0, 'iris[14]-qml_circuit_qiskit_03': 1.0, 'iris[14]-qml_circuit_qiskit_04': 0.9499999999999998, 'iris[19]-qml_circuit_qiskit_05': 1.0, 'rain[37]-qml_circuit_qiskit_01': 0.6500000000000001, 'rain[38]-qml_circuit_qiskit_02': 0.7849999999999999, 'rain[32]-qml_circuit_qiskit_03': 0.8, 'rain[38]-qml_circuit_qiskit_04': 0.825, 'rain[38]-qml_circuit_qiskit_05': 0.615, 'vlds[40]-qml_circuit_qiskit_01': 0.8, 'vlds[40]-qml_circuit_qiskit_02': 0.78, 'vlds[40]-qml_circuit_qiskit_03': 0.75, 'vlds[40]-qml_circuit_qiskit_04': 0.75, 'vlds[45]-qml_circuit_qiskit_05': 0.9}
