@@ -1,5 +1,4 @@
-#
-# !/usr/bin/env python3
+#!/usr/bin/env python3
 
 import multiprocessing
 import pythonlib.qcircuits as qc
@@ -9,11 +8,15 @@ import pickle
 import numpy as np
 from datetime import datetime
 # qiskit
+import qiskit
+from qiskit import IBMQ, Aer, QuantumCircuit
 from qiskit.algorithms.optimizers import COBYLA, ADAM, SPSA, L_BFGS_B
 from qiskit import Aer, QuantumCircuit
 from qiskit.utils import QuantumInstance
 from qiskit_machine_learning.neural_networks import CircuitQNN
 from qiskit_machine_learning.algorithms.classifiers import NeuralNetworkClassifier
+from qiskit.providers.ibmq import IBMQBackend, IBMQFactory
+from qiskit.providers.ibmq.managed import IBMQJobManager
 
 # change dir into script dir
 abspath = os.path.abspath(__file__)
@@ -21,7 +24,7 @@ SCRIPT_DIRECTORY = os.path.dirname(abspath)
 os.chdir(SCRIPT_DIRECTORY)
 
 # VARS
-DATASET_FILE = SCRIPT_DIRECTORY + '/../datasets/datasets2.data'
+DATASET_FILE = SCRIPT_DIRECTORY + '/../datasets/datasets.data'
 NUMBER_DATASETS = 5
 NUMBER_RUNS = 10
 NUMBER_SAMPLES = 100
@@ -32,15 +35,33 @@ load_dataset_args = (DATASET_FILE,
                      NUMBER_SAMPLES)
 # Q Cicruit settings
 # N_LAYERS => Defines the number of layers for the quantum circuits
-N_LAYERS = os.getenv('QC_N_LAYERS', 4)
+N_LAYERS = os.getenv('QC_N_LAYERS', 2)
+
+# IBM provider
+IBM_PROVIDER = 'ibm-q'
+
+# load IBMid account settings (e.g. access token) from `$HOME/.qiskit/qiskitrc`
+IBMQ.load_account()
+
+# get provider
+provider: IBMQFactory = IBMQ.get_provider(IBM_PROVIDER)
+# Hardware choose from: 'ibmq_manila' 'ibmq_quito' 'ibmq_belem' 'ibmq_lima'
+# backend_system = 'ibmq_manila'
+# backend_system = 'ibmq_quito'
+# backend_system = 'ibmq_belem'
+# backend_system = 'ibmq_lima'
+
+# Simulators: aer_simulator (local), ibmq_qasm_simulator (managed online)
+backend_system = 'aer_simulator'
+# backend_system = 'ibmq_qasm_simulator'
 
 # Q circuits
 quantum_circuits = [
-    qc.qml_circuit_qiskit_01,
+    # qc.qml_circuit_qiskit_01,
     qc.qml_circuit_qiskit_02,
-    qc.qml_circuit_qiskit_03,
-    qc.qml_circuit_qiskit_04,
-    qc.qml_circuit_qiskit_05,
+    # qc.qml_circuit_qiskit_03,
+    # qc.qml_circuit_qiskit_04,
+    # qc.qml_circuit_qiskit_05,
 ]
 
 """
@@ -80,20 +101,21 @@ def get_classifier(circuit: QuantumCircuit, _weights: list, n_features=2):
         _weights.append(weights)
 
     # Qiskit backend
-    q_simulator = Aer.get_backend('aer_simulator')
-    # use legacy simulator:
-    # q_simulator = BasicAer.get_backend('qasm_simulator')
+    if backend_system == 'aer_simulator':
+        backend = Aer.get_backend(backend_system)
+    else:
+        backend: IBMQBackend = provider.get_backend(backend_system)
 
     # try GPU support if available (needs `qiskit-aer-gpu` package)
     try:
         import GPUtil
         if(len(GPUtil.getGPUs()) > 0):
-            q_simulator.set_options(device='GPU')
+            backend.set_options(device='GPU')
             print("GPU enabled")
     except:
         print("Failed to set GPU support")
 
-    quantum_instance = QuantumInstance(q_simulator, shots=1024)
+    quantum_instance = QuantumInstance(backend)
 
     circuit_qnn = CircuitQNN(circuit=circuit,
                              input_params=circuit.parameters[-n_features:],
@@ -128,12 +150,13 @@ def worker_datasets(return_list: dict, dataset):
             qcirc_results[circuit_name] = []
 
         # get the generated quantum circuit
-        quantum_circuit = q_circ(n_wires=N_WIRES, n_layers=N_LAYERS).copy()
+        quantum_circuit: QuantumCircuit = q_circ(n_wires=N_WIRES, n_layers=N_LAYERS).copy()
 
         # get the generated classifier
         classifier = get_classifier(quantum_circuit, weights, N_WIRES)
 
         (sample_train, sample_test, label_train, label_test) = data
+        # ugly hack to fix iris labels. Don't do this at home
         np.subtract(label_train, 1, out=label_train, where=label_train == 2)
         np.subtract(label_test, 1, out=label_test, where=label_test == 2)
 
@@ -202,6 +225,24 @@ def arr_to_str(arr):
     return '`{}`, `{}`'.format(str_1, str_2)
 
 
+def get_backend_informations():
+    # Get Qiskit backend informations
+    _backend_informations = {}
+    values_of_interest = ['backend_name', 'backend_version', 'n_qubits', 'sample_name', 'description']
+
+    if backend_system == 'aer_simulator':
+        q_backend = Aer.get_backend(backend_system)
+        values_of_interest.remove('sample_name')
+    else:
+        q_backend: IBMQBackend = provider.get_backend(backend_system)
+
+    backend_configuration_dict = q_backend.configuration().to_dict()
+    for value in values_of_interest:
+        _backend_informations[value] = backend_configuration_dict[value]
+
+    return _backend_informations
+
+
 def plot_and_save_circuits(dataset_name, n_wires, timestamp=datetime.now().strftime("%d-%m-%Y_%H-%M-%S")):
     """
     Plot and save the quantum circuits from the circuits array
@@ -221,7 +262,7 @@ def plot_and_save_circuits(dataset_name, n_wires, timestamp=datetime.now().strft
     return circuit_plots
 
 
-def generate_markdown_from_list(result_list):
+def generate_markdown_from_list(result_list, backend_informations):
     """
     Generate markdown file from result_list array. Save the markdown info file
     """
@@ -280,6 +321,7 @@ def generate_markdown_from_list(result_list):
     markdown += "**Settings:**\n"
     markdown += "Used Optimizer for Neural Network Classifier: `{}`\n".format(optimizer[1])
     markdown += "Layer count: `{}`\n\n".format(N_LAYERS)
+    markdown += f"Backend device informations:\n{backend_informations}\n\n"
 
     # Circuit plots
     markdown += "## Quantum Circuits\n"
@@ -327,7 +369,7 @@ def generate_markdown_from_list(result_list):
 
         markdown += '\n\n'
 
-    filepath = save_markdown_to_file('training_run', markdown, timestamp)
+    filepath = save_markdown_to_file('hardware_training_run', markdown, timestamp)
     print('Run has been saved to file: {}'.format(filepath))
 
 
@@ -341,18 +383,16 @@ if __name__ == '__main__':
     jobs = []
 
     print("Running circuits ...")
-    # for index, dataset in enumerate([datasets[i] for i in range(0, 50, 1)]):
-    for index, dataset in enumerate([datasets[i] for i in range(0, 10, 1)]):
-        p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset))
-        jobs.append(p)
-        p.start()
-        print("Started process {}".format(index))
 
-    for proc in jobs:
-        proc.join()
+    pool = multiprocessing.Pool()
+    pool.starmap(worker_datasets, [(return_list, datasets[i]) for i in range(40, 50, 1)])
+    pool.close()
+    pool.join()
 
     print("results: ", return_list)
     # sort by dataset name (first) and dataset id (second)
     return_list.sort(key=sortDatasetsByNameAndId, reverse=False)
 
-    generate_markdown_from_list(return_list)
+    backend_informations = get_backend_informations()
+
+    generate_markdown_from_list(return_list, backend_informations)
