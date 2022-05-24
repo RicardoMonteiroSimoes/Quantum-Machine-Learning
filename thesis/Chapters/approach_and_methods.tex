@@ -471,7 +471,8 @@ To enable an optimizer to train the circuit defined in chapter \ref{chapter:circ
 \end{figure}
 
 \subsubsection{Manual Validation}
-To assess that the circuit from figure \ref{circuit:full_trainable_mqp_circuit} is able to correctly handle the generated problem as well as deliver usable results, a static variant is created where the \rxgate\ has a static value. As perviously shown, $\frac{\pi}{4}$ appears to be a good value for normalization, so this is also used in the static variant as the variable for the \rxgate\ layer, as shown in figure \ref{circuit:static_mqo_circuit}.
+\label{chapter:mqo_manual_validation}
+To assess that the circuit from figure \ref{circuit:full_trainable_mqp_circuit} is able to correctly handle the generated problem as well as deliver usable results, a static variant is created where the \rxgate\ has a static value. As previously shown, $\frac{\pi}{4}$ appears to be a good value for normalization, so this is also used in the static variant as the variable for the \rxgate\ layer, as shown in figure \ref{circuit:static_mqo_circuit}. The measurements taken are filtered before evaluation. Any measured state that is not part of the possible combinations, so any state $S \notin \{1010, 1001, 0110, 0101\}$ is removed. Afterwards, the state with the highest probability is taken
 
 \begin{figure}[!h]
     \centering
@@ -486,16 +487,31 @@ To assess that the circuit from figure \ref{circuit:full_trainable_mqp_circuit} 
     \label{circuit:static_mqo_circuit}
 \end{figure}
 
-The circuit \ref{circuit:static_mqo_circuit} is run with a randomly generated problem space $\left|\matchal{D}_{2\times2}\right| =\ 5000$. This size was chosen to allow any specific edge cases to appear and be handled. In addition, each measurement is taken with 1024 shots, a standard value used in the library \code{qiskit}. The experiment runs 13 times and the results are summarized in figure \ref{figure:boxplot_static_circuit_accuracies}.
+The circuit \ref{circuit:static_mqo_circuit} is run with a randomly generated problem space $\left|\mathcal{D}_{2\times2}\right| =\ 5000$. This size was chosen to allow any specific edge cases to appear and be handled. In addition, each measurement is taken with 1024 shots, a standard value used in the library \code{qiskit}. The experiment runs 13 times and the results are summarized in figure \ref{figure:boxplot_static_circuit_accuracies}.
 
-\begin{figure}
+\newpage
+
+\begin{figure}[!ht]
     \centering
-    \scalebox{0.9}{
-        \includesvg{thesis/Appendices/final_amsgrad_training_boxplot.svg}
+    \scalebox{0.6}{
+        \includesvg{thesis/Appendices/static_circuit_accuracies_boxplot.svg}
     }
-    \caption{Boxplot of achieved accuracies after 13 runs of the generated problem space $\left|\mathcal{D}_{2\times2}\right| =\ 5000$ with 1024 shots each, using the circuit \ref{circuit:static_mqo_circuit}.}
+    \caption{Achieved accuracies after 13 runs on the generated problem space $\left|\mathcal{D}_{2\times2}\right| =\ 5000$ with 1024 shots each, using the circuit \ref{circuit:static_mqo_circuit}.}
     \label{figure:boxplot_static_circuit_accuracies}
 \end{figure}
+
+To further analyse the correct setup, the experiment is redone with varying number of shots. This allows the visualization of the correlation between achieved accuracy and shots needed. Figure \ref{figure:correlation_accuracy_shots} visualizes the results of the experiment. The results are taken and compared to the correct solution. It is noted, how far off the result is - for example a distance $d =\ 2$ means the circuits conclusion was the 2nd worst combination out of all four possible, whilst a distance of $d =\ 0$ means it found the best solution.
+
+\begin{figure}[!ht]
+    \centering
+    \scalebox{0.6}{
+        \includesvg{thesis/Appendices/comparison_shots_to_solution.svg}
+    }
+    \caption{Visualization of correlation of achieved accuracy to the number of shots used whilst measuring the circuit \ref{circuit:static_mqo_circuit}. The result is compared to the best solution. A distance of 0 means the circuit found the best solution, whilst a distance of 2 means that the circuit resulted in picking the 2nd worst combination. The growth rate shows how much the total accuracy grows in relation to the number of shots.}
+    \label{figure:correlation_accuracy_shots}
+\end{figure}
+
+\newpage
 
 The work of Pellow-Jarman et al.\cite{pellow-jarman_comparison_2021} evaluated different optimization algorithms. According to their results, the \code{AMSGRAD} optimizer was chosen. The python library \code{qiskit} offers easy access to the classical optimizer, as shown in listing \ref{code:amsgrad_example_qiskit}.
 
@@ -523,7 +539,6 @@ Hyperparameter optimization is used to examine a different combination of parame
     \label{circuit:full_trainable_mqp_circuit_1_w}
 \end{figure}
 
-\newpage
 
 Using the problem space of 2 queries with 2 plans each, 150 records are generated. Each optimizer variant is run for a total of 13 times, each for 50 optimizing iterations, and the optimizer itself has any combination of the possible parameters defined in table \ref{table:hyperparameter_options}. These parameters amount to a total of 16 different optimizer setups. Due to time constraints and hardware availability, this is done purely on the simulator.
 
@@ -601,9 +616,7 @@ Using the parity function as well as the machine learning components shown in ch
 
 \newpage
 
-Through the results from table \ref{table:hyperparameter_results}, the parameters from the marked row that achieved the best result are taken and ran separately again. This time, the problem space has a size of $\left|\mathcal{D}_{2\times2}\right| =\ 300$ and the optimization is capped at 150 iterations. The whole optimization process is run a total of 13 times and the data collected. Figure \ref{figure:amsgrad_boxplots} showcases the resulting data as a box plot. As the runs from \ref{table:hyperparameter_results}, these are also done on the simulator. The optimized weight $\theta = 0.2352$ from the best run is taken and used as a static value in further experiments.\par
-
-To assess the viability of the final circuits, 
+Through the results from table \ref{table:hyperparameter_results}, the parameters from the marked row that achieved the best test result are taken and ran separately again. This time, the problem space has a size of $\left|\mathcal{D}_{2\times2}\right| =\ 300$ and the optimization is capped at 150 iterations. The whole optimization process is run a total of 13 times and the data collected. Figure \ref{figure:amsgrad_boxplots} showcases the resulting data as a box plot. As the runs from \ref{table:hyperparameter_results}, these are also done on the simulator. The optimized weight $\theta = 0.2352$ from the best run is taken and used as a static value in further experiments.\par
 
 \begin{figure}[!ht]
     \centering

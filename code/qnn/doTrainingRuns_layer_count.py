@@ -303,7 +303,6 @@ if __name__ == '__main__':
     datasets = load_verify_datasets(load_dataset_args)
 
     manager = multiprocessing.Manager()
-    return_list = manager.list()
     jobs = []
     markdown = ""
 
@@ -312,17 +311,13 @@ if __name__ == '__main__':
 
     print("Running circuits ...")
     for n_layers in N_LAYERS_ARR:
-        # for index, dataset in enumerate([datasets[i] for i in range(0, 50, 1)]):
-        for index, dataset in enumerate([datasets[i] for i in range(0, 50, 1)]):
-            p = multiprocessing.Process(target=worker_datasets, args=(return_list, dataset, n_layers))
-            jobs.append(p)
-            p.start()
-            print("Started process {}".format(index))
+        return_list = manager.list()
 
-        for proc in jobs:
-            proc.join()
+        pool = multiprocessing.Pool()
+        pool.starmap(worker_datasets, [(return_list, datasets[i], n_layers) for i in range(40, 50, 1)])
+        pool.close()
+        pool.join()
 
-        # print("results: ", return_list)
         # sort by dataset name (first) and dataset id (second)
         return_list.sort(key=sortDatasetsByNameAndId, reverse=False)
 
