@@ -82,17 +82,22 @@ def main(argv):
     x_train, x_test, y_train, y_test = train_test_split(problems_values, complete, test_size=0.25)
     y_test_ranked = []
     y_test_labels = []
+    y_train_ranked = []
+    y_train_labels = []
     for sol in y_test:
         y_test_ranked.append(list({k: v for k, v in sorted(sol.items(), key=lambda item: item[1])}.keys()))
         y_test_labels.append(y_test_ranked[-1][0])
+    for sol in y_train:
+        y_train_ranked.append(list({k: v for k, v in sorted(sol.items(), key=lambda item: item[1])}.keys()))
+        y_train_labels.append(y_train_ranked[-1][0])
     
-    data = {'x_train':x_train, 'x_test': x_test, 'y_train':y_train, 'y_test': y_test_labels, 'y_test_ranked': y_test_ranked}
+    data = {'x_train':x_train, 'x_test': x_test, 'y_train':y_train, 'y_train_labels':y_train_labels, 'y_test': y_test_labels, 'y_test_ranked': y_test_ranked}
     print('Generated all problems, saving them')
     try:
         os.makedirs('runs/data/')
     except:
         print('path already exists!')
-    pickle.dump(data, open("runs/data/problems_with_solutions.p", "wb" ) )
+    pickle.dump(data, open("runs/data/1000_problems_with_solutions.p", "wb" ) )
     print('Finished execution.')
     print('---------------------------------------------------')
 
