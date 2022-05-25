@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import multiprocessing
+import multiprocessing.pool
 import pythonlib.qcircuits as qc
 import os
 import re
@@ -203,6 +204,14 @@ def arr_to_str(arr, show_weights=True):
     return '`{}`'.format(str_1)
 
 
+def arr2str(arr):
+    """
+    Array to string helper for score (train, test) and weights array
+    """
+    _str = '[{}]'.format(','.join([x.strip(' \n\r,][') for x in re.split("\s", str(arr)) if re.match(r"^\[?[-+]?[0-9]*\.?[0-9e+-]+\]?,?$", x)]))
+    return '`{}`'.format(_str)
+
+
 def generate_markdown_from_list(result_list, n_layers):
     """
     Generate markdown file from result_list array. Save the markdown info file
@@ -240,10 +249,10 @@ def generate_markdown_from_list(result_list, n_layers):
             arr = average_dict[dataset_name]
             run_arr = per_run_dict[dataset_name_id]
 
-            score_train, score_test, weights = value[0]
+            score_train, score_test, weights, obj_func_eval = value[0]
 
             np_weights = np.array(weights, dtype=np.float64)
-            run_arr.append([[score_train, score_test], np_weights])
+            run_arr.append([[score_train, score_test], np_weights, obj_func_eval])
 
             np_scores = np.array([score_train, score_test], dtype=np.float64)
 
@@ -289,12 +298,35 @@ def generate_markdown_from_list(result_list, n_layers):
             if run_key.startswith(key):
                 markdown_row = "| `{}` |".format(run_key)
                 for run_data in run_value:
-                    markdown_row += " {} |".format(arr_to_str(run_data, show_weights=False))
+                    (_scores, _weights, _obj_func_eval) = run_data
+                    markdown_row += " {} <br />{} |".format(arr2str(_scores), arr2str(_obj_func_eval))
                 markdown += markdown_row + "\n"
 
         markdown += '\n\n'
 
     return markdown
+
+# classes
+
+
+class NoDaemonProcess(multiprocessing.Process):
+    # make 'daemon' attribute always return False
+    @property
+    def daemon(self):
+        return False
+
+    @daemon.setter
+    def daemon(self, val):
+        pass
+
+
+class NoDaemonProcessPool(multiprocessing.pool.Pool):
+
+    def Process(self, *args, **kwds):
+        proc = super(NoDaemonProcessPool, self).Process(*args, **kwds)
+        proc.__class__ = NoDaemonProcess
+
+        return proc
 
 
 # MAIN
@@ -303,7 +335,6 @@ if __name__ == '__main__':
     datasets = load_verify_datasets(load_dataset_args)
 
     manager = multiprocessing.Manager()
-    jobs = []
     markdown = ""
 
     # Do the following layers
@@ -313,8 +344,8 @@ if __name__ == '__main__':
     for n_layers in N_LAYERS_ARR:
         return_list = manager.list()
 
-        pool = multiprocessing.Pool()
-        pool.starmap(worker_datasets, [(return_list, datasets[i], n_layers) for i in range(40, 50, 1)])
+        pool = NoDaemonProcessPool()
+        pool.starmap(worker_datasets, [(return_list, datasets[i], n_layers) for i in range(0, 50, 1)])
         pool.close()
         pool.join()
 
