@@ -6,17 +6,43 @@
 
 \section{Multiple Query Optimization}
 
-Due to the rather impressive results, the static circuit from chapter \ref{chapter:mqo_machine_learning} achieves, all runs are done using the circuit trained with \code{AMSGRAD} as well as the static circuit. For this, a new dataset $\left|\mathcal{D}_{2\times2}\right| =\ 300$ is generated and shared across runs. The runs are executed on the simulator as well as real hardware. The real device used for this is a Falcon r4L processor, \code{ibmq_bogota v1.6.37} to be specific. Only $25\%$ of the dataset is used for evaluation, so exactly 75 records. These run for 13 iterations each, and evaluated. The evaluation consists of multiple types. The first is pure accuracy – how often did the system evaluate to the best solution. The second one is the distance — how close was the system to the best solution. \par
-The circuit optimized with \code{AMSGRAD} runs multiple times with different final evaluation steps. On one hand, the parity function described in chapter \ref{chapter:mqo_machine_learning} is used, on the other hand the filtered evaluator from the static circuit is used.
+The non-ML circuit as well as the ML optimized one are run on the simulator as well as on real hardware. For this, the IBM Falcon r4L processor \code{ibmq\_bogota v1.6.37} is used. Each circuit runs 13 times, and the parity function referenced in chapter \toco{add reference to parity explanation} is used for the ML optimized circuit as well as the non-ML circuit to allow for a direct comparison. In addition, the ML optimized circuit is also assessed through the custom evaluation function from the non-ML circuit, which filters the results to retrieve only the relevant labels. Initial runs are made on a problem space $\left\mathcal{D}_{2\times2}|\right| =\ 300$, out of which 25\%, so 75 records, are taken and evaluated. These 75 records are the same used in the evaluation of the ML optimized circuit in chapter \ref{chapter:mqo_machine_learning}. Later runs, limited only to the filtered evaluation, are run on a problem space $\left|\mathcal{D}_{2\times2}\right| =\ 1000$ of newly generated records\footnote{As these records are randomly generated, it cannot be assured that there might not be duplicate entries that were already inside the training/evaluation set of the ML optimized circuit. As this case can also appear in real life, no further filtering is done to the generation of records}.
 
 
 \begin{figure}
     \centering
     \scalebox{0.9}{
-        \includesvg{thesis/Appendices/.svg}
+        \includesvg{thesis/Appendices/comparison_ml_noml_circuit_filtered_acc.svg}
     }
     \caption{Caption}
-    \label{fig:my_label}
+    \label{figure:comparison_ml_noml_filtered_acc}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \scalebox{0.9}{
+        \includesvg{thesis/Appendices/comparison_ml_noml_circuit_parity_acc.svg}
+    }
+    \caption{Caption}
+    \label{figure:comparison_ml_noml_parity_acc}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \scalebox{0.8}{
+        \includesvg{thesis/Appendices/comparison_noml_sim_rhw_distanec.svg}
+    }
+    \caption{Caption}
+    \label{figure:boxplot_noml_distance}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \scalebox{0.8}{
+        \includesvg{thesis/Appendices/comparison_ml_sim_rhw_distanec.svg}
+    }
+    \caption{Caption}
+    \label{figure:boxplot_ml_distance}
 \end{figure}
 
 \newpage
@@ -134,23 +160,17 @@ The circuit optimized with \code{AMSGRAD} runs multiple times with different fin
 
 \subsection{Comparison}
 
-0.745
-0.75
-1
-0.79
-0.95
-
 \begin{table}[!h]
 	\centering
 	\begin{tabular}{rccc}
 		\hline 
 		\thead{Dataset} & \thead{QNN (Quantum Simulator)} & \thead{QNN (Quantum Computer)} \\
 		\hline 
-		Adhoc   & 0.800    & 0.745 \\
-		Custom  & 0.74     & 0.750 \\
 		Iris    & 1.00     & 1.00  \\
 		Rain    & 0.825    & 0.790 \\
 		Vlds    & 0.925    & 0.950 \\
+		Custom  & 0.74     & 0.750 \\
+		Adhoc   & 0.800    & 0.745 \\
 		\hline
 		\textbf{Average}  & \textbf{0.858} & \textbf{0.847}  \\
 		\hline
