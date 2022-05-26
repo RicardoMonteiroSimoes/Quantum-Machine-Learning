@@ -773,7 +773,7 @@ A brief explanation to figure \ref{fig:schematic_hybrid_classical_quantum}. The 
 \clearpage
 
 \subsection{Circuit Design}
-The general scheme for the quantum circuits - shown in figure \ref{figure:general_schematics_quantum_circuits_qnn} - starts with \textit{feature embedding}, followed by at least one up to $n$ layers. Finally a measurement on all qubits follows. Each quantum circuit is automatically generated using a predefined scripted template. The number of layers and input features must be passed to the template which generates the final quantum circuit. The Qubit count is determined by the first given feature set length but the number is limited to five. We set ourselves a upper limit of 5 Qubits for our experiments, please see subsection \ref{subsection:limitations_and_shortcomings} for more information about this limitation.
+The general scheme for our quantum circuits - shown in figure \ref{figure:general_schematics_quantum_circuits_qnn} - starts with \textit{feature embedding}, followed by at least one up to $n$ layers. Finally a measurement on all qubits follows. Each quantum circuit is automatically generated using a predefined scripted template. The number of layers and input features must be passed to the template which generates the final quantum circuit. The Qubit count is determined by the first given feature set length but the number is limited to five. We set ourselves a upper limit of 5 Qubits for our experiments, please see subsection \ref{subsection:limitations_and_shortcomings} for more information about this limitation.
 
 \begin{figure}[!h]
 	\centering
@@ -792,10 +792,11 @@ The general scheme for the quantum circuits - shown in figure \ref{figure:genera
 
 
 \subsubsection{Feature \& Weights Embedding}
-All QNN circuits start with the feature embedding using angle embedding \todo{Why angle embedding?} with a \rygate. 
+All the features from our datasets are \textit{classical} and they need to be encoded it into the physical states of a quantum system. To do so, we chose angle embedding among a multitude of other embedding techniques. \todo{Why angle embedding?}
 
 \subsection{Quantum Circuits}
 \label{subsection:qnn_quantum_circuits}
+
 The QNN quantum circuits used in our experiments are presented in this section and the following should be noted:
 
 \begin{itemize}

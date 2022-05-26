@@ -2,65 +2,106 @@
 
 \label{chapter:results} % For referencing the chapter elsewhere, use \ref{chapter:computational_neuro} 
 
+\def \resultboxplot {0.8}
 %----------------------------------------------------------------------------------------
 
 \section{Multiple Query Optimization}
 
-The non-ML circuit as well as the ML optimized one are run on the simulator as well as on real hardware. For this, the IBM Falcon r4L processor \code{ibmq\_bogota v1.6.37} is used. Each circuit runs 13 times, and the parity function referenced in chapter \toco{add reference to parity explanation} is used for the ML optimized circuit as well as the non-ML circuit to allow for a direct comparison. In addition, the ML optimized circuit is also assessed through the custom evaluation function from the non-ML circuit, which filters the results to retrieve only the relevant labels. Initial runs are made on a problem space $\left\mathcal{D}_{2\times2}|\right| =\ 300$, out of which 25\%, so 75 records, are taken and evaluated. These 75 records are the same used in the evaluation of the ML optimized circuit in chapter \ref{chapter:mqo_machine_learning}. Later runs, limited only to the filtered evaluation, are run on a problem space $\left|\mathcal{D}_{2\times2}\right| =\ 1000$ of newly generated records\footnote{As these records are randomly generated, it cannot be assured that there might not be duplicate entries that were already inside the training/evaluation set of the ML optimized circuit. As this case can also appear in real life, no further filtering is done to the generation of records}.
+The non-ML circuit as well as the ML optimized one are run on the simulator as well as on real hardware. For this, the IBM Falcon r4L processor \code{ibmq\_bogota v1.6.37} is used. Each circuit runs 13 times, and the parity function referenced in the chapter \todo{add reference to parity explanation} is used for the ML optimized circuit as well as the non-ML circuit to allow for a direct comparison. For direct comparison, both the ML and non-ML circuit are evaluated using filtered and parity evaluation. The runs are made on a problem space $\left\mathcal{D}_{2\times2}|\right| =\ 300$, out of which 25\%, so 75 records, are taken and evaluated. These 75 records are the same used in the evaluation of the ML optimized circuit in chapter \ref{chapter:mqo_machine_learning}. The results are shown in figures \ref{figure:comparison_ml_noml_filtered_acc} - \ref{figure:ml_rhw_dist}.
 
 
-\begin{figure}
+\begin{figure}[!ht]
     \centering
-    \scalebox{0.9}{
+    \scalebox{\resultboxplot}{
         \includesvg{thesis/Appendices/comparison_ml_noml_circuit_filtered_acc.svg}
     }
-    \caption{Caption}
+    \caption{Direct comparison of the non-ML and ML circuits in terms of accuracy, once on the simulator (annotated with SIM) and once on real hardware (annotated with RHW). The accuracy is determined by the amount of best combinations the circuit evaluated to. The measured data is passed trough a filtered evaluation, which only considers valid combinational keys as results and not all. The ML circuit was not optimized but the filtered evaluation, but rather the parity evaluation.}
     \label{figure:comparison_ml_noml_filtered_acc}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!ht]
     \centering
-    \scalebox{0.9}{
+    \scalebox{\resultboxplot}{
         \includesvg{thesis/Appendices/comparison_ml_noml_circuit_parity_acc.svg}
     }
-    \caption{Caption}
+    \caption{Direct comparison of the non-ML and ML circuits in terms of accuracy, once on the simulator (annotated with SIM) and once on real hardware (annotated with RHW). The accuracy is determined by the amount of best combinations the circuit evaluated to. The measured data is passed trough a parity evaluation, which takes the key with the highest probability.}
     \label{figure:comparison_ml_noml_parity_acc}
 \end{figure}
 
-\begin{figure}
+The distance evaluation is done solely using the filtered evaluation method, as this results in the best accuracy, as shown in figures \ref{figure:comparison_ml_noml_filtered_acc} and \ref{figure:comparison_ml_noml_parity_acc}.
+
+\begin{figure}[!ht]
     \centering
-    \scalebox{0.8}{
+    \scalebox{\resultboxplot}{
         \includesvg{thesis/Appendices/comparison_noml_sim_f_distance.svg}
     }
-    \caption{Caption}
+    \caption{Distance of the evaluated result to the best combination, where "Best" is the accumulation of how often the circuit evaluated onto the best combination, "2nd" being the second best combination etc. The non-ML circuit is run on the simulator and uses the filtered evaluation.}
     \label{figure:noml_sim_distance}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!ht]
     \centering
-    \scalebox{0.8}{
+    \scalebox{\resultboxplot}{
         \includesvg{thesis/Appendices/comparison_noml_rhw_f_distance.svg}
     }
-    \caption{Caption}
+    \caption{Distance of the evaluated result to the best combination, where "Best" is the accumulation of how often the circuit evaluated onto the best combination, "2nd" being the second best combination etc. The non-ML circuit is run on real hardware and uses the filtered evaluation.}
     \label{figure:noml_rhw_dist}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!ht]
     \centering
-    \scalebox{0.8}{
+    \scalebox{\resultboxplot}{
         \includesvg{thesis/Appendices/comparison_ml_sim_distanec.svg}
     }
-    \caption{Caption}
+    \caption{Distance of the evaluated result to the best combination, where "Best" is the accumulation of how often the circuit evaluated onto the best combination, "2nd" being the second best combination etc. The ML circuit is run on the simulator and uses the filtered evaluation.}
     \label{figure:ml_sim_dist}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!ht]
     \centering
-    \scalebox{0.8}{
+    \scalebox{\resultboxplot}{
         \includesvg{thesis/Appendices/comparison_ml_rhw_distanec.svg}
     }
-    \caption{Caption}
+    \caption{Distance of the evaluated result to the best combination, where "Best" is the accumulation of how often the circuit evaluated onto the best combination, "2nd" being the second best combination etc. The ML circuit is run on real hardware and uses the filtered evaluation.}
     \label{figure:ml_rhw_dist}
+\end{figure}
+
+To further evaluate both circuits with new, unseen data, the runs are executed again using a newly generated problem space $\left|\mathcal{D}_{2\times2}\right| =\ 1000$.
+
+\begin{figure}[!ht]
+    \centering
+    \scalebox{\resultboxplot}{
+        \includesvg{thesis/Appendices/blind_run_noml_sim.svg}
+    }
+    \caption{Distance of the evaluated result to the best combination, where "Best" is the accumulation of how often the circuit evaluated onto the best combination, "2nd" being the second best combination etc. The ML circuit is run on real the simulator and uses the filtered evaluation.}
+    \label{figure:blind_noml_run_dist_sim}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \scalebox{\resultboxplot}{
+        \includesvg{thesis/Appendices/blind_run_noml_rhw.svg}
+    }
+    \caption{Distance of the evaluated result to the best combination, where "Best" is the accumulation of how often the circuit evaluated onto the best combination, "2nd" being the second best combination etc. The ML circuit is run on real hardware and uses the filtered evaluation.}
+    \label{figure:blind_noml_run_dist_rhw}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \scalebox{\resultboxplot}{
+        \includesvg{thesis/Appendices/blind_run_ml_sim.svg}
+    }
+    \caption{Distance of the evaluated result to the best combination, where "Best" is the accumulation of how often the circuit evaluated onto the best combination, "2nd" being the second best combination etc. The ML circuit is run on real the simulator and uses the filtered evaluation.}
+    \label{figure:blind_ml_run_dist_sim}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \scalebox{\resultboxplot}{
+        \includesvg{thesis/Appendices/blind_run_ml_rhw.svg}
+    }
+    \caption{Distance of the evaluated result to the best combination, where "Best" is the accumulation of how often the circuit evaluated onto the best combination, "2nd" being the second best combination etc. The ML circuit is run on real hardware and uses the filtered evaluation.}
+    \label{figure:blind_ml_run_dist_rhw}
 \end{figure}
 
 \newpage
