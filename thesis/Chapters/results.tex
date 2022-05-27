@@ -102,8 +102,18 @@ To further evaluate both circuits with new, unseen data, the runs are executed a
 \end{figure}
 
 \subsection{Advanced Problem Spaces}
+\label{chapter:results_advanced_problem_spaces}
+As shown in chapter \ref{chapter:approach_and_methods}, the original problem generator was enhanced to allow for any combination of plans to be solved. As shown in chapter \ref{chapter:results_mqo}, the non-ML circuit achieves a better accuracy than its ML counterpart, whilst only losing marginal accuracy when running on real hardware. Due to this and time constraints, these \emph{dynamic} runs are done solely on the simulator using filtered evaluation and the non-ML circuit. The problem spaces are dynamically generated and always of size $\left|\mathcal{D}\right| =\ 5000$. Figure \ref{figure:overview_dynamic_problems} shows a comparison of all evaluated problem spaces $\mathcal{D}$, whilst figures ?? to ?? show the distances of each run in detail.
 
-As shown in chapter \ref{chapter:approach_and_methods}, the original problem generator was enhanced to allow for any combination of plans to be solved. As shown in chapter \ref{chapter:results_mqo}, the non-ML circuit achieves a better accuracy than its ML counterpart, whilst only losing marginal accuracy when running on real hardware. Due to this and time constraints, these \emph{dynamic} runs are done solely on the simulator using filtered evaluation and the non-ML circuit.
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{\resultboxplot}{
+        \includesvg{thesis/Appendices/comparison_accuracy_dynamic_problems.svg}
+    }
+    \caption{Comparison of different problem spaces $\left|\mathcal{D}\right| =\ 5000$ solved on the non-ML circuit. The accuracy reflects how often the evaluation led to the best combination. The x-axis is annotated with the plans per query.}
+    \label{figure:overview_dynamic_problems}
+\end{figure}
 
 
 \section{Quantum Neural Network}
