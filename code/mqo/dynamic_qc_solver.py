@@ -122,14 +122,21 @@ def save_measurements_to_csv(name, measurements):
         for measurement in measurements:
             writer.writerow([measurement[a] for a in list(measurements[0].keys())])
 
+def save_for_graph(name, percentiles, n_queries, n_plans):
+    with open(name + 'results.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile, delimiter=';')
+        writer.writerow(percentiles)
+        writer.writerow([n_queries])
+        writer.writerow(n_plans)
+
 #### Data based functions
 def calculate_distance_percentiles(distances):
     total_count = sum(distances.values())
-    percentiles = []
-    for i in range(len(distances.keys())):
+    percentiles = np.zeros(len(distances))
+    for i in distances.keys():
         if i in distances:
             print('{:2.2%} percentile reached a distance of {} to the best solution'.format(distances[i]/total_count, i))
-        percentiles.append(distances[i]/total_count)
+        percentiles[i] = distances[i]/total_count
     return percentiles
     
 
@@ -321,6 +328,7 @@ def main(argv):
     save_run_info(args.name, args.queries, args.queryplans, args.size, args.shots, circuit, percentiles)
     save_problem_data_to_csv(args.name, problems, classical_solution_ranking)
     save_measurements_to_csv(args.name, results_copy)
+    save_for_graph(args.name, percentiles, args.size, args.queryplans)
     print('Finished execution.')
     print('---------------------------------------------------')
         
