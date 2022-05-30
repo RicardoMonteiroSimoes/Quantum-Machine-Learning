@@ -29,7 +29,7 @@
 
 %----------------------------------------------------------------------------------------
 \section{Quantum Computing}
-Classical computing consist of 1's and 0's and have for years shaped the computational world and progress. Quantum computing is, from afar, similar. We have \emph{qubits}, which are synonymous to classical \emph{bits}, but are fundamentally different. Whereas a bit can only exist in state 0 or 1, a qubit allows the usage of any state, be it 0, 1 or a mix of those. Such a mix is referred to as a \emph{superposition}\cite{gudder_superposition_1970}. The catch comes when we want to read the value it represents: one cannot directly know the probabilities of measuring 1 or 0 in a qubit, as demonstrated in figure \ref{figure:comparison_bit_qubit_measurement}.
+Classical computing consist of 1's and 0's and have for years shaped the computational world and progress. Quantum computing is, from afar, similar. We have \emph{qubits}, which are synonymous to classical \emph{bits}, but are fundamentally different. Whereas a bit can only exist in state 0 or 1, a qubit allows the usage of any state, be it 0, 1 or a mix of those. Such a mix is referred to as a \emph{superposition}\cite{gudder_superposition_1970}. The catch comes when one wants to read the value it represents: one cannot directly know the probabilities of measuring 1 or 0 in a qubit, as demonstrated in figure \ref{figure:comparison_bit_qubit_measurement}.
 
 \begin{figure}[!h]
     \centering
@@ -67,7 +67,7 @@ Classical computing consist of 1's and 0's and have for years shaped the computa
     \label{figure:comparison_bit_qubit_measurement}
 \end{figure}
 
-When measuring a quantum circuit, the qubit states collapse from super positions into the fixed position of 0 or 1. This means that to redo the measurement, the complete circuit has to be rebuilt. After doing multiple measurements on a qubit and collecting the results as shown in table \ref{table:example_counts}, this data can be used to construct a \emph{histogram}\cite{eckstein_lexikon_1994} akin to the one visualized in figure \ref{figure:example_histogram}, out of which one can retrieve the internal probabilities of 1 and 0.
+When measuring a quantum circuit, the qubit states collapse from super positions into the fixed position of 0 or 1. This means that to redo the measurement, the complete circuit has to be set up again. After doing multiple measurements on a qubit and collecting the results as shown in table \ref{table:example_counts}, this data can be used to construct a \emph{histogram}\cite{eckstein_lexikon_1994} akin to the one visualized in figure \ref{figure:example_histogram}, out of which one can retrieve the internal probabilities of 1 and 0.
 
 \begin{figure}[!h]
     \begin{subtable}{.5\textwidth}
@@ -593,7 +593,7 @@ If we change the problem space from two queries to more, or create an uneven num
 
 \section{Quantum Neural Network}
 
-The \textit{classic computational neuron} originally proposed by Rosenblatt F.\cite{rosenblatt_perceptron_1958} as seen in figure \ref{figure:classic_computational_neuron} builds the bases for most neural networks used today. The underlying principle is simple, all inputs $x_n$ are multiplied by a weight $w_n$ and the sum is calculated. The calculated sum is passed to an activation function $f(x)$, which is activated if a predefined threshold value is exceeded. The activation function $f(x)$, also called transfer function, can be selected from a plethora of valid choices\cite{szandala_review_2021}
+The \textit{classic computational neuron} originally proposed by Rosenblatt F.\cite{rosenblatt_perceptron_1958} as seen in figure \ref{figure:classic_computational_neuron} builds the bases for most classical neural networks used today. The underlying principle is simple as can be seen in equation \ref{equation:classical_neuron_computation}, all inputs $x_n$ are multiplied by a weight $w_n$, the calculated sum is then passed to an activation function $f(x)$ which is activated if a predefined threshold value is exceeded. The activation function $f(x)$, also called transfer function, can be selected from a plethora of valid choices\cite{szandala_review_2021}.
 
 \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
 \begin{figure}[h!]
@@ -647,7 +647,7 @@ The \textit{classic computational neuron} originally proposed by Rosenblatt F.\c
     % Text Node
     \draw (166,206.4) node [anchor=north west][inner sep=0.75pt]    {$w_{n}$};
     % Text Node
-    \draw (204,131.4) node [anchor=north west][inner sep=0.75pt]    {$f\left(\sum _{i=1}^{n} x_{i} w_{i} \ \right)$};
+    \draw (204,131.4) node [anchor=north west][inner sep=0.75pt]    {$f\left(\sum _{i=1}^{n} x_{i} w_{i} \right)$};
     % Text Node
     \draw (447,172) node [anchor=north west][inner sep=0.75pt]   [align=left] {Output};
     % Text Node
@@ -674,8 +674,77 @@ The \textit{classic computational neuron} originally proposed by Rosenblatt F.\c
     \label{equation:classical_neuron_computation}
 \end{equation}
 
+Rosenblatt’s perceptron is basically a single-layer neural network and is limited in its capabilities. To overcome the practical limitations we can use multiple perceptrons in a specific structure to build a so called multilayer perceptron as illustrated in figure \ref{figure:classic_multilayer_perceptron} \cite{haykin2009neural}.
+
+
+\begin{figure}[h!]
+    \centering
+    \scalebox{0.8}{
+        \begin{tikzpicture}[x=2.2cm,y=1.4cm]
+          \readlist\Nnod{4,3,3,2} % array of number of nodes per layer
+          \readlist\Nstr{n,m,m,m,k} % array of string number of nodes per layer
+          \readlist\Cstr{\strut x,a^{(\prev)},a^{(\prev)},a^{(\prev)},y} % array of coefficient symbol per layer
+          \def\yshift{0.5} % shift last node for dots
+          
+          \message{^^J  Layer}
+          \foreachitem \N \in \Nnod{ % loop over layers
+            \def\lay{\Ncnt} % alias of index of current layer
+            \pgfmathsetmacro\prev{int(\Ncnt-1)} % number of previous layer
+            \message{\lay,}
+            \foreach \i [evaluate={\c=int(\i==\N); \y=\N/2-\i-\c*\yshift;
+                         \index=(\i<\N?int(\i):"\Nstr[\lay]");
+                         \x=\lay; \n=\nstyle;}] in {1,...,\N}{ % loop over nodes
+              % NODES
+              \node[node \n] (N\lay-\i) at (\x,\y) {$\Cstr[\lay]_{\index}$};
+              
+              % CONNECTIONS
+              \ifnum\lay>1 % connect to previous layer
+                \foreach \j in {1,...,\Nnod[\prev]}{ % loop over nodes in previous layer
+                  \draw[connect,white,line width=1.2] (N\prev-\j) -- (N\lay-\i);
+                  \draw[connect] (N\prev-\j) -- (N\lay-\i);
+                  %\draw[connect] (N\prev-\j.0) -- (N\lay-\i.180); % connect to left
+                }
+              \fi % else: nothing to connect first layer
+              
+            }
+            \path (N\lay-\N) --++ (0,1+\yshift) node[midway,scale=1.5] {$\vdots$};
+          }
+          
+          % LABELS
+          % \node[above=5,align=center,mygreen!60!black] at (N1-1.90) {input\\[-0.2em]layer};
+          % \node[above=2,align=center,myblue!60!black] at (N3-1.90) {hidden layers};
+          % \node[above=10,align=center,myred!60!black] at (N\Nnodlen-1.90) {output\\[-0.2em]layer};
+          
+        \end{tikzpicture}
+    }
+    \caption{Classical multilayer perceptron artificial neural network example illustration. From left to right: Input layer in green, two hidden layers in blue and the output layer in red.}
+    \label{figure:classic_multilayer_perceptron}
+\end{figure}
+
 \vspace{2em}
-The quantum analogue of a classical neuron is called a quantum neuron also referred to as \textit{quron} as proposed by Maria Schuld et al. in their paper called "The quest for a Quantum Neural Network"\cite{schuldQuestQuantumNeural2014a}. ...
+The quantum analogue of a classical neuron is called a quantum neuron also referred to as \textit{quron} as proposed by Maria Schuld et al. in their paper called \textit{"The quest for a Quantum Neural Network"}\cite{schuldQuestQuantumNeural2014a}. The classical perceptron cannot be implemented one-to-one as a \textit{quron} because of the nature of quantum computations thus the strategy is to implement a quantum algorithm that reproduces the functionalities of classical perceptrons. Following this strategy, a classical perceptron can be implemented as a quantum circuit in several ways. Currently known implementations are namely \textit{QFT-based perceptron}\cite{SchuldSimulatingAPerceptron_2015}, \textit{Repeat Until Success circuits}\cite{QuantumNeuronAnElementaryBuildingBlock,Torrontegui_2019}, \textit{Non-linearity from measurement}\cite{tacchinoArtificialNeuronImplemented2019} among others\cite{AltaiskyQuantumNeuralNetwork,DesignOfQuantumNeuronModel} serving different computation use cases.
+
+Just as a classical perceptron can be implemented in many different ways to reproduce its functionality, so are the implementations and interpretations of quantum neural networks\cite{Mangini_2021,Mitarai_2018,ClassificationWithQNN,QNNConceptsApplicationsChallenges,Killoran_2019}. It is not yet exactly clear what a classical neural network looks like as a quantum neural network and there are various approaches and different views on which classical part corresponds to which quantum analog or if every step in a classical neural network could or should have its quantum counterpart\cite{OnQuantumNeuralNetworks,Ezhov2000,schuldQuestQuantumNeural2014a}. Another paper by Schuld et al. states that a quantum circuit does closely resembles a neural network architecture with unitary layers\cite{schuldCircuitcentricQuantumClassifiers2020} and Abbas et al. states that Quantum neural networks are a subclass of \textit{Variational Quantum Algorithm (VQA)}, comprising of quantum circuits that contain parameterised gate operations\cite{Abbas_2021,schuldCircuitcentricQuantumClassifiers2020}. Furthermore \textit{Variational Quantum Algorithms} consisting of \textit{parametrized quantum circuit (PQC)} also known as \textit{variational quantum circuit (VQC)} are especially promising when it comes to supervised classification problems running on Noisy Intermediate-Scale Quantum (NISQ) computers which we will examine closer in the next subsection \ref{subsection:vqa_fundamentals}.
+
+\subsection{Variational Quantum Algorithm (VQA)}
+\label{subsection:vqa_fundamentals}
+\textit{Variational Quantum Algorithms} provide a framework based on basic building blocks to solve a variety of problems and follow a specific structure. They usually accommodate at least one kind of \textit{variational quantum circuit}. According to Cerezo et al. are VQAs arguably the quantum analog of highly successful machine-learning methods, such as neural networks. Moreover, VQAs leverage the toolbox of classical optimization, since they use \textit{variational quantum circuits} to be run on the quantum computer, and then outsource the parameter optimization to a classical optimizer\cite{Cerezo_2021}. 
+
+\begin{figure}
+    \centering
+    \scalebox{0.8}{
+		\Qcircuit @C=1.4em @R=.8em {
+            \lstick{\ket{0}} & \multigate{3}{Feature\ Map} & \multigate{3}{Variational\ Model} & \meter \\
+            \lstick{\ket{0}} & \ghost{Feature\ Map} & \ghost{Variational\ Model} & \meter \\
+            \vdots           & \nghost{Feature\ Map} & \nghost{Variational\ Model} & \vdots \\
+            \lstick{\ket{0}} & \ghost{Feature\ Map} & \ghost{Variational\ Model} & \meter \\
+            & & & \\
+	    }
+    }
+    \caption{General scheme of a \textit{variational quantum circuit}. The bases state is initialized with $\ket{0}$, followed by the feature 
+    embedding (feature map) then continued by a variational model witch incorporates trainable parameters, finally ending with measurements on each qubit.} 
+    \label{fig:general_scheme_vqc}
+\end{figure}
 
 
 \subsection{Quantum Support Vector Machine (SVM)}
