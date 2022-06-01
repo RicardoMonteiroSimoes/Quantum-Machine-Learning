@@ -700,45 +700,35 @@ Another crutial preprocessing step is to map the targets to integer values start
 
 \clearpage
 
-\subsection{Hybrid Classical-Quantum Algorithm}
-Hybrid classical-quantum algorithms utilizes both classical and quantum computers. Frankhauser et al. \cite{fankhauser_multiple_2021} states that these types of algorithms are considered promising since they can better handle erroneous, small-scale quantum devices than "pure" quantum algorithms.
-For our supervised training runs to optimize the weights for the Quantum Circuits we use a hybrid classical-quantum algorithm. The algorithm only performs the feature and weight embeddings and the calculation including measurements for classification in a quantum circuit, see figure \ref{fig:schematic_hybrid_classical_quantum}. The actual classification and the weight optimizations as well as the loss and accuracy calculations is done with classical methods. 
-
-\begin{figure}[!h]
-    \centering
-    \scalebox{0.88}{
-        \begin{tikzpicture}[
-          roundnode/.style={circle, draw=black!60, fill=white!5, thick, minimum size=7mm},
-          squarednode/.style={rectangle, draw=black!60, fill=white!5, thick, minimum size=10mm},
-          optimizernode/.style={rectangle, draw=black!60, fill=white!5, thick, minimum size=25mm},
-          quantumcircuit/.style={draw=blue, minimum height=3.5cm, minimum width=10cm, fill=white!5, label=below:{\color{blue}variational quantum\ circuit}},
-        ]
-            %Nodes
-            \node[roundnode]        (dataset)        {Data};
-            \node[squarednode]      (preprocess)     [right=of dataset] {Preprocessing};
-            \node                   (point1)         [below=of preprocess] {};
-            \node[quantumcircuit]   (quantumcircuit) [below right=of dataset]  {
-                \Qcircuit @C=1em @R=.7em {
-                    \lstick{\ket{0}} & \multigate{3}{feature\ embedding} & \multigate{3}{model\ circuit} & \meter & \cw \\
-                    \lstick{\ket{0}} & \ghost{feature\ embedding} & \ghost{model\ circuit} & \meter & \cw \\
-                    \cdots & \nghost{feature\ embedding} & \nghost{model\ circuit} & \cdots &  \\
-                    \lstick{\ket{0}} & \ghost{feature\ embedding} & \ghost{model\ circuit} & \meter & \cw \gategroup{1}{5}{4}{5}{1.5em}{\}}
-                }
-            };
-            \node[optimizernode]      (optimizer)     [right=of quantumcircuit] {Optimizer};
-            % Lines
-            \draw[->] (dataset.east) -- (preprocess.west);
-            \draw[->] (quantumcircuit.east) -- (optimizer.west);
-            \draw [->] (preprocess.south) -- ++(0,-.6) -- ++(+1.3,0) -| ++(0,-0.6);
-            \draw [->] (optimizer.north) -- ++(0,+1.25) -- ++(-6.15,0) node[auto,midway,above] {weight updates} -| ++(0,-1);
-        \end{tikzpicture}
-    }
-    \caption{Schematic view of the hybrid classical-quantum algorithm. Everything outside the quantum circuit in blue is done with classical methods.}
-    \label{fig:schematic_hybrid_classical_quantum}
-\end{figure}
+\subsection{Variational Quantum Algorithm} 
+The general goal we need to address is to classify the datapoints from our datasets to match the corresponding label. We can achieve this by using supervised learning and train our VQC parameters to which we will refere to as weights. For our supervised training runs to optimize the weights we use a VQA based hybrid classical-quantum approach as formerly described in subsection \ref{subsection:vqa_fundamentals}. 
 
 \todo{refer to figure in text, may also use pseudo code here}
 A brief explanation to figure \ref{fig:schematic_hybrid_classical_quantum}. The data loading and preprocessing is only done once in the beginning. After the data loading and preprocessing has finished, for each training iteration a \textit{quantum circuit} will be constructed bound with the next input feature set and initial weights. The circuit is then executed and the measured counts evaluated by the \code{parity} function - shown in code listing \ref{listing:parity_function} - to predict the \textit{label}. The predicted \textit{label} is the then compared with its true \textit{label}. These informations and the weights are given to the optimizer which calculates an new optimized set of weights. Finally a new iteration begins.
+
+\todo{Explain aaaaaallllll the things!}
+
+\begin{listing}[!ht]
+    \begin{minted}{python}
+    ...
+    quantum_instance = QuantumInstance(q_simulator, shots=1024)
+
+    circuit_qnn = CircuitQNN(circuit=circuit,
+                             input_params=circuit.parameters[-n_features:],
+                             weight_params=circuit.parameters[:-n_features],
+                             interpret=parity,
+                             output_shape=output_shape,
+                             quantum_instance=quantum_instance)
+
+    # construct classifier
+    return NeuralNetworkClassifier(neural_network=circuit_qnn,
+                                   callback=callback,
+                                   optimizer=optimizer[0])
+    ...
+    \end{minted}
+    \caption{Some Snake code.}
+    \label{listing:qnn_network_classifier_python}
+\end{listing}
 
 
 \todo{Why use the parity function? explain the problem}
@@ -750,7 +740,6 @@ A brief explanation to figure \ref{fig:schematic_hybrid_classical_quantum}. The 
     \caption{The \code{parity} function to determine the label of a quantum circuit measurement in Python code.}
     \label{listing:parity_function}
 \end{listing}
-
 
 \begin{listing}[!ht]
     \begin{minted}[breaklines]{python}
@@ -783,41 +772,80 @@ A brief explanation to figure \ref{fig:schematic_hybrid_classical_quantum}. The 
     \label{figure:parity_function_example_histogram}
 \end{figure}
 
+% QNN OPTIMIZERS
+\subsection{Optimizers}
+We selected four optimizers, mainly to compare the behavior between the simulation runs and the runs on real quantum computers. As mentioned above, Pellow-Jarman et al. had a strong influence on the selection. \code{ADAM AMSGrad}, \code{SPSA} and a flavour of \code{BFGS} were therefore selected in addition to \code{COBYLA}. \code{COBYLA} is known to be very fast and has good performance mainly in simulator runs. 
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{rl}
+    \hline
+    \textbf{Optimizer}      & \textbf{Parameters}                                      \\ \hline
+    ADAM AMSGrad\tablefootnote{\url{https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.ADAM.html#qiskit.algorithms.optimizers.ADAM}} & \mintinline{python}{maxiter=1000,amsgrad=True}  \\ \hline
+    COBYLA\tablefootnote{\url{https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.COBYLA.html#qiskit.algorithms.optimizers.COBYLA}} & \mintinline{python}{maxiter=1000}               \\ \hline
+    BFGS\tablefootnote{\url{https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.L_BFGS_B.html#qiskit.algorithms.optimizers.L_BFGS_B}} & \mintinline{python}{maxiter=1500}               \\ \hline
+    SPSA\tablefootnote{\url{https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.SPSA.html#qiskit.algorithms.optimizers.SPSA}} & \mintinline{python}{maxiter=100}                \\ \hline
+    \end{tabular}
+    \caption{Table containing all optimizers and the corresponding parameters used in the QNN experiments.}
+    \label{table:qnn_optimizers_and_ parameters}
+\end{table}
+
+
+
 \clearpage
 
 \subsection{Circuit Design}
 The general scheme for our quantum circuits - shown in figure \ref{figure:general_schematics_quantum_circuits_qnn} - starts with \textit{feature embedding}, followed by at least one up to $n$ layers. Finally a measurement on all qubits follows. Each quantum circuit is automatically generated using a predefined scripted template. The number of layers and input features must be passed to the template which generates the final quantum circuit. The Qubit count is determined by the first given feature set length but the number is limited to five. We set ourselves a upper limit of 5 Qubits for our experiments, please see subsection \ref{subsection:limitations_and_shortcomings} for more information about this limitation.
 
 \begin{figure}[!h]
-	\centering
-	\scalebox{1.0}{
+
+\end{figure}
+
+
+\begin{figure}[!ht]
+    \centering
+    \begin{subfigure}{1.0\textwidth}
+        \centering
+	    \scalebox{1.0}{
         \Qcircuit @C=1.4em @R=0.8em {
-            \lstick{\ket{0}} & \multigate{3}{\mathcal{U}_x\ket{0}^{\otimes S} &=\ \ket{\psi_x}} & \multigate{3}{\mathcal{G}_\theta\ket{\psi_x} &=\ \ket{g_\theta(x)}} & \meter & \rstick{z_0} \\
-            \lstick{\ket{0}} & \ghost{\mathcal{U}_x\ket{0}^{\otimes S} &=\ \ket{\psi_x}}        & \ghost{\mathcal{G}_\theta\ket{\psi_x} &=\ \ket{g_\theta(x)}}        & \meter & \rstick{z_1} \\
-            \cdots           & \nghost{\mathcal{U}_x\ket{0}^{\otimes S} &=\ \ket{\psi_x}}       & \nghost{\mathcal{G}_\theta\ket{\psi_x} &=\ \ket{g_\theta(x)}}       & \cdots &  \cdots \\
-            \lstick{\ket{0}} & \ghost{\mathcal{U}_x\ket{0}^{\otimes S} &=\ \ket{\psi_x}}        & \ghost{\mathcal{G}_\theta\ket{\psi_x} &=\ \ket{g_\theta(x)}}        & \meter & \rstick{z_S} \\
-            & & & & \\
-            & & & & \\
-            & \mbox{feature map} & \mbox{variational model} & & \mbox{measurement} \\
-            & & & & \\
-            \lstick{x\rightarrow} & \mbox{$\mathcal{U}_x$} & \mbox{$\mathcal{G}_\theta$} & & \mbox{$f(z)=y\rightarrow$} \\
-            & & & & \\
-        }
-%		\Qcircuit @C=1em @R=.7em {
-%		                     &                                                    &     &                                          &        &        & & \mbox{{\tiny optional $n$ layers}}           &     &        & & \\
-%			\lstick{\ket{0}} & \multigate{3}{feature\ embedding} \barrier[0em]{3} & \qw & \multigate{3}{layer\ 0} \barrier[0em]{3} & \qw    & \cdots & & \multigate{3}{layer\ n} \barrier[0em]{3} & \qw & \cdots & & \meter \\
-%			\lstick{\ket{0}} & \ghost{feature\ embedding}                         & \qw & \ghost{layer\ 0}                         & \qw    & \cdots & & \ghost{layer\ n}                         & \qw & \cdots & & \meter \\
-%			\cdots           & \nghost{feature\ embedding}                        &     & \nghost{layer\ 0}                        &        & \cdots & & \nghost{layer\ n}                        &     & \cdots & & \cdots \\
-%			\lstick{\ket{0}} & \ghost{feature\ embedding}                         & \qw & \ghost{layer\ 0}                         & \qw    & \cdots & & \ghost{layer\ n}                         & \qw & \cdots & & \meter \gategroup{2}{8}{5}{9}{.7em}{.} \\
-%	    }
-	}
-	\caption{General schematics of the quantum circuits used in the QNN experiments.}
-	\label{figure:general_schematics_quantum_circuits_qnn}
+                \lstick{\ket{0}} & \multigate{3}{\mathcal{U}_x\ket{0}^{\otimes S} &=\ \ket{\psi_x}} & \multigate{3}{\mathcal{G}_\theta\ket{\psi_x} &=\ \ket{g_\theta(x)}} & \meter & \rstick{z_0} \\
+                \lstick{\ket{0}} & \ghost{\mathcal{U}_x\ket{0}^{\otimes S} &=\ \ket{\psi_x}}        & \ghost{\mathcal{G}_\theta\ket{\psi_x} &=\ \ket{g_\theta(x)}}        & \meter & \rstick{z_1} \\
+                \vdots           & \nghost{\mathcal{U}_x\ket{0}^{\otimes S} &=\ \ket{\psi_x}}       & \nghost{\mathcal{G}_\theta\ket{\psi_x} &=\ \ket{g_\theta(x)}}       &  &  \vdots \\
+                \lstick{\ket{0}} & \ghost{\mathcal{U}_x\ket{0}^{\otimes S} &=\ \ket{\psi_x}}        & \ghost{\mathcal{G}_\theta\ket{\psi_x} &=\ \ket{g_\theta(x)}}        & \meter & \rstick{z_S} \\
+                & & & & \\
+                & & & & \\
+                & \mbox{feature map} & \mbox{variational model} & & \mbox{measurement} \\
+                & & & & \\
+                \lstick{x\rightarrow} & \mbox{$\mathcal{U}_x$} & \mbox{$\mathcal{G}_\theta$} & & \mbox{$f(z)=y\rightarrow$} \\
+                & & & & \\
+            }
+    	}
+        \subcaption{General schematics of the quantum circuits used in the QNN experiments.}
+    	\label{subfigure:general_schematics_quantum_circuits_qnn}
+    \end{subfigure}
+    \\[3em]
+    \begin{subfigure}{1.0\textwidth}
+        \centering
+	    \scalebox{1.0}{
+            \Qcircuit @C=1.4em @R=.8em {
+            & & & & & & & \mbox{{\small optional $n$ layers}} & & & & \\
+            \lstick{\ket{0}} & \multigate{3}{embedding\ \mathcal{U}_x} \barrier[0em]{3} & \qw & \multigate{3}{layer\ 0} \barrier[0em]{3} & \qw    & \cdots & & \multigate{3}{layer\ n} \barrier[0em]{3} & \qw & \cdots & & \meter \\
+            \lstick{\ket{0}} & \ghost{embedding\ \mathcal{U}_x}                         & \qw & \ghost{layer\ 0}                         & \qw    & \cdots & & \ghost{layer\ n}                         & \qw & \cdots & & \meter \\
+            \vdots           & \nghost{embedding\ \mathcal{U}_x}                        &     & \nghost{layer\ 0}                        &        & \cdots & & \nghost{layer\ n}                        &     & \cdots & & \vdots \\
+            \lstick{\ket{0}} & \ghost{embedding\ \mathcal{U}_x}                         & \qw & \ghost{layer\ 0}                         & \qw    & \cdots & & \ghost{layer\ n}                         & \qw & \cdots & & \meter \gategroup{2}{8}{5}{9}{.7em}{.} \\
+            & & & & & & & & & & & \\
+            }
+    	}
+        \subcaption{The variational model repeats itself in a certain pattern which can thus be considered pseudo layers}
+    	\label{subfigure:general_pseudo_layer_schematics_quantum_circuits_qnn}
+    \end{subfigure}
+    \caption{Hello hello}
+    \label{fig:general_schematics_quantum_circuits_qnn}
 \end{figure}
 
 
 \subsubsection{Feature \& Weights Embedding}
- All the features from our datasets are \textit{classical} data and they need to be encoded into the physical states of a quantum system. To do so, we chose angle embedding among a multitude of other embedding techniques. \todo{Why angle embedding?}
+ All the features from our datasets are \textit{classical} data and they need to be encoded into the physical states of a quantum system. To do so, we chose angle embedding among a multitude of other embedding techniques\cite{schuld_SQMLmodelsAreKernelMethods}. \todo{Why angle embedding?}
 
 \subsection{Quantum Circuits}
 \label{subsection:qnn_quantum_circuits}
