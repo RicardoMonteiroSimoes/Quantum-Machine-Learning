@@ -4,6 +4,7 @@ from qiskit.circuit import Parameter
 from qiskit.visualization import plot_histogram
 from qiskit.providers.aer import QasmSimulator
 from qiskit.visualization import plot_histogram
+from qiskit.tools.visualization import circuit_drawer
 
 import numpy as np
 import math
@@ -291,6 +292,7 @@ def parse_args(argv):
     parser.add_argument('-c', '--circuit', help="Design the circuit using chars. h -> uncertainity, c -> cost, s -> savings, b -> blocking savings, x -> rx layer", default="hcsx")
     parser.add_argument('-pc', '--printcircuit', help="Prints the circuit in the console", action="store_true")
     parser.add_argument('-xw', '--xweight', help="Set the weight of the x layer", type=float, default=np.pi/4)
+    parser.add_argument('-pl', '--printlatex', help="Prints latex code into the CLI", action="store_true")
     return parser.parse_args(argv)
 
 def main(argv):
@@ -314,6 +316,8 @@ def main(argv):
     circuit = create_circuit(problems[0], args.circuit, args.xweight)
     if args.printcircuit:
         print(circuit)
+    if args.printlatex:
+        print(circuit_drawer(circuit, output="latex_source"))
     print('Running circuit')
     results, results_copy = run_circuits(problems_scaled, circuit.copy(), args.shots)
     print('Parsing results')
