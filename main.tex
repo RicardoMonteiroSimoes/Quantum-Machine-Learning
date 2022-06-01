@@ -170,7 +170,7 @@ bottom=1.5cm, % Bottom margin
 \supervisor{Prof. Dr. Kurt \textsc{Stockinger} \\ Prof. Dr. Rudolf Marcel \textsc{Füchslin}} % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
 \examiner{} % Your examiner's name, this is not currently used anywhere in the template, print it elsewhere with \examname
 \degree{Bachelor Thesis} % Your degree name (Doctor of Philosophy or Master of Science), this is used in the title page and abstract, print it elsewhere with \degreename
-\author{Ricardo Daniel \textsc{Monteiro Simões},  Patrick \textsc{Huber}}
+\author{Ricardo Daniel \textsc{Monteiro Simões}\\  Patrick \textsc{Huber}}
 \addresses{} % Your address, this is not currently used anywhere in the template, print it elsewhere with \addressname
 
 \keywords{} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywordnames
@@ -191,6 +191,13 @@ bottom=1.5cm, % Bottom margin
 \frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
 
 \pagestyle{plain} % Default to the plain heading style until the thesis style is called for the body content
+
+
+%----------------------------------------------------------------------------------------
+%	OFFICIAL ZHAW TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\include{Appendices/DeclarationOfOriginalityZHAW}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -247,10 +254,36 @@ bottom=1.5cm, % Bottom margin
 
 \cleardoublepage
 
-\todo{change to correct one for BA}
-\include{Appendices/DeclarationOfOriginalityZHAW}
+\begin{declaration}
+\addchaptertocentry{\authorshipname} % Add the declaration to the table of contents
+\textbf{Bachelor's Thesis at the School of Engineering}
+
+By submitting this Bachelor’s thesis, the undersigned student confirms that this thesis is his/her own work and was written without the help of a third party. (Group works: the performance of the other group members are not considered as third party).
+
+The student declares that all sources in the text (including Internet pages) and appendices have been correctly disclosed. This means that there has been no plagiarism, i.e. no sections of the Bachelor thesis have been partially or wholly taken from other texts and represented as the student’s own work or included without being correctly referenced.
+
+Any misconduct will be dealt with according to paragraphs 39 and 40 of the General Academic Regulations for Bachelor’s and Master’s Degree courses at the Zurich University of Applied Sciences (Rahmenprüfungsordnung ZHAW (RPO)) and subject to the provisions for disciplinary action stipulated in the University regulations.
+
+\vspace{3.5cm}
+
+\begin{minipage}[t]{0.4\textwidth}
+\begin{flushleft} \large
+\textbf{City, Date:}\\
+09. June 2022
+\end{flushleft}
+\end{minipage}
+\begin{minipage}[t]{0.5\textwidth}
+\begin{flushright} \large
+\textbf{Name Student:} \\
+\authorname
+\end{flushright}
+\end{minipage}\\[3cm]
+
+
+\end{declaration}
 
 \cleardoublepage
+
 
 %----------------------------------------------------------------------------------------
 %	QUOTATION PAGE
