@@ -101,9 +101,11 @@ To further evaluate both circuits with new, unseen data, the runs are executed a
     \label{figure:blind_run_ml_circuit_p_acc}
 \end{figure}
 
+\newpage
+
 \subsection{Advanced Problem Spaces}
 \label{chapter:results_advanced_problem_spaces}
-As shown in chapter \ref{chapter:approach_and_methods}, the original problem generator was enhanced to allow for any combination of plans to be solved. As shown in chapter \ref{chapter:results_mqo}, the non-ML circuit achieves a better accuracy than its ML counterpart, whilst only losing marginal accuracy when running on real hardware. Due to this and time constraints, these \emph{dynamic} runs are done solely on the simulator using filtered evaluation and the non-ML circuit. The problem spaces are dynamically generated and always of size $\left|\mathcal{D}\right| =\ 5000$. Figure \ref{figure:overview_dynamic_problems} shows a comparison of all evaluated problem spaces $\mathcal{D}$, whilst figures ?? to ?? show the distances of each run in detail.
+As shown in chapter \ref{chapter:approach_and_methods}, the original problem generator was enhanced to allow for any combination of plans to be solved. As shown in chapter \ref{chapter:results_mqo}, the non-ML circuit achieves a better accuracy than its ML counterpart, whilst only losing marginal accuracy when running on real hardware. Due to this and time constraints, these \emph{dynamic} runs are done solely on the simulator using filtered evaluation and the non-ML circuit. The problem spaces are dynamically generated and always of size $\left|\mathcal{D}\right| =\ 5000$. Figure \ref{figure:overview_dynamic_problems} shows a comparison of all evaluated problem spaces $\mathcal{D}$, whilst figures \ref{figure:overview_dynamic_problems} to \ref{figure:bars_dist_3_3_3} show the distances of each run in detail.
 
 
 \begin{figure}[!h]
@@ -115,10 +117,127 @@ As shown in chapter \ref{chapter:approach_and_methods}, the original problem gen
     \label{figure:overview_dynamic_problems}
 \end{figure}
 
+\begin{figure}[!h]
+    \centering
+    \scalebox{\resultboxplot}{
+        \includesvg{thesis/Appendices/dynamic_problem_2_q_['2', '3']_p_dist.svg}
+    }
+    \caption{Distance of the evaluated result to the best combination, where "0" is the accumulation of how often the circuit evaluated onto the best combination, "1" being the second best combination etc. The non-ML circuit is run on the simulator and uses the filtered evaluation. The problem space $\mathcal{D}$ consists of 2 queries with one query having 2 and one 3 plans.}
+    \label{figure:bars_dist_2_3}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{\resultboxplot}{
+        \includesvg{thesis/Appendices/dynamic_problem_2_q_['3', '2']_p_dist.svg}
+    }
+    \caption{Distance of the evaluated result to the best combination, where "0" is the accumulation of how often the circuit evaluated onto the best combination, "1" being the second best combination etc. The non-ML circuit is run on the simulator and uses the filtered evaluation. The problem space $\mathcal{D}$ consists of 2 queries with one query having 3 and one 2 plans.}
+    \label{figure:bars_dist_3_2}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{\resultboxplot}{
+        \includesvg{thesis/Appendices/dynamic_problem_2_q_['3', '3']_p_dist.svg}
+    }
+    \caption{Distance of the evaluated result to the best combination, where "0" is the accumulation of how often the circuit evaluated onto the best combination, "1" being the second best combination etc. The non-ML circuit is run on the simulator and uses the filtered evaluation. The problem space $\mathcal{D}$ consists of 2 queries with both having 3 plans.}
+    \label{figure:bars_dist_3_3}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \scalebox{\resultboxplot}{
+        \includesvg{thesis/Appendices/dynamic_problem_2_q_['4', '2']_p_dist.svg}
+    }
+    \caption{Distance of the evaluated result to the best combination, where "0" is the accumulation of how often the circuit evaluated onto the best combination, "1" being the second best combination etc. The non-ML circuit is run on the simulator and uses the filtered evaluation. The problem space $\mathcal{D}$ consists of 2 queries with one query having 4 and one 2 plans.}
+    \label{figure:bars_dist_4_2}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{\resultboxplot}{
+        \includesvg{thesis/Appendices/dynamic_problem_2_q_['4', '3']_p_dist.svg}
+    }
+    \caption{Distance of the evaluated result to the best combination, where "0" is the accumulation of how often the circuit evaluated onto the best combination, "1" being the second best combination etc. The non-ML circuit is run on the simulator and uses the filtered evaluation. The problem space $\mathcal{D}$ consists of 2 queries with one query having 4 and one 3 plans.}
+    \label{figure:bars_dist_4_3}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{\resultboxplot}{
+        \includesvg{thesis/Appendices/dynamic_problem_2_q_['4', '4']_p_dist.svg}
+    }
+    \caption{Distance of the evaluated result to the best combination, where "0" is the accumulation of how often the circuit evaluated onto the best combination, "1" being the second best combination etc. The non-ML circuit is run on the simulator and uses the filtered evaluation. The problem space $\mathcal{D}$ consists of 2 queries with both having 4 plans.}
+    \label{figure:bars_dist_4_4}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{\resultboxplot}{
+        \includesvg{thesis/Appendices/dynamic_problem_3_q_['2', '2', '2']_p_dist.svg}
+    }
+    \caption{Distance of the evaluated result to the best combination, where "0" is the accumulation of how often the circuit evaluated onto the best combination, "1" being the second best combination etc. The non-ML circuit is run on the simulator and uses the filtered evaluation. The problem space $\mathcal{D}$ consists of 3 queries with each having 2 plans.}
+    \label{figure:bars_dist_2_2_2}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{\resultboxplot}{
+        \includesvg{thesis/Appendices/dynamic_problem_3_q_['2', '3', '2']_p_dist.svg}
+    }
+    \caption{Distance of the evaluated result to the best combination, where "0" is the accumulation of how often the circuit evaluated onto the best combination, "1" being the second best combination etc. The non-ML circuit is run on the simulator and uses the filtered evaluation. The problem space $\mathcal{D}$ consists of 3 queries with two having 2 plans and one 3 plans.}
+    \label{figure:bars_dist_2_3_2}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{\resultboxplot}{
+        \includesvg{thesis/Appendices/dynamic_problem_3_q_['3', '2', '3']_p_dist.svg}
+    }
+    \caption{Distance of the evaluated result to the best combination, where "0" is the accumulation of how often the circuit evaluated onto the best combination, "1" being the second best combination etc. The non-ML circuit is run on the simulator and uses the filtered evaluation. The problem space $\mathcal{D}$ consists of 3 queries with two having 3 plans and one 2 plans.}
+    \label{figure:bars_dist_3_2_3}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{\resultboxplot}{
+        \includesvg{thesis/Appendices/dynamic_problem_3_q_['3', '3', '3']_p_dist.svg}
+    }
+    \caption{Distance of the evaluated result to the best combination, where "0" is the accumulation of how often the circuit evaluated onto the best combination, "1" being the second best combination etc. The non-ML circuit is run on the simulator and uses the filtered evaluation. The problem space $\mathcal{D}$ consists of 3 queries with each having 3 plans.}
+    \label{figure:bars_dist_3_3_3}
+\end{figure}
+
+\begin{sidewaysfigure}
+    \centering
+    \scalebox{1.0}{
+\Qcircuit @C=1.0em @R=0.2em @!R { \\
+                \nghost{{q}_{0} :  } & \lstick{{q}_{0} :  } & \gate{\mathrm{H}} \barrier[0em]{4} & \qw & \gate{\mathrm{R_Y}\,(\mathrm{-1.0*c0})} \barrier[0em]{4} & \qw & \ctrl{3} & \ctrl{4} & \qw & \qw & \qw & \qw \barrier[0em]{4} & \qw & \gate{\mathrm{R_X}\,(\frac{\pi}{4})} \barrier[0em]{4} & \qw & \qw & \qw\\
+                \nghost{{q}_{1} :  } & \lstick{{q}_{1} :  } & \gate{\mathrm{H}} & \qw & \gate{\mathrm{R_Y}\,(\mathrm{-1.0*c1})} & \qw & \qw & \qw & \ctrl{2} & \ctrl{3} & \qw & \qw & \qw & \gate{\mathrm{R_X}\,(\frac{\pi}{4})} & \qw & \qw & \qw\\
+                \nghost{{q}_{2} :  } & \lstick{{q}_{2} :  } & \gate{\mathrm{H}} & \qw & \gate{\mathrm{R_Y}\,(\mathrm{-1.0*c2})} & \qw & \qw & \qw & \qw & \qw & \ctrl{1} & \ctrl{2} & \qw & \gate{\mathrm{R_X}\,(\frac{\pi}{4})} & \qw & \qw & \qw\\
+                \nghost{{q}_{3} :  } & \lstick{{q}_{3} :  } & \gate{\mathrm{H}} & \qw & \gate{\mathrm{R_Y}\,(\mathrm{-1.0*c3})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s03})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s13})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s23})} & \qw & \qw & \gate{\mathrm{R_X}\,(\frac{\pi}{4})} & \qw & \qw & \qw\\
+                \nghost{{q}_{4} :  } & \lstick{{q}_{4} :  } & \gate{\mathrm{H}} & \qw & \gate{\mathrm{R_Y}\,(\mathrm{-1.0*c4})} & \qw & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s04})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s14})} & \qw & \gate{\mathrm{R_Z}\,(\mathrm{s24})} & \qw & \gate{\mathrm{R_X}\,(\frac{\pi}{4})} & \qw & \qw & \qw\\
+\\ }}
+    \caption{Non-ML circuit dynamically generated for the problem space $\mathcal{D}$ with 2 queries, where one has 3 plans and the other 2 plans. This circuit evaluated and produces the results shown in figure \ref{figure:bars_dist_3_2}}
+    \label{circuit:noml_dyn_problem}
+\end{sidewaysfigure}
+
+\newpage
 
 \section{Quantum Neural Network}
+\label{chapter:results_qnn}
+All of the datasets mentioned in \ref{subsection:qnn_datasets_and_acqusition} have been trained, then evaluated on the remote general-purpose simulator \textit{ibmq\_qasm\_simulator} and on a real quantum system. The real quantum system named \textit{ibmq\_manila} uses the \code{Falcon} processor family in revision \code{r5.11} and with segment \code{L}.
+
+\begin{itemize}
+    \item \textbf{Family:} refers to the chip architecture. 
+    \item \textbf{Revisions:} are design variants within a given family. 
+    \item \textbf{Segment:} differentiates processors comprising different sub-sections of a larger chip.
+\end{itemize}
+
 
 \subsection{Evaluation On Simulator}
+For evaluation we chose the weights from the best training run having the highest accuracy for each VQC and dataset. 
+
+\textbf{Simulator:} General-purpose simulator \textit{ibmq\_qasm\_simulator}\footnote{\url{https://quantum-computing.ibm.com/services/docs/services/manage/simulator/#qasm}}.
 
 \begin{table}[!h]
 	\centering
@@ -174,6 +293,7 @@ As shown in chapter \ref{chapter:approach_and_methods}, the original problem gen
 
 
 \subsection{Evaluation On Real Hardware}
+Quantum system: \textit{ibmq\_manila} IBM Quantum Falcon\footnote{\url{https://quantum-computing.ibm.com/services/docs/services/manage/systems/processors#falcon}} Processors.
 
 \begin{table}[!h]
 	\centering
@@ -229,6 +349,7 @@ As shown in chapter \ref{chapter:approach_and_methods}, the original problem gen
 
 \subsection{Comparison}
 
+
 \begin{table}[!h]
 	\centering
 	\begin{tabular}{rccc}
@@ -244,9 +365,51 @@ As shown in chapter \ref{chapter:approach_and_methods}, the original problem gen
 		\textbf{Average}  & \textbf{0.858} & \textbf{0.847}  \\
 		\hline
 	\end{tabular}
-	\caption{Comparison of QNN ... on a quantum simulator as well as on a real quantum computer. The table shows the accuracy of the best approach for each of the circuits and optimizer types.}
+	\caption{Comparison of the QNN accuracy on a quantum simulator as well as on a real quantum computer. The table shows the accuracy of the best approach for each of the VQCs and optimizer types using the binary datasets.}
 	\label{table:comparison_binary_datasets_accuracy}
 \end{table}
+
+\begin{figure}[!ht]
+    \centering
+    \\[-3ex]
+    \begin{subfigure}{1.0\textwidth}
+        \centering
+        \subcaption{Iris}
+        \includegraphics[width=1.0\linewidth]{thesis/Figures/qnn/boxplots/100_iris.png} 
+        \label{subfigure:accuracy_comparison_boxplots_iris_dataset1}
+    \end{subfigure}
+    \\[-3ex]
+    \begin{subfigure}{1.0\textwidth}
+        \centering
+        \subcaption{Rain}
+        \includegraphics[width=1.0\linewidth]{thesis/Figures/qnn/boxplots/100_rain.png} 
+        \label{subfigure:accuracy_comparison_boxplots_rain_dataset1}
+    \end{subfigure}
+    \\[-3ex]
+    \begin{subfigure}{1.0\textwidth}
+        \centering
+        \subcaption{Vlds}
+        \includegraphics[width=1.0\linewidth]{thesis/Figures/qnn/boxplots/100_vlds.png} 
+        \label{subfigure:accuracy_comparison_boxplots_vlds_dataset1}
+    \end{subfigure}
+    \\[-3ex]
+    \begin{subfigure}{1.0\textwidth}
+        \centering
+        \subcaption{Custom}
+        \includegraphics[width=1.0\linewidth]{thesis/Figures/qnn/boxplots/100_custom.png}
+        \label{subfigure:accuracy_comparison_boxplots_custom_dataset1}
+    \end{subfigure}
+    \\[-3ex]
+    \begin{subfigure}{1.0\textwidth}
+        \centering
+        \subcaption{Adhoc}
+        \includegraphics[width=1.0\linewidth]{thesis/Figures/qnn/boxplots/100_adhoc.png}
+        \label{subfigure:accuracy_comparison_boxplots_adhoc_dataset1}
+    \end{subfigure}
+    \\[-3ex]
+    \caption{Average accuracy comparison for the all binary datasets showing all circuits and optimizers using 10-fold cross validation.}
+    \label{figure:accuracy_comparison_boxplots_binary_datasets}
+\end{figure}
 
 
 \clearpage
