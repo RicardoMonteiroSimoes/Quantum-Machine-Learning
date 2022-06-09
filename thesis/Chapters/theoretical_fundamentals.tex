@@ -29,7 +29,7 @@
 
 %----------------------------------------------------------------------------------------
 \section{Quantum Computing}
-Classical computing consist of 1's and 0's and have for years shaped the computational world and progress. Quantum computing is, from afar, similar. We have \emph{qubits}, which are synonymous to classical \emph{bits}, but are fundamentally different. Whereas a bit can only exist in state 0 or 1, a qubit allows the usage of any state, be it 0, 1 or a mix of those. Such a mix is referred to as a \emph{superposition}\cite{gudder_superposition_1970}. The catch comes when one wants to read the value it represents: one cannot directly know the probabilities of measuring 1 or 0 in a qubit, as demonstrated in figure \ref{figure:comparison_bit_qubit_measurement}.
+Classical computing consist of 1s and 0s and has for years shaped the computational world and progress. Quantum computing is, from afar, similar. There are \emph{qubits}, which are comparable to classical \emph{bits}, but are fundamentally different. Whereas a bit can only have the state 0 \emph{or} 1, a qubit allows the usage of any state, be it 0, 1 or a mix of those. Such a mix is referred to as a \emph{superposition}\cite{gudder_superposition_1970}. The catch comes when one wants to read the value of the qubit: one cannot directly measure its state, as showvisualized in figure \ref{figure:comparison_bit_qubit_measurement}.
 
 \begin{figure}[!h]
     \centering
@@ -67,7 +67,7 @@ Classical computing consist of 1's and 0's and have for years shaped the computa
     \label{figure:comparison_bit_qubit_measurement}
 \end{figure}
 
-When measuring a quantum circuit, the qubit states collapse from super positions into the fixed position of 0 or 1. This means that to redo the measurement, the complete circuit has to be set up again. After doing multiple measurements on a qubit and collecting the results as shown in table \ref{table:example_counts}, this data can be used to construct a \emph{histogram}\cite{eckstein_lexikon_1994} akin to the one visualized in figure \ref{figure:example_histogram}, out of which one can retrieve the internal probabilities of 1 and 0. The sum of the probabilities of a given measurable state always amount to 1.
+When measuring a quantum circuit, the qubit state collapses from a superposition into the fixed state of 0 or 1. This means that to measurement the circuit an additional time, the complete circuit has to be set up again. After doing multiple measurements on a qubit and collecting the results as shown in table \ref{table:example_counts}, the data can be used to construct a \emph{histogram}\cite{eckstein_lexikon_1994} akin to the one visualized in figure \ref{figure:example_histogram}, out of which one can retrieve the internal state of the qubit, which directly resembles the probabilities of measuring a 1 or 0 in the given circuit. The sum of these probabilities, be it per qubit or for a whole circuit, always amount to 1.
 
 \begin{figure}[!h]
     \begin{subtable}{.5\textwidth}
@@ -86,10 +86,10 @@ When measuring a quantum circuit, the qubit states collapse from super positions
         \scalebox{\histogramwidth}{
             \includesvg{thesis/Appendices/example_histogram.svg}
         }
-        \caption{A histogram generated from the data in table \ref{table:example_counts}, that visually shows the probabilities of 0 and 1. These probabilities can directly be used to understand the superposition of a qubit .}
+        \caption{A histogram generated from the data in table \ref{table:example_counts}, that visually shows the probabilities of measuring 0 and 1. These probabilities can directly be used to understand the superposition of a qubit at the point of measurement.}
         \label{figure:example_histogram}
     \end{subfigure}
-    \caption{Example of collected measurements from an arbitrary, single qubit, quantum circuit, as well as the corresponding histogram.}
+    \caption{Example of collected measurements from measuring an arbitrary single qubit in an unknown state, as well as the corresponding histogram.}
     \label{fig:my_label}
 \end{figure}
 
@@ -121,7 +121,7 @@ A mere two years later, Wolfgang Pauli published "Zur Quantenmechanik des magnet
 
 \newpage
 
-The \bloch\cite{michael_a_nielsen_quantum_2000}, as shown in figure \ref{figure:basic_bloch_sphere}, is used to help visualize quantum operations on a single, \emph{non-entangled}, qubit. The complex \emph{Bloch}-Vector inside the \bloch\ (shown as pink arrow in figure \ref{figure:basic_bloch_sphere}) corresponds to the expectation value of measuring a certain value, 0 or 1, in a single qubit. To visualize entangled qubits, the \bloch\ by itself is not enough. There are proposed solutions to this problem\cite{gamel_entangled_2016}, which result in a more complex visualization with multiple \bloch s. To somehwat solve this issue, IBMs python library \code{qiskit} offers the Q-Sphere\cite{ibm_quantum_visualizations_nodate} as shown in figure \ref{figure:q_sphere_4qubit_h}, which can visualize up to 5 entangled single qubits. In addition, it can also show the probability of a given state through the diameter of the filled circle next to it, as can be seen in figure \ref{figure:q_sphere_4qubit_h}.
+The \bloch\cite{michael_a_nielsen_quantum_2000}, as shown in figure \ref{figure:basic_bloch_sphere}, is used to help visualize quantum operations on a single, \emph{non-entangled}, qubit. The complex \emph{Bloch}-Vector inside the \bloch\ (shown as pink arrow in figure \ref{figure:basic_bloch_sphere}) corresponds to the expectation value of measuring a certain value, 0 or 1, in a single qubit. To visualize entangled qubits, the \bloch\ by itself is not enough. There are proposed solutions to this problem\cite{gamel_entangled_2016}, which result in a more complex visualization with multiple \bloch s. To somewhat solve this issue in a simpler fashion, IBM's python library \code{qiskit} offers the Q-Sphere\cite{ibm_quantum_visualizations_nodate} as shown in figure \ref{figure:q_sphere_4qubit_h}, which can visualize up to 5 entangled single qubits. In addition, it can also show the probability of a given state through the diameter of the pointer next to a state, as shown in figure \ref{figure:q_sphere_4qubit_h}.
 
 \begin{figure}[!h]
     \centering
@@ -138,7 +138,7 @@ The \bloch\cite{michael_a_nielsen_quantum_2000}, as shown in figure \ref{figure:
         \scalebox{\qspherewidth}{
             \includesvg{thesis/Appendices/Q_Sphere_State_h_multiqubit.svg}
         }
-        \caption{A basic Q-Sphere that shows all possible states of a 4 qubit circuit, as well as the probability of each state and their phase. The probability is encoded into the width of the dots next to the state labels. As all dots are equal, it is clear that all states have the same probability of being measured.}
+        \caption{A basic Q-Sphere that shows all possible states of a 4 qubit circuit, as well as the probability of each state and their phase. The probability is encoded into the width of the pointers next to the state labels. As all pointers are equal, it is clear that all states have the same probability of being measured.}
         \label{figure:q_sphere_4qubit_h}
     \end{subfigure}
     \caption{A comparison of the \bloch\ used to visualize single qubits only, and the Q-Sphere that can visualize multiple qubits.}
@@ -147,7 +147,7 @@ The \bloch\cite{michael_a_nielsen_quantum_2000}, as shown in figure \ref{figure:
 
 \newpage
 
-When measuring a qubit, the state collapses onto the $z$-axis\cite{feynman_feynman_1965}, which in turn leads to a measurement of either 0 or 1. As a qubit can be in an arbitrary state of $\ket{0}$, $\ket{1}$ or anything in between, the state of a qubit is best described as  $\alpha\ket{0}+\beta\ket{1}$. This directly describes the given amplitude of the measurable states a qubit can be in. In quantum circuits generated using \code{qiskit} all qubits are set to state $\ket{0}$ initially, which is visualized onto the Q-Sphere in figure \ref{figure:state_0_q_sphere}. This leads to the description of the qubits state being $1\ket{0}+0\ket{1}$, so it can be shortened to $\ket{0}$. A circuit that results in said state is visualized in figure \ref{figure:state_0_circuit}, and its mathematical counterpart in equation \ref{equation:state_0_equation}. The states $\ket{\psi_i}$ are used throughout the thesis to denote the state of one, or multiple, qubits at the currently marked point of the circuit.
+When measuring a qubit, the state collapses onto the $z$-axis\cite{feynman_feynman_1965}, which in turn leads to a measurement of either 0 or 1. As a qubit can be in an arbitrary state of $\ket{0}$, $\ket{1}$ or anything in between, the state, also referred to as state-vector, of a single qubit is best described as  $\alpha\ket{0}+\beta\ket{1}$, whereas $|\alpha|^2 + |\beta|^2 = 1$\cite{qiskit_representing_nodate}. This directly describes the given amplitude of the measurable states a qubit can be in. Quantum circuits generated using \code{qiskit} have all qubits initially set to state $\ket{0}$, which is visualized onto the Q-Sphere in figure \ref{figure:state_0_q_sphere}. This leads to the description of the qubits state being $1\ket{0}+0\ket{1}$, so it can be shortened to $\ket{0}$. A circuit that results in said state is visualized in figure \ref{figure:state_0_circuit}, and its mathematical counterpart in equation \ref{equation:state_0_equation}. The states $\ket{\psi_i}$ are used throughout the thesis to denote the state of one, or multiple, qubits at the currently marked point of the circuit.
 
 \begin{figure}[!h]
     \begin{subfigure}{.5\textwidth}
@@ -183,7 +183,8 @@ When measuring a qubit, the state collapses onto the $z$-axis\cite{feynman_feynm
 \end{equation}
 
 \newpage
-To create the state $\ket{1}$, the circuit from figure \ref{figure:state_0_circuit} is extended with the Pauli \xgate\cite{qiskit_xgate_nodate}. To verify its behaviour, equation \ref{equation:state_1_equation} takes the state $\ket{\psi_0}$ and multiplies it with the \xgate, which then results in the state $\ket{\psi_1}$, as noted on the circuit \ref{figure:x_circuit}, whilst the figure \ref{figure:state_1_q_sphere} visualizes the state on the Q-Sphere.
+
+To create the state $\ket{1}$, the circuit from figure \ref{figure:state_0_circuit} is extended with the Pauli \xgate\cite{qiskit_xgate_nodate}. The \xgate\ is the quantum equivalent to the classical NOT-Gate, which itself is an inverter and converts the state 0 to 1 and vice versa. To verify the behaviour of the \xgate, equation \ref{equation:state_1_equation} takes the state $\ket{\psi_0}$ and multiplies it with the \xgate, which then results in the state $\ket{\psi_1}$, as noted on the circuit \ref{figure:x_circuit}, whilst the figure \ref{figure:state_1_q_sphere} visualizes the final state $\ket{\psi_1}$ on the Q-Sphere.
 
 \begin{figure}[!h]
     \begin{subfigure}{.5\textwidth}
@@ -191,7 +192,7 @@ To create the state $\ket{1}$, the circuit from figure \ref{figure:state_0_circu
         \scalebox{\blochwidth}{
             \includesvg{thesis/Appendices/Q_Sphere_State_1.svg}
         }
-        \caption{The Q-Sphere with the state $\ket{1}$ visualized onto it, which is achieved through the usage of the circuit in figure \ref{figure:x_circuit}}
+        \caption{The Q-Sphere with the state $\ket{\psi_1} =\ \ket{1}$ visualized onto it, which is achieved through the usage of the circuit in figure \ref{figure:x_circuit} and calculated in equation \ref{equation:state_1_equation}.}
         \label{figure:state_1_q_sphere}
     \end{subfigure}
     \begin{subfigure}{.5\textwidth}
@@ -200,7 +201,7 @@ To create the state $\ket{1}$, the circuit from figure \ref{figure:state_0_circu
     	 	\nghost{{q} :  } & \lstick{{q} :  } \barrier[0em]{0} & \qw & \gate{\mathrm{X}} \barrier[0em]{0} & \qw & \qw & \qw\\
     	 	\nghost{} & \lstick{} & \ket{\psi_0} & & \ket{\psi_1} &\\
     \\ }}
-        \caption{The circuit from figure \ref{figure:state_0_circuit} extended with a \xgate\ to transform the initial state $\ket{0}$ at position $\ket{\psi_0}$, into the state $\ket{1}$ at position $\ket{\psi_1}$}
+        \caption{The circuit from figure \ref{figure:state_0_circuit} extended with a \xgate\ to transform the initial state $\ket{0}$ at position $\ket{\psi_0}$, into the state $\ket{1}$ at position $\ket{\psi_1}$, as calculated in equation \ref{equation:state_1_equation}.}
         \label{figure:x_circuit}
     \end{subfigure}
     \caption{Caption}
@@ -215,8 +216,44 @@ To create the state $\ket{1}$, the circuit from figure \ref{figure:state_0_circu
     \label{equation:state_1_equation}
 \end{equation}
 
-As shown in equation \ref{equation:pauli_matrices}, there exist two more Pauli matrices. Like the \xgate\ that corresponds to the Pauli matrix $\sigma_x$, the gates \ygate\cite{qiskit_ygate_nodate} and \zgate\cite{qiskit_zgate_nodate} correspond to the Pauli matrices $\sigma_y$ and $\sigma_z$.
+As shown in equation \ref{equation:pauli_matrices}, there exist two more Pauli matrices. Like the \xgate\ that corresponds to the Pauli matrix $\sigma_x$, the gates \ygate\cite{qiskit_ygate_nodate} and \zgate\cite{qiskit_zgate_nodate} correspond to the Pauli matrices $\sigma_y$ and $\sigma_z$. \par
+It is important to note that depending on the state of a qubit, certain gates might not lead to a change in the probabilities of measuring a certain outcome. As shown in figure \ref{figure:showcase_z_gate}, the \zgate\ by itself does not change the possible outcome of a basic circuit.
+
+\begin{figure}[!h]
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \scalebox{\blochwidth}{
+            \includesvg{thesis/Appendices/Q_Sphere_State_z.svg}
+        }
+        \caption{The Q-Sphere with the state $\ket{\psi_1} =\ \ket{0}$ visualized onto it, which is achieved through the usage of the circuit in figure \ref{figure:z_circuit} and calculated in equation \ref{equation:state_z_equation}.}
+        \label{figure:state_z_sphere}
+    \end{subfigure}
+    \begin{subfigure}{.5\textwidth}
+        \centering\scalebox{1.0}{
+        \Qcircuit @C=1.0em @R=0.2em @!R { \\
+    	 	\nghost{{q} :  } & \lstick{{q} :  } \barrier[0em]{0} & \qw & \gate{\mathrm{Z}} \barrier[0em]{0} & \qw & \qw & \qw\\
+    	 	\nghost{} & \lstick{} & \ket{\psi_0} & & \ket{\psi_1} &\\
+    \\ }}
+        \caption{The circuit from figure \ref{figure:state_0_circuit} extended with a \zgate\ to transform the initial state $\ket{0}$ at position $\ket{\psi_0}$. As calculated in equation \ref{equation:state_z_equation}, the \zgate\ by itself does not change the possible measured state.}
+        \label{figure:z_circuit}
+    \end{subfigure}
+    \caption{Caption}
+    \label{figure:showcase_z_gate}
+\end{figure}
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \ket{\psi_1} =\ \mathrm{X}\ket{\psi_0} =\ \begin{pmatrix} 0 & 1\\ 1 & 0\end{pmatrix}\begin{pmatrix}1 \\ 0\end{pmatrix} =\ \begin{pmatrix}0 \\ 1 \end{pmatrix}\\
+    \end{split}
+    \label{equation:state_z_equation}
+\end{equation}
+
+
+
+
 \newpage
+
 To achieve an equal probability of the states $\ket{0}$ and $\ket{1}$, the \emph{Hadamard}-Gate, or \hgate\cite{qiskit_hgate_nodate}, can be used to correctly set up the qubit with one gate. Without it, one would have to use a combination of different gates to achieve the result\cite{voorhoede_hadamard_nodate}, for example $\mathrm{XY}^{\frac{1}{2}}$.
 
 
@@ -255,7 +292,7 @@ To achieve an equal probability of the states $\ket{0}$ and $\ket{1}$, the \emph
 
 
 
-To assess that the visualization and the described behaviour of the qubit is correct, these assumptions are evaluated formally. To calculate the probability of measuring state $\ket{x}$, the Hermitian transposition\cite{marshall_c_methods_1964} is used, which results in the expression $p(\ket{x}) =\ |\bra{x}\ket{\psi}|^2$, with $\ket{\psi}$ being an arbitrary state of a quantum circuit. Equation \ref{equation:basic_h_measurement} demonstrates the calculation of the probabilities the \hgate\ assigns to the measurements of $0$ and $1$, using the state $\ket{\psi_1}$ from circuit \ref{figure:h_circuit}\cite{qiskit_representing_nodate}.
+To assess that the visualization and the described behaviour of the qubit is correct, these assumptions are evaluated formally. When calculating the probability of measuring state $\ket{x}$, the Hermitian Transposition\cite{marshall_c_methods_1964} is used which results in the expression $p(\ket{x}) =\ |\bra{x}\ket{\psi}|^2$, with $\ket{\psi}$ being an arbitrary state of a quantum circuit. Equation \ref{equation:basic_h_measurement} demonstrates the calculation of the probabilities the \hgate\ assigns to the measurements of $0$ and $1$, using the state $\ket{\psi_1}$ from circuit \ref{figure:h_circuit}\cite{qiskit_representing_nodate}.
 
 \begin{equation}
     \centering
@@ -269,7 +306,7 @@ To assess that the visualization and the described behaviour of the qubit is cor
     \label{equation:basic_h_measurement}
 \end{equation}
 
-As shown, both states $\ket{0}$ and $\ket{1}$ have the same probability of $0.5$. When desiring probabilities that are not equal for both states, the Pauli gates can be extended to support arbitrary parameters, which result in the gates \rygate\cite{qiskit_rygate_nodate}, \rxgate\cite{qiskit_rxgate_nodate} and \rzgate\cite{qiskit_rzgate_nodate}. These allow a parameter to be supplied, and therefore, change the probabilities. To create a circuit that achieves the probabilities from the initially shown histogram \ref{figure:example_histogram}, the \rygate\ can be used. To understand how these gates came to be, the equation \ref{equation:ry_gate_proof} shows how the findings in equations \ref{equation:schroedinger_time_evolution} and \ref{equation:pauli_matrices} are used to create the \rygate. The same can be done for the \rxgate\ and \rzgate. Note that the resulting power series is the same as for $\cos$ and $\sin$ from equation \ref{equation:power_series_sin_cos}\cite{lars_complex_1978}.
+As shown, both states $\ket{0}$ and $\ket{1}$ have the same probability of $0.5$. When desiring probabilities that are not equal for both states, the Pauli gates can be extended to support arbitrary parameters, which result in the gates \rygate\cite{qiskit_rygate_nodate}, \rxgate\cite{qiskit_rxgate_nodate} and \rzgate\cite{qiskit_rzgate_nodate}. These allow a parameter to be supplied, and therefore, change the probabilities. To create a circuit that achieves the probabilities from the histogram \ref{figure:example_histogram}, one can use the parameterized \rygate. To understand how these gates came to be, the equation \ref{equation:ry_gate_proof} shows how the findings in equations \ref{equation:schroedinger_time_evolution} and \ref{equation:pauli_matrices} are used to create the \rygate. The same can be done for the \rxgate\ and \rzgate. Note that the resulting power series is the same as for $\cos$ and $\sin$ from equation \ref{equation:power_series_sin_cos}\cite{lars_complex_1978}.
 
 \begin{equation}
     \centering
@@ -319,10 +356,10 @@ The formal definition used in equation \ref{equation:basic_h_measurement} can be
     \label{equation:parameter_from_probabilities}
 \end{equation}
 
-With the value of $\theta$ calculated, the circuit \ref{figure:circuit_for_histogram} is designed and evaluated to compare it to the histogram from \ref{figure:example_histogram}, as shown in figure \ref{figure:circuit_histogram}. The language used is \code{Python} with IBM's library \code{qiskit}\cite{qiskit_qiskit_nodate}, that allows the creation of quantum circuits, as well as running and measuring them in either a simulator or real quantum hardware.
+With the value of $\theta$ calculated, the circuit \ref{figure:circuit_for_histogram} is designed and evaluated to compare it to the histogram from \ref{figure:example_histogram}, as shown in figure \ref{figure:circuit_histogram}. The programming language used is \code{Python} with IBM's library \code{qiskit}\cite{Qiskit}, that allows the creation of quantum circuits, as well as running and measuring them in either a simulator or real quantum hardware.
 
 
-\begin{listing}[!ht]
+\begin{listing}[!h]
     \centering
     \begin{minted}{python}
     circuit = QuantumCircuit(1)
@@ -360,7 +397,7 @@ With the value of $\theta$ calculated, the circuit \ref{figure:circuit_for_histo
     \label{figure:figure_circuit_histogram_rebuilt_from_example}
 \end{figure}
 
-One critical part of quantum computing is the entanglement of multiple qubits. This entanglement dictates that the qubits enter a state where one cannot explain a single state, but can only express the state of the whole system as a whole. As previously noted, this is the reason why the \bloch\ cannot be used in entangled, multi-qubit circuits, as it can only correctly show the state of one qubit. Schrödinger E. fully explained entanglement in 1935\cite{schroedinger_discussion_entanglement}, whereafter Einstein A. called it \emph{supkhafte Fernwirkung}, or \emph{spooky action at a distance}, as entangled particles enact upon each other at any distance – therefore breaking the speed of light defined in Einstein A.'s \emph{Theory of relativity}\cite{einstein_grundlage_1916}.  \par
+One critical part of quantum computing is the entanglement of multiple qubits. This entanglement dictates that the qubits enter a state where one cannot explain a single state, but can only express the state of the whole system as a whole. As previously noted, this is the reason why the \bloch\ cannot be used in entangled, multi-qubit circuits, as it can only correctly show the state of one qubit. Schrödinger E. fully explained entanglement in 1935\cite{schroedinger_discussion_entanglement}, whereafter Einstein A. called it \emph{spukhafte Fernwirkung}, or \emph{spooky action at a distance}, as entangled particles enact upon each other at any distance – therefore breaking the speed of light defined in Einstein A.'s \emph{Theory of relativity}\cite{einstein_grundlage_1916}.  \par
 In qiskit, entanglement of multiple qubits can be achieved through the usage of \emph{controlled} gates. These gates, in their simplest form, cross two qubits. One of those is the \emph{controlling} qubit, which dictates if the gate is applied on the \emph{target} qubit or not. The most simple gates, built again using the \emph{Pauli matrices}, are the CX-Gate\cite{qiskit_cxgate_nodate}, CY-Gate\cite{qiskit_cygate_nodate} and CZ-Gate\cite{qiskit_czgate_nodate}. Circuit \ref{circuit:example_cx_circuit} shows a two qubit circuit with an CX-Gate applied onto both qubits, using $q_0$ as \emph{controlling} qubit and $q_1$ as \emph{target} qubit. Equation \ref{equation:cx_construction} shows the mathematical construction of the CX-Gate, where $q_0$ is the control qubit and $q_1$ is the target qubit. The CX-Gate behaves like a classical NOT gate – therefore, negating the value of the target – with an additional input to turn it \emph{on} and \emph{off}.
 
 \begin{equation}
@@ -790,7 +827,7 @@ Just as a classical perceptron can be implemented in many different ways to repr
 
 \subsection{Variational Quantum Algorithm (VQA)}
 \label{subsection:vqa_fundamentals}
-\textit{Variational Quantum Algorithms} provide a framework based on basic building blocks to solve a variety of problems and follow a specific structure. They usually accommodate at least one kind of \textit{variational quantum circuit}, see figure \ref{fig:general_scheme_vqc}. According to Cerezo et al. are VQAs arguably the quantum analog of highly successful machine-learning methods, such as neural networks. Moreover, VQAs leverage the toolbox of classical optimization, since they use \textit{variational quantum circuits} to be run on the quantum computer, and then outsource the parameter optimization to a classical optimizer\cite{Cerezo_2021}. To sum up, this method is describing a so-called hybrid classical-quantum  algorithm.
+According to Cerezo et al. \textit{Variational Quantum Algorithms} provide a framework based on basic building blocks to solve a variety of problems and follow a specific structure. They usually accommodate at least one kind of \textit{variational quantum circuit}, see figure \ref{fig:general_scheme_vqc}. VQAs are arguably the quantum analog of highly successful machine-learning methods, such as neural networks. Moreover, VQAs leverage the toolbox of classical optimization, since they use \textit{variational quantum circuits} to be run on the quantum computer, and then outsource the parameter optimization to a classical optimizer\cite{Cerezo_2021}. This method is basically describing a so-called hybrid classical-quantum algorithm with supervised learning.
 
 \begin{figure}[!h]
     \centering
@@ -803,12 +840,12 @@ Just as a classical perceptron can be implemented in many different ways to repr
             & & & \\
 	    }
     }
-    \caption{General scheme of a \textit{variational quantum circuit}. The bases state is initialized with $\ket{0}$, followed by the feature 
-    embedding (feature map) then continued by a variational model witch incorporates trainable parameters, finally ending with measurements on each qubit.} 
+    \caption{General scheme of a \textit{variational quantum circuit}. The bases state is initialized with the zero state $\ket{0}$, followed by the feature 
+    embedding (feature map\ref{subsection:quantum_embedding_using_a_feature_map}) then continued by a variational model witch incorporates trainable parameters, finally ending with measurements on each qubit.} 
     \label{fig:general_scheme_vqc}
 \end{figure}
 
-\textbf{Hybrid classical-quantum algorithms} utilizes both classical and quantum computers. Frankhauser et al. states that these types of algorithms are considered promising since they can better handle erroneous, small-scale quantum devices than "pure" quantum algorithms\cite{fankhauser_multiple_2021}. The algorithm only performs the feature and weight embeddings and the calculation including measurements for classification in a quantum circuit, see figure \ref{fig:schematic_hybrid_classical_quantum}. The actual classification and the weight optimizations as well as the loss and accuracy calculations are done with classical methods. 
+\textbf{Hybrid classical-quantum algorithms} utilizes both classical and quantum computers. Frankhauser et al. states that these types of algorithms are considered promising since they can better handle erroneous, small-scale quantum devices than "pure" quantum algorithms\cite{fankhauser_multiple_2021}. The algorithm only performs the feature and parameter embeddings and the calculation including measurements for classification in a quantum circuit, see figure \ref{fig:schematic_hybrid_classical_quantum}. The actual classification and the parameter optimizations as well as the loss and accuracy calculations are done with classical methods. 
 
 \begin{figure}[!h]
     \centering
@@ -836,16 +873,79 @@ Just as a classical perceptron can be implemented in many different ways to repr
             \draw[->] (dataset.east) -- (preprocess.west);
             \draw[->] (quantumcircuit.east) -- (optimizer.west);
             \draw [->] (preprocess.south) -- ++(0,-.6) -- ++(+1.3,0) -| ++(0,-0.6);
-            \draw [->] (optimizer.north) -- ++(0,+1.25) -- ++(-6.15,0) node[auto,midway,above] {weight updates} -| ++(0,-1);
+            \draw [->] (optimizer.north) -- ++(0,+1.25) -- ++(-6.15,0) node[auto,midway,above] {parameter updates} -| ++(0,-1);
         \end{tikzpicture}
     }
     \caption{Schematic view of the hybrid classical-quantum algorithm. Everything outside the \textit{variational quantum circuit} inside the blue box is done with classical methods.}
     \label{fig:schematic_hybrid_classical_quantum}
 \end{figure}
 
+An abstract and brief explanation to figure \ref{fig:schematic_hybrid_classical_quantum}: The data loading and preprocessing is only done once in the beginning. After the data loading and preprocessing has finished, for each training iteration the following is executed:
 
-\subsection{Quantum Support Vector Machine (SVM)}
-A classical support vector machine (SVM) also known as support vector network, initially conceived of by Cortes and Vapnik, divides a set of objects into classes in such a way that the widest possible area around the class boundaries remains free of objects. SVMs can not only perform linear classifications but also non-linear ones using the so-called kernel trick \cite{Cortes2004SupportVectorN}. A detailed explanation on how classical Support Vector Machines work can be found in the paper “Support vector machines explained” by Tristan Fletcher \cite{fletcher2009support}. 
+\begin{enumerate}
+    \item A \textit{variational quantum circuit} will be constructed by embedding the features into the quantum state by using a feature map. Also the optimized parameters are embedded into the quantum state. \textit{Note}: For the first run the parameters are randomly initialized.
+    \item Then we compute the \textit{variational quantum circuit} on a quantum computer or simulator and measure each qubit on the Z-basis. 
+    \item The result is post-processed to generated the prediction.
+    \item Finally the optimizer updates the parameters and a new cycle begins.
+\end{enumerate}
 
-Quantum SVM is considered to be the quantum analogue of the classical SVM algorithm as stated by Jiaying Yang et al. \cite{yangSupportVectorMachines2019}.
+The algorithm stops if a certain threshold or the maximum iteration count for the optimization is reached. The trained parameters can now be embedded into an new quantum circuit and used to evaluate the test set or predict unseen data points.
+
+\subsection{Quantum embedding using a Quantum Feature Map}
+\label{subsection:quantum_embedding_using_a_feature_map}
+Quantum embedding, -encoding or feature embedding, -encoding refer to one and the same procedure, namely how classical data can be represented in a quantum Hilbert space by using a quantum feature map. 
+More formally and corresponding to Havlicek et al.\cite{havlicekSupervisedLearningQuantum2019}; a quantum feature map is an injective encoding of classical information $\vec{x} \in \mathbb{R}^d$ into a quantum state $\op{\psi}{\psi}$ on an $n$-qubit register. Here $\mathcal{H}_2 = \mathbb{C}^2$ is a single qubit Hilbert space, and $\mathcal{S}(\mathcal{H}_2^{\otimes n})$ denotes the cone of positive semidefinite density matrices $p \geq 0$ with unit trace $tr[p] = 1$. This cone is a subset if the $4^n$ dimensional Hilbert space of $\mathcal{M}_{2^n\times2^n}(\mathbb{C})$ (We refere the reader at this point also to \cite{PuchałaStrategiesQuantumMeasurements}). The feature map acts as
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \Phi : \Omega \subset \mathbb{R}^d \rightarrow \mathcal{S}(\mathcal{H}_2^{\otimes n}), \qquad \Phi : \vec{x} \mapsto \op{\Phi(\vec{x})}{\Phi(\vec{x})}
+    \end{split}
+    \label{equation:feature_map_acts_as}
+\end{equation}
+
+The action of the map can be understood by a unitary circuit family denoted $\mathcal{U}_{\Phi(\vec{x})}$ that is applied to some reference state, e.g. $\ket{0}^n$. The resulting state is given by $\ket{\Phi(\vec{x})} = \mathcal{U}_{\Phi(\vec{x})}\ket{0}^n$. The state in the feature space should depend non-linearly on the data.\cite{havlicekSupervisedLearningQuantum2019,schuld_SQMLmodelsAreKernelMethods,SchuldEffectOfDataEncoding_2021}
+
+\subsection{Kernel-Based Support Vector Machines and Quantum Support Vector Machines (QSVM)}
+A classical support vector machine (SVM) also known as support vector network, initially conceived of by Cortes and Vapnik, divides a set of objects into classes in such a way that the widest possible area around the class boundaries remains free of objects. A detailed explanation on how classical Support Vector Machines work can be found in the paper “Support vector machines explained” by Tristan Fletcher\cite{fletcher2009support}. Quantum SVM is considered to be the quantum analogue of the classical SVM algorithm as stated by Jiaying Yang et al.\cite{yangSupportVectorMachines2019}. 
+
+SVMs can not only perform linear classifications but also non-linear ones using the so-called kernel trick. Kernel-Based SVMs use a feature function $\phi(\vec{x})$ to map data points into a higher dimensions with advantageous properties for classification thus re-writing the linear decision function in terms of a dot product between data points. By combining this product with the feature function we can substitute it with a kernel function as seen in equation \ref{equation:svm_kernel_function} with some feature space $\mathcal{H}$.\cite{smailovQuantumMachineLearning,ThomsenComparingQNNs_QSVM} 
+
+\begin{equation}
+    \centering
+    \begin{split}
+        k(\vec{x}, \vec{x}^{(i)}) = \expval{\phi(\vec{x}^{(i)}),\phi(\vec{x})}_{\mathcal{H}} 
+    \end{split}
+    \label{equation:svm_kernel_function}
+\end{equation}
+
+
+for a given training data point $\vec{x}^{(i)}$ and a data point for which the decision is made $\vec{x}$. The corresponding decision function uses the kernel function to classify the data point and can bee seen in equation \ref{equation:svm_alternative_decision_function}.\cite{ThomsenComparingQNNs_QSVM}  
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \tilde{c}_{SVM}(\vec{x})  &=\ sign[\sum_{i=1}^M a_i y_i \expval{\phi(\vec{x}^{(i)}),\phi(\vec{x})}_{\mathcal{H}} + b]
+    \end{split}
+    \label{equation:svm_alternative_decision_function}
+\end{equation}
+
+The quantum analogue kernel function equation - with an exponentially large space of density matrices $\mathcal{S}(2^q)$ spanned by $q$ qubits as the feature space - can be seen in equation \ref{equation:svm_kernel_function}.\cite{ThomsenComparingQNNs_QSVM}
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \psi: \mathbb{R}^S & \rightarrow \mathcal{S}(2^q)\\
+        \vec{x} & \mapsto \op{\psi(\vec{x}^{(i)})}{\psi(\vec{x})}
+    \end{split}
+    \label{equation:qsvm_kernel_function_preliminary}
+\end{equation}
+
+\begin{equation}
+    \centering
+    \begin{split}
+        k(\vec{x}, \vec{x}^{(i)}) = \left|\ip{\psi(\vec{x}^{(i)})}{\psi(\vec{x})}\right|^2
+    \end{split}
+    \label{equation:qsvm_kernel_function}
+\end{equation}
 

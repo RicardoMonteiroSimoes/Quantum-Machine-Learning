@@ -197,7 +197,44 @@ bottom=1.5cm, % Bottom margin
 %	OFFICIAL ZHAW TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\include{Appendices/DeclarationOfOriginalityZHAW}
+\includepdf{thesis/Appendices/ZHAW_mandated/ZHAW_Titelblatt.pdf}
+
+\clearpage
+
+%----------------------------------------------------------------------------------------
+%	DECLARATION PAGE
+%----------------------------------------------------------------------------------------
+
+
+\begin{declaration}
+\addchaptertocentry{\authorshipname} % Add the declaration to the table of contents
+\textbf{Bachelor's Thesis at the School of Engineering}
+
+By submitting this Bachelor’s thesis, the undersigned student confirms that this thesis is his/her own work and was written without the help of a third party. (Group works: the performance of the other group members are not considered as third party).
+
+The student declares that all sources in the text (including Internet pages) and appendices have been correctly disclosed. This means that there has been no plagiarism, i.e. no sections of the Bachelor thesis have been partially or wholly taken from other texts and represented as the student’s own work or included without being correctly referenced.
+
+Any misconduct will be dealt with according to paragraphs 39 and 40 of the General Academic Regulations for Bachelor’s and Master’s Degree courses at the Zurich University of Applied Sciences (Rahmenprüfungsordnung ZHAW (RPO)) and subject to the provisions for disciplinary action stipulated in the University regulations.
+
+\vspace{3.5cm}
+
+\begin{minipage}[t]{0.4\textwidth}
+\begin{flushleft} \large
+\textbf{City, Date:}\\
+09. June 2022
+\end{flushleft}
+\end{minipage}
+\begin{minipage}[t]{0.5\textwidth}
+\begin{flushright} \large
+\textbf{Name Student:} \\
+\authorname
+\end{flushright}
+\end{minipage}\\[3cm]
+
+
+\end{declaration}
+
+\clearpage
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -248,41 +285,6 @@ bottom=1.5cm, % Bottom margin
 \end{center}
 \end{titlepage}
 
-%----------------------------------------------------------------------------------------
-%	DECLARATION PAGE
-%----------------------------------------------------------------------------------------
-
-\cleardoublepage
-
-\begin{declaration}
-\addchaptertocentry{\authorshipname} % Add the declaration to the table of contents
-\textbf{Bachelor's Thesis at the School of Engineering}
-
-By submitting this Bachelor’s thesis, the undersigned student confirms that this thesis is his/her own work and was written without the help of a third party. (Group works: the performance of the other group members are not considered as third party).
-
-The student declares that all sources in the text (including Internet pages) and appendices have been correctly disclosed. This means that there has been no plagiarism, i.e. no sections of the Bachelor thesis have been partially or wholly taken from other texts and represented as the student’s own work or included without being correctly referenced.
-
-Any misconduct will be dealt with according to paragraphs 39 and 40 of the General Academic Regulations for Bachelor’s and Master’s Degree courses at the Zurich University of Applied Sciences (Rahmenprüfungsordnung ZHAW (RPO)) and subject to the provisions for disciplinary action stipulated in the University regulations.
-
-\vspace{3.5cm}
-
-\begin{minipage}[t]{0.4\textwidth}
-\begin{flushleft} \large
-\textbf{City, Date:}\\
-09. June 2022
-\end{flushleft}
-\end{minipage}
-\begin{minipage}[t]{0.5\textwidth}
-\begin{flushright} \large
-\textbf{Name Student:} \\
-\authorname
-\end{flushright}
-\end{minipage}\\[3cm]
-
-
-\end{declaration}
-
-\cleardoublepage
 
 
 %----------------------------------------------------------------------------------------
@@ -314,6 +316,7 @@ Any misconduct will be dealt with according to paragraphs 39 and 40 of the Gener
 \begin{abstract}
 \addchaptertocentry{\abstractname} % Add the abstract to the table of contents
 \todo{abstract}
+Quantum computing has been put into the spotlight by recent advancements and achievements, from proofs of quantum advantage to breakthroughs in the available hardware. Manufacturers that offer open accessibility to quantum hardware enable the furthering of the field through open research and engineering. Meanwhile, machine learning has turned into a critical component of computer science for the past decade and enabled a multitude of solutions previously deemed unachievable. Proposals in the field of quantum computing suggest and point to quantum \emph{enhanced} machine learning algorithms being even more promising than purely classical offerings. This thesis takes on the task of comparing quantum enhanced support vector machines with purely quantum neural networks\todo{vielleicht auch noch klassisch?}. Simultaneously, a quantum neural network is designed to take on the task of solving a data-intensive NP-hard problem. Whilst the current machine learning offerings for quantum circuits are quite limited, the results of both experiments show promising, reproducible results. At the same time, the results show that quantum computing using normal, non machine learning circuits, has enough potential to solve even NP-hard problems.
 
 \todo{Note: Paper is split into two main parts; MQO, SVM/QNN}
 

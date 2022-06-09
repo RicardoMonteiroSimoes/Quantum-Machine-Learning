@@ -17,7 +17,17 @@ This data can be interpreted as a sign that the circuit itself is robust and a g
 To really define whether the solution is good enough to use or not, one has to define where the line is drawn between time savings and time spent computing the best solution. As shown in chapter \ref{chapter:mqo_manual_validation} with figure \ref{figure:correlation_accuracy_shots}, adding the probabilities of all \emph{acceptable} combinations can lead to a high enough total probability, and therefore, savings of execution time.
 
 \subsection{Comparison QAOA Solution}
-The solution proposed by Fankhauser et al.\cite{fankhauser_multiple_2021} offers a peak accuracy of $59\%$ for a problem space $\mathcal{D}_{2\times2}$, as shown in their figure 13. This is, by a substantial amount, below the achieved results in this thesis for the non-ML circuit, as per figure \ref{figure:comparison_ml_noml_filtered_acc}. Even so, if the 2nd best solution is also within acceptance, which yields a total accuracy of $~90\%$ per figure \ref{figure:noml_rhw_dist}. \par
+The solution proposed by Fankhauser et al.\cite{fankhauser_multiple_2021} offers a peak accuracy of $59\%$ for a problem space $\mathcal{D}_{2\times2}$, as shown in their figure 13. This is, by a substantial amount, below the achieved results in this thesis for the non-ML circuit, as per figure \ref{figure:comparison_ml_noml_filtered_acc}. Even so, if the 2nd best solution is also within acceptance, which yields a total accuracy of $~90\%$ per figure \ref{figure:noml_rhw_dist}. Figure \ref{figure:final_comp_noml_qaoa} visualizes a direct comparison of the achieved results from the non-ml circuit and the QAOA based solution by Fankhauser et al.\cite{fankhauser_multiple_2021}.\par
+
+
+\begin{figure}[!h]
+    \centering
+    \includesvg{thesis/Appendices/comparison_noml_qaoa.svg}
+    \caption{Comparison of the spread of achieved results (from figure \ref{figure:noml_rhw_dist}) using the no-ml circuit and the achieved accuracy from the QAOA based solution by Fankhauser et al.\cite{fankhauser_multiple_2021} }
+    \label{figure:final_comp_noml_qaoa}
+\end{figure}
+
+
 Additionally, the paper also goes into detail about its runtime, stating a runtime of $O(I · (PQ)^2)$. First, As $I$ stands for the number of iterations the algorithm goes through \emph{per problem}, the proposed circuit already offers one speed up in comparison, as it only needs to be evaluated once\footnote{Evaluated once means measurement with $n$ shots}. \par
 By following the given example in the paper of assuming outside algorithms to be $O(1)$ (in our case the normalization step), only the circuit is needed for the runtime evaluation. The first segment of the circuit consists of single, non entangled gates per qubit, which can be run in parallel, and therefore translate to a runtime of $O(1)$.
 The layer afterwards consist of the possible savings $n$ plans could combine into. For a quadratic problem space, i.e. $\mathcal{D}_{2\times2}$, this would translate into $2\times2 =\ 4$ combinations, so $\mathcal{Q}\times\mathcal{P}$. Of course, real life situation will not always yield possible combinations for each plan, which means that $O(QP)$ should be seen as an upper bound. In addition, this assumes that there are no gates that can be executed at the same time. In circuit \ref{circuit:noml_dyn_problem} it is easy to see that by moving certain entanglement gates around, one could execute them at the same time, therefore saving time. \par
@@ -35,3 +45,6 @@ In the case of the ML circuit, enhancing it with additional gates that \emph{low
 \newpage
 
 \section{Quantum Neural Network}
+
+\subsection{Outlook and Improvements}
+
