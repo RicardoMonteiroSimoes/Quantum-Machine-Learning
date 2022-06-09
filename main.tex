@@ -50,6 +50,7 @@ headsepline, % Uncomment to get a line under the header
 \usepackage{caption}
 \usepackage{subcaption}
 
+
 \usepackage{mathpazo} % Use the Palatino font by default
 
 \usepackage[backend=biber,  % Use the bibtex backend with the authoryear citation style (which resembles APA)
@@ -70,11 +71,37 @@ natbib=true]{biblatex}
 % \usepackage{listings}
 \usepackage{physics}
 \usepackage{minted}
-\usepackage[braket, qm]{qcircuit}
+\usepackage[braket, qm]{qcircuit} % draw quantum circuits (manual: http://mirrors.ibiblio.org/CTAN/graphics/qcircuit/qcircuit.pdf)
 \usepackage{graphicx}
 
 \usepackage{tikz}
+% \usetikzlibrary{quantikz} % draw quantum circuits % exclusive with \usepackage[braket, qm]{qcircuit}
 \usetikzlibrary{positioning}
+\usepackage{listofitems} % for \readlist to create arrays
+\usetikzlibrary{arrows.meta} % for arrow size
+\usepackage[outline]{contour} % glow around text
+\contourlength{1.4pt}
+\tikzset{>=latex} % for LaTeX arrow head
+\colorlet{myred}{red!80!black}
+\colorlet{myblue}{blue!80!black}
+\colorlet{mygreen}{green!60!black}
+\colorlet{myorange}{orange!70!red!60!black}
+\colorlet{mydarkred}{red!30!black}
+\colorlet{mydarkblue}{blue!40!black}
+\colorlet{mydarkgreen}{green!30!black}
+\tikzstyle{node}=[thick,circle,draw=myblue,minimum size=22,inner sep=0.5,outer sep=0.6]
+\tikzstyle{node in}=[node,green!20!black,draw=mygreen!30!black,fill=mygreen!25]
+\tikzstyle{node hidden}=[node,blue!20!black,draw=myblue!30!black,fill=myblue!20]
+\tikzstyle{node convol}=[node,orange!20!black,draw=myorange!30!black,fill=myorange!20]
+\tikzstyle{node out}=[node,red!20!black,draw=myred!30!black,fill=myred!20]
+\tikzstyle{connect}=[thick,mydarkblue] %,line cap=round
+\tikzstyle{connect arrow}=[-{Latex[length=4,width=3.5]},thick,mydarkblue,shorten <=0.5,shorten >=1]
+\tikzset{ % node styles, numbered for easy mapping with \nstyle
+  node 1/.style={node in},
+  node 2/.style={node hidden},
+  node 3/.style={node out},
+}
+\def\nstyle{int(\lay<\Nnodlen?min(2,\lay):3)} % map layer number onto 1, 2, or 3
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -118,6 +145,7 @@ natbib=true]{biblatex}
 ]{dirtytalk}
 
 
+\usepackage[figuresleft]{rotating}
 
 %----------------------------------------------------------------------------------------
 %	MARGIN SETTINGS
@@ -142,7 +170,7 @@ bottom=1.5cm, % Bottom margin
 \supervisor{Prof. Dr. Kurt \textsc{Stockinger} \\ Prof. Dr. Rudolf Marcel \textsc{Füchslin}} % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
 \examiner{} % Your examiner's name, this is not currently used anywhere in the template, print it elsewhere with \examname
 \degree{Bachelor Thesis} % Your degree name (Doctor of Philosophy or Master of Science), this is used in the title page and abstract, print it elsewhere with \degreename
-\author{Ricardo Daniel \textsc{Monteiro Simões},  Patrick \textsc{Huber}}
+\author{Ricardo Daniel \textsc{Monteiro Simões}\\  Patrick \textsc{Huber}}
 \addresses{} % Your address, this is not currently used anywhere in the template, print it elsewhere with \addressname
 
 \keywords{} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywordnames
@@ -163,6 +191,13 @@ bottom=1.5cm, % Bottom margin
 \frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
 
 \pagestyle{plain} % Default to the plain heading style until the thesis style is called for the body content
+
+
+%----------------------------------------------------------------------------------------
+%	OFFICIAL ZHAW TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\include{Appendices/DeclarationOfOriginalityZHAW}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -219,10 +254,36 @@ bottom=1.5cm, % Bottom margin
 
 \cleardoublepage
 
-\todo{change to correct one for BA}
-\include{Appendices/DeclarationOfOriginalityZHAW}
+\begin{declaration}
+\addchaptertocentry{\authorshipname} % Add the declaration to the table of contents
+\textbf{Bachelor's Thesis at the School of Engineering}
+
+By submitting this Bachelor’s thesis, the undersigned student confirms that this thesis is his/her own work and was written without the help of a third party. (Group works: the performance of the other group members are not considered as third party).
+
+The student declares that all sources in the text (including Internet pages) and appendices have been correctly disclosed. This means that there has been no plagiarism, i.e. no sections of the Bachelor thesis have been partially or wholly taken from other texts and represented as the student’s own work or included without being correctly referenced.
+
+Any misconduct will be dealt with according to paragraphs 39 and 40 of the General Academic Regulations for Bachelor’s and Master’s Degree courses at the Zurich University of Applied Sciences (Rahmenprüfungsordnung ZHAW (RPO)) and subject to the provisions for disciplinary action stipulated in the University regulations.
+
+\vspace{3.5cm}
+
+\begin{minipage}[t]{0.4\textwidth}
+\begin{flushleft} \large
+\textbf{City, Date:}\\
+09. June 2022
+\end{flushleft}
+\end{minipage}
+\begin{minipage}[t]{0.5\textwidth}
+\begin{flushright} \large
+\textbf{Name Student:} \\
+\authorname
+\end{flushright}
+\end{minipage}\\[3cm]
+
+
+\end{declaration}
 
 \cleardoublepage
+
 
 %----------------------------------------------------------------------------------------
 %	QUOTATION PAGE

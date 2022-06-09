@@ -407,7 +407,7 @@ The goal of this research is to evaluate a circuit, that in the future can be us
 \end{equation}
 
 As defined in chapter \ref{chapter:circuit_design}, the qubits are each in an equal superposition. Chapter \ref{chapter:cost_embedding} also defines that the probability has to be able to increase for either $\ket{0}$ or $\ket{1}$. Equations \ref{equation:normalization_range_1} and \ref{equation:normalization_range_2} show an overflow when manipulating probabilities. They imply that there is a tipping point between $2$ and $1$, when coming from an equal superposition, where the probabilities start decreasing again. As the rotational gates like \rygate\ use $\cos$ and $\sin$, equation \ref{equation:normalization_range_pi} uses $\pi$ to analyse the behaviour. The results dictate that the manipulation with $\pi$ brings the probabilities to what they are when only applying $\mathrm{H}\ket{0}$. The exact value to bring the probability of one state being exactly one ends up being $\frac{\pi}{2}$, as equation \ref{equation:normalization_range_half_pi} shows. Depending on problem space $\mathcal{D}$, the number of parameters being embedded into a qubit can be higher or lower. As going over the supposed \emph{tipping point} of probabilities would mean a loss of information, a lower range is needed. Equation \ref{equation:normalization_range_half_pi} shows this in action, which delivers acceptable state probabilities.\par
-The code from \ref{code:normalization_code} handles normalizing all problem data generated from the function described in chapter \ref{chapter:mqo_data_acquisition}. It is important to note that the normalization is done \emph{per problem}, and not for the whole dataset. This means that the highest cost per problem will always be $\frac{\pi}{4}$.
+The code from \ref{code:normalization_code} handles normalizing all problem data generated from the function described in chapter \ref{chapter:mqo_data_acquisition}. It is important to note that the normalization is done \emph{per problem}, and not for the whole dataset. This means that the highest cost per problem will always be $\frac{\pi}{4}$, and the cheapest $-\frac{\pi}{4}$.
 
 \begin{listing}[!ht]
     \centering
@@ -632,6 +632,7 @@ Through the results from table \ref{table:hyperparameter_results}, the parameter
 \section{Quantum Neural Network}
 
 \subsection{Datasets and Data Acquisition}
+\label{subsection:qnn_datasets_and_acqusition}
 The binary datasets initially used in our first experiments can be seen in table \ref{table:qnn_binary_datasets}. These datasets have been used to have a direct comparison to the Quantum SVM experiments done by N. Meier and N. Smailov - both of them have been bachelor students at ZHAW School of Engineering at that time - in their project thesis <add ref here>\todo{Add ref here for the project thesis}. \todo{This should be mentioned earlier in the docum. Move this to appr. place}
 
 \begin{table}[!h]
@@ -652,7 +653,7 @@ The binary datasets initially used in our first experiments can be seen in table
 \end{table}
 
 The experiments done in the project thesis have been the basis of an additional paper co-authored with Prof. Dr. K. Stockinger and Prof. Dr. R. M. Füchslin which is currently work in progress, faced some critics when submitted for review. 
-One of the criticisms was the number of samples used and that all datasets are binary. Therefore, the experiments were performed again extending the datasets to address these issues. The extended datasets, shown in the table \ref{table:qnn_extended_datasets}, use more samples for those datasets that allow it like \textit{Rain}, \textit{Adhoc}, \textit{Vlds} and \textit{Custom} and additionally all classes like in the case of the \textit{Iris} dataset. To address another criticism, namely the limitation of the number of qubits—see \ref{subsection:limitations_and_shortcomings} - and thus the maximum number of features that can be taken from a dataset, we used principal component analysis (PCA) on the \textit{Rain} dataset.
+One of the criticisms was the number of samples used and that all datasets are binary. Therefore, the experiments were performed again extending the datasets to address these issues. The extended datasets, shown in the table \ref{table:qnn_extended_datasets}, use more samples for those datasets that allow it like \textit{Rain}, \textit{Adhoc}, \textit{Vlds} and \textit{Custom} and additionally all classes like in the case of the \textit{Iris} dataset. To address another criticism, namely the limitation of the number of qubits - see \ref{subsection:limitations_and_shortcomings} - and thus the maximum number of features that can be taken from a dataset, we used principal component analysis (PCA)\footnote{A detailed explanation on what PCA is and how it works can be found here \cite{bro2014principal}} on the \textit{Rain} dataset.
 
 \begin{table}[!h]
 	\centering
@@ -673,61 +674,64 @@ One of the criticisms was the number of samples used and that all datasets are b
 
 \textbf{Iris dataset}. This well known and widely used dataset is loaded via the \code{load\_iris}\footnote{\url{https://scikit-learn/stable/modules/generated/sklearn.datasets.load_iris.html}} function from scikit-learn \cite{scikit-learn,SklearnDatasetsLoad}. It has three classes and 150 samples in total.
 
-\textbf{Rain dataset}. This dataset contains about 10 years of daily weather observations from many locations across Australia. It is a binary dataset where one has to predict if it rains the next day or not given by the class label attribute \textit{RainTomorrow}. We dropped incomplete data entries and performed a balanced subsampling. In the first experiments \todo{add refs here} the following five features were selected: \textit{MinTemp}, \textit{Humidity9am}, \textit{WindSpeed3pm}, \textit{Pressure9am}, \textit{WindDir9am}. In the second experiment PCA\todo{may also add the component count here} has been performed. 
+\textbf{Rain dataset}. This dataset contains about 10 years of daily weather observations from many locations across Australia. It is a binary dataset where one has to predict if it rains the next day or not given by the class label attribute \textit{RainTomorrow}. We dropped incomplete data entries and performed a balanced subsampling. In the first experiments \todo{add refs here} the following five features were selected: \textit{MinTemp}, \textit{Humidity9am}, \textit{WindSpeed3pm}, \textit{Pressure9am}, \textit{WindDir9am}. In the second experiment PCA using five components has been performed. 
 
 \textbf{Adhoc dataset}. This dataset was generated using the \code{ad\_hoc\_data}\footnote{\url{https://qiskit.org/documentation/machine-learning/stubs/qiskit_machine_learning.datasets.ad_hoc_data.html}} Qiskit Machine Learning API function \cite{AdHocData}. It is further described in \cite{havlicekSupervisedLearningQuantum2019}.
 
 \textbf{Vlds dataset}. This random multilabel classification problem dataset was generated using the \code{make\_multilabel\_classification}\footnote{\url{https://scikit-learn/stable/modules/generated/sklearn.datasets.make_multilabel_classification.html}} function from scikit-learn\cite{scikit-learn} \cite{SklearnDatasetsMake}.
 
-\textbf{Custom dataset}. Generated dataset by a custom algorithm \todo{add picture and function}
+\textbf{Custom dataset}. A binary two feature dataset generated by a custom algorithm using the \code{numpy.random.default rng}\footnote{\url{https://numpy.org/doc/stable/reference/random/generator.html}} function. The 0.0 labelled data on the diagonals and the 1.0 labelled distributed as square as can be seen in the 2D representation shown in figure \ref{figure:custom_dataset}. 
+
+\begin{figure}[!ht]
+    \centering
+    \scalebox{0.9}{
+        \includegraphics[width=0.66\linewidth]{thesis/Figures/qnn/custom_dataset.png}
+    }
+    \caption{}
+    \label{figure:custom_dataset}
+\end{figure}
+
+
 
 \subsubsection{Preprocessing}
-All of the above datasets have been normalized and scaled - using scikit-learns  \code{StandardScaler}\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html}} and \code{MinMaxScaler}\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html}} - between $[-1, 1]$. Another crutial preprocessing step is to map the targets to integer values starting from 0. For example 0 for the first class and 1 for the second class, etc. Like so the parity functions\ref{listing:parity_function} predicted labels - the return value is an integer value - can be directly compared to the mapped true labels.
+All of the above datasets have been normalized and scaled - using scikit-learns  \code{StandardScaler}\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html}} and \code{MinMaxScaler}\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html}} - between $[-1, 1]$. 
+
+Another crutial preprocessing step is to map the targets to integer values starting from $0$. For example $0$ for the first class and $1$ for the second class, etc. Like so the parity functions\ref{listing:parity_function} predicted labels - the return value is an integer value - can be directly compared to the mapped true labels.
 
 \clearpage
 
-\subsection{Hybrid Classical-Quantum Algorithm}
-Hybrid classical-quantum algorithms utilizes both classical and quantum computers. Frankhauser et al. \cite{fankhauser_multiple_2021} states that these types of algorithms are considered promising since they can better handle erroneous, small-scale quantum devices than "pure" quantum algorithms.
-For our supervised training runs to optimize the weights for the Quantum Circuits we use a hybrid classical-quantum algorithm. The algorithm only performs the feature and weight embeddings and the calculation including measurements for classification in a quantum circuit, see figure \ref{fig:schematic_hybrid_classical_quantum}. The actual classification and the weight optimizations as well as the loss and accuracy calculations is done with classical methods. 
-
-\begin{figure}[!h]
-    \centering
-    \scalebox{0.88}{
-        \begin{tikzpicture}[
-          roundnode/.style={circle, draw=black!60, fill=white!5, thick, minimum size=7mm},
-          squarednode/.style={rectangle, draw=black!60, fill=white!5, thick, minimum size=10mm},
-          optimizernode/.style={rectangle, draw=black!60, fill=white!5, thick, minimum size=25mm},
-          quantumcircuit/.style={draw=blue, minimum height=3.5cm, minimum width=10cm, fill=white!5, label=below:{\color{blue}quantum\ circuit}},
-        ]
-            %Nodes
-            \node[roundnode]        (dataset)        {Data};
-            \node[squarednode]      (preprocess)     [right=of dataset] {Preprocessing};
-            \node                   (point1)         [below=of preprocess] {};
-            \node[quantumcircuit]   (quantumcircuit) [below right=of dataset]  {
-                \Qcircuit @C=1em @R=.7em {
-                    \lstick{\ket{0}} & \multigate{3}{feature\ embedding} & \multigate{3}{model\ circuit} & \meter & \cw \\
-                    \lstick{\ket{0}} & \ghost{feature\ embedding} & \ghost{model\ circuit} & \meter & \cw \\
-                    \cdots & \nghost{feature\ embedding} & \nghost{model\ circuit} & \cdots &  \\
-                    \lstick{\ket{0}} & \ghost{feature\ embedding} & \ghost{model\ circuit} & \meter & \cw \gategroup{1}{5}{4}{5}{1.5em}{\}}
-                }
-            };
-            \node[optimizernode]      (optimizer)     [right=of quantumcircuit] {Optimizer};
-            % Lines
-            \draw[->] (dataset.east) -- (preprocess.west);
-            \draw[->] (quantumcircuit.east) -- (optimizer.west);
-            \draw [->] (preprocess.south) -- ++(0,-.6) -- ++(+1.3,0) -| ++(0,-0.6);
-            \draw [->] (optimizer.north) -- ++(0,+1.25) -- ++(-6.15,0) node[auto,midway,above] {weight updates} -| ++(0,-1);
-        \end{tikzpicture}
-    }
-    \caption{Schematic view of the hybrid classical-quantum algorithm. Everything outside the quantum circuit in blue is done with classical methods.}
-    \label{fig:schematic_hybrid_classical_quantum}
-\end{figure}
+\subsection{Variational Quantum Algorithm} 
+The general goal we need to address is to classify the datapoints from our datasets to match the corresponding label. We can achieve this by using supervised learning and train our VQC parameters to which we will refere to as weights. For our supervised training runs to optimize the weights we use a VQA based hybrid classical-quantum approach as formerly described in subsection \ref{subsection:vqa_fundamentals}. 
 
 \todo{refer to figure in text, may also use pseudo code here}
 A brief explanation to figure \ref{fig:schematic_hybrid_classical_quantum}. The data loading and preprocessing is only done once in the beginning. After the data loading and preprocessing has finished, for each training iteration a \textit{quantum circuit} will be constructed bound with the next input feature set and initial weights. The circuit is then executed and the measured counts evaluated by the \code{parity} function - shown in code listing \ref{listing:parity_function} - to predict the \textit{label}. The predicted \textit{label} is the then compared with its true \textit{label}. These informations and the weights are given to the optimizer which calculates an new optimized set of weights. Finally a new iteration begins.
 
+\todo{Explain aaaaaallllll the things!}
 
-\todo{explain parity func}
+\begin{listing}[!ht]
+    \begin{minted}{python}
+    ...
+    quantum_instance = QuantumInstance(q_simulator, shots=1024)
+
+    circuit_qnn = CircuitQNN(circuit=circuit,
+                             input_params=circuit.parameters[-n_features:],
+                             weight_params=circuit.parameters[:-n_features],
+                             interpret=parity,
+                             output_shape=output_shape,
+                             quantum_instance=quantum_instance)
+
+    # construct classifier
+    return NeuralNetworkClassifier(neural_network=circuit_qnn,
+                                   callback=callback,
+                                   optimizer=optimizer[0])
+    ...
+    \end{minted}
+    \caption{Some Snake code.}
+    \label{listing:qnn_network_classifier_python}
+\end{listing}
+
+
+\todo{Why use the parity function? explain the problem}
 \begin{listing}[!ht]
     \begin{minted}{python}
     def parity(x: int):
@@ -737,8 +741,6 @@ A brief explanation to figure \ref{fig:schematic_hybrid_classical_quantum}. The 
     \label{listing:parity_function}
 \end{listing}
 
-
-\todo{explain parity func}
 \begin{listing}[!ht]
     \begin{minted}[breaklines]{python}
     # `measurement_result_as_counts` contains: 
@@ -746,18 +748,18 @@ A brief explanation to figure \ref{fig:schematic_hybrid_classical_quantum}. The 
     
     # get key with maximum counts
     max_key: str = max(measurement_result_as_counts, key=measurement_result_as_counts.get)
-    # `max_key` contains now: '10'
+    # `max_key` = '10'
     
     # integer representation of `max_key`
     integer_value_of_max_key: int = int(max_key,2)
-    # `integer_value_of_max_key` contains now: 2
+    # `integer_value_of_max_key` = 2
     
     # calculate the parity label
-    # parity expects an integer as argument
+    # => parity expects an integer as argument
     predicted_label: int = parity(integer_value_of_max_key)
-    # `predicted_label` contains 1
+    # `predicted_label` = 1
     \end{minted}
-    \caption{Python code dummy example demonstration of the label prediction process from a quantum circuit measurement - variable \code{measurement\_result\_as\_counts} - using the \code{parity} function from code listing \ref{listing:parity_function}.}
+    \caption{Python code example to demonstrate the label prediction process from a quantum circuit measurement - variable \code{measurement\_result\_as\_counts} - using the \code{parity} function from code listing \ref{listing:parity_function}.}
     \label{listing:parity_function_demonstration_example}
 \end{listing}
 
@@ -770,32 +772,84 @@ A brief explanation to figure \ref{fig:schematic_hybrid_classical_quantum}. The 
     \label{figure:parity_function_example_histogram}
 \end{figure}
 
+% QNN OPTIMIZERS
+\subsection{Optimizers}
+We selected four optimizers, mainly to compare the behavior between the simulation runs and the runs on real quantum computers. As mentioned above, Pellow-Jarman et al. had a strong influence on the selection. \code{ADAM AMSGrad}, \code{SPSA} and a flavour of \code{BFGS} were therefore selected in addition to \code{COBYLA}. \code{COBYLA} is known to be very fast and has good performance mainly in simulator runs. 
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{rl}
+    \hline
+    \textbf{Optimizer}      & \textbf{Parameters}                                      \\ \hline
+    ADAM AMSGrad\tablefootnote{\url{https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.ADAM.html#qiskit.algorithms.optimizers.ADAM}} & \mintinline{python}{maxiter=1000,amsgrad=True}  \\ \hline
+    COBYLA\tablefootnote{\url{https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.COBYLA.html#qiskit.algorithms.optimizers.COBYLA}} & \mintinline{python}{maxiter=1000}               \\ \hline
+    BFGS\tablefootnote{\url{https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.L_BFGS_B.html#qiskit.algorithms.optimizers.L_BFGS_B}} & \mintinline{python}{maxiter=1500}               \\ \hline
+    SPSA\tablefootnote{\url{https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.SPSA.html#qiskit.algorithms.optimizers.SPSA}} & \mintinline{python}{maxiter=100}                \\ \hline
+    \end{tabular}
+    \caption{Table containing all optimizers and the corresponding parameters used in the QNN experiments.}
+    \label{table:qnn_optimizers_and_ parameters}
+\end{table}
+
+
+
 \clearpage
 
 \subsection{Circuit Design}
-The general scheme for the quantum circuits - shown in figure \ref{figure:general_schematics_quantum_circuits_qnn} - starts with \textit{feature embedding}, followed by at least one up to $n$ layers. Finally a measurement on all qubits follows. Each quantum circuit is automatically generated using a predefined scripted template. The number of layers and input features must be passed to the template which generates the final quantum circuit. The Qubit count is determined by the first given feature set length but the number is limited to five. We set ourselves a upper limit of 5 Qubits for our experiments, please see subsection \ref{subsection:limitations_and_shortcomings} for more information about this limitation.
+The general scheme for our quantum circuits - shown in figure \ref{figure:general_schematics_quantum_circuits_qnn} - starts with \textit{feature embedding}, followed by at least one up to $n$ layers. Finally a measurement on all qubits follows. Each quantum circuit is automatically generated using a predefined scripted template. The number of layers and input features must be passed to the template which generates the final quantum circuit. The Qubit count is determined by the first given feature set length but the number is limited to five. We set ourselves a upper limit of 5 Qubits for our experiments, please see subsection \ref{subsection:limitations_and_shortcomings} for more information about this limitation.
 
 \begin{figure}[!h]
-	\centering
-	\scalebox{1.0}{
-		\Qcircuit @C=1em @R=.7em {
-		                     &                                                    &     &                                          &        &        & & \mbox{{\tiny optional $n$ layers}}           &     &        & & \\
-			\lstick{\ket{0}} & \multigate{3}{feature\ embedding} \barrier[0em]{3} & \qw & \multigate{3}{layer\ 0} \barrier[0em]{3} & \qw    & \cdots & & \multigate{3}{layer\ n} \barrier[0em]{3} & \qw & \cdots & & \meter \\
-			\lstick{\ket{0}} & \ghost{feature\ embedding}                         & \qw & \ghost{layer\ 0}                         & \qw    & \cdots & & \ghost{layer\ n}                         & \qw & \cdots & & \meter \\
-			\cdots           & \nghost{feature\ embedding}                        &     & \nghost{layer\ 0}                        &        & \cdots & & \nghost{layer\ n}                        &     & \cdots & & \cdots \\
-			\lstick{\ket{0}} & \ghost{feature\ embedding}                         & \qw & \ghost{layer\ 0}                         & \qw    & \cdots & & \ghost{layer\ n}                         & \qw & \cdots & & \meter \gategroup{2}{8}{5}{9}{.7em}{.} \\
-	    }
-	}
-	\caption{General schematics of the quantum circuits used in the QNN experiments.}
-	\label{figure:general_schematics_quantum_circuits_qnn}
+
+\end{figure}
+
+
+\begin{figure}[!ht]
+    \centering
+    \begin{subfigure}{1.0\textwidth}
+        \centering
+	    \scalebox{1.0}{
+        \Qcircuit @C=1.4em @R=0.8em {
+                \lstick{\ket{0}} & \multigate{3}{\mathcal{U}_x\ket{0}^{\otimes S} &=\ \ket{\psi_x}} & \multigate{3}{\mathcal{G}_\theta\ket{\psi_x} &=\ \ket{g_\theta(x)}} & \meter & \rstick{z_0} \\
+                \lstick{\ket{0}} & \ghost{\mathcal{U}_x\ket{0}^{\otimes S} &=\ \ket{\psi_x}}        & \ghost{\mathcal{G}_\theta\ket{\psi_x} &=\ \ket{g_\theta(x)}}        & \meter & \rstick{z_1} \\
+                \vdots           & \nghost{\mathcal{U}_x\ket{0}^{\otimes S} &=\ \ket{\psi_x}}       & \nghost{\mathcal{G}_\theta\ket{\psi_x} &=\ \ket{g_\theta(x)}}       &  &  \vdots \\
+                \lstick{\ket{0}} & \ghost{\mathcal{U}_x\ket{0}^{\otimes S} &=\ \ket{\psi_x}}        & \ghost{\mathcal{G}_\theta\ket{\psi_x} &=\ \ket{g_\theta(x)}}        & \meter & \rstick{z_S} \\
+                & & & & \\
+                & & & & \\
+                & \mbox{feature map} & \mbox{variational model} & & \mbox{measurement} \\
+                & & & & \\
+                \lstick{x\rightarrow} & \mbox{$\mathcal{U}_x$} & \mbox{$\mathcal{G}_\theta$} & & \mbox{$f(z)=y\rightarrow$} \\
+                & & & & \\
+            }
+    	}
+        \subcaption{General schematics of the quantum circuits used in the QNN experiments.}
+    	\label{subfigure:general_schematics_quantum_circuits_qnn}
+    \end{subfigure}
+    \\[3em]
+    \begin{subfigure}{1.0\textwidth}
+        \centering
+	    \scalebox{1.0}{
+            \Qcircuit @C=1.4em @R=.8em {
+            & & & & & & & \mbox{{\small optional $n$ layers}} & & & & \\
+            \lstick{\ket{0}} & \multigate{3}{embedding\ \mathcal{U}_x} \barrier[0em]{3} & \qw & \multigate{3}{layer\ 0} \barrier[0em]{3} & \qw    & \cdots & & \multigate{3}{layer\ n} \barrier[0em]{3} & \qw & \cdots & & \meter \\
+            \lstick{\ket{0}} & \ghost{embedding\ \mathcal{U}_x}                         & \qw & \ghost{layer\ 0}                         & \qw    & \cdots & & \ghost{layer\ n}                         & \qw & \cdots & & \meter \\
+            \vdots           & \nghost{embedding\ \mathcal{U}_x}                        &     & \nghost{layer\ 0}                        &        & \cdots & & \nghost{layer\ n}                        &     & \cdots & & \vdots \\
+            \lstick{\ket{0}} & \ghost{embedding\ \mathcal{U}_x}                         & \qw & \ghost{layer\ 0}                         & \qw    & \cdots & & \ghost{layer\ n}                         & \qw & \cdots & & \meter \gategroup{2}{8}{5}{9}{.7em}{.} \\
+            & & & & & & & & & & & \\
+            }
+    	}
+        \subcaption{The variational model repeats itself in a certain pattern which can thus be considered pseudo layers}
+    	\label{subfigure:general_pseudo_layer_schematics_quantum_circuits_qnn}
+    \end{subfigure}
+    \caption{Hello hello}
+    \label{fig:general_schematics_quantum_circuits_qnn}
 \end{figure}
 
 
 \subsubsection{Feature \& Weights Embedding}
-All QNN circuits start with the feature embedding using angle embedding \todo{Why angle embedding?} with a \rygate. 
+ All the features from our datasets are \textit{classical} data and they need to be encoded into the physical states of a quantum system. To do so, we chose angle embedding among a multitude of other embedding techniques\cite{schuld_SQMLmodelsAreKernelMethods}. \todo{Why angle embedding?}
 
 \subsection{Quantum Circuits}
 \label{subsection:qnn_quantum_circuits}
+
 The QNN quantum circuits used in our experiments are presented in this section and the following should be noted:
 
 \begin{itemize}
