@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import multiprocessing
+import multiprocessing.pool
 import pythonlib.qcircuits as qc
 import os
 import re
@@ -24,7 +25,7 @@ SCRIPT_DIRECTORY = os.path.dirname(abspath)
 os.chdir(SCRIPT_DIRECTORY)
 
 # VARS
-DATASET_FILE = SCRIPT_DIRECTORY + '/../datasets/datasets.data'
+DATASET_FILE = SCRIPT_DIRECTORY + '/datasets.data'
 NUMBER_DATASETS = 5
 NUMBER_RUNS = 10
 NUMBER_SAMPLES = 100
@@ -372,6 +373,25 @@ def generate_markdown_from_list(result_list, backend_informations):
     filepath = save_markdown_to_file('hardware_training_run', markdown, timestamp)
     print('Run has been saved to file: {}'.format(filepath))
 
+# Classes
+class NoDaemonProcess(multiprocessing.Process):
+    # make 'daemon' attribute always return False
+    @property
+    def daemon(self):
+        return False
+
+    @daemon.setter
+    def daemon(self, val):
+        pass
+
+class NoDaemonProcessPool(multiprocessing.pool.Pool):
+
+    def Process(self, *args, **kwds):
+        proc = super(NoDaemonProcessPool, self).Process(*args, **kwds)
+        proc.__class__ = NoDaemonProcess
+
+        return proc
+
 
 # MAIN
 if __name__ == '__main__':
@@ -384,7 +404,7 @@ if __name__ == '__main__':
 
     print("Running circuits ...")
 
-    pool = multiprocessing.Pool()
+    pool = NoDaemonProcessPool()
     pool.starmap(worker_datasets, [(return_list, datasets[i]) for i in range(40, 50, 1)])
     pool.close()
     pool.join()

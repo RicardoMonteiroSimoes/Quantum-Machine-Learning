@@ -42,6 +42,9 @@ quantum_circuits = [
     qc.qml_circuit_qiskit_05,
 ]
 
+# Do Subset test
+# Uses only 10% of the data to have q quick
+# overview that the script is working
 DO_TEST_SUBSET = False
 
 """
