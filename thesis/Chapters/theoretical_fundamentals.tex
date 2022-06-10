@@ -29,7 +29,7 @@
 
 %----------------------------------------------------------------------------------------
 \section{Quantum Computing}
-Classical computing consist of 1s and 0s and has for years shaped the computational world and progress. Quantum computing is, from afar, similar. There are \emph{qubits}, which are comparable to classical \emph{bits}, but are fundamentally different. Whereas a bit can only have the state 0 \emph{or} 1, a qubit allows the usage of any state, be it 0, 1 or a mix of those. Such a mix is referred to as a \emph{superposition}\cite{gudder_superposition_1970}. The catch comes when one wants to read the value of the qubit: one cannot directly measure its state, as showvisualized in figure \ref{figure:comparison_bit_qubit_measurement}.
+Classical computing consist of 1s and 0s and has for years shaped the computational world and progress. Quantum computing is, from afar, similar. There are \emph{qubits}, which are comparable to classical \emph{bits}, but are fundamentally different. Whereas a bit can only have the state 0 or 1, a qubit allows the usage of any state, be it 0, 1 or a mix of those. Such a mix is referred to as a \emph{superposition}\cite{gudder_superposition_1970}. The catch comes when one wants to read the value of the qubit: one cannot directly measure its state, as visualized in figure \ref{figure:comparison_bit_qubit_measurement}.
 
 \begin{figure}[!h]
     \centering
@@ -67,7 +67,7 @@ Classical computing consist of 1s and 0s and has for years shaped the computatio
     \label{figure:comparison_bit_qubit_measurement}
 \end{figure}
 
-When measuring a quantum circuit, the qubit state collapses from a superposition into the fixed state of 0 or 1. This means that to measurement the circuit an additional time, the complete circuit has to be set up again. After doing multiple measurements on a qubit and collecting the results as shown in table \ref{table:example_counts}, the data can be used to construct a \emph{histogram}\cite{eckstein_lexikon_1994} akin to the one visualized in figure \ref{figure:example_histogram}, out of which one can retrieve the internal state of the qubit, which directly resembles the probabilities of measuring a 1 or 0 in the given circuit. The sum of these probabilities, be it per qubit or for a whole circuit, always amount to 1.
+When measuring a quantum circuit, the qubit state collapses from a superposition into the fixed state of 0 or 1. This means that to measure the circuit an additional time, it has to be set up again. After doing multiple measurements on a qubit and collecting the results as shown in table \ref{table:example_counts}, the data can be used to construct a \emph{histogram}\cite{eckstein_lexikon_1994} akin to the one visualized in figure \ref{figure:example_histogram}, out of which one can retrieve the internal state of the qubit, which directly resembles the probabilities of measuring a 1 or 0 in the given circuit. The sum of these probabilities, be it per qubit or for a whole circuit, always amount to 1.
 
 \begin{figure}[!h]
     \begin{subtable}{.5\textwidth}
@@ -89,11 +89,9 @@ When measuring a quantum circuit, the qubit state collapses from a superposition
         \caption{A histogram generated from the data in table \ref{table:example_counts}, that visually shows the probabilities of measuring 0 and 1. These probabilities can directly be used to understand the superposition of a qubit at the point of measurement.}
         \label{figure:example_histogram}
     \end{subfigure}
-    \caption{Example of collected measurements from measuring an arbitrary single qubit in an unknown state, as well as the corresponding histogram.}
+    \caption{Example of collected measurements from measuring an arbitrary single qubit in an unknown state, as well as the corresponding histogram generated from said data.}
     \label{fig:my_label}
 \end{figure}
-
-\newpage
 
 To further understand how a qubit behaves, the very foundations of quantum physics have to be looked at. Postulated by E. Schrödinger in 1925, the \emph{Schrödinger-Equation}\cite{PhysRev.28.1049} gives us the differential equation for the time evolution of a quantum state and their respective solution, shown in equation \ref{equation:schroedinger_time_evolution}, where $H$ denotes a Hamiltonian.
 
@@ -121,7 +119,7 @@ A mere two years later, Wolfgang Pauli published "Zur Quantenmechanik des magnet
 
 \newpage
 
-The \bloch\cite{michael_a_nielsen_quantum_2000}, as shown in figure \ref{figure:basic_bloch_sphere}, is used to help visualize quantum operations on a single, \emph{non-entangled}, qubit. The complex \emph{Bloch}-Vector inside the \bloch\ (shown as pink arrow in figure \ref{figure:basic_bloch_sphere}) corresponds to the expectation value of measuring a certain value, 0 or 1, in a single qubit. To visualize entangled qubits, the \bloch\ by itself is not enough. There are proposed solutions to this problem\cite{gamel_entangled_2016}, which result in a more complex visualization with multiple \bloch s. To somewhat solve this issue in a simpler fashion, IBM's python library \code{qiskit} offers the Q-Sphere\cite{ibm_quantum_visualizations_nodate} as shown in figure \ref{figure:q_sphere_4qubit_h}, which can visualize up to 5 entangled single qubits. In addition, it can also show the probability of a given state through the diameter of the pointer next to a state, as shown in figure \ref{figure:q_sphere_4qubit_h}.
+The \bloch\cite{michael_a_nielsen_quantum_2000}, as shown in figure \ref{figure:basic_bloch_sphere}, is used to help visualize quantum operations on a single, \emph{non-entangled}, qubit. The complex \emph{Bloch}-Vector inside the \bloch\ (shown as pink arrow in figure \ref{figure:basic_bloch_sphere}) corresponds to the expectation value of measuring a certain value, 0 or 1, in a single qubit. To visualize entangled qubits, the \bloch\ by itself is not enough. There are proposed solutions to this problem\cite{gamel_entangled_2016}, which result in a more complex visualization with multiple \bloch s. To somewhat solve this issue in a simpler fashion, IBM's python library \code{qiskit} offers the Q-Sphere\cite{ibm_quantum_visualizations_nodate} as shown in figure \ref{figure:q_sphere_4qubit_h}, which can visualize up to 5 entangled single qubits. In addition, it can also show the probability of a given state through the diameter of the pointer next to a state, as shown in figure \ref{figure:q_sphere_4qubit_h}. Whilst the Q-Sphere also shows the phase of each state, it is not further used in this thesis.
 
 \begin{figure}[!h]
     \centering
@@ -130,7 +128,7 @@ The \bloch\cite{michael_a_nielsen_quantum_2000}, as shown in figure \ref{figure:
         \scalebox{.6}{
             \includesvg{thesis/Appendices/Bloch_Sphere_axis.svg}
         }
-        \caption{A basic \bloch\ without a visualized \emph{Bloch}-Vector, shown as the pink arrow. The axis $x$ and $y$ are annotated accordingly, but the axis $z$ is annotated with $\ket{0}$ and $\ket{1}$ - the states which are measured and have a corresponding probability assigned to them.}
+        \caption{A basic \bloch\ with a visualized \emph{Bloch}-Vector, shown as the pink arrow. The axis $x$ and $y$ are annotated accordingly, but the axis $z$ is annotated with $\ket{0}$ and $\ket{1}$ - the states which are measured and have a corresponding probability assigned to them.}
         \label{figure:basic_bloch_sphere}
     \end{subfigure}
     \begin{subfigure}{.4\textwidth}
@@ -141,13 +139,14 @@ The \bloch\cite{michael_a_nielsen_quantum_2000}, as shown in figure \ref{figure:
         \caption{A basic Q-Sphere that shows all possible states of a 4 qubit circuit, as well as the probability of each state and their phase. The probability is encoded into the width of the pointers next to the state labels. As all pointers are equal, it is clear that all states have the same probability of being measured.}
         \label{figure:q_sphere_4qubit_h}
     \end{subfigure}
-    \caption{A comparison of the \bloch\ used to visualize single qubits only, and the Q-Sphere that can visualize multiple qubits.}
+    \caption{A comparison of the \bloch\ used to visualize single qubits only, and the Q-Sphere that can visualize up to 5 qubits.}
     \label{fig:comparison_bloch_sphere_q_sphere}
 \end{figure}
 
 \newpage
 
-When measuring a qubit, the state collapses onto the $z$-axis\cite{feynman_feynman_1965}, which in turn leads to a measurement of either 0 or 1. As a qubit can be in an arbitrary state of $\ket{0}$, $\ket{1}$ or anything in between, the state, also referred to as state-vector, of a single qubit is best described as  $\alpha\ket{0}+\beta\ket{1}$, whereas $|\alpha|^2 + |\beta|^2 = 1$\cite{qiskit_representing_nodate}. This directly describes the given amplitude of the measurable states a qubit can be in. Quantum circuits generated using \code{qiskit} have all qubits initially set to state $\ket{0}$, which is visualized onto the Q-Sphere in figure \ref{figure:state_0_q_sphere}. This leads to the description of the qubits state being $1\ket{0}+0\ket{1}$, so it can be shortened to $\ket{0}$. A circuit that results in said state is visualized in figure \ref{figure:state_0_circuit}, and its mathematical counterpart in equation \ref{equation:state_0_equation}. The states $\ket{\psi_i}$ are used throughout the thesis to denote the state of one, or multiple, qubits at the currently marked point of the circuit.
+When measuring a qubit, the state collapses onto the $z$-axis\cite{feynman_feynman_1965}, which in turn leads to a measurement of either 0 or 1. As a qubit can be in an arbitrary state of $\ket{0}$, $\ket{1}$ or anything in between, the state, also referred to as state-vector, of a single qubit is best described as  $\alpha\ket{0}+\beta\ket{1}$, whereas $|\alpha|^2 + |\beta|^2 = 1$\cite{qiskit_representing_nodate}. This directly describes the given amplitude of the measurable states a qubit can be in.\par
+Quantum circuits generated using \code{qiskit} have all qubits initially set to state $\ket{0}$, which is visualized onto the Q-Sphere in figure \ref{figure:state_0_q_sphere}. This leads to the description of the qubits state being $1\ket{0}+0\ket{1}$, so it can be shortened to $\ket{0}$. A circuit that results in said state is visualized in figure \ref{figure:state_0_circuit}, and its mathematical counterpart in equation \ref{equation:state_0_equation}. The states $\ket{\psi_i}$ are used throughout the thesis to denote the state of one, or multiple, qubits at the currently marked point of the circuit.
 
 \begin{figure}[!h]
     \begin{subfigure}{.5\textwidth}
@@ -168,7 +167,7 @@ When measuring a qubit, the state collapses onto the $z$-axis\cite{feynman_feynm
         \caption{A basic circuit consisting of a single qubit $q$ that is initially set to $\ket{0}$. The state vector at point $\ket{\psi_0}$ is shown in equation \ref{equation:state_0_equation}.}
         \label{figure:state_0_circuit}
     \end{subfigure}
-    \caption{The circuit with qubit state $\ket{0}$ at position $\ket{\psi_0}$ and its corresponding Q-Sphere visualization.}
+    \caption{A single qubit circuit with qubit state $\ket{0}$ at position $\ket{\psi_0}$ and its corresponding Q-Sphere visualization.}
     \label{fig:showcase_qubit_state_0_with_circuit}
 \end{figure}
 
@@ -184,7 +183,7 @@ When measuring a qubit, the state collapses onto the $z$-axis\cite{feynman_feynm
 
 \newpage
 
-To create the state $\ket{1}$, the circuit from figure \ref{figure:state_0_circuit} is extended with the Pauli \xgate\cite{qiskit_xgate_nodate}. The \xgate\ is the quantum equivalent to the classical NOT-Gate, which itself is an inverter and converts the state 0 to 1 and vice versa. To verify the behaviour of the \xgate, equation \ref{equation:state_1_equation} takes the state $\ket{\psi_0}$ and multiplies it with the \xgate, which then results in the state $\ket{\psi_1}$, as noted on the circuit \ref{figure:x_circuit}, whilst the figure \ref{figure:state_1_q_sphere} visualizes the final state $\ket{\psi_1}$ on the Q-Sphere.
+To create the state $\ket{1}$, the circuit from figure \ref{figure:state_0_circuit} is extended with the Pauli \xgate\cite{qiskit_xgate_nodate}. The \xgate\ is the quantum equivalent to the classical NOT-Gate, which itself is an inverter and converts the state 0 to 1 and vice versa. To verify the behaviour of the \xgate, equation \ref{equation:state_1_equation} takes the state \xgate\ and multiplies the state $\ket{\psi_0}$ with it, which then results in the state $\ket{\psi_1}$, as noted on the circuit \ref{figure:x_circuit}, whilst the figure \ref{figure:state_1_q_sphere} visualizes the final state $\ket{\psi_1}$ on the Q-Sphere.
 
 \begin{figure}[!h]
     \begin{subfigure}{.5\textwidth}
@@ -204,8 +203,8 @@ To create the state $\ket{1}$, the circuit from figure \ref{figure:state_0_circu
         \caption{The circuit from figure \ref{figure:state_0_circuit} extended with a \xgate\ to transform the initial state $\ket{0}$ at position $\ket{\psi_0}$, into the state $\ket{1}$ at position $\ket{\psi_1}$, as calculated in equation \ref{equation:state_1_equation}.}
         \label{figure:x_circuit}
     \end{subfigure}
-    \caption{Caption}
-    \label{fig:my_label}
+    \caption{A single qubit circuit with a \xgate\, where the single qubit has state $\ket{1}$ at position $\ket{\psi_1}$ and its corresponding Q-Sphere visualization.}
+    \label{fig:showcase_qubit_state_1_with_circuit}
 \end{figure}
 
 \begin{equation}
@@ -217,7 +216,9 @@ To create the state $\ket{1}$, the circuit from figure \ref{figure:state_0_circu
 \end{equation}
 
 As shown in equation \ref{equation:pauli_matrices}, there exist two more Pauli matrices. Like the \xgate\ that corresponds to the Pauli matrix $\sigma_x$, the gates \ygate\cite{qiskit_ygate_nodate} and \zgate\cite{qiskit_zgate_nodate} correspond to the Pauli matrices $\sigma_y$ and $\sigma_z$. \par
-It is important to note that depending on the state of a qubit, certain gates might not lead to a change in the probabilities of measuring a certain outcome. As shown in figure \ref{figure:showcase_z_gate}, the \zgate\ by itself does not change the possible outcome of a basic circuit.
+
+\newpage
+It is important to note that depending on the state of a qubit, certain gates might not lead to a change in the probabilities of measuring a certain outcome. As shown in figure \ref{figure:showcase_z_gate}, the \zgate\ by itself does not change the possible outcome of a basic circuit, as calculated in equation \ref{equation:state_z_equation}.
 
 \begin{figure}[!h]
     \begin{subfigure}{.5\textwidth}
@@ -237,24 +238,19 @@ It is important to note that depending on the state of a qubit, certain gates mi
         \caption{The circuit from figure \ref{figure:state_0_circuit} extended with a \zgate\ to transform the initial state $\ket{0}$ at position $\ket{\psi_0}$. As calculated in equation \ref{equation:state_z_equation}, the \zgate\ by itself does not change the possible measured state.}
         \label{figure:z_circuit}
     \end{subfigure}
-    \caption{Caption}
+    \caption{A single qubit circuit with a \zgate, where the single qubit has state $\ket{0}$ at position $\ket{\psi_1}$ and its corresponding Q-Sphere visualization.}
     \label{figure:showcase_z_gate}
 \end{figure}
 
 \begin{equation}
     \centering
     \begin{split}
-        \ket{\psi_1} =\ \mathrm{X}\ket{\psi_0} =\ \begin{pmatrix} 0 & 1\\ 1 & 0\end{pmatrix}\begin{pmatrix}1 \\ 0\end{pmatrix} =\ \begin{pmatrix}0 \\ 1 \end{pmatrix}\\
+        \ket{\psi_1} =\ \mathrm{Z}\ket{\psi_0} =\ \begin{pmatrix} 1 & 0\\ 0 & -1\end{pmatrix}\begin{pmatrix}1 \\ 0\end{pmatrix} =\ \begin{pmatrix}1 \\ 0\end{pmatrix}\\
     \end{split}
     \label{equation:state_z_equation}
 \end{equation}
 
-
-
-
-\newpage
-
-To achieve an equal probability of the states $\ket{0}$ and $\ket{1}$, the \emph{Hadamard}-Gate, or \hgate\cite{qiskit_hgate_nodate}, can be used to correctly set up the qubit with one gate. Without it, one would have to use a combination of different gates to achieve the result\cite{voorhoede_hadamard_nodate}, for example $\mathrm{XY}^{\frac{1}{2}}$.
+To achieve an equal probability of measuring the states $\ket{0}$ and $\ket{1}$, the \emph{Hadamard}-Gate, or \hgate\cite{qiskit_hgate_nodate}, can be used to change the state of a qubit from $\ket{0}$ to $\frac{1}{\sqrt{2}}\ket{0} + \frac{1}{\sqrt{2}}\ket{1}$ in one step. Without it, one would have to use a combination of different gates to achieve the result\cite{voorhoede_hadamard_nodate}, for example $\mathrm{XY}^{\frac{1}{2}}$. Figure \ref{figure:_one_qubit_h_state_circuit_qsphere} shows a circuit with the \hgate\ as well as the Q-Sphere for it. Equation \ref{equation:equal_superposition_equation} shows the calculation of the state $\ket{\phi_1}$ after the \hgate.
 
 
 \begin{figure}[!h]
@@ -291,10 +287,9 @@ To achieve an equal probability of the states $\ket{0}$ and $\ket{1}$, the \emph
 \end{equation}
 
 
+To assess that the visualization in figure \ref{figure:state_h_q_sphere} and the described behaviour of the qubit is correct, these assumptions are evaluated formally by directly calculating the probability of measuring a given state. When calculating this probability, the Hermitian Transposition\cite{marshall_c_methods_1964} is used which results in the expression $p(\ket{x}) =\ |\bra{x}\ket{\psi}|^2$, with $\ket{\psi}$ being an arbitrary state of a quantum circuit. Equation \ref{equation:basic_h_measurement} demonstrates the calculation of the probabilities the \hgate\ assigns to the measurements of $0$ and $1$, using the state $\ket{\psi_1}$ from circuit \ref{figure:h_circuit}\cite{qiskit_representing_nodate}.
 
-To assess that the visualization and the described behaviour of the qubit is correct, these assumptions are evaluated formally. When calculating the probability of measuring state $\ket{x}$, the Hermitian Transposition\cite{marshall_c_methods_1964} is used which results in the expression $p(\ket{x}) =\ |\bra{x}\ket{\psi}|^2$, with $\ket{\psi}$ being an arbitrary state of a quantum circuit. Equation \ref{equation:basic_h_measurement} demonstrates the calculation of the probabilities the \hgate\ assigns to the measurements of $0$ and $1$, using the state $\ket{\psi_1}$ from circuit \ref{figure:h_circuit}\cite{qiskit_representing_nodate}.
-
-\begin{equation}
+\begin{equation}[!h]
     \centering
     \begin{split}
         \ket{\psi_1} &=\ \frac{1}{\sqrt{2}}\ket{0} + \frac{1}{\sqrt{2}}\ket{1}\\
@@ -306,7 +301,7 @@ To assess that the visualization and the described behaviour of the qubit is cor
     \label{equation:basic_h_measurement}
 \end{equation}
 
-As shown, both states $\ket{0}$ and $\ket{1}$ have the same probability of $0.5$. When desiring probabilities that are not equal for both states, the Pauli gates can be extended to support arbitrary parameters, which result in the gates \rygate\cite{qiskit_rygate_nodate}, \rxgate\cite{qiskit_rxgate_nodate} and \rzgate\cite{qiskit_rzgate_nodate}. These allow a parameter to be supplied, and therefore, change the probabilities. To create a circuit that achieves the probabilities from the histogram \ref{figure:example_histogram}, one can use the parameterized \rygate. To understand how these gates came to be, the equation \ref{equation:ry_gate_proof} shows how the findings in equations \ref{equation:schroedinger_time_evolution} and \ref{equation:pauli_matrices} are used to create the \rygate. The same can be done for the \rxgate\ and \rzgate. Note that the resulting power series is the same as for $\cos$ and $\sin$ from equation \ref{equation:power_series_sin_cos}\cite{lars_complex_1978}.
+When desiring probabilities that are not equal for both states, the Pauli gates can be extended to support arbitrary parameters, which result in the gates \rygate\cite{qiskit_rygate_nodate}, \rxgate\cite{qiskit_rxgate_nodate} and \rzgate\cite{qiskit_rzgate_nodate}. These allow a parameter to be supplied, and therefore, change the probabilities. To create a circuit that achieves the probabilities from the histogram \ref{figure:example_histogram}, one can use the parameterized \rygate. To understand how these gates came to be, the equation \ref{equation:ry_gate_proof} shows how the findings in equations \ref{equation:schroedinger_time_evolution} and \ref{equation:pauli_matrices} are used to create the \rygate. The same can be done for the \rxgate\ and \rzgate. Note that the resulting power series in equation \ref{equation:ry_gate_proof} is the same as the power series for $\cos$ and $\sin$ shown in equation \ref{equation:power_series_sin_cos}\cite{lars_complex_1978}.
 
 \begin{equation}
     \centering
@@ -344,9 +339,10 @@ The formal definition used in equation \ref{equation:basic_h_measurement} can be
     \centering
     \begin{split}
         |\bra{1}\ket{\psi_1}|^2 &=\ 0.643 \\
-        \begin{pmatrix}1 & 0\end{pmatrix}\ket{\psi_1} &=\ \sqrt{0.643} \\
+        \begin{pmatrix}0 & 1\end{pmatrix}\ket{\psi_1} &=\ \sqrt{0.643} \\
+        \begin{pmatrix}1 & 0\end{pmatrix}\ket{\psi_1} &=\ \sqrt{0.357} \\
         \ket{\psi_1} &=\ \sqrt{0.357}\begin{pmatrix} 1 \\ 0\end{pmatrix} + \sqrt{0.643}\begin{pmatrix} 0 \\ 1\end{pmatrix}\\
-        \ket{\psi_1} &=\ \begin{pmatrix}\sqrt{0.643}\\ \sqrt{0.357}\end{pmatrix}\\
+        \ket{\psi_1} &=\ \begin{pmatrix}\sqrt{0.357}\\ \sqrt{0.643}\end{pmatrix}\\
         \mathrm{RY}(\theta)\ket{0} &=\ \begin{pmatrix}\sqrt{0.357}\\ \sqrt{0.643}\end{pmatrix} \\
         \begin{pmatrix}\cos{\frac{\theta}{2}} \\ -i\sin{\frac{\theta}{2}}\end{pmatrix} &=\ \begin{pmatrix}\sqrt{0.357}\\ \sqrt{0.643}\end{pmatrix}\\
         \theta_{cos} &=\ 2(\acos{\sqrt{0.357}}) =\ 1.8608\\
@@ -381,7 +377,7 @@ With the value of $\theta$ calculated, the circuit \ref{figure:circuit_for_histo
         \scalebox{\histogramwidth}{
             \includesvg{thesis/Appendices/calculated_circuit_histogram.svg}
         }
-        \caption{A histogram generated from the data in table \ref{table:example_counts}, that visually shows the probabilities of 0 and 1 of the qubit on the circuit \ref{figure:circuit_for_histogram}.}
+        \caption{A histogram, generated from the data in table \ref{table:example_counts}, that visually shows the probabilities of 0 and 1 of the qubit on the circuit \ref{figure:circuit_for_histogram}.}
         \label{figure:circuit_histogram}
     \end{subfigure}
     \begin{subfigure}{.5\textwidth}
@@ -397,8 +393,10 @@ With the value of $\theta$ calculated, the circuit \ref{figure:circuit_for_histo
     \label{figure:figure_circuit_histogram_rebuilt_from_example}
 \end{figure}
 
-One critical part of quantum computing is the entanglement of multiple qubits. This entanglement dictates that the qubits enter a state where one cannot explain a single state, but can only express the state of the whole system as a whole. As previously noted, this is the reason why the \bloch\ cannot be used in entangled, multi-qubit circuits, as it can only correctly show the state of one qubit. Schrödinger E. fully explained entanglement in 1935\cite{schroedinger_discussion_entanglement}, whereafter Einstein A. called it \emph{spukhafte Fernwirkung}, or \emph{spooky action at a distance}, as entangled particles enact upon each other at any distance – therefore breaking the speed of light defined in Einstein A.'s \emph{Theory of relativity}\cite{einstein_grundlage_1916}.  \par
-In qiskit, entanglement of multiple qubits can be achieved through the usage of \emph{controlled} gates. These gates, in their simplest form, cross two qubits. One of those is the \emph{controlling} qubit, which dictates if the gate is applied on the \emph{target} qubit or not. The most simple gates, built again using the \emph{Pauli matrices}, are the CX-Gate\cite{qiskit_cxgate_nodate}, CY-Gate\cite{qiskit_cygate_nodate} and CZ-Gate\cite{qiskit_czgate_nodate}. Circuit \ref{circuit:example_cx_circuit} shows a two qubit circuit with an CX-Gate applied onto both qubits, using $q_0$ as \emph{controlling} qubit and $q_1$ as \emph{target} qubit. Equation \ref{equation:cx_construction} shows the mathematical construction of the CX-Gate, where $q_0$ is the control qubit and $q_1$ is the target qubit. The CX-Gate behaves like a classical NOT gate – therefore, negating the value of the target – with an additional input to turn it \emph{on} and \emph{off}.
+\newpage
+
+One critical part of quantum computing is the entanglement of multiple qubits. This entanglement dictates that the qubits enter a state where one cannot explain their isolated state, but has to express the state of the whole system as a sum of its parts. As previously noted, this is the reason why the \bloch\ cannot be used in entangled, multi-qubit circuits, as it can only correctly show the state of one non-entangled qubit. Schrödinger E. fully explained entanglement in 1935\cite{schroedinger_discussion_entanglement}, whereafter Einstein A. called it \emph{spukhafte Fernwirkung}, or \emph{spooky action at a distance}, as entangled particles enact upon each other at any distance – therefore breaking the speed of light defined in Einstein A.'s \emph{Theory of relativity}\cite{einstein_grundlage_1916}.  \par
+In \code{qiskit}, entanglement of multiple qubits can be achieved through the usage of \emph{controlled} gates. These gates, in their simplest form, cross two qubits. One of those is the \emph{controlling} qubit, which dictates if the gate is applied on the \emph{target} qubit or not. The most simple gates, built again using the \emph{Pauli matrices}, are the CX-Gate\cite{qiskit_cxgate_nodate}, CY-Gate\cite{qiskit_cygate_nodate} and CZ-Gate\cite{qiskit_czgate_nodate}. Circuit \ref{circuit:example_h_cx_circuit} shows a two qubit circuit with an CX-Gate applied onto both qubits, using $q_0$ as \emph{controlling} qubit and $q_1$ as \emph{target} qubit. Equation \ref{equation:cx_construction} shows the mathematical construction of the CX-Gate, where $q_0$ is the control qubit and $q_1$ is the target qubit. The CX-Gate behaves like a classical NOT gate – therefore, negating the value of the target – with an additional input to turn it \emph{on} or \emph{off}.
 
 \begin{equation}
     \centering
@@ -416,7 +414,7 @@ In qiskit, entanglement of multiple qubits can be achieved through the usage of 
     \label{equation:cx_construction}
 \end{equation}
 
-As shown in equation \ref{equation:cx_construction}, the CX matrix is of size $4\times4$. This is larger than the dimension of the state of a single qubit, due to the fact of it applying to two qubits at once. When applying such a gate, one has to merge together both states of the used qubits to create a state vector with increased dimensionality. This is done by calculating the tensor product of both qubits, as shown in equation \ref{equation:example_tensor_product}, and the resulting state vector can be directly compared to a vector containing all possible states one can measure. As $q0$ has the state $\ket{0}$ and $q_1$ the state $\ket{1}$, the only possible outcome to a measurement would be the $10$\footnote{This means the result is formatted as Little-Endian, with the first bit being the rightmost one.}.
+As shown in equation \ref{equation:cx_construction}, the CX matrix is of size $4\times4$. This is larger than the dimension of the state of a single qubit, due to the fact of it applying to two qubits at once. When applying such a gate, one has to merge both states of the used qubits to create a state vector with increased dimensionality. This is done by calculating the tensor product of both qubits, as shown in equation \ref{equation:example_tensor_product}, and the resulting state vector can be directly compared to a vector containing all possible states one can measure. As $q0$ has the state $\ket{0}$ and $q_1$ the state $\ket{1}$, the only possible outcome to a measurement would be the $10$\footnote{This means the result is formatted as Little-Endian, with the first bit being the rightmost one, in this case $q_1q_0$.}.
 
 \begin{equation}
     \centering
@@ -427,6 +425,9 @@ As shown in equation \ref{equation:cx_construction}, the CX matrix is of size $4
     \label{equation:example_tensor_product}
 \end{equation}
 
+Figure \ref{circuit:example_h_cx_circuit} contains a single \hgate\ that is applied on $q_0$, as well as a \cxgate\ applied on $q_0$ and $q_1$. Equation \ref{equation:states_cx_circuit} calculates the resulting probabilities at $\ket{\psi_1}$ and shows that there is a chance of measuring $00$ or $11$. As $q_0$ has the H-Gate applied, it sits at an equal superposition and has the same probability of measuring 0 or 1. In the case of $q_0$ being 1, the CX-Gate activates and flips the value of $q_1$, which is up until that point $\ket{0}$. This leads to the only possible, measurable states being $00$ and $11$.
+
+
 \begin{figure}[!h]
     \centering
     \scalebox{1.0}{
@@ -435,8 +436,8 @@ As shown in equation \ref{equation:cx_construction}, the CX matrix is of size $4
 	 	\nghost{{q}_{1} :  } & \lstick{{q}_{1} :  } & \qw & \qw & \targ & \qw & \qw & \qw\\
 	 	\nghost{} & \lstick{} &  &  \ket{\psi_0} &  & \ket{\psi_1} & \\
 \\ }}
-    \caption{Simple two qubit circuit where both qubits are entangled using a CX-Gate. The states $\ket{\psi_0}$ and $\ket{\psi_1}$ symbolize the state of the system before and after the CX-Gate.}
-    \label{circuit:example_cx_circuit}
+    \caption{Simple two qubit circuit where the \hgate\ is applied to $q_0$ and afterwards both qubits $q_0$ and $q_1$ are entangled using a CX-Gate. The states $\ket{\psi_0}$ and $\ket{\psi_1}$ symbolize the state of the system before and after the CX-Gate.}
+    \label{circuit:example_h_cx_circuit}
 \end{figure}
 
 \begin{equation}
@@ -456,10 +457,373 @@ As shown in equation \ref{equation:cx_construction}, the CX matrix is of size $4
     \label{equation:states_cx_circuit}
 \end{equation}
 
-As equation \ref{equation:states_cx_circuit} shows, there is a chance of measuring $00$ or $11$. As $q_0$ has the H-Gate applied, it sits at an equal superposition and has the same probability of measuring 0 or 1. On the case the it is 1, the CX-Gate activates and flips the value of $q_1$, which is up until that point $\ket{0}$. This leads to the only possible, measurable states being $00$ and $11$.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newpage
+
+\section{Quantum Neural Network}
+\label{chapter:qnn}
+
+The \textit{classic computational neuron} originally proposed by Rosenblatt F.\cite{rosenblatt_perceptron_1958}, as shown in figure \ref{figure:classic_computational_neuron}, builds the basis for most classical neural networks used today. The underlying principle is simple and shown in equation \ref{equation:classical_neuron_computation}. All inputs $x_n$ are multiplied by a corresponding weight $w_n$, then their total sum calculated. The resulting value is passed to an activation function $f(x)$, which is activated if a predefined threshold value is exceeded. The activation function $f(x)$, also called transfer function, can be selected from a plethora of valid choices\cite{szandala_review_2021}.
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+\begin{figure}[h!]
+    \centering
+
+    \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+    %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+    
+    %Shape: Circle [id:dp6859812572471455] 
+    \draw   (192.5,140) .. controls (192.5,109.62) and (217.12,85) .. (247.5,85) .. controls (277.88,85) and (302.5,109.62) .. (302.5,140) .. controls (302.5,170.38) and (277.88,195) .. (247.5,195) .. controls (217.12,195) and (192.5,170.38) .. (192.5,140) -- cycle ;
+    %Shape: Circle [id:dp24070647763127284] 
+    \draw   (96,71.5) .. controls (96,64.6) and (101.6,59) .. (108.5,59) .. controls (115.4,59) and (121,64.6) .. (121,71.5) .. controls (121,78.4) and (115.4,84) .. (108.5,84) .. controls (101.6,84) and (96,78.4) .. (96,71.5) -- cycle ;
+    %Shape: Circle [id:dp9363816782656273] 
+    \draw   (96,117.5) .. controls (96,110.6) and (101.6,105) .. (108.5,105) .. controls (115.4,105) and (121,110.6) .. (121,117.5) .. controls (121,124.4) and (115.4,130) .. (108.5,130) .. controls (101.6,130) and (96,124.4) .. (96,117.5) -- cycle ;
+    %Shape: Circle [id:dp4720861626805333] 
+    \draw   (96,207.5) .. controls (96,200.6) and (101.6,195) .. (108.5,195) .. controls (115.4,195) and (121,200.6) .. (121,207.5) .. controls (121,214.4) and (115.4,220) .. (108.5,220) .. controls (101.6,220) and (96,214.4) .. (96,207.5) -- cycle ;
+    %Rounded Rect [id:dp5631408345855224] 
+    \draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.5 ][dash pattern={on 4.5pt off 4.5pt}] (80,56) .. controls (80,49.37) and (85.37,44) .. (92,44) -- (128,44) .. controls (134.63,44) and (140,49.37) .. (140,56) -- (140,227) .. controls (140,233.63) and (134.63,239) .. (128,239) -- (92,239) .. controls (85.37,239) and (80,233.63) .. (80,227) -- cycle ;
+    %Curve Lines [id:da4059065253769214] 
+    \draw    (121,71.5) .. controls (159.22,69.05) and (182.07,82.45) .. (208.38,98.98) ;
+    \draw [shift={(210,100)}, rotate = 212.2] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+    %Curve Lines [id:da5094425475664381] 
+    \draw    (121,207.5) .. controls (153.51,207.01) and (182.13,202.15) .. (208.78,180.98) ;
+    \draw [shift={(210,180)}, rotate = 140.83] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+    %Curve Lines [id:da5523039314594727] 
+    \draw    (121,117.5) .. controls (147.6,116.02) and (160.61,117.94) .. (193.48,122.78) ;
+    \draw [shift={(195,123)}, rotate = 188.37] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+    %Straight Lines [id:da007343534667061169] 
+    \draw    (302.5,140) -- (352,140) ;
+    \draw [shift={(354,140)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+    %Shape: Circle [id:dp683884067109112] 
+    \draw   (354,140) .. controls (354,126.19) and (365.19,115) .. (379,115) .. controls (392.81,115) and (404,126.19) .. (404,140) .. controls (404,153.81) and (392.81,165) .. (379,165) .. controls (365.19,165) and (354,153.81) .. (354,140) -- cycle ;
+    %Straight Lines [id:da9286309330170883] 
+    \draw    (404,140) -- (453.5,140) ;
+    \draw [shift={(455.5,140)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+    
+    % Text Node
+    \draw (100,163) node [anchor=north west][inner sep=0.75pt]   [align=left] {{\large ...}};
+    % Text Node
+    \draw (100,67.4) node [anchor=north west][inner sep=0.75pt]    {$x_{1}$};
+    % Text Node
+    \draw (99.5,112.9) node [anchor=north west][inner sep=0.75pt]    {$x_{2}$};
+    % Text Node
+    \draw (99.5,202.9) node [anchor=north west][inner sep=0.75pt]    {$x_{n}$};
+    % Text Node
+    \draw (94,251) node [anchor=north west][inner sep=0.75pt]   [align=left] {Input};
+    % Text Node
+    \draw (167,61.4) node [anchor=north west][inner sep=0.75pt]    {$w_{1}$};
+    % Text Node
+    \draw (149,123.4) node [anchor=north west][inner sep=0.75pt]    {$w_{2}$};
+    % Text Node
+    \draw (166,206.4) node [anchor=north west][inner sep=0.75pt]    {$w_{n}$};
+    % Text Node
+    \draw (204,131.4) node [anchor=north west][inner sep=0.75pt]    {$f\left(\sum _{i=1}^{n} x_{i} w_{i} \right)$};
+    % Text Node
+    \draw (447,172) node [anchor=north west][inner sep=0.75pt]   [align=left] {Output};
+    % Text Node
+    \draw (364,131.4) node [anchor=north west][inner sep=0.75pt]    {$f( x)$};
+    % Text Node
+    \draw (465,136.4) node [anchor=north west][inner sep=0.75pt]    {$y$};
+    % Text Node
+    \draw (351,67) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=0.5 ] [align=left] {\begin{minipage}[lt]{38.1pt}\setlength\topsep{0pt}
+    \begin{center}
+    {\footnotesize Activation}\\{\footnotesize Function}
+    \end{center}
+    
+    \end{minipage}};
+    
+    \end{tikzpicture}
+
+    \caption{Visual representation of the classic computational neuron, often referred to as a perceptron.}
+    \label{figure:classic_computational_neuron}
+\end{figure}
+
+\begin{equation}
+    \centering
+    y =\ f\left(\sum_{i = 1}^n x_i\omega_i\right)
+    \label{equation:classical_neuron_computation}
+\end{equation}
+
+Rosenblatt’s perceptron is basically a single-layer neural network and is limited in its capabilities. To overcome the practical limitations, we can use multiple perceptrons in a specific structure to build a so-called multilayer perceptron, as illustrated in figure \ref{figure:classic_multilayer_perceptron} \cite{haykin2009neural}.
+
+
+\begin{figure}[h!]
+    \centering
+    \scalebox{0.8}{
+        \begin{tikzpicture}[x=2.2cm,y=1.4cm]
+          \readlist\Nnod{4,3,3,2} % array of number of nodes per layer
+          \readlist\Nstr{n,m,m,m,k} % array of string number of nodes per layer
+          \readlist\Cstr{\strut x,a^{(\prev)},a^{(\prev)},a^{(\prev)},y} % array of coefficient symbol per layer
+          \def\yshift{0.5} % shift last node for dots
+          
+          \message{^^J  Layer}
+          \foreachitem \N \in \Nnod{ % loop over layers
+            \def\lay{\Ncnt} % alias of index of current layer
+            \pgfmathsetmacro\prev{int(\Ncnt-1)} % number of previous layer
+            \message{\lay,}
+            \foreach \i [evaluate={\c=int(\i==\N); \y=\N/2-\i-\c*\yshift;
+                         \index=(\i<\N?int(\i):"\Nstr[\lay]");
+                         \x=\lay; \n=\nstyle;}] in {1,...,\N}{ % loop over nodes
+              % NODES
+              \node[node \n] (N\lay-\i) at (\x,\y) {$\Cstr[\lay]_{\index}$};
+              
+              % CONNECTIONS
+              \ifnum\lay>1 % connect to previous layer
+                \foreach \j in {1,...,\Nnod[\prev]}{ % loop over nodes in previous layer
+                  \draw[connect,white,line width=1.2] (N\prev-\j) -- (N\lay-\i);
+                  \draw[connect] (N\prev-\j) -- (N\lay-\i);
+                  %\draw[connect] (N\prev-\j.0) -- (N\lay-\i.180); % connect to left
+                }
+              \fi % else: nothing to connect first layer
+              
+            }
+            \path (N\lay-\N) --++ (0,1+\yshift) node[midway,scale=1.5] {$\vdots$};
+          }
+          
+          % LABELS
+          % \node[above=5,align=center,mygreen!60!black] at (N1-1.90) {input\\[-0.2em]layer};
+          % \node[above=2,align=center,myblue!60!black] at (N3-1.90) {hidden layers};
+          % \node[above=10,align=center,myred!60!black] at (N\Nnodlen-1.90) {output\\[-0.2em]layer};
+          
+        \end{tikzpicture}
+    }
+    \caption{Example illustration of a classical, multilayer perceptron, also referred to as artificial neural network. From left to right: Input layer in green, two hidden layers in blue and the output layer in red.}
+    \label{figure:classic_multilayer_perceptron}
+\end{figure}
+
+\vspace{2em}
+The quantum analogue of a classical neuron is called a quantum neuron, also referred to as \textit{quron}, as proposed by Maria Schuld et al.\cite{schuldQuestQuantumNeural2014a}. The classical perceptron cannot be implemented one-to-one as a \textit{quron} because of the nature of quantum computations. Thus, the strategy is to replicate the functionality of a classical perceptron using a quantum algorithm, built as a quantum circuit. These quantum circuits can vary in structure and gates use. Currently known implementations are the \textit{QFT-based perceptron}\cite{SchuldSimulatingAPerceptron_2015}, \textit{Repeat Until Success circuits}\cite{QuantumNeuronAnElementaryBuildingBlock,Torrontegui_2019} and \textit{Non-linearity from measurement}\cite{tacchinoArtificialNeuronImplemented2019}, among others\cite{AltaiskyQuantumNeuralNetwork,DesignOfQuantumNeuronModel}, and serve different computational use cases.\par
+Just as a classical neural network can be built and extended in varying fashion, the same can be said about its quantum counterpart. There are differing interpretations and implementations of quantum neural networks\cite{Mangini_2021,Mitarai_2018,ClassificationWithQNN,QNNConceptsApplicationsChallenges,Killoran_2019}. It has yet to be shown what the best and most exact representation of a neural network as quantum circuit is. For example, one could represent the whole neural network as one quantum circuit, try to replace the perceptrons with a quantum analogue etc.\cite{OnQuantumNeuralNetworks,Ezhov2000,schuldQuestQuantumNeural2014a} Additionally, there are various approaches and different views on which classical part corresponds to which quantum analogue or if every step in a classical neural network could or even should have its quantum counterpart\cite{OnQuantumNeuralNetworks,Ezhov2000,schuldQuestQuantumNeural2014a}. \par
+A different publication by Schuld et al.\cite{schuldCircuitcentricQuantumClassifiers2020} states that a quantum circuit closely resembles a neural network with unitary layers, whereas Abbas et al.\cite{Abbas_2021,schuldCircuitcentricQuantumClassifiers2020} states that quantum neural networks are a subclass of \textit{Variational Quantum Algorithms} or VQAs, consisting of quantum circuits with parameterised gates. Furthermore, VQAs with parameterised gates, also known as \textit{Variational Quantum Circuits} VQCs, are especially promising when running on current quantum hardware, also referred to as \textit{Noisy Intermediate-Scale Quantum} or NISQ. 
+
+\subsection{Variational Quantum Algorithm (VQA)}
+\label{subsection:vqa_fundamentals}
+According to Cerezo et al.\cite{Cerezo_2021}, VQAs are a framework that consists of basic buildings blocks used to solve a variety of problems. These building blocks usually accommodate at least one kind of VQC, as shown in figure \ref{fig:general_scheme_vqc}. VQAs are arguably the quantum analogue of highly successful machine-learning methods, such as neural networks. Moreover, VQAs leverage the toolbox of classical optimization, since they use VQCs to run on a quantum computer, and outsource the parameter optimization to a classical optimizer. This method describes a hybrid classical-quantum algorithm with supervised learning.
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{0.8}{
+		\Qcircuit @C=1.4em @R=.8em {
+            \lstick{\ket{0}} & \multigate{3}{Feature\ Map} & \multigate{3}{Variational\ Model} & \meter \\
+            \lstick{\ket{0}} & \ghost{Feature\ Map} & \ghost{Variational\ Model} & \meter \\
+            \vdots           & \nghost{Feature\ Map} & \nghost{Variational\ Model} & \vdots \\
+            \lstick{\ket{0}} & \ghost{Feature\ Map} & \ghost{Variational\ Model} & \meter \\
+            & & & \\
+	    }
+    }
+    \caption{General scheme of a \textit{variational quantum circuit}. The circuit is initialized as zero state $\ket{0}$, followed by the feature 
+    embedding (see chapter \ref{subsection:quantum_embedding_using_a_feature_map}) then continued by a variational model which incorporates trainable parameters, finally ending with measurements on each qubit.} 
+    \label{fig:general_scheme_vqc}
+\end{figure}
+
+\textbf{Hybrid classical-quantum algorithms} utilize both classical and quantum computers. Frankhauser et al.\cite{fankhauser_multiple_2021} state that these types of algorithms are considered promising since they can better handle erroneous, small-scale quantum devices than “pure” quantum algorithms. The algorithm performs the embedding of features and parameters, as well as the measurement of the circuit for the classification, as shown in figure \ref{fig:schematic_hybrid_classical_quantum}. The actual classification, parameter optimizations as well as loss and accuracy calculations are done using classical methods. 
+
+\begin{figure}[!h]
+    \centering
+    \scalebox{0.88}{
+        \begin{tikzpicture}[
+          roundnode/.style={circle, draw=black!60, fill=white!5, thick, minimum size=7mm},
+          squarednode/.style={rectangle, draw=black!60, fill=white!5, thick, minimum size=10mm},
+          optimizernode/.style={rectangle, draw=black!60, fill=white!5, thick, minimum size=25mm},
+          quantumcircuit/.style={draw=blue, minimum height=3.5cm, minimum width=10cm, fill=white!5, label=below:{\color{blue}variational quantum\ circuit}},
+        ]
+            %Nodes
+            \node[roundnode]        (dataset)        {Data};
+            \node[squarednode]      (preprocess)     [right=of dataset] {Preprocessing};
+            \node                   (point1)         [below=of preprocess] {};
+            \node[quantumcircuit]   (quantumcircuit) [below right=of dataset]  {
+                \Qcircuit @C=1em @R=.7em {
+                    \lstick{\ket{0}} & \multigate{3}{feature\ embedding} & \multigate{3}{model\ circuit} & \meter & \cw \\
+                    \lstick{\ket{0}} & \ghost{feature\ embedding} & \ghost{model\ circuit} & \meter & \cw \\
+                    \cdots & \nghost{feature\ embedding} & \nghost{model\ circuit} & \cdots &  \\
+                    \lstick{\ket{0}} & \ghost{feature\ embedding} & \ghost{model\ circuit} & \meter & \cw \gategroup{1}{5}{4}{5}{1.5em}{\}}
+                }
+            };
+            \node[optimizernode]      (optimizer)     [right=of quantumcircuit] {Optimizer};
+            % Lines
+            \draw[->] (dataset.east) -- (preprocess.west);
+            \draw[->] (quantumcircuit.east) -- (optimizer.west);
+            \draw [->] (preprocess.south) -- ++(0,-.6) -- ++(+1.3,0) -| ++(0,-0.6);
+            \draw [->] (optimizer.north) -- ++(0,+1.25) -- ++(-6.15,0) node[auto,midway,above] {parameter updates} -| ++(0,-1);
+        \end{tikzpicture}
+    }
+    \caption{Schematic view of the hybrid classical-quantum algorithm. Everything outside the \textit{variational quantum circuit} inside the blue box is done with classical methods.}
+    \label{fig:schematic_hybrid_classical_quantum}
+\end{figure}
+
+
+As showcased in figure \ref{fig:schematic_hybrid_classical_quantum}, the data is loaded and preprocessed once at the beginning. It is then split into two subsets $D_{training}, D_{testing} \in D$, whereas $\forall x \in D_{training}, \forall y \in D_{testing} | x \notin D_{testing} \wedge y \noting D_{training}$. Afterwards, multiple training iterations are done with the following procedure:
+
+\begin{enumerate}
+    \item A variational quantum circuit is constructed by embedding the features from $D_{training}$ into the quantum state using a feature map. In addition, the optimized parameters are also embedded into the quantum state\footnote{During the first iteration, the parameters are chosen at random}.
+    \item The created VQC is executed either on the simulator or real hardware and a result acquired.
+    \item The acquired result is parsed and compared to the expected result.
+    \item According to the result, the optimizer modifies the parameters and starts a new iteration.
+\end{enumerate}
+
+The algorithm stops if a certain threshold or the maximum iteration count for the optimization is reached. The trained parameters can now be embedded into a new quantum circuit and used to evaluate the testing subset $D_{testing}$.
+
+\subsection{Quantum embedding using a Quantum Feature Map}
+\label{subsection:quantum_embedding_using_a_feature_map}
+Quantum embedding, -encoding and feature embedding, -encoding both refer to the same procedure, namely the representation of classical data in the Hilbert space by through the usage of a quantum feature map. 
+More formally and corresponding to Havlicek et al.\cite{havlicekSupervisedLearningQuantum2019}, a quantum feature map is an injective encoding of classical information $\vec{x} \in \mathbb{R}^d$ into a quantum state $\op{\psi}{\psi}$ on a $n$-qubit register. Here, $\mathcal{H}_2 = \mathbb{C}^2$ is a Hilbert space consisting of a single qubit, and $\mathcal{S}(\mathcal{H}_2^{\otimes n})$ denotes the cone of positive semidefinite density matrices\footnote{Density matrices are explained in \cite{homeister2008quantum}.} $p \geq 0$ with unit trace $tr(p) = 1$. This cone is a subset of the $4^n$ dimensional Hilbert space of $\mathcal{M}_{2^n\times2^n}(\mathbb{C})$ (The reader is referred to Puchała et al.\cite{PuchałaStrategiesQuantumMeasurements} work for a detailed explanation). The feature map acts as seen in equation \ref{equation:feature_map_acts_as}
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \Phi : \Omega \subset \mathbb{R}^d \rightarrow \mathcal{S}(\mathcal{H}_2^{\otimes n}), \qquad \Phi : \vec{x} \mapsto \op{\Phi(\vec{x})}{\Phi(\vec{x})}
+    \end{split}
+    \label{equation:feature_map_acts_as}
+\end{equation}
+
+The action of the map can be understood by a unitary circuit family denoted $\mathcal{U}_{\Phi(\vec{x})}$ that is applied to some reference state, i.e. $\ket{0}^n$. The resulting state is given by $\ket{\Phi(\vec{x})} = \mathcal{U}_{\Phi(\vec{x})}\ket{0}^n$. The state in the feature space should depend non-linearly on the data.\cite{havlicekSupervisedLearningQuantum2019,schuld_SQMLmodelsAreKernelMethods,SchuldEffectOfDataEncoding_2021}
+
+\subsection{Kernel-Based Support Vector Machines and Quantum Support Vector Machines (QSVM)}
+A classical support vector machine (SVM) also known as support vector network and initially proposed by Cortes et al.\cite{Cortes2004SupportVectorN}, divides a set of objects into classes in such a way that the widest possible area around the class boundaries remains free of objects. A detailed explanation on how classical support vector machines work can be found in the work of Fletcher et al.\cite{fletcher2009support}. Quantum SVMs is considered to be the quantum analogue of the classical SVMs algorithm as stated by Jiaying Yang et al.\cite{yangSupportVectorMachines2019}.\par
+SVMs can not only perform linear classifications but also non-linear ones using the so-called kernel trick. Kernel-Based SVMs use a feature function $\phi(\vec{x})$ to map data points into a higher dimension with advantageous properties for classification, thus re-writing the linear decision function in terms of a dot product between data points. By combining this product with the feature function, we can substitute it with a kernel function as shown in equation \ref{equation:svm_kernel_function} with some feature space $\mathcal{H}$.\cite{ThomsenComparingQNNs_QSVM} 
+
+\begin{equation}
+    \centering
+    \begin{split}
+        k(\vec{x}, \vec{x}^{(i)}) = \expval{\phi(\vec{x}^{(i)}),\phi(\vec{x})}_{\mathcal{H}} 
+    \end{split}
+    \label{equation:svm_kernel_function}
+\end{equation}
+
+According to Thomsen et al.\cite{ThomsenComparingQNNs_QSVM}, using an already classified data point $\vec{x}^{(i)}$ and a to be classified data point $\vec{x}$, the corresponding decision function uses the kernel function to classify $\vec{x}$, as shown in equation \ref{equation:svm_alternative_decision_function}.
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \tilde{c}_{SVM}(\vec{x})  &=\ sign\left(\sum_{i=1}^M a_i y_i \expval{\phi(\vec{x}^{(i)}),\phi(\vec{x})}_{\mathcal{H}} + b\right)
+    \end{split}
+    \label{equation:svm_alternative_decision_function}
+\end{equation}
+
+The quantum analogue kernel function equation – with an exponentially large space of density matrices $\mathcal{S}(2^q)$ spanned across $q$ qubits as the feature space – can be seen in equation \ref{equation:qsvm_kernel_function_preliminary}\cite{ThomsenComparingQNNs_QSVM}.
+
+\begin{equation}
+    \centering
+    \begin{split}
+        \psi: \mathbb{R}^S & \rightarrow \mathcal{S}(2^q)\\
+        \vec{x} & \mapsto \op{\psi(\vec{x}^{(i)})}{\psi(\vec{x})}\\
+        \rightarrow k(\vec{x}, \vec{x}^{(i)}) &= \left|\ip{\psi(\vec{x}^{(i)})}{\psi(\vec{x})}\right|^2
+    \end{split}
+    \label{equation:qsvm_kernel_function_preliminary}
+\end{equation}
+
+\subsection{Comparison QNN and QSVM}
+\label{subsection:comparison_qnn_qsvm}
+According to Havlicek et al.\cite{havlicekSupervisedLearningQuantum2019}, the generic decision function of an SVM classifier, as seen in equation \ref{equation:svm_decision_function}, has the same form as the decision function from a QNN seen in equation \ref{equation:qnn_decision_function}. Therefore, a QNN implements a linear decision boundary in a feature space. \textit{Note: The equations \ref{equation:svm_decision_function}, \ref{equation:qnn_decision_function}, \ref{equation:w_alpha_real_coefficient}, \ref{equation:psi_alpha_real_coefficient} and the descriptions between them have been taken from \cite{ThomsenComparingQNNs_QSVM}}.
+
+\begin{equation}
+    \centering
+        \tilde{c}_{SVM}(\vec{x}) =\ sign\left(\ip{\Vec{w}}{\phi(\vec{x})}_{\mathcal{H}}+b\right)
+    \label{equation:svm_decision_function}
+\end{equation}
+
+With $\vec{x}$ being input data in the original space $\mathbb{R}^s$, $\Vec{w} \in \mathcal{H}$, $\ip{\cdot}{\cdot}_{\mathcal{H}}$ being an inner product in $\mathcal{H}$ as well as $\mathcal{H}$ being a possibly infinite dimensional Hilbert space\footnote{A vector space with scalar product is called a Hilbert space if the property that every Cauchy sequence must converge is satisfied.}. Here, the notation $\Vec{w}$ is for vectors in the Hilbert/feature space. Bias is defined as $b \in [\-1, +1]$
+
+\begin{equation}
+    \centering
+        \tilde{c}_{QNN}(\vec{x}) =\ sign\left(\frac{1}{2^q} \sum_{\alpha} w_{\alpha}(\theta)\psi_{\alpha}(\vec{x})+b\right)
+    \label{equation:qnn_decision_function}
+\end{equation}
+
+$w_{\alpha}(\theta)$ and $\psi_{\alpha}(\vec{x})$ are the real coefficients and defined in equations \ref{equation:w_alpha_real_coefficient} and \ref{equation:psi_alpha_real_coefficient}.
+
+\begin{equation}
+    \centering
+        w_{\alpha}(\theta) =\ tr\left(\mathcal{W}(\theta)^{\dag}\mathcal{F}\mathcal{W}(\theta)\mathcal{P}_{\alpha}\right)\footnotemark[1]
+    \label{equation:w_alpha_real_coefficient}
+\end{equation}
+
+\begin{equation}
+    \centering
+        \psi_{\alpha}(\vec{x}) =\ tr\left(\op{\psi(\vec{x})}{\psi(\vec{x})}\mathcal{P}_{\alpha}\right)\footnotemark[1]
+    \label{equation:psi_alpha_real_coefficient}
+\end{equation}
+
+\footnotetext[1]{We refer the reader to the papers \cite{havlicekSupervisedLearningQuantum2019,ThomsenComparingQNNs_QSVM} for the definition of $\mathcal{P}_{\alpha}$.}
+
+The same is concluded by Schuld et al.\cite{schuld_SQMLmodelsAreKernelMethods} as seen in the illustration \ref{figure:2101.11020_Maria_Schuld_Fig.3} taken from their work, while stating: 
+
+\begin{displayquote}
+“The bridge between quantum machine learning and kernel methods is formed by the observation that quantum models map data into a high-dimensional feature space, in which the measurement defines a linear decision boundary.” — Schuld et al.\cite{schuld_SQMLmodelsAreKernelMethods}
+\end{displayquote}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{thesis/Figures/qnn/2101.11020_Maria_Schuld_Fig.3.png} 
+    \caption{Figure taken out of Schuld et al.\cite{schuld_SQMLmodelsAreKernelMethods} that shows how a given data space $\mathcal{X}$ is mapped to a feature space $\mathcal{M}$.}
+    \label{figure:2101.11020_Maria_Schuld_Fig.3}
+\end{figure}
+
+\clearpage
+
+While QNN and QSVM both implement a linear decision boundary in their respective feature spaces, the main difference lies in the variational circuit $\mathcal{W}(\theta)$, as shown in figure \ref{fig:general_structure_qsvm_and_qnn}.
+
+\begin{figure}[!h]
+    \centering
+    \begin{subfigure}{1.0\textwidth}
+        \centering
+	    \scalebox{0.8}{
+        \Qcircuit @C=1.4em @R=0.8em {
+                & & \ket{\psi(\vec{x_i})} & & & \\
+                & & & & & & \\
+                \lstick{\ket{0}} & \multigate{3}{\qquad\mathcal{E}(\Vec{x_i})\qquad} \barrier[0em]{3} & \qw       & \multigate{3}{\qquad \mathcal{E}(\Vec{x_j})^{\dag} \qquad} & \meter \\
+                \lstick{\ket{0}} & \ghost{\qquad\mathcal{E}(\Vec{x_i})\qquad}                         & \qw       & \ghost{\qquad \mathcal{E}(\Vec{x_j})^{\dag} \qquad}        & \meter \\
+                \vdots           & \nghost{\qquad\mathcal{E}(\Vec{x_i})\qquad}                        & \nghost{} & \nghost{\qquad \mathcal{E}(\Vec{x_j})^{\dag} \qquad}       & \vdots \\
+                \lstick{\ket{0}} & \ghost{\qquad\mathcal{E}(\Vec{x_i})\qquad}                         & \qw       & \ghost{\qquad \mathcal{E}(\Vec{x_j})^{\dag} \qquad}        & \meter \\
+                & & & & & & \\
+            }
+    	}
+    	\subcaption{General quantum circuit structure of a QSVM kernel estimator with a parametrized unitary $\mathcal{E}(\Vec{x_i})$ followed by its adjoint $\mathcal{E}(\Vec{x_j})^{\dag}$. The kernel can only be evaluated approximately with a finite number of measurement shots due to the probalistic nature of quantum computing.}
+    	\label{subfigure:general_structure_qsvm}
+    \end{subfigure}
+    \\[2em]
+    \begin{subfigure}{1.0\textwidth}
+        \centering
+	    \scalebox{0.8}{
+        \Qcircuit @C=1.4em @R=0.8em {
+                & & \ket{\psi(\vec{x})} & & & \\
+                & & & & & & \\
+                \lstick{\ket{0}} & \multigate{3}{\qquad\mathcal{U}_{\Phi(\Vec{x})}\qquad} \barrier[0em]{3} & \qw       & \multigate{3}{\qquad W(\theta) \qquad} & \meter \\
+                \lstick{\ket{0}} & \ghost{\qquad\mathcal{U}_{\Phi(\Vec{x})}\qquad}                         & \qw       & \ghost{\qquad W(\theta) \qquad}        & \meter \\
+                \vdots           & \nghost{\qquad\mathcal{U}_{\Phi(\Vec{x})}\qquad}                        & \nghost{} & \nghost{\qquad W(\theta) \qquad}       & \vdots \\
+                \lstick{\ket{0}} & \ghost{\qquad\mathcal{U}_{\Phi(\Vec{x})}\qquad}                         & \qw       & \ghost{\qquad W(\theta) \qquad}        & \meter \\
+                & & & & & & \\
+            }
+    	}
+        \subcaption{General quantum circuit structure of a QNN, which is defined to consist of a feature map circuit $\mathcal{U}_{\Phi(\Vec{x})}$ followed by a variational form circuit $W(\theta)$ strictly separating the fixed input vector $\Vec{x}$ and trainable parameters $\theta$.}
+    	\label{subfigure:general_structure_qnn}
+    \end{subfigure}
+    \caption{General schematics of a variational quantum circuit and quantum support vector machine circuit.}
+    \label{fig:general_structure_qsvm_and_qnn}
+\end{figure}
+
+Thomsen further states the following: 
+
+\begin{displayquote}
+``The main difference between the QNN and QSVM now lies in the parameterized coefficients $w_{\alpha}(\theta)$ that make up the vector $w(\vec{\theta}) \in \mathcal{S}(\mathcal{H}_2^{\otimes n})$ that defines the direction of the hyperplane in feature space according to which class membership is assigned by the QNN. Because these coefficients are determined through a variational circuit $W(\theta)$, they can not take on arbitrary values in general. In particular, there is no guarantee that the solution to the dual QSVM optimization problem in (2.17) on page 12 denoted by $\vec{w}^*$ is accessible to the QNN. But $\vec{w}^*$ is guaranteed to be found by the QSVM due to convexity and guaranteed to maximize the (regularized by slack) margin in feature space by strong duality. With this, the QNN can be interpreted as an approximation to the QSVM that finds a solution that is at best equally good, depending on the expressivity of the variational form.'' — A. Thomsen\cite{ThomsenComparingQNNs_QSVM}\footnote[1]{The mentioned optimization problem equation 2.17 does not contain the denoted $\vec{w}^*$ which is a reference error and thus has been omitted in this thesis.}
+\end{displayquote}
+
+\clearpage
+
+This can be compared to the findings of Schuld et al.\cite{schuld_SQMLmodelsAreKernelMethods} and their figure \ref{figure:2101.11020_Maria_Schuld_Fig.5}.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{thesis/Figures/qnn/2101.11020_Maria_Schuld_Fig.5.png} 
+    \caption{Figure taken out of Schuld et al.\cite{schuld_SQMLmodelsAreKernelMethods}, that shows the differences in kernel-based training and variational training.}
+    \label{figure:2101.11020_Maria_Schuld_Fig.5}
+\end{figure}
+
+Conclusively, the main difference between a QNN and a QSVM is the variational model, that is not guaranteed to find the optimal measurement and searches for it in a different subspace than the QSVM.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newpage
 
@@ -481,21 +845,21 @@ A query\cite{codd_relational_1970} is a demand for information to be pulled from
     \label{figure:sql_query_example}
 \end{listing}
 
-The example query in figure \ref{figure:sql_query_example} is parsed and results one, or more, execution plans\cite{microsoft_execution_nodate}. These plans are also referred to as query plans. The fastest plan then is selected and executed, which retrieves the desired data and displays it, as visualized in table \ref{table:sql_query_result_example}.
+The example query in listing \ref{figure:sql_query_example} is parsed and results in one, or more, execution plans\cite{microsoft_execution_nodate}, always dependent on the query and the setup of the database. These plans are also referred to as query plans. The fastest plan then is selected and executed, which retrieves the desired data and displays it, as visualized in table \ref{table:sql_query_result_example}.
 
 \begin{table}[!h]
     \centering
-    \begin{tabular}{|c|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|c|c|}
         \hline
-        Name    & Surname  & Address & Number & Zipcode & City\\ \hline
-        Abraham & Martin   & Neweg & 17b & 3249 & Nothingham \\ \hline
-        Abraham & Tart     & York & 95 & 12078 & Krypton    \\ \hline
+        Name    & Surname  & Address & Number & Zipcode & City & UID\\ \hline
+        Abraham & Martin   & Neweg & 17b & 3249 & Nothingham & 43\\ \hline
+        Abraham & Tart     & York & 95 & 12078 & Krypton & 34    \\ \hline
     \end{tabular}
     \caption{Exemplary data returned after executing the SQL query from figure \ref{figure:sql_query_example}, where the first row resembles the name of the attributes in the column}
     \label{table:sql_query_result_example}
 \end{table}
 
-To further understand the difference the execution brings, the assumption is made that table $A$ (for addresses) and $U$ (for users) both consist of 10'000 rows each. Executing plan 1 would lead to the operation $M$ having to search and combine all 20'000 rows together, and then from the resulting 10'000 rows, select only those that fulfil the defined criteria. In plan 2, the table $U$ is filtered beforehand, which results in smaller number of rows, and hence, fewer rows to merge for the operation $M$. Whilst this might not lead to a particular speed up in this case, as soon as queries get more complex, and for example join more than two tables, the time savings start to add up.\par
+To further understand the difference the execution brings, the assumption is made that table $A$ (for addresses) and $U$ (for users) both consist of 10'000 rows each.  Executing plan 1 would lead to the operation $M$ having to search and combine all 20'000 rows together, and then from the resulting 10'000 rows, select only those that fulfil the defined criteria. In plan 2, the table $U$ is filtered beforehand, which results in smaller number of rows, and hence, fewer rows to merge for the operation $M$. Whilst this might not lead to a particular speed up in this case, as soon as queries get more complex, and for example join more than two tables, the saved time start to add up.\par
 The query in figure \ref{figure:sql_query_example} already allows for \emph{at least} two different query plans during execution. These are shown in figure \ref{figure:example_query_plans}. The nodes $U$ and $A$ stand for the operation of loading the tables \code{USERS} and \code{ADDRESSES} from the storage. The node $M$ stands for the merging of the tables, and the node $S$ for selecting the rows that fulfil the defined filter of \code{USER.NAME = "Abraham"}.
 
 \begin{figure}[!h]
@@ -563,7 +927,7 @@ The query in figure \ref{figure:sql_query_example} already allows for \emph{at l
 \newpage
 
 
-In a large system that handles multiple requests per second, plans from different queries can have operations that are shared across. Combining these sub-sequences together can save additional execution time\cite{roy_multi-query_2009}. Finding the best combination of multiple queries and their plans has been proven to be an \emph{NP-Hard} problem\cite{sellis_multiple-query_1990}. This can be done classically with an exhaustive algorithm in $O(P^Q)$\footnote{as long as all queries have the same number of plans}, where $P$ is the number of plans and $Q$ the number of queries, as shown in figure \ref{figure:pseudocode_bruteforce_search}. The work of Kathurina et al.\cite{kathuria_provable_mqo} offers a greedy algorithm for finding a \emph{good} solution, whilst also proving that finding a better approximation factor for the greedy algorithm is \emph{NP-Hard}. A hybrid approach that combines classical and quantum computing uses QAOA (short for Quantum Approximate Optimization Algorithm)\cite{farhi_quantum_2014} have shown to be quasi-optimal solution finders with a runtime of $O(I \cdot (PQ)^2)$\cite{fankhauser_multiple_2021}. \par
+In a large system that handles multiple requests per second, plans from different queries can have operations that are shared across. Combining these sub-sequences together can save additional execution time\cite{roy_multi-query_2009}. Finding the best combination of multiple queries and their plans has been proven to be an \emph{NP-Hard} problem\cite{sellis_multiple-query_1990}. This can be done classically with an exhaustive algorithm in $O(P^Q)$\footnote{as long as all queries have the same number of plans}, where $P$ is the number of plans and $Q$ the number of queries, as shown in listing \ref{figure:pseudocode_bruteforce_search}. The work of Kathurina et al.\cite{kathuria_provable_mqo} offers a greedy algorithm for finding a \emph{good} solution, whilst also proving that finding a better approximation factor for the greedy algorithm is \emph{NP-Hard}. A hybrid approach that combines classical and quantum computing uses QAOA (short for Quantum Approximate Optimization Algorithm)\cite{farhi_quantum_2014} has been shown to be quasi-optimal solution finders with a runtime of $O(I \cdot (PQ)^2)$\cite{fankhauser_multiple_2021}. \par
 
 
 \begin{listing}[!ht]
@@ -584,7 +948,7 @@ In a large system that handles multiple requests per second, plans from differen
  
  \newpage
  
- Figure \ref{figure:plan_tree} shows how the plans $\mathcal{Q}_0\mathcal{P}_0$ and $\mathcal{Q}_1\mathcal{P}_0$, from the differing queries $\mathcal{Q}_0$ and $\mathcal{Q}_1$, contain parts that can be reused, as shown in figure \ref{figure:plan_tree}. It is easy to imagine that, depending on the environment at hand, single operations will happen plenty of times in parallel. Putting into perspective the number of users that modern applications\cite{uber_technologies_inc_uber_2022} can have, finding shortcuts in plans does not only reduce execution time but saves money and improves customer experience.
+ Figure \ref{figure:plan_tree} shows how the plans $\mathcal{Q}_0\mathcal{P}_0$ and $\mathcal{Q}_1\mathcal{P}_0$, from the differing queries $\mathcal{Q}_0$ and $\mathcal{Q}_1$, contain parts that can be reused, as shown in figure \ref{figure:plan_tree}. 
 
 \begin{figure}[!h]
     \centering
@@ -683,269 +1047,5 @@ Taking a problem consisting of two queries $\mathcal{Q}_0$ and $\mathcal{Q}_1$, 
     \label{equation:formal_total_cost_calculation}
 \end{equation}
 
-If we change the problem space from two queries to more, or create an uneven number of plans per query, the complexity starts to rise sharply.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newpage
-
-\section{Quantum Neural Network}
-
-The \textit{classic computational neuron} originally proposed by Rosenblatt F.\cite{rosenblatt_perceptron_1958} as seen in figure \ref{figure:classic_computational_neuron} builds the bases for most classical neural networks used today. The underlying principle is simple as can be seen in equation \ref{equation:classical_neuron_computation}, all inputs $x_n$ are multiplied by a weight $w_n$, the calculated sum is then passed to an activation function $f(x)$ which is activated if a predefined threshold value is exceeded. The activation function $f(x)$, also called transfer function, can be selected from a plethora of valid choices\cite{szandala_review_2021}.
-
-\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
-\begin{figure}[h!]
-    \centering
-
-    \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-    %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
-    
-    %Shape: Circle [id:dp6859812572471455] 
-    \draw   (192.5,140) .. controls (192.5,109.62) and (217.12,85) .. (247.5,85) .. controls (277.88,85) and (302.5,109.62) .. (302.5,140) .. controls (302.5,170.38) and (277.88,195) .. (247.5,195) .. controls (217.12,195) and (192.5,170.38) .. (192.5,140) -- cycle ;
-    %Shape: Circle [id:dp24070647763127284] 
-    \draw   (96,71.5) .. controls (96,64.6) and (101.6,59) .. (108.5,59) .. controls (115.4,59) and (121,64.6) .. (121,71.5) .. controls (121,78.4) and (115.4,84) .. (108.5,84) .. controls (101.6,84) and (96,78.4) .. (96,71.5) -- cycle ;
-    %Shape: Circle [id:dp9363816782656273] 
-    \draw   (96,117.5) .. controls (96,110.6) and (101.6,105) .. (108.5,105) .. controls (115.4,105) and (121,110.6) .. (121,117.5) .. controls (121,124.4) and (115.4,130) .. (108.5,130) .. controls (101.6,130) and (96,124.4) .. (96,117.5) -- cycle ;
-    %Shape: Circle [id:dp4720861626805333] 
-    \draw   (96,207.5) .. controls (96,200.6) and (101.6,195) .. (108.5,195) .. controls (115.4,195) and (121,200.6) .. (121,207.5) .. controls (121,214.4) and (115.4,220) .. (108.5,220) .. controls (101.6,220) and (96,214.4) .. (96,207.5) -- cycle ;
-    %Rounded Rect [id:dp5631408345855224] 
-    \draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.5 ][dash pattern={on 4.5pt off 4.5pt}] (80,56) .. controls (80,49.37) and (85.37,44) .. (92,44) -- (128,44) .. controls (134.63,44) and (140,49.37) .. (140,56) -- (140,227) .. controls (140,233.63) and (134.63,239) .. (128,239) -- (92,239) .. controls (85.37,239) and (80,233.63) .. (80,227) -- cycle ;
-    %Curve Lines [id:da4059065253769214] 
-    \draw    (121,71.5) .. controls (159.22,69.05) and (182.07,82.45) .. (208.38,98.98) ;
-    \draw [shift={(210,100)}, rotate = 212.2] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
-    %Curve Lines [id:da5094425475664381] 
-    \draw    (121,207.5) .. controls (153.51,207.01) and (182.13,202.15) .. (208.78,180.98) ;
-    \draw [shift={(210,180)}, rotate = 140.83] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
-    %Curve Lines [id:da5523039314594727] 
-    \draw    (121,117.5) .. controls (147.6,116.02) and (160.61,117.94) .. (193.48,122.78) ;
-    \draw [shift={(195,123)}, rotate = 188.37] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
-    %Straight Lines [id:da007343534667061169] 
-    \draw    (302.5,140) -- (352,140) ;
-    \draw [shift={(354,140)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
-    %Shape: Circle [id:dp683884067109112] 
-    \draw   (354,140) .. controls (354,126.19) and (365.19,115) .. (379,115) .. controls (392.81,115) and (404,126.19) .. (404,140) .. controls (404,153.81) and (392.81,165) .. (379,165) .. controls (365.19,165) and (354,153.81) .. (354,140) -- cycle ;
-    %Straight Lines [id:da9286309330170883] 
-    \draw    (404,140) -- (453.5,140) ;
-    \draw [shift={(455.5,140)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
-    
-    % Text Node
-    \draw (100,163) node [anchor=north west][inner sep=0.75pt]   [align=left] {{\large ...}};
-    % Text Node
-    \draw (100,67.4) node [anchor=north west][inner sep=0.75pt]    {$x_{1}$};
-    % Text Node
-    \draw (99.5,112.9) node [anchor=north west][inner sep=0.75pt]    {$x_{2}$};
-    % Text Node
-    \draw (99.5,202.9) node [anchor=north west][inner sep=0.75pt]    {$x_{n}$};
-    % Text Node
-    \draw (94,251) node [anchor=north west][inner sep=0.75pt]   [align=left] {Input};
-    % Text Node
-    \draw (167,61.4) node [anchor=north west][inner sep=0.75pt]    {$w_{1}$};
-    % Text Node
-    \draw (149,123.4) node [anchor=north west][inner sep=0.75pt]    {$w_{2}$};
-    % Text Node
-    \draw (166,206.4) node [anchor=north west][inner sep=0.75pt]    {$w_{n}$};
-    % Text Node
-    \draw (204,131.4) node [anchor=north west][inner sep=0.75pt]    {$f\left(\sum _{i=1}^{n} x_{i} w_{i} \right)$};
-    % Text Node
-    \draw (447,172) node [anchor=north west][inner sep=0.75pt]   [align=left] {Output};
-    % Text Node
-    \draw (364,131.4) node [anchor=north west][inner sep=0.75pt]    {$f( x)$};
-    % Text Node
-    \draw (465,136.4) node [anchor=north west][inner sep=0.75pt]    {$y$};
-    % Text Node
-    \draw (351,67) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=0.5 ] [align=left] {\begin{minipage}[lt]{38.1pt}\setlength\topsep{0pt}
-    \begin{center}
-    {\footnotesize Activation}\\{\footnotesize Function}
-    \end{center}
-    
-    \end{minipage}};
-    
-    \end{tikzpicture}
-
-    \caption{Visual representation of the classic computational neuron, often referred to as a perceptron.}
-    \label{figure:classic_computational_neuron}
-\end{figure}
-
-\begin{equation}
-    \centering
-    y =\ f\left(\sum_{i = 1}^n x_i\omega_i\right)
-    \label{equation:classical_neuron_computation}
-\end{equation}
-
-Rosenblatt’s perceptron is basically a single-layer neural network and is limited in its capabilities. To overcome the practical limitations we can use multiple perceptrons in a specific structure to build a so called multilayer perceptron as illustrated in figure \ref{figure:classic_multilayer_perceptron} \cite{haykin2009neural}.
-
-
-\begin{figure}[h!]
-    \centering
-    \scalebox{0.8}{
-        \begin{tikzpicture}[x=2.2cm,y=1.4cm]
-          \readlist\Nnod{4,3,3,2} % array of number of nodes per layer
-          \readlist\Nstr{n,m,m,m,k} % array of string number of nodes per layer
-          \readlist\Cstr{\strut x,a^{(\prev)},a^{(\prev)},a^{(\prev)},y} % array of coefficient symbol per layer
-          \def\yshift{0.5} % shift last node for dots
-          
-          \message{^^J  Layer}
-          \foreachitem \N \in \Nnod{ % loop over layers
-            \def\lay{\Ncnt} % alias of index of current layer
-            \pgfmathsetmacro\prev{int(\Ncnt-1)} % number of previous layer
-            \message{\lay,}
-            \foreach \i [evaluate={\c=int(\i==\N); \y=\N/2-\i-\c*\yshift;
-                         \index=(\i<\N?int(\i):"\Nstr[\lay]");
-                         \x=\lay; \n=\nstyle;}] in {1,...,\N}{ % loop over nodes
-              % NODES
-              \node[node \n] (N\lay-\i) at (\x,\y) {$\Cstr[\lay]_{\index}$};
-              
-              % CONNECTIONS
-              \ifnum\lay>1 % connect to previous layer
-                \foreach \j in {1,...,\Nnod[\prev]}{ % loop over nodes in previous layer
-                  \draw[connect,white,line width=1.2] (N\prev-\j) -- (N\lay-\i);
-                  \draw[connect] (N\prev-\j) -- (N\lay-\i);
-                  %\draw[connect] (N\prev-\j.0) -- (N\lay-\i.180); % connect to left
-                }
-              \fi % else: nothing to connect first layer
-              
-            }
-            \path (N\lay-\N) --++ (0,1+\yshift) node[midway,scale=1.5] {$\vdots$};
-          }
-          
-          % LABELS
-          % \node[above=5,align=center,mygreen!60!black] at (N1-1.90) {input\\[-0.2em]layer};
-          % \node[above=2,align=center,myblue!60!black] at (N3-1.90) {hidden layers};
-          % \node[above=10,align=center,myred!60!black] at (N\Nnodlen-1.90) {output\\[-0.2em]layer};
-          
-        \end{tikzpicture}
-    }
-    \caption{Classical multilayer perceptron artificial neural network example illustration. From left to right: Input layer in green, two hidden layers in blue and the output layer in red.}
-    \label{figure:classic_multilayer_perceptron}
-\end{figure}
-
-\vspace{2em}
-The quantum analogue of a classical neuron is called a quantum neuron also referred to as \textit{quron} as proposed by Maria Schuld et al. in their paper called \textit{"The quest for a Quantum Neural Network"}\cite{schuldQuestQuantumNeural2014a}. The classical perceptron cannot be implemented one-to-one as a \textit{quron} because of the nature of quantum computations thus the strategy is to implement a quantum algorithm that reproduces the functionalities of classical perceptrons. Following this strategy, a classical perceptron can be implemented as a quantum circuit in several ways. Currently known implementations are namely \textit{QFT-based perceptron}\cite{SchuldSimulatingAPerceptron_2015}, \textit{Repeat Until Success circuits}\cite{QuantumNeuronAnElementaryBuildingBlock,Torrontegui_2019}, \textit{Non-linearity from measurement}\cite{tacchinoArtificialNeuronImplemented2019} among others\cite{AltaiskyQuantumNeuralNetwork,DesignOfQuantumNeuronModel} serving different computation use cases.
-
-Just as a classical perceptron can be implemented in many different ways to reproduce its functionality, so are the implementations and interpretations of quantum neural networks\cite{Mangini_2021,Mitarai_2018,ClassificationWithQNN,QNNConceptsApplicationsChallenges,Killoran_2019}. It is not yet exactly clear what a classical neural network looks like as a quantum neural network and there are various approaches and different views on which classical part corresponds to which quantum analog or if every step in a classical neural network could or should have its quantum counterpart\cite{OnQuantumNeuralNetworks,Ezhov2000,schuldQuestQuantumNeural2014a}. Another paper by Schuld et al. states that a quantum circuit does closely resembles a neural network architecture with unitary layers\cite{schuldCircuitcentricQuantumClassifiers2020} and Abbas et al. states that Quantum neural networks are a subclass of \textit{Variational Quantum Algorithm (VQA)}, comprising of quantum circuits that contain parameterised gate operations\cite{Abbas_2021,schuldCircuitcentricQuantumClassifiers2020}. Furthermore \textit{Variational Quantum Algorithms} consisting of \textit{parametrized quantum circuit (PQC)} also known as \textit{variational quantum circuit (VQC)} are especially promising when it comes to supervised classification problems running on Noisy Intermediate-Scale Quantum (NISQ) computers which we will examine closer in the next subsection \ref{subsection:vqa_fundamentals}.
-
-\subsection{Variational Quantum Algorithm (VQA)}
-\label{subsection:vqa_fundamentals}
-According to Cerezo et al. \textit{Variational Quantum Algorithms} provide a framework based on basic building blocks to solve a variety of problems and follow a specific structure. They usually accommodate at least one kind of \textit{variational quantum circuit}, see figure \ref{fig:general_scheme_vqc}. VQAs are arguably the quantum analog of highly successful machine-learning methods, such as neural networks. Moreover, VQAs leverage the toolbox of classical optimization, since they use \textit{variational quantum circuits} to be run on the quantum computer, and then outsource the parameter optimization to a classical optimizer\cite{Cerezo_2021}. This method is basically describing a so-called hybrid classical-quantum algorithm with supervised learning.
-
-\begin{figure}[!h]
-    \centering
-    \scalebox{0.8}{
-		\Qcircuit @C=1.4em @R=.8em {
-            \lstick{\ket{0}} & \multigate{3}{Feature\ Map} & \multigate{3}{Variational\ Model} & \meter \\
-            \lstick{\ket{0}} & \ghost{Feature\ Map} & \ghost{Variational\ Model} & \meter \\
-            \vdots           & \nghost{Feature\ Map} & \nghost{Variational\ Model} & \vdots \\
-            \lstick{\ket{0}} & \ghost{Feature\ Map} & \ghost{Variational\ Model} & \meter \\
-            & & & \\
-	    }
-    }
-    \caption{General scheme of a \textit{variational quantum circuit}. The bases state is initialized with the zero state $\ket{0}$, followed by the feature 
-    embedding (feature map\ref{subsection:quantum_embedding_using_a_feature_map}) then continued by a variational model witch incorporates trainable parameters, finally ending with measurements on each qubit.} 
-    \label{fig:general_scheme_vqc}
-\end{figure}
-
-\textbf{Hybrid classical-quantum algorithms} utilizes both classical and quantum computers. Frankhauser et al. states that these types of algorithms are considered promising since they can better handle erroneous, small-scale quantum devices than "pure" quantum algorithms\cite{fankhauser_multiple_2021}. The algorithm only performs the feature and parameter embeddings and the calculation including measurements for classification in a quantum circuit, see figure \ref{fig:schematic_hybrid_classical_quantum}. The actual classification and the parameter optimizations as well as the loss and accuracy calculations are done with classical methods. 
-
-\begin{figure}[!h]
-    \centering
-    \scalebox{0.88}{
-        \begin{tikzpicture}[
-          roundnode/.style={circle, draw=black!60, fill=white!5, thick, minimum size=7mm},
-          squarednode/.style={rectangle, draw=black!60, fill=white!5, thick, minimum size=10mm},
-          optimizernode/.style={rectangle, draw=black!60, fill=white!5, thick, minimum size=25mm},
-          quantumcircuit/.style={draw=blue, minimum height=3.5cm, minimum width=10cm, fill=white!5, label=below:{\color{blue}variational quantum\ circuit}},
-        ]
-            %Nodes
-            \node[roundnode]        (dataset)        {Data};
-            \node[squarednode]      (preprocess)     [right=of dataset] {Preprocessing};
-            \node                   (point1)         [below=of preprocess] {};
-            \node[quantumcircuit]   (quantumcircuit) [below right=of dataset]  {
-                \Qcircuit @C=1em @R=.7em {
-                    \lstick{\ket{0}} & \multigate{3}{feature\ embedding} & \multigate{3}{model\ circuit} & \meter & \cw \\
-                    \lstick{\ket{0}} & \ghost{feature\ embedding} & \ghost{model\ circuit} & \meter & \cw \\
-                    \cdots & \nghost{feature\ embedding} & \nghost{model\ circuit} & \cdots &  \\
-                    \lstick{\ket{0}} & \ghost{feature\ embedding} & \ghost{model\ circuit} & \meter & \cw \gategroup{1}{5}{4}{5}{1.5em}{\}}
-                }
-            };
-            \node[optimizernode]      (optimizer)     [right=of quantumcircuit] {Optimizer};
-            % Lines
-            \draw[->] (dataset.east) -- (preprocess.west);
-            \draw[->] (quantumcircuit.east) -- (optimizer.west);
-            \draw [->] (preprocess.south) -- ++(0,-.6) -- ++(+1.3,0) -| ++(0,-0.6);
-            \draw [->] (optimizer.north) -- ++(0,+1.25) -- ++(-6.15,0) node[auto,midway,above] {parameter updates} -| ++(0,-1);
-        \end{tikzpicture}
-    }
-    \caption{Schematic view of the hybrid classical-quantum algorithm. Everything outside the \textit{variational quantum circuit} inside the blue box is done with classical methods.}
-    \label{fig:schematic_hybrid_classical_quantum}
-\end{figure}
-
-An abstract and brief explanation to figure \ref{fig:schematic_hybrid_classical_quantum}: The data loading and preprocessing is only done once in the beginning. After the data loading and preprocessing has finished, for each training iteration the following is executed:
-
-\begin{enumerate}
-    \item A \textit{variational quantum circuit} will be constructed by embedding the features into the quantum state by using a feature map. Also the optimized parameters are embedded into the quantum state. \textit{Note}: For the first run the parameters are randomly initialized.
-    \item Then we compute the \textit{variational quantum circuit} on a quantum computer or simulator and measure each qubit on the Z-basis. 
-    \item The result is post-processed to generated the prediction.
-    \item Finally the optimizer updates the parameters and a new cycle begins.
-\end{enumerate}
-
-The algorithm stops if a certain threshold or the maximum iteration count for the optimization is reached. The trained parameters can now be embedded into an new quantum circuit and used to evaluate the test set or predict unseen data points.
-
-\subsection{Quantum embedding using a Quantum Feature Map}
-\label{subsection:quantum_embedding_using_a_feature_map}
-Quantum embedding, -encoding or feature embedding, -encoding refer to one and the same procedure, namely how classical data can be represented in a quantum Hilbert space by using a quantum feature map. 
-More formally and corresponding to Havlicek et al.\cite{havlicekSupervisedLearningQuantum2019}; a quantum feature map is an injective encoding of classical information $\vec{x} \in \mathbb{R}^d$ into a quantum state $\op{\psi}{\psi}$ on an $n$-qubit register. Here $\mathcal{H}_2 = \mathbb{C}^2$ is a single qubit Hilbert space, and $\mathcal{S}(\mathcal{H}_2^{\otimes n})$ denotes the cone of positive semidefinite density matrices $p \geq 0$ with unit trace $tr[p] = 1$. This cone is a subset if the $4^n$ dimensional Hilbert space of $\mathcal{M}_{2^n\times2^n}(\mathbb{C})$ (We refere the reader at this point also to \cite{PuchałaStrategiesQuantumMeasurements}). The feature map acts as
-
-\begin{equation}
-    \centering
-    \begin{split}
-        \Phi : \Omega \subset \mathbb{R}^d \rightarrow \mathcal{S}(\mathcal{H}_2^{\otimes n}), \qquad \Phi : \vec{x} \mapsto \op{\Phi(\vec{x})}{\Phi(\vec{x})}
-    \end{split}
-    \label{equation:feature_map_acts_as}
-\end{equation}
-
-The action of the map can be understood by a unitary circuit family denoted $\mathcal{U}_{\Phi(\vec{x})}$ that is applied to some reference state, e.g. $\ket{0}^n$. The resulting state is given by $\ket{\Phi(\vec{x})} = \mathcal{U}_{\Phi(\vec{x})}\ket{0}^n$. The state in the feature space should depend non-linearly on the data.\cite{havlicekSupervisedLearningQuantum2019,schuld_SQMLmodelsAreKernelMethods,SchuldEffectOfDataEncoding_2021}
-
-\subsection{Kernel-Based Support Vector Machines and Quantum Support Vector Machines (QSVM)}
-A classical support vector machine (SVM) also known as support vector network, initially conceived of by Cortes and Vapnik, divides a set of objects into classes in such a way that the widest possible area around the class boundaries remains free of objects. A detailed explanation on how classical Support Vector Machines work can be found in the paper “Support vector machines explained” by Tristan Fletcher\cite{fletcher2009support}. Quantum SVM is considered to be the quantum analogue of the classical SVM algorithm as stated by Jiaying Yang et al.\cite{yangSupportVectorMachines2019}. 
-
-SVMs can not only perform linear classifications but also non-linear ones using the so-called kernel trick. Kernel-Based SVMs use a feature function $\phi(\vec{x})$ to map data points into a higher dimensions with advantageous properties for classification thus re-writing the linear decision function in terms of a dot product between data points. By combining this product with the feature function we can substitute it with a kernel function as seen in equation \ref{equation:svm_kernel_function} with some feature space $\mathcal{H}$.\cite{smailovQuantumMachineLearning,ThomsenComparingQNNs_QSVM} 
-
-\begin{equation}
-    \centering
-    \begin{split}
-        k(\vec{x}, \vec{x}^{(i)}) = \expval{\phi(\vec{x}^{(i)}),\phi(\vec{x})}_{\mathcal{H}} 
-    \end{split}
-    \label{equation:svm_kernel_function}
-\end{equation}
-
-
-for a given training data point $\vec{x}^{(i)}$ and a data point for which the decision is made $\vec{x}$. The corresponding decision function uses the kernel function to classify the data point and can bee seen in equation \ref{equation:svm_alternative_decision_function}.\cite{ThomsenComparingQNNs_QSVM}  
-
-\begin{equation}
-    \centering
-    \begin{split}
-        \tilde{c}_{SVM}(\vec{x})  &=\ sign[\sum_{i=1}^M a_i y_i \expval{\phi(\vec{x}^{(i)}),\phi(\vec{x})}_{\mathcal{H}} + b]
-    \end{split}
-    \label{equation:svm_alternative_decision_function}
-\end{equation}
-
-The quantum analogue kernel function equation - with an exponentially large space of density matrices $\mathcal{S}(2^q)$ spanned by $q$ qubits as the feature space - can be seen in equation \ref{equation:svm_kernel_function}.\cite{ThomsenComparingQNNs_QSVM}
-
-\begin{equation}
-    \centering
-    \begin{split}
-        \psi: \mathbb{R}^S & \rightarrow \mathcal{S}(2^q)\\
-        \vec{x} & \mapsto \op{\psi(\vec{x}^{(i)})}{\psi(\vec{x})}
-    \end{split}
-    \label{equation:qsvm_kernel_function_preliminary}
-\end{equation}
-
-\begin{equation}
-    \centering
-    \begin{split}
-        k(\vec{x}, \vec{x}^{(i)}) = \left|\ip{\psi(\vec{x}^{(i)})}{\psi(\vec{x})}\right|^2
-    \end{split}
-    \label{equation:qsvm_kernel_function}
-\end{equation}
+If we change the problem space from two queries to more, or create a differing number of plans per query, the given complexity changes.
 

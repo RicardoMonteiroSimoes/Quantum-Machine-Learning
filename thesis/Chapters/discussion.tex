@@ -5,6 +5,45 @@
 
 %----------------------------------------------------------------------------------------
 
+
+\section{Quantum Neural Network}
+
+\subsection{General Expectations}
+The overall performance on the quantum simulator was slightly better for all our experiments than the quantum computer runs which was expected due to the introduction of noise on the quantum computer.
+
+\subsection{Circuits}
+\textbf{Binary datasets}. When comparing the performance of the five circuit designs between the simulator accuracy table \ref{table:accuracy_comparison_binary_dataset_and_optimizers_simulator_runs} and quantum computer accuracy table \ref{table:accuracy_comparison_binary_dataset_and_optimizers_evaluation_runs} for the binary datasets, none of the quantum circuits generally provide good performance across all data sets. The individual circuits distribute themselves relatively well over the different data sets, and the best circuit in the simulator is also the best on the real hardware, the sole exception being the \textit{Rain} data set where \textit{q\_circuit\_03} and \textit{q\_circuit\_04} achieved similarly good results. Generally, one can say that the achieved accuracy on the simulator can be closely matched on the real hardware.
+
+\textbf{Extended datasets}. The same does not hold true for the simulator accuracy table \ref{table:accuracy_comparison_extended_dataset_and_optimizers_simulator_runs} and quantum computer accuracy table \ref{table:accuracy_comparison_extended_dataset_and_optimizers_evaluation_runs} with the extended datasets. Although \code{AMSGRAD} optimizer data is missing, one can observe that the achieved accuracies are worse than on the binary dataset. At the same time, there aren't any clear winners when it comes to the circuits themselves – they seem to achieve good accuracies rather randomly, than consistently. The \textit{Rain} and \textit{Vlds} datasets show a significant degradation in the quantum computer runs, which is most likely due to the introduction and summation of noise based on the larger datasets.\par
+\phantomsection
+\label{paragraph:repetitive_accuracy}
+The more difficult \textit{Adhoc} and \textit{Custom} datasets have suspicious repetitive accuracy values $0.515$ or $0.525$ mostly at \textit{q\_circuit\_04} but also at \textit{q\_circuit\_03} which suggests that the circuits cannot be optimized further because the optimizer has reached a barren plateau or the circuits are simply not expressive enough or lack the appropriate entanglement.
+
+\subsection{Optimizers}
+\textbf{q\_circuit\_04} has no entanglement and the performance according to the data on all of the following tables \ref{table:accuracy_comparison_binary_dataset_and_optimizers_simulator_runs}, \ref{table:accuracy_comparison_binary_dataset_and_optimizers_evaluation_runs}, \ref{table:accuracy_comparison_extended_dataset_and_optimizers_simulator_runs} and \ref{table:accuracy_comparison_extended_dataset_and_optimizers_evaluation_runs} is very dependent on the optimizers. Nevertheless, the circuit can keep up with the accuracy of the other entangled circuits, although the variations are very different depending on the optimizer. This suggests that certain optimizers hit a barren plateau. An exception to this finding are the more difficult datasets \textit{Adhoc} and \textit{Custom} in the tables \ref{table:accuracy_comparison_extended_dataset_and_optimizers_simulator_runs} and \ref{table:accuracy_comparison_extended_dataset_and_optimizers_evaluation_runs} as stated in the paragraph \ref{paragraph:repetitive_accuracy} above.
+
+The best performing optimizers even with default settings for the binary datasets are \code{BFGS} and \code{AMSGRAD} followed by \code{COBYLA} and \code{SPSA} as seen in the tables \ref{table:accuracy_comparison_binary_dataset_and_optimizers_simulator_runs}, \ref{table:accuracy_comparison_binary_dataset_and_optimizers_evaluation_runs}. There is no concluding better performing optimizer for the extended datasets in tables \ref{table:accuracy_comparison_extended_dataset_and_optimizers_simulator_runs}, \ref{table:accuracy_comparison_extended_dataset_and_optimizers_evaluation_runs} and the results a slightly skewed with the missing \code{AMSGRAD} data.\par
+Overall, it can be said that Pellow-Jarman et al.\cite{pellow-jarman_comparison_2021}'s results are reflected in the comparison of the simulators with the quantum computer tables \ref{table:accuracy_comparison_binary_dataset_and_optimizers_simulator_runs} - \ref{table:accuracy_comparison_extended_dataset_and_optimizers_evaluation_runs} and that the \code{COBYLA} optimizer on the quantum computer runs gives worse average optimization values and can only give the best average over all circuits on one data set. However, there is no optimizer that always delivers the best values across all datasets and circuits.\par
+The difference between the simulators and quantum computer runs can be seen very well in the figure \ref{figure:accuracy_comparison_boxplots_extended_datasets} for the datasets \textit{Rain} and \textit{Vlds} as well as \textit{Custom}. The accuracy drops significantly with the quantum computer runs, sometimes by more than 30\%, as can be seen with the \textit{Vlds} dataset in figure \ref{subfigure:accuracy_comparison_boxplots_vlds_extended_dataset}. 
+
+\subsection{QNN Accuracy Best Approach}
+The QNN experiments with the binary datasets slightly outperformed the QSVM by about 4\% and 3\% respectively, as shown in table \ref{table:comparison_binary_datasets_accuracy}. This is rather surprising because, as described in section \ref{subsection:comparison_qnn_qsvm}, QSVM should be able to deliver better results since the optimal solution is guaranteed to be found in their search area. If we further compare the QNN binary dataset results with the extended dataset results in table \ref{table:comparison_extended_datasets_accuracy} we can see that the performance has dropped immensely especially when using a quantum computer which indicates that at least the QNN VQAs designed here are not really suitable for reliably classifying larger data sets, as off now. It is easily imaginable that further refinements to quantum hardware will solve this issue. \par
+It is possible to solve difficult problems with very high accuracy, as paper Havlicek et al.\cite{havlicekSupervisedLearningQuantum2019} show. However, the data set size used there is limited to 20 data points for the training and the test set, and judging from the number of optimization steps, the \textit{SPSA} optimizer was specially configured, but there is no indication of this in the paper.
+
+\subsection{Training And Evaluation On A Quantum Computer}
+Training on the quantum computer is already possible, but very time-consuming. The used Python class \code{NeuralNetworkClassifier} from the \code{qiskit} library can only execute one circuit at a time remotely – a so-called job – which means that this job gets into the queue with the jobs of all other users who use the same quantum computer. Thus, the training is immensely time-consuming and an abort of the script due to an error means that it has to be started again. Several attempts to perform a training run on the quantum computers failed due to network errors on the local computer.\par
+For the evaluation, \code{qiskit} provides the \code{IBMQJobManager} class, which can be used to send several pre-built quantum circuits in one job. The number of simultaneously executed circuits is limited by the properties of the used quantum computer, and the submitted job is automatically split if more circuits are sent than the maximum job limit allows. So, if the used quantum computer can execute $100$ circuits at the same time but $200$ are sent in one request, then the one job will be automatically split into two which will normally go into the job queue of the quantum computer. An example usage of the \code{IBMQJobManager} class can be seen in the code listing \ref{listing:evaluation_loop_example}.
+
+
+\subsection{Outlook And Improvements}
+Due to the rather short duration of the thesis and the rather long duration and complexity of the QNN experiments, trade-offs had to be considered, which makes a more detailed analysis of the results difficult, since only a few experiments could be conducted. One example is the depth of the circuits and the number of layers. The experiments were performed with two layers, but it would be interesting to test more circuit depths and different feature maps as this could have a big impact, as mentioned by various papers\cite{schuld_SQMLmodelsAreKernelMethods,havlicekSupervisedLearningQuantum2019,schuldCircuitcentricQuantumClassifiers2020,SchuldEffectOfDataEncoding_2021}.\par 
+There is also missing data at the time of writing for \code{AMSGRAD} (accuracy) and for the QSVM experiments with the extended datasets. The \code{AMSGRAD} experiments are still running and the QSVM experiments could not be started due to resources and timing shortcomings\par
+Another possible improvement is the focus on the hyperparameters of the optimizers using a grid search, which is a brute force approach to optimize the hyperparameters.\par
+Currently, the needed effort to classify larger data sets using VQAs is rather high. The unrestricted access to quantum computers is certainly an advantage here and would also allow the possibility to train on them, but rather costly. The freely available quantum computers from IBM with \code{qiskit} are only suitable to a limited extent for an analysis like the one performed here, since they are limited to five qubits and the available runtime is shared with all other users using a \textit{fair share} mechanism, which can result in very long queue times. The longest time was spent on the training runs on the local computers, which depend on the speed of the different optimizers and the size of the dataset.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \section{Multiple Query Optimization}
 
 The first results from chapter \ref{chapter:results_mqo} show surprising results. In the case of figure \ref{figure:comparison_ml_noml_filtered_acc}, the ML optimized circuit achieves a better accuracy than the non-ML circuit. When compared to figure \ref{figure:comparison_ml_noml_parity_acc}, this was achieved exclusively through the change of the evaluation algorithm – instead of using the parity function, the filtered evaluation is used. Whilst not outperforming the non-ML circuit when run on real hardware, it manages to match it well enough.\par
@@ -34,17 +73,12 @@ The layer afterwards consist of the possible savings $n$ plans could combine int
 It is important to note that whilst the non-ML circuit has a supposed runtime of $O(QP)$, it is unclear from the literature if the $O$-notation can be used in quantum computing as it is used in classical computing.
 
 \subsection{ML Optimization}
-Results indicate that the ML optimized circuit cannot, in this form, match the non-ML variant. Whilst there was a substantial jump in accuracy when moving from the parity evaluation to the filtered evaluation, as per figures \ref{figure:comparison_ml_noml_filtered_acc} and \ref{figure:comparison_ml_noml_parity_acc}, this can only be attributed to a stroke of luck rather than concrete evidence. What it does point out is that there is still potential when it comes to quantum based machine learning, once learning becomes available with custom evaluation functions. \par
+Results indicate that the ML optimized circuit cannot, in this form, match the non-ML variant. Whilst there was a substantial jump in accuracy when moving from the parity evaluation to the filtered evaluation, as per figures \ref{figure:comparison_ml_noml_filtered_acc} and \ref{figure:comparison_ml_noml_parity_acc}, this can only be attributed to a stroke of luck rather than concrete evidence. What it does point out is that there is still potential when it comes to quantum-based machine learning, once learning becomes available with custom evaluation functions. \par
 
 
 \subsection{Outlook}
 As promising as the results are, these are still \emph{only} achieved in a simulated problem space. Further steps should include the collection and usage of query-plan data from real systems and evaluating those. The result can then be compared with the absolute best solution, as well as the solution selected by the classical algorithm. \par
-For more complex problems, experimentation with normalization ranges has to be conducted and a function evaluated, that can compute the optimal range depending on the complexity\par
+For more complex problems, experimentation with normalization ranges has to be conducted, and a function evaluated, that can compute the optimal range depending on the complexity\par
 In the case of the ML circuit, enhancing it with additional gates that \emph{lower} the probabilities of measuring a solution to a combination that is not possible.
 
 \newpage
-
-\section{Quantum Neural Network}
-
-\subsection{Outlook and Improvements}
-
